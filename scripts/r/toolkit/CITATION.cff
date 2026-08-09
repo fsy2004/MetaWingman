@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+title: "meta-analysis-toolkit: reproducible, publication-standard meta-analysis in R"
+message: >-
+  This toolkit wraps established R packages. If you use it, please also cite the
+  underlying packages you rely on (metafor, meta, netmeta, mada, bayesmeta,
+  robvis, metasens) and the statistical methods listed in docs/REFERENCES.md.
+type: software
+authors:
+  - alias: fsy2004
+year: 2026
+license: MIT
+keywords:
+  - meta-analysis
+  - systematic-review
+  - PRISMA
+  - GRADE
+  - network-meta-analysis
+  - diagnostic-test-accuracy
+  - R
+references:
+  - type: article
+    title: "Conducting meta-analyses in R with the metafor package"
+    authors:
+      - family-names: Viechtbauer
+        given-names: Wolfgang
+    journal: "Journal of Statistical Software"
+    volume: 36
+    issue: 3
+    year: 2010

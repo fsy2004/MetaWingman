@@ -1,0 +1,99 @@
+{
+  "id": "meta_inf_diagnostics",
+  "title": "影响诊断(Cook 距离 / 杠杆 / DFBETAS)",
+  "title_en": "Influence diagnostics",
+  "category": "meta",
+  "family": "Meta 分析",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_influence.R",
+  "workdir": "adapters/meta",
+  "description": "案例删除影响诊断:对每个研究计算外部学生化残差、Cook 距离、DFFITS、协方差比、杠杆(hat)、留一 τ²/Q、模型权重与 DFBETAS,并用 metafor 的多面板诊断图逐项标记被判定为影响点的研究(Viechtbauer & Cheung 2010, Res Synth Methods)。附输出完整诊断量表格。基于 metafor::influence.rma.uni + dfbetas,由 meta-analysis-toolkit 驱动。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "研究数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/influence.csv",
+      "spec": "二分类 2×2:每行一个研究,需列 ai,bi,ci,di(处理组事件/非事件、对照组事件/非事件)+ 研究名列(默认 study)。连续型改选 SMD/MD 并提供 m1i,sd1i,n1i,m2i,sd2i,n2i;相关型 ZCOR 提供 ri,ni。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "measure": {
+        "type": "string",
+        "title": "效应量",
+        "default": "OR",
+        "enum": [
+          "OR",
+          "RR",
+          "RD",
+          "PETO",
+          "SMD",
+          "MD",
+          "ROM",
+          "ZCOR"
+        ]
+      },
+      "method": {
+        "type": "string",
+        "title": "τ² 估计方法",
+        "default": "REML",
+        "enum": [
+          "REML",
+          "DL",
+          "PM",
+          "SJ",
+          "EB",
+          "ML",
+          "HE"
+        ]
+      },
+      "knha": {
+        "type": "boolean",
+        "title": "Knapp-Hartung 校正(推荐)",
+        "default": true
+      },
+      "slab": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      }
+    }
+  },
+  "param_flags": {
+    "measure": "--measure",
+    "method": "--method",
+    "knha": "--knha",
+    "slab": "--slab"
+  },
+  "analysis": "diagnostics",
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "robustness",
+  "item_order": 50,
+  "shape": "binary2x2"
+}

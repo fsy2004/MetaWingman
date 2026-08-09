@@ -1,0 +1,101 @@
+{
+  "id": "meta_het_metareg",
+  "title": "元回归 + 气泡图",
+  "title_en": "Meta-regression + bubble plot",
+  "category": "meta",
+  "family": "异质性与调节 Heterogeneity & Moderators",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_heterogeneity.R",
+  "workdir": "adapters/meta",
+  "description": "按连续调节变量做混合效应元回归:输出系数表(估计/SE/CI/统计量/p)、Omnibus Q_M 检验、伪 R²(解释的研究间方差),并绘制发表级气泡图(点面积 ∝ 研究精度,含回归线与 95% CI/PI 带)。基于 metafor::rma + regplot。",
+  "analysis": "metareg",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "研究数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/heterogeneity.csv",
+      "spec": "二分类 2×2:每行一个研究,需列 ai,bi,ci,di + 研究名列(默认 study)+ 一个数值调节列(默认 ablat,用于 meta 回归与气泡图)。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "measure": {
+        "type": "string",
+        "title": "效应量",
+        "default": "OR",
+        "enum": [
+          "OR",
+          "RR",
+          "RD",
+          "PETO"
+        ]
+      },
+      "moderator": {
+        "type": "string",
+        "title": "Meta 回归列名(连续调节变量)",
+        "default": "ablat"
+      },
+      "method": {
+        "type": "string",
+        "title": "τ² 估计方法",
+        "default": "REML",
+        "enum": [
+          "REML",
+          "DL",
+          "PM",
+          "SJ",
+          "EB",
+          "ML",
+          "HE"
+        ]
+      },
+      "knha": {
+        "type": "boolean",
+        "title": "Knapp-Hartung 校正(推荐)",
+        "default": true
+      },
+      "slab": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      }
+    }
+  },
+  "param_flags": {
+    "measure": "--measure",
+    "moderator": "--moderator",
+    "method": "--method",
+    "knha": "--knha",
+    "slab": "--slab"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "heterogeneity",
+  "item_order": 30,
+  "shape": "binary2x2"
+}

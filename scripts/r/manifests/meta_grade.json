@@ -1,0 +1,53 @@
+{
+  "id": "meta_grade",
+  "title": "GRADE 证据分级 + SoF 表",
+  "title_en": "GRADE certainty of evidence + Summary-of-Findings table",
+  "category": "meta",
+  "family": "Meta 分析",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_grade.R",
+  "workdir": "adapters/meta",
+  "description": "按 GRADE 代数(Guyatt 2011 / Balshem 2011)逐结局评定证据确定性:RCT 起于 High、观察性起于 Low,由风险偏倚/不一致/间接性/不精确/发表偏倚五域降级,观察性再由大效应/剂量反应/残余混杂三域升级,汇总成 Summary-of-Findings(SoF)表。★纯逻辑表格方法,主产 sof.csv,并额外渲染一张 sof_table.png 供界面显示。由 meta-analysis-toolkit 驱动。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "结局 GRADE 判读 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/grade.csv",
+      "spec": "每行一个结局。必需列:label(结局名)、design(rct 或 observational)。降级域 rob,inconsistency,indirectness,imprecision,pubbias 取 {0,-1,-2};升级域 large_effect,dose_response,plausible_confounding 取 {0,1,2}(仅对 observational 生效)。缺省列按 0 处理。判读值由审稿人给定,本方法只做 GRADE 代数不自行判读。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {}
+  },
+  "param_flags": {},
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "certainty",
+  "item_order": 20,
+  "analysis": "grade"
+}

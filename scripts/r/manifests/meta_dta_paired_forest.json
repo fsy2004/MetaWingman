@@ -1,0 +1,67 @@
+{
+  "id": "meta_dta_paired_forest",
+  "title": "敏感度 / 特异度森林图",
+  "title_en": "Paired sensitivity/specificity forest",
+  "category": "meta",
+  "family": "诊断准确性 Diagnostic Test Accuracy",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_diagnostic.R",
+  "workdir": "adapters/meta",
+  "description": "各研究敏感度与特异度的配对森林图(含 95% 置信区间),并输出每个研究的敏感度/特异度点估计与区间汇总表。基于 mada::madad / mada::forest,由 meta-analysis-toolkit 驱动。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "诊断研究 2×2 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/diagnostic.csv",
+      "spec": "2×2 诊断表:每行一个研究,需列 TP,FN,FP,TN(真阳/假阴/假阳/真阴)+ 研究名列(默认 study,用于森林图标注)。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "study": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      },
+      "add_correction": {
+        "type": "number",
+        "title": "连续性校正(零格加数)",
+        "default": 0.5
+      }
+    }
+  },
+  "param_flags": {
+    "study": "--study",
+    "add_correction": "--add_correction"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "diagnostics",
+  "item_order": 20,
+  "analysis": "paired_forest"
+}

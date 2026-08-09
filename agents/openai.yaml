@@ -1,0 +1,4 @@
+interface:
+  display_name: "Systematic Review & Meta-Analysis"
+  short_description: "End-to-end systematic review and meta-analysis"
+  default_prompt: "Use $systematic-review-meta-analysis to design and execute an auditable systematic review and meta-analysis from topic selection through peer-review readiness."

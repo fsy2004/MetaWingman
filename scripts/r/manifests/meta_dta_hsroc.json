@@ -1,0 +1,67 @@
+{
+  "id": "meta_dta_hsroc",
+  "title": "HSROC 模型(Rutter-Gatsonis)",
+  "title_en": "HSROC model (Rutter-Gatsonis)",
+  "category": "meta",
+  "family": "诊断准确性 Diagnostic Test Accuracy",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_diagnostic.R",
+  "workdir": "adapters/meta",
+  "description": "分层 SROC(HSROC / Rutter-Gatsonis)模型:经 Harbord (2007) 双变量↔HSROC 等价关系从 Reitsma 双变量拟合导出 HSROC 参数,绘制 HSROC 曲线(含各研究散点与合并操作点),并输出阈值(Theta)、准确性(Lambda)、不对称性(beta)、随机效应方差与 SROC AUC 汇总表。基于 mada 包,由 meta-analysis-toolkit 驱动。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "诊断研究 2×2 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/diagnostic.csv",
+      "spec": "2×2 诊断表:每行一个研究,需列 TP,FN,FP,TN(真阳/假阴/假阳/真阴)+ 研究名列(默认 study,用于标注)。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "study": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      },
+      "add_correction": {
+        "type": "number",
+        "title": "连续性校正(零格加数)",
+        "default": 0.5
+      }
+    }
+  },
+  "param_flags": {
+    "study": "--study",
+    "add_correction": "--add_correction"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "diagnostics",
+  "item_order": 40,
+  "analysis": "hsroc"
+}

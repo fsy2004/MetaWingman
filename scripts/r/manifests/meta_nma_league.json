@@ -1,0 +1,84 @@
+{
+  "id": "meta_nma_league",
+  "title": "联赛表(全配对估计)",
+  "title_en": "League table",
+  "category": "meta",
+  "family": "网络 Meta 分析 NMA",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_network.R",
+  "workdir": "adapters/meta",
+  "description": "联赛表(netmeta::netleague):所有治疗两两之间的合并效应量与 95% 置信区间构成的下三角/上三角矩阵表,对角线为治疗名。NMA 结果的标准呈现方式。输出随机效应联赛表 league.csv。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "网络数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/network.csv",
+      "spec": "对比格式(默认 format=contrast):每行一个研究内比较,需列 studlab(研究名)、treat1、treat2(两治疗)、TE(效应量)、seTE(标准误)。臂格式(format=arm):每行一个治疗臂,需 studlab、treat + 二分类 event,n 或连续型 n,mean,sd。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "format": {
+        "type": "string",
+        "title": "数据格式",
+        "default": "contrast",
+        "enum": [
+          "contrast",
+          "arm"
+        ]
+      },
+      "sm": {
+        "type": "string",
+        "title": "效应量",
+        "default": "MD",
+        "enum": [
+          "MD",
+          "SMD",
+          "OR",
+          "RR",
+          "HR"
+        ]
+      },
+      "reference": {
+        "type": "string",
+        "title": "参照治疗",
+        "default": "plac"
+      }
+    }
+  },
+  "param_flags": {
+    "format": "--format",
+    "sm": "--sm",
+    "reference": "--reference"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "nma",
+  "item_order": 30,
+  "analysis": "league"
+}

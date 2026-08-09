@@ -1,0 +1,113 @@
+{
+  "id": "meta_proportion_mean_rate",
+  "title": "单臂均值 · 发生率",
+  "title_en": "Single-arm mean · incidence rate",
+  "category": "meta",
+  "family": "核心合并 Core Synthesis",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_proportion.R",
+  "workdir": "adapters/meta",
+  "description": "单臂(单组)汇总 meta 分析,两种子模式:发生率(rate,基于人时的 metarate,默认对数发生率 IRLN)或均值(mean,基于组均值±标准差的 metamean,原始均值 MRAW)。随机效应 REML + 95% 预测区间,反变换回自然尺度。用「子模式」参数切换:rate 需 events/time 列,mean 需 n/mean/sd 列。输出单臂森林图 + 合并汇总表。基于 meta 包 metarate / metamean。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "研究数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/proportion_rate.csv",
+      "spec": "子模式 rate(默认):每行一个研究,需列 events(事件数)、time(人时,如人年)、study(研究名)。子模式 mean:需列 n(组样本量)、mean(组均值)、sd(组标准差)、study。列名可用 --event/--time/--n/--mean/--sd/--studlab 覆盖。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "submode": {
+        "type": "string",
+        "title": "子模式",
+        "default": "rate",
+        "enum": [
+          "rate",
+          "mean"
+        ]
+      },
+      "ratemethod": {
+        "type": "string",
+        "title": "发生率变换(仅 rate)",
+        "default": "IRLN",
+        "enum": [
+          "IRLN",
+          "IR",
+          "IRFT",
+          "IRS"
+        ]
+      },
+      "event": {
+        "type": "string",
+        "title": "事件数列名(rate)",
+        "default": "events"
+      },
+      "time": {
+        "type": "string",
+        "title": "人时列名(rate)",
+        "default": "time"
+      },
+      "n": {
+        "type": "string",
+        "title": "样本量列名(mean)",
+        "default": "n"
+      },
+      "mean": {
+        "type": "string",
+        "title": "均值列名(mean)",
+        "default": "mean"
+      },
+      "sd": {
+        "type": "string",
+        "title": "标准差列名(mean)",
+        "default": "sd"
+      },
+      "studlab": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      }
+    }
+  },
+  "param_flags": {
+    "submode": "--submode",
+    "ratemethod": "--ratemethod",
+    "event": "--event",
+    "time": "--time",
+    "n": "--n",
+    "mean": "--mean",
+    "sd": "--sd",
+    "studlab": "--studlab"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "synthesis",
+  "item_order": 120,
+  "analysis": "mean_rate"
+}

@@ -1,0 +1,83 @@
+{
+  "id": "meta_complex_rve",
+  "title": "稳健方差估计(RVE)",
+  "title_en": "Robust variance estimation (RVE)",
+  "category": "meta",
+  "family": "复杂数据结构 Complex Data Structures",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_complex.R",
+  "workdir": "adapters/meta",
+  "description": "稳健方差估计(sandwich SE):在簇内相关结构未知时给出有效的合并均值置信区间。主估计用 robumeta::robu 相关效应工作模型(小样本校正),并用 clubSandwich CR2(Satterthwaite 自由度)对 rma.mv 拟合做交叉验证。输出模型法 vs 两种 RVE 的点-须比较图与汇总表。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "聚类效应量 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/complex_clustered.csv",
+      "spec": "每行一个效应量,需列 yi(效应量)、vi(其方差)、cluster(所属簇 id)。同一 cluster 内多行视为相关;study 列可选(仅标注用)。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "method": {
+        "type": "string",
+        "title": "模型法 τ² 估计方法",
+        "default": "REML",
+        "enum": [
+          "REML",
+          "ML"
+        ]
+      },
+      "yi": {
+        "type": "string",
+        "title": "效应量列名",
+        "default": "yi"
+      },
+      "vi": {
+        "type": "string",
+        "title": "方差列名",
+        "default": "vi"
+      },
+      "cluster": {
+        "type": "string",
+        "title": "簇 id 列名",
+        "default": "cluster"
+      }
+    }
+  },
+  "param_flags": {
+    "method": "--method",
+    "yi": "--yi",
+    "vi": "--vi",
+    "cluster": "--cluster"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "Meta 分析为研究级汇总数据(通常几十行),内存开销极小,基本恒为绿灯。"
+  },
+  "group": "complex",
+  "item_order": 20,
+  "analysis": "rve"
+}
