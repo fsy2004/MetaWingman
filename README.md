@@ -129,7 +129,7 @@ python .\metawingman\scripts\test_r_adapters.py .\metawingman --outdir .\validat
 
 ## 当前研究方向
 
-MetaWingman 的下一阶段不是继续堆分析按钮，而是建立可评估的 evidence-synthesis agent：状态机、证据锚定、人机双审、可复现实验和公开 benchmark。参见 [Meta agent 缺口与研究路线](research/meta-agent-gaps-and-paper-roadmap.md)。
+MetaWingman 的下一阶段不是继续堆分析按钮，而是建立可评估的 evidence-synthesis agent：状态机、证据锚定、人机双审、可复现实验和公开 benchmark。参见 [全流程能力、判断瓶颈与创新地图](research/full-workflow-agent-landscape-and-innovation-map.md)；早期竞品与工程审计保留在 [Meta agent 缺口与研究路线](research/meta-agent-gaps-and-paper-roadmap.md)。
 
 ## License
 
