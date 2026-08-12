@@ -29,7 +29,7 @@ def get_json(url: str, user_agent: str) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(); parser.add_argument("--input", required=True, type=Path); parser.add_argument("--output", required=True, type=Path); parser.add_argument("--title-threshold", type=float, default=0.90); args = parser.parse_args()
     email = os.getenv("CROSSREF_EMAIL", "") or os.getenv("NCBI_EMAIL", "") or "unknown@example.invalid"
-    ua = f"systematic-review-meta-analysis/1.0 mailto:{email}"
+    ua = f"MetaWingman/1.0 mailto:{email}"
     with args.input.open(encoding="utf-8-sig", newline="") as handle: rows = list(csv.DictReader(handle))
     output = []
     for row in rows:

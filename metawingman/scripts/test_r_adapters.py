@@ -19,7 +19,10 @@ def value_arg(value) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(); parser.add_argument("skill", type=Path); parser.add_argument("--outdir", required=True, type=Path); parser.add_argument("--timeout", type=int, default=180); parser.add_argument("--match", default=""); args = parser.parse_args()
-    skill = args.skill.resolve(); base = skill / "scripts/r"; manifests = base / "manifests"; adapters = base / "adapters"; toolkit = base / "toolkit"
+    skill = args.skill.resolve(); base = skill / "scripts/r"; manifests = base / "manifests"; adapters = base / "adapters"
+    toolkit = base / "toolkit"
+    if not toolkit.is_dir(): toolkit = skill.parent / "toolkit"
+    if not (toolkit / "R").is_dir(): raise SystemExit("Toolkit not found in scripts/r/toolkit or repository-level toolkit")
     args.outdir.mkdir(parents=True, exist_ok=True); results = []
     rscript = os.getenv("RSCRIPT", r"C:\Program Files\R\R-4.4.3\bin\Rscript.exe")
     for manifest_path in sorted(manifests.glob("*.json")):

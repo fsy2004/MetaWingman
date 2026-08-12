@@ -4,8 +4,8 @@ The bundled R toolkit and executable adapters were migrated before retiring the 
 
 | Component | Live source at migration | Source commit | Included path |
 |---|---|---|---|
-| Core and extended R modules | `C:\Users\fsy\Desktop\meta-wingman\toolkit\R` | Meta Wingman `d826b61ceaa1f5f9d762f9b428ac7f43ce026183` | `scripts/r/toolkit/R` |
-| Canonical method documentation and examples | `C:\Users\fsy\Desktop\meta-analysis-toolkit` | `3af629d67be43b6010f364f5eb80ef9905d3cab1` | `scripts/r/toolkit/docs`, `scripts/r/toolkit/examples` |
+| Core and extended R modules | `C:\Users\fsy\Desktop\meta-wingman\toolkit\R` | Meta Wingman `d826b61ceaa1f5f9d762f9b428ac7f43ce026183` | repository `toolkit/R` |
+| Canonical method documentation and examples | `C:\Users\fsy\Desktop\meta-analysis-toolkit` | `3af629d67be43b6010f364f5eb80ef9905d3cab1` | repository `toolkit/docs`, `toolkit/examples` |
 | Command-line analysis adapters and example data | `C:\Users\fsy\Desktop\meta-wingman\adapters\meta` | Meta Wingman `d826b61ceaa1f5f9d762f9b428ac7f43ce026183` | `scripts/r/adapters` |
 | Legacy method manifests and input schemas | `C:\Users\fsy\Desktop\meta-wingman\manifests` | Meta Wingman `d826b61ceaa1f5f9d762f9b428ac7f43ce026183` | `scripts/r/manifests` |
 

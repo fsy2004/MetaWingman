@@ -1,9 +1,9 @@
 ---
-name: systematic-review-meta-analysis
+name: metawingman
 description: End-to-end, evidence-grounded systematic review and meta-analysis support from topic selection, protocol and registration through live database searching, lawful full-text retrieval, deduplication, dual screening, extraction, study/result lineage, risk-of-bias assessment, quantitative or SWiM synthesis, GRADE, manuscript writing, AI reviewer audit, revision and living updates. Use whenever Codex is asked to plan, conduct, automate, analyze, write, audit, update, or peer-review a systematic review, scoping review, evidence synthesis, or meta-analysis in biomedicine or related fields. Supports pairwise, network, diagnostic, prognostic, prevalence, incidence, proportion, dose-response, IPD, multilevel/RVE, Bayesian, umbrella, qualitative, mixed-methods, rapid, living, and other review profiles. Requires live source verification, auditable provenance, reproducible code, and explicit human decisions; never invent references, screening decisions, extracted values, or completed analyses.
 ---
 
-# Systematic Review and Meta-Analysis
+# MetaWingman
 
 Treat the review as a research project with irreversible scientific decisions, not as a sequence of AI summaries or a statistics menu.
 
@@ -75,7 +75,7 @@ Read [analysis-methods.md](references/analysis-methods.md) and [tool-catalog.md]
 
 1. Decide whether studies address the same estimand and are meaningfully poolable.
 2. Predeclare effect measure, scale, model, heterogeneity estimator, CI method, prediction interval, multi-arm/dependency handling, missing-data rules, subgroups, meta-regression, sensitivity analyses, and multiplicity control.
-3. Use the bundled R modules in `scripts/r/toolkit/R` and executable runners in `scripts/r/adapters`. Cite the statistical packages and methods actually used.
+3. Resolve the R toolkit from `scripts/r/toolkit` in an installed skill, the repository-level `../toolkit` during project development, or the user-approved `META_TOOLKIT` path. Use executable runners in `scripts/r/adapters` and cite the statistical packages and methods actually used.
 4. Prefer REML random effects with Hartung-Knapp where suitable; justify alternatives. Report tau-squared and prediction intervals when meaningful. Do not use I-squared thresholds as an automatic pooling rule.
 5. Treat subgroup, meta-regression, trim-and-fill, PET-PEESE, ranking, TSA, E-values, and Bayesian priors as assumption-dependent analyses, not automatic upgrades.
 6. If pooling is not defensible, use structured synthesis and SWiM rather than forcing a diamond.

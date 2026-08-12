@@ -17,7 +17,7 @@ from pathlib import Path
 
 
 FIELDS = ["record_id", "source", "source_record_id", "title", "abstract", "authors", "year", "journal", "doi", "pmid", "pmcid", "nct_id", "url", "publication_type", "is_open_access", "retrieved_at", "query_hash"]
-UA = "systematic-review-meta-analysis/1.0"
+UA = "MetaWingman/1.0"
 
 
 def now() -> str:

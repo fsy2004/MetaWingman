@@ -38,14 +38,14 @@ def main() -> int:
         item = {"record_id": row.get("record_id", ""), "doi": doi, "status": "", "oa_url": "", "resolved_url": "", "license": "", "host_type": "", "retrieved_at": datetime.now(timezone.utc).isoformat(), "sha256": "", "bytes": 0, "file": "", "note": ""}
         try:
             api = f"https://api.unpaywall.org/v2/{urllib.parse.quote(doi, safe='')}?email={urllib.parse.quote(email)}"
-            req = urllib.request.Request(api, headers={"User-Agent": f"systematic-review-meta-analysis/1.0 mailto:{email}"})
+            req = urllib.request.Request(api, headers={"User-Agent": f"MetaWingman/1.0 mailto:{email}"})
             with urllib.request.urlopen(req, timeout=60) as response: meta = json.load(response)
             loc = meta.get("best_oa_location") or {}
             url = loc.get("url_for_pdf") or ""
             item.update({"oa_url": url, "license": loc.get("license") or "", "host_type": loc.get("host_type") or ""})
             if not meta.get("is_oa") or not url:
                 item["status"] = "no_verified_oa_pdf"; log.append(item); continue
-            req = urllib.request.Request(url, headers={"User-Agent": f"systematic-review-meta-analysis/1.0 mailto:{email}"})
+            req = urllib.request.Request(url, headers={"User-Agent": f"MetaWingman/1.0 mailto:{email}"})
             with urllib.request.urlopen(req, timeout=120) as response:
                 body = response.read(); item["resolved_url"] = response.geturl(); content_type = response.headers.get("Content-Type", "")
             if not body.startswith(b"%PDF"):
