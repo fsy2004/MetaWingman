@@ -1,0 +1,6 @@
+"label","design","rob","inconsistency","indirectness","imprecision","pubbias","large_effect","dose_response","plausible_confounding"
+"All-cause mortality","rct",0,0,0,-1,0,0,0,0
+"Serious adverse events","rct",-1,0,0,-1,0,0,0,0
+"Symptom improvement","rct",0,-1,0,0,-1,0,0,0
+"Hospital readmission","observational",-1,0,-1,0,0,2,0,0
+"Quality of life","observational",0,-1,0,-1,0,0,1,0

@@ -1,0 +1,94 @@
+{
+  "id": "meta_nma_cadj_funnel",
+  "title": "比较校正漏斗图",
+  "title_en": "Comparison-adjusted funnel",
+  "category": "meta",
+  "family": "网络 Meta 分析 NMA",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_network.R",
+  "workdir": "adapters/meta",
+  "description": "比较校正漏斗图(netmeta::funnel.netmeta,Chaimani & Salanti 2012):按治疗顺序对每个研究的效应减去其比较的网络合并值后作漏斗图,检测 NMA 中的小样本效应 / 发表偏倚。治疗顺序默认按 P-score(优→劣)排列。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "网络数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/network.csv",
+      "spec": "对比格式(默认 format=contrast):每行一个研究内比较,需列 studlab(研究名)、treat1、treat2(两治疗)、TE(效应量)、seTE(标准误)。臂格式(format=arm):每行一个治疗臂,需 studlab、treat + 二分类 event,n 或连续型 n,mean,sd。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "format": {
+        "type": "string",
+        "title": "数据格式",
+        "default": "contrast",
+        "enum": [
+          "contrast",
+          "arm"
+        ]
+      },
+      "sm": {
+        "type": "string",
+        "title": "效应量",
+        "default": "MD",
+        "enum": [
+          "MD",
+          "SMD",
+          "OR",
+          "RR",
+          "HR"
+        ]
+      },
+      "reference": {
+        "type": "string",
+        "title": "参照治疗",
+        "default": "plac"
+      },
+      "small_values": {
+        "type": "string",
+        "title": "小值方向(排序用)",
+        "default": "desirable",
+        "enum": [
+          "desirable",
+          "undesirable"
+        ]
+      }
+    }
+  },
+  "param_flags": {
+    "format": "--format",
+    "sm": "--sm",
+    "reference": "--reference",
+    "small_values": "--small_values"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "nma",
+  "item_order": 80,
+  "analysis": "cadj_funnel"
+}

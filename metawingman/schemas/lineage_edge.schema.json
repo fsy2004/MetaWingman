@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/lineage_edge.schema.json",
+  "title": "MetaWingman evidence lineage edge",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "edge_id", "from_node", "to_node", "relationship", "evidence_refs",
+    "status", "created_by", "verification", "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "edge_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "from_node": {"$ref": "#/$defs/node"},
+    "to_node": {"$ref": "#/$defs/node"},
+    "relationship": {
+      "enum": [
+        "constrained_by", "retrieved_by", "represents", "anchored_in", "asserts",
+        "is_report_of", "is_duplicate_of", "has_cohort", "has_arm", "reports_result",
+        "extracted_from", "included_in_synthesis", "appraised_by", "supports_certainty",
+        "analyzed_by", "produces", "supports_claim", "affected_by", "derived_from",
+        "supersedes", "shares_control_with"
+      ]
+    },
+    "evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "status": {"enum": ["candidate", "accepted", "rejected", "superseded"]},
+    "created_by": {"$ref": "#/$defs/actor"},
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "verified_by", "verified_at_utc", "notes"],
+      "properties": {
+        "status": {"enum": ["not_started", "pending", "passed", "failed"]},
+        "verified_by": {"type": "string"},
+        "verified_at_utc": {"type": ["string", "null"], "format": "date-time"},
+        "notes": {"type": "string"}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "accepted"}}},
+      "then": {
+        "properties": {
+          "evidence_refs": {"minItems": 1},
+          "verification": {
+            "properties": {
+              "status": {"const": "passed"},
+              "verified_by": {"type": "string", "minLength": 1},
+              "verified_at_utc": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id"],
+      "properties": {
+        "type": {
+          "enum": [
+            "project", "profile", "protocol", "criterion", "search", "record",
+            "report", "document", "representation", "evidence_anchor",
+            "evidence_assertion", "study", "trial", "cohort", "arm", "result",
+            "extraction_candidate", "synthesis", "appraisal", "certainty",
+            "analysis", "analysis_output", "claim", "update"
+          ]
+        },
+        "id": {"type": "string", "minLength": 1}
+      }
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "version"],
+      "properties": {
+        "type": {"enum": ["human", "model", "tool"]},
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string"}
+      }
+    }
+  }
+}

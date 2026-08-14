@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/temporal_evidence_landscape.schema.json",
+  "title": "MetaWingman time-bounded evidence landscape",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "landscape_id",
+    "run_context",
+    "domain_ids",
+    "corpus_boundary",
+    "nodes",
+    "edges",
+    "selection_policy",
+    "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "landscape_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "run_context": {"enum": ["development", "historical_rediscovery", "prospective_discovery"]},
+    "domain_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+    },
+    "corpus_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cutoff_date",
+        "target_identity_status",
+        "target_descendants_status",
+        "post_cutoff_evidence_status",
+        "leakage_audit",
+        "excluded_identity_fields"
+      ],
+      "properties": {
+        "cutoff_date": {"type": "string", "format": "date"},
+        "target_identity_status": {"enum": ["not_applicable", "sealed", "unsealed", "contaminated"]},
+        "target_descendants_status": {"enum": ["not_applicable", "sealed", "unsealed", "contaminated"]},
+        "post_cutoff_evidence_status": {"enum": ["not_applicable", "sealed", "unsealed", "contaminated"]},
+        "leakage_audit": {"enum": ["not_applicable", "passed", "not_run", "failed"]},
+        "excluded_identity_fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["title", "authors", "doi", "pmid", "journal", "abstract", "keywords", "citations", "descendants"]}
+        }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["node_id", "node_type", "label", "domain_ids", "observed_at", "source_ids", "provenance_status"],
+        "properties": {
+          "node_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "node_type": {
+            "enum": [
+              "publication", "primary_study", "trial_registry", "review", "review_protocol",
+              "guideline", "priority_statement", "concept", "population", "intervention_or_exposure",
+              "comparator", "outcome", "study_design", "result", "claim", "uncertainty"
+            ]
+          },
+          "label": {"type": "string", "minLength": 1},
+          "domain_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+          },
+          "observed_at": {"type": "string", "format": "date"},
+          "source_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "provenance_status": {"enum": ["verified", "machine_extracted", "unresolved"]}
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["edge_id", "source_node_id", "target_node_id", "relation", "observed_at", "source_ids"],
+        "properties": {
+          "edge_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "source_node_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "target_node_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "relation": {
+            "enum": [
+              "reports", "studies", "evaluates", "compares", "measures", "supports", "contradicts",
+              "updates", "overlaps", "cites", "mentions", "prioritizes", "maps_to", "shares_concept_with"
+            ]
+          },
+          "observed_at": {"type": "string", "format": "date"},
+          "source_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "selection_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_version",
+        "weights",
+        "minimum_primary_studies",
+        "minimum_source_families",
+        "minimum_known_item_recall",
+        "maximum_review_overlap",
+        "maximum_contamination_risk",
+        "maximum_ambiguity_risk",
+        "minimum_utility_score",
+        "maximum_portfolio_size",
+        "diversity_penalty",
+        "allow_update_topics"
+      ],
+      "properties": {
+        "policy_version": {"type": "string", "minLength": 1},
+        "weights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "decision_relevance", "unresolved_uncertainty", "feasibility", "evidence_maturity",
+            "nonduplication", "update_need", "equity_priority", "cross_domain_value"
+          ],
+          "properties": {
+            "decision_relevance": {"type": "number", "minimum": 0, "maximum": 1},
+            "unresolved_uncertainty": {"type": "number", "minimum": 0, "maximum": 1},
+            "feasibility": {"type": "number", "minimum": 0, "maximum": 1},
+            "evidence_maturity": {"type": "number", "minimum": 0, "maximum": 1},
+            "nonduplication": {"type": "number", "minimum": 0, "maximum": 1},
+            "update_need": {"type": "number", "minimum": 0, "maximum": 1},
+            "equity_priority": {"type": "number", "minimum": 0, "maximum": 1},
+            "cross_domain_value": {"type": "number", "minimum": 0, "maximum": 1}
+          }
+        },
+        "minimum_primary_studies": {"type": "integer", "minimum": 1},
+        "minimum_source_families": {"type": "integer", "minimum": 1},
+        "minimum_known_item_recall": {"type": "number", "minimum": 0, "maximum": 1},
+        "maximum_review_overlap": {"type": "number", "minimum": 0, "maximum": 1},
+        "maximum_contamination_risk": {"type": "number", "minimum": 0, "maximum": 1},
+        "maximum_ambiguity_risk": {"type": "number", "minimum": 0, "maximum": 1},
+        "minimum_utility_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "maximum_portfolio_size": {"type": "integer", "minimum": 1, "maximum": 50},
+        "diversity_penalty": {"type": "number", "minimum": 0, "maximum": 1},
+        "allow_update_topics": {"type": "boolean"}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

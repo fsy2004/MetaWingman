@@ -1,0 +1,101 @@
+{
+  "id": "meta_het_subgroup",
+  "title": "亚组分析 + 亚组森林图",
+  "title_en": "Subgroup analysis + forest",
+  "category": "meta",
+  "family": "异质性与调节 Heterogeneity & Moderators",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_heterogeneity.R",
+  "workdir": "adapters/meta",
+  "description": "按类别调节变量做亚组分析:每亚组随机效应合并估计(Knapp-Hartung)+ I²,附混合效应 Q_M 亚组间差异检验,并输出发表级亚组森林图(每亚组独立汇总菱形)。基于 metafor / meta,由 meta-analysis-toolkit 驱动。",
+  "analysis": "subgroup",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "研究数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/heterogeneity.csv",
+      "spec": "二分类 2×2:每行一个研究,需列 ai,bi,ci,di + 研究名列(默认 study)+ 一个类别调节列(默认 alloc,用于分亚组)。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "measure": {
+        "type": "string",
+        "title": "效应量",
+        "default": "OR",
+        "enum": [
+          "OR",
+          "RR",
+          "RD",
+          "PETO"
+        ]
+      },
+      "subgroup": {
+        "type": "string",
+        "title": "亚组列名(类别调节变量)",
+        "default": "alloc"
+      },
+      "method": {
+        "type": "string",
+        "title": "τ² 估计方法",
+        "default": "REML",
+        "enum": [
+          "REML",
+          "DL",
+          "PM",
+          "SJ",
+          "EB",
+          "ML",
+          "HE"
+        ]
+      },
+      "knha": {
+        "type": "boolean",
+        "title": "Knapp-Hartung 校正(推荐)",
+        "default": true
+      },
+      "slab": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      }
+    }
+  },
+  "param_flags": {
+    "measure": "--measure",
+    "subgroup": "--subgroup",
+    "method": "--method",
+    "knha": "--knha",
+    "slab": "--slab"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "heterogeneity",
+  "item_order": 20,
+  "shape": "binary2x2"
+}

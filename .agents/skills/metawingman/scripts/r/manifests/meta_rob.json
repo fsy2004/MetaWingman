@@ -1,0 +1,72 @@
+{
+  "id": "meta_rob",
+  "title": "偏倚风险图(交通灯图 + 汇总图)",
+  "title_en": "Risk-of-bias figures",
+  "category": "meta",
+  "family": "Meta 分析",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_rob.R",
+  "workdir": "adapters/meta",
+  "description": "Cochrane 标准偏倚风险(Risk of Bias)可视化:逐研究的交通灯图(traffic-light,每域每研究一个彩色判断点)+ 加权堆叠汇总图(各域判断分布)。基于 robvis 包,由 meta-analysis-toolkit 驱动。支持 RoB 2(随机试验)、ROBINS-I(非随机干预)、RoB 1 等工具,注意不同工具需匹配的域列数不同(RoB2=D1-D5,ROBINS-I=D1-D7)。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "偏倚判断 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/rob.csv",
+      "spec": "robvis 格式:每行一个研究。首列 Study(研究名);随后是各风险域判断列(RoB2 需 D1-D5,ROBINS-I 需 D1-D7);然后 Overall(总体判断);可选 Weight(汇总图加权用的 meta 权重)。判断取值如 Low / Some concerns / High / No information。域列数须与所选 tool 匹配。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "tool": {
+        "type": "string",
+        "title": "偏倚评估工具",
+        "default": "ROB2",
+        "enum": [
+          "ROB2",
+          "ROBINS-I",
+          "ROB1"
+        ]
+      },
+      "weighted": {
+        "type": "boolean",
+        "title": "汇总图按 meta 权重加权(需 Weight 列)",
+        "default": true
+      }
+    }
+  },
+  "param_flags": {
+    "tool": "--tool",
+    "weighted": "--weighted"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "certainty",
+  "item_order": 30,
+  "analysis": "rob"
+}

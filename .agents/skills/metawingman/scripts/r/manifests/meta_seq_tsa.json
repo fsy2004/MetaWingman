@@ -1,0 +1,115 @@
+{
+  "id": "meta_seq_tsa",
+  "title": "试验序贯分析(TSA)",
+  "title_en": "Trial Sequential Analysis",
+  "category": "meta",
+  "family": "序贯与效能 Sequential & Power",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_sequential.R",
+  "workdir": "adapters/meta",
+  "description": "试验序贯分析(TSA):把累积 meta 分析类比为一次序贯监测的临床试验,用 alpha-spending(O'Brien-Fleming / Pocock)构建序贯监测边界,判断累积 Z 曲线是否已在控制 I 类错误膨胀的前提下越过有效/无效边界。输出序贯监测边界图(Z 曲线 vs 边界)与逐次分析统计量表,并报告所需信息量 RIS。基于 RTSA 包(Riberholt 等,BMC Med Res Methodol 2024)。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "二分类结局 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/sequential.csv",
+      "spec": "每行一个随机对照试验,需列 eI,nI,eC,nC(处理组事件数/总样本、对照组事件数/总样本)+ 可选研究名列(默认 study)。研究按纳入顺序累积。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "outcome": {
+        "type": "string",
+        "title": "效应量",
+        "default": "RR",
+        "enum": [
+          "RR",
+          "OR",
+          "RD"
+        ]
+      },
+      "mc": {
+        "type": "number",
+        "title": "最小临床相关值(RR/OR 为比值如 0.8,RD 为差值)",
+        "default": 0.8
+      },
+      "side": {
+        "type": "integer",
+        "title": "检验侧数(1 单侧 / 2 双侧)",
+        "default": 2,
+        "enum": [
+          1,
+          2
+        ]
+      },
+      "alpha": {
+        "type": "number",
+        "title": "I 类错误 α",
+        "default": 0.05
+      },
+      "beta": {
+        "type": "number",
+        "title": "II 类错误 β(功效 = 1−β)",
+        "default": 0.1
+      },
+      "es_alpha": {
+        "type": "string",
+        "title": "α-spending 函数",
+        "default": "esOF",
+        "enum": [
+          "esOF",
+          "esPoc"
+        ]
+      },
+      "futility": {
+        "type": "string",
+        "title": "无效边界",
+        "default": "none",
+        "enum": [
+          "none",
+          "non-binding",
+          "binding"
+        ]
+      }
+    }
+  },
+  "param_flags": {
+    "outcome": "--outcome",
+    "mc": "--mc",
+    "side": "--side",
+    "alpha": "--alpha",
+    "beta": "--beta",
+    "es_alpha": "--es_alpha",
+    "futility": "--futility"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "Meta 分析为研究级汇总数据(通常几十行),内存开销极小,基本恒为绿灯。"
+  },
+  "group": "sequential",
+  "item_order": 10,
+  "analysis": "tsa"
+}

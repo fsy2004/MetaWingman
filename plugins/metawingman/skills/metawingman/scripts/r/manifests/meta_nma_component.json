@@ -1,0 +1,84 @@
+{
+  "id": "meta_nma_component",
+  "title": "成分网络 Meta(可加模型)",
+  "title_en": "Component NMA (additive)",
+  "category": "meta",
+  "family": "网络 Meta 分析 NMA",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_network.R",
+  "workdir": "adapters/meta",
+  "description": "成分网络 Meta 分析(netmeta::netcomb,Rücker 2020):把由多种成分组合而成的复合干预(标签以 ' + ' 连接,如 'CBT + SSRI')拆解为各成分的可加效应,估计单个成分贡献。输出成分效应森林图与成分效应表。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "含组合干预的网络数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/network_component.csv",
+      "spec": "对比格式:每行一个研究内比较,需列 studlab、treat1、treat2、TE、seTE。组合干预的治疗名以 ' + ' 连接各成分(如 'Face-to-face PST + SSRI'),netcomb 据此拆解为可加成分效应。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "format": {
+        "type": "string",
+        "title": "数据格式",
+        "default": "contrast",
+        "enum": [
+          "contrast",
+          "arm"
+        ]
+      },
+      "sm": {
+        "type": "string",
+        "title": "效应量",
+        "default": "SMD",
+        "enum": [
+          "MD",
+          "SMD",
+          "OR",
+          "RR",
+          "HR"
+        ]
+      },
+      "reference": {
+        "type": "string",
+        "title": "参照治疗",
+        "default": "Placebo"
+      }
+    }
+  },
+  "param_flags": {
+    "format": "--format",
+    "sm": "--sm",
+    "reference": "--reference"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "nma",
+  "item_order": 90,
+  "analysis": "component"
+}

@@ -1,0 +1,49 @@
+{
+  "category": "meta",
+  "family": "数据准备",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T2",
+  "entry": "adapters/meta/run_convert.R",
+  "workdir": "adapters/meta",
+  "outputs": [
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 2,
+    "calibrated": true
+  },
+  "group": "data",
+  "id": "meta_conv_cor",
+  "title": "换算:相关系数 r → Fisher z",
+  "title_en": "Convert: correlation r → Fisher z",
+  "description": "换算:相关系数 r → Fisher z。把原始数据换算成标准 yi(效应量)/ sei(标准误),输出的 converted.csv 可直接喂「通用倒方差森林」等分析。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "原始数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/correlation.csv",
+      "spec": "相关系数:cor(r),n。输出 Fisher z 的 yi/sei。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {}
+  },
+  "param_flags": {},
+  "item_order": 40,
+  "shape": "correlation",
+  "analysis": "es_cor"
+}

@@ -1,0 +1,83 @@
+{
+  "id": "meta_pw_hr",
+  "title": "生存 HR 合并",
+  "title_en": "Hazard-ratio meta-analysis",
+  "category": "meta",
+  "family": "Meta 分析",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_pairwise.R",
+  "workdir": "adapters/meta",
+  "description": "生存结局风险比(HR)meta 分析:倒方差合并 log-HR 及其标准误,回变换为 HR,输出森林图与汇总表。基于 meta::metagen。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "生存效应 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/hr.csv",
+      "spec": "生存效应:每行一个研究,需列 te(log 风险比 log-HR)、seTE(log-HR 的标准误)+ 研究名列(默认 study)。倒方差合并后回变换为 HR。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "method": {
+        "type": "string",
+        "title": "τ² 估计方法",
+        "default": "REML",
+        "enum": [
+          "REML",
+          "DL",
+          "PM",
+          "SJ",
+          "EB",
+          "ML",
+          "HE"
+        ]
+      },
+      "knha": {
+        "type": "boolean",
+        "title": "Knapp-Hartung 校正(推荐)",
+        "default": true
+      },
+      "slab": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      }
+    }
+  },
+  "param_flags": {
+    "method": "--method",
+    "knha": "--knha",
+    "slab": "--slab"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "Meta 分析为研究级汇总数据(通常几十行),内存开销极小,基本恒为绿灯。"
+  },
+  "group": "synthesis",
+  "item_order": 80,
+  "analysis": "hr",
+  "shape": "generic"
+}

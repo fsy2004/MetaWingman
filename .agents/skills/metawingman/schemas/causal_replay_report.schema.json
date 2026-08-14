@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/causal_replay_report.schema.json",
+  "title": "MetaWingman counterfactual protocol replay evaluation report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "case_sha256",
+    "valid_case",
+    "reason_codes",
+    "protocol_adherence_status",
+    "node_metrics",
+    "node_results",
+    "earliest_candidate_event",
+    "replay_results",
+    "causal_attribution_status",
+    "stability_status",
+    "interpretation",
+    "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "case_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "case_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "valid_case": {"type": "boolean"},
+    "reason_codes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "protocol_adherence_status": {"enum": ["passed", "failed", "invalid"]},
+    "node_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected", "observed", "matched", "mismatched", "delta_accuracy"],
+      "properties": {
+        "expected": {"type": "integer", "minimum": 1},
+        "observed": {"type": "integer", "minimum": 0},
+        "matched": {"type": "integer", "minimum": 0},
+        "mismatched": {"type": "integer", "minimum": 0},
+        "delta_accuracy": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "node_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["node_id", "expected_status", "observed_status", "match"],
+        "properties": {
+          "node_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
+          "expected_status": {"enum": ["changed", "unchanged", "added", "removed", "abstained"]},
+          "observed_status": {"enum": ["changed", "unchanged", "added", "removed", "abstained", "missing"]},
+          "match": {"type": "boolean"}
+        }
+      }
+    },
+    "earliest_candidate_event": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["event_id", "sequence", "stage", "verification_status"],
+          "properties": {
+            "event_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
+            "sequence": {"type": "integer", "minimum": 1},
+            "stage": {"type": "integer", "minimum": 0, "maximum": 9},
+            "verification_status": {"enum": ["failed", "abstained"]}
+          }
+        }
+      ]
+    },
+    "replay_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "replay_id",
+          "event_id",
+          "event_order_variant",
+          "recovery_rate",
+          "recovered_node_ids",
+          "unrecovered_node_ids"
+        ],
+        "properties": {
+          "replay_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
+          "event_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
+          "event_order_variant": {"type": "string", "minLength": 1},
+          "recovery_rate": {"type": "number", "minimum": 0, "maximum": 1},
+          "recovered_node_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"}
+          },
+          "unrecovered_node_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"}
+          }
+        }
+      }
+    },
+    "causal_attribution_status": {
+      "enum": ["supported", "partial", "not_supported", "not_testable", "not_needed", "invalid"]
+    },
+    "stability_status": {"enum": ["stable", "unstable", "not_tested", "not_applicable", "invalid"]},
+    "interpretation": {"type": "string", "minLength": 1},
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

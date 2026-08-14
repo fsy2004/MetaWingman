@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/review_profile.schema.json",
+  "title": "MetaWingman review profile and authority contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "review_family",
+    "status",
+    "operating_mode",
+    "authorities",
+    "independent_review",
+    "created_at_utc",
+    "updated_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "profile_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "review_family": {
+      "enum": [
+        "intervention", "network", "diagnostic", "prognostic", "prediction-model",
+        "etiology", "prevalence", "incidence", "harms", "dose-response", "ipd", "measurement",
+        "scoping", "qualitative", "mixed-methods", "economic", "umbrella", "rapid",
+        "living", "prospective", "other"
+      ]
+    },
+    "status": {"enum": ["draft", "pinned", "retired"]},
+    "operating_mode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "replacement_claim", "evaluation_plan_id", "declared_by", "declared_at_utc"],
+      "properties": {
+        "name": {"enum": ["assurance", "evaluation", "rapid"]},
+        "replacement_claim": {"type": "string"},
+        "evaluation_plan_id": {"type": ["string", "null"]},
+        "declared_by": {"type": "string"},
+        "declared_at_utc": {"type": "string", "format": "date-time"}
+      }
+    },
+    "authorities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "authority_id", "role", "title", "organization", "version", "source_url",
+          "verified_at_utc", "applicability", "rationale"
+        ],
+        "properties": {
+          "authority_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "role": {"enum": ["conduct", "reporting", "appraisal", "certainty"]},
+          "title": {"type": "string"},
+          "organization": {"type": "string"},
+          "version": {"type": "string"},
+          "source_url": {"type": "string"},
+          "verified_at_utc": {"type": ["string", "null"], "format": "date-time"},
+          "applicability": {"enum": ["applicable", "not_applicable"]},
+          "rationale": {"type": "string"}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"applicability": {"const": "applicable"}}},
+            "then": {
+              "properties": {
+                "title": {"minLength": 1},
+                "organization": {"minLength": 1},
+                "version": {"minLength": 1},
+                "source_url": {"type": "string", "format": "uri", "minLength": 1},
+                "verified_at_utc": {"type": "string", "format": "date-time"}
+              }
+            },
+            "else": {"properties": {"rationale": {"minLength": 1}}}
+          }
+        ]
+      }
+    },
+    "independent_review": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "task_type", "independent_human_required", "minimum_independent_humans",
+          "ai_may_prepare", "ai_may_replace_human", "required_ai_exposure_order",
+          "adjudication_rule"
+        ],
+        "properties": {
+          "task_type": {
+            "enum": [
+              "title_abstract_screening", "full_text_eligibility", "outcome_data_extraction",
+              "risk_of_bias", "certainty", "poolability", "final_conclusion"
+            ]
+          },
+          "independent_human_required": {"type": "boolean"},
+          "minimum_independent_humans": {"type": "integer", "minimum": 0},
+          "ai_may_prepare": {"type": "boolean"},
+          "ai_may_replace_human": {"type": "boolean"},
+          "required_ai_exposure_order": {"enum": ["not_restricted", "blinded_before_ai", "recorded"]},
+          "adjudication_rule": {"enum": ["consensus", "third_human", "human_lead", "not_applicable"]}
+        }
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "updated_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

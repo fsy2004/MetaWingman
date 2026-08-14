@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/provenance_node.schema.json",
+  "title": "MetaWingman provenance graph node",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "node_type", "node_id", "label", "status",
+    "artifact_ref", "payload_sha256", "created_by", "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "node_type": {
+      "enum": [
+        "project", "profile", "protocol", "criterion", "search", "record",
+        "report", "document", "representation", "evidence_anchor",
+        "evidence_assertion", "study", "trial", "cohort", "arm", "result",
+        "extraction_candidate", "synthesis", "appraisal", "certainty",
+        "analysis", "analysis_output", "claim", "update"
+      ]
+    },
+    "node_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "label": {"type": "string"},
+    "status": {"enum": ["candidate", "accepted", "rejected", "superseded"]},
+    "artifact_ref": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["path", "schema", "record_id"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "schema": {"type": ["string", "null"]},
+        "record_id": {"type": ["string", "null"]}
+      }
+    },
+    "payload_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "created_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "version"],
+      "properties": {
+        "type": {"enum": ["human", "model", "tool"]},
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string"}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

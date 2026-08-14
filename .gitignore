@@ -5,3 +5,4 @@ __pycache__/
 *.pem
 validation-output/
 .install-test/
+dist/

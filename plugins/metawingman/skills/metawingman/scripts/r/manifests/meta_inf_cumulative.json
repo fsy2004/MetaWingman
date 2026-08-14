@@ -1,0 +1,99 @@
+{
+  "id": "meta_inf_cumulative",
+  "title": "累积元分析(森林图)",
+  "title_en": "Cumulative meta-analysis",
+  "category": "meta",
+  "family": "Meta 分析",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_influence.R",
+  "workdir": "adapters/meta",
+  "description": "累积元分析:按发表年份(若数据含 year 列)或精度(1/vi)将研究逐个纳入,森林图逐行展示合并估计随证据累积的漂移与收敛,用于发现早期研究主导或时间趋势(Lau et al. 1992, NEJM)。附输出累积汇总表(每步 k/估计/95%CI/p/I²)。基于 metafor::cumul,由 meta-analysis-toolkit 驱动。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "研究数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/influence.csv",
+      "spec": "二分类 2×2:每行一个研究,需列 ai,bi,ci,di(处理组事件/非事件、对照组事件/非事件)+ 研究名列(默认 study)。可选 year 列以按年份累积。连续型改选 SMD/MD 并提供 m1i,sd1i,n1i,m2i,sd2i,n2i;相关型 ZCOR 提供 ri,ni。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "measure": {
+        "type": "string",
+        "title": "效应量",
+        "default": "OR",
+        "enum": [
+          "OR",
+          "RR",
+          "RD",
+          "PETO",
+          "SMD",
+          "MD",
+          "ROM",
+          "ZCOR"
+        ]
+      },
+      "method": {
+        "type": "string",
+        "title": "τ² 估计方法",
+        "default": "REML",
+        "enum": [
+          "REML",
+          "DL",
+          "PM",
+          "SJ",
+          "EB",
+          "ML",
+          "HE"
+        ]
+      },
+      "knha": {
+        "type": "boolean",
+        "title": "Knapp-Hartung 校正(推荐)",
+        "default": true
+      },
+      "slab": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      }
+    }
+  },
+  "param_flags": {
+    "measure": "--measure",
+    "method": "--method",
+    "knha": "--knha",
+    "slab": "--slab"
+  },
+  "analysis": "cumulative",
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "robustness",
+  "item_order": 30,
+  "shape": "binary2x2"
+}

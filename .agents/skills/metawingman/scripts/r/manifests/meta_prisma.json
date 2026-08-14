@@ -1,0 +1,61 @@
+{
+  "id": "meta_prisma",
+  "title": "PRISMA 2020 流程图",
+  "title_en": "PRISMA 2020 flow diagram",
+  "category": "meta",
+  "family": "Meta 分析",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_prisma.R",
+  "workdir": "adapters/meta",
+  "description": "绘制 PRISMA 2020 研究筛选流程图(Page et al. 2021, BMJ 372:n71),数据库+注册库检索版式,纯 base R 图形导出矢量 PDF(无需 DiagrammeR/rsvg 系统依赖)。自动校验各环节计数算术一致性(仅警告不中断)。计数由用户提供(为综述记账信息而非估计数据)。基于 meta-analysis-toolkit 的 prisma_flow()。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "PRISMA 计数 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/prisma.csv",
+      "spec": "长表三列 field,subkey,value。标量字段(n_duplicates 去重、n_screened 初筛、n_excluded_screen 初筛排除、n_fulltext_sought 全文获取、n_fulltext_notretrieved 未获取、n_fulltext_assessed 全文评估、n_included_studies 纳入研究数、n_included_reports 纳入报告数)—— subkey 留空,单行。具名向量字段:n_identified 逐数据库(subkey=库名,如 PubMed/Embase/WoS)、n_fulltext_excluded 逐排除原因(subkey=原因)—— 各占多行。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "cex": {
+        "type": "number",
+        "title": "文字字号缩放",
+        "default": 0.8
+      }
+    }
+  },
+  "param_flags": {
+    "cex": "--cex"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "reporting",
+  "item_order": 10,
+  "analysis": "prisma"
+}

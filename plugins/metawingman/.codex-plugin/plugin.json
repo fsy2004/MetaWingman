@@ -1,0 +1,22 @@
+{
+  "name": "metawingman",
+  "version": "0.1.0",
+  "description": "AI-first, evidence-grounded, human-overseen systematic review and meta-analysis workflow.",
+  "author": {
+    "name": "MetaWingman contributors"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "MetaWingman",
+    "shortDescription": "Auditable systematic reviews and Meta-analysis",
+    "longDescription": "Plan and execute evidence-grounded systematic reviews from topic selection through living updates, with typed provenance, deterministic verification, explicit abstention, and human responsibility gates.",
+    "developerName": "MetaWingman contributors",
+    "category": "Research",
+    "capabilities": [
+      "systematic review",
+      "meta-analysis",
+      "evidence synthesis"
+    ],
+    "defaultPrompt": "Use $metawingman to continue this systematic review from its live project state, preserve provenance, and stop at any unresolved scientific or credential gate."
+  }
+}

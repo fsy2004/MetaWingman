@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/topic_target_registry.schema.json",
+  "title": "MetaWingman broad historical topic-rediscovery target registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "verified_at_utc", "purpose", "admission_policy", "targets"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "verified_at_utc": {"type": "string", "format": "date-time"},
+    "purpose": {"type": "string", "minLength": 1},
+    "admission_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "broad_development_intake",
+        "strict_blind_test_is_separate",
+        "venue_is_stratum_not_oracle",
+        "target_identity_masking_required",
+        "model_memory_audit_required",
+        "family_and_time_split_required"
+      ],
+      "properties": {
+        "broad_development_intake": {"const": true},
+        "strict_blind_test_is_separate": {"const": true},
+        "venue_is_stratum_not_oracle": {"const": true},
+        "target_identity_masking_required": {"const": true},
+        "model_memory_audit_required": {"const": true},
+        "family_and_time_split_required": {"const": true}
+      }
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/target"}
+    }
+  },
+  "$defs": {
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_id",
+        "title",
+        "publication",
+        "domain_ids",
+        "review_family_id",
+        "review_type",
+        "venue_stratum",
+        "target_scope",
+        "reference_question_status",
+        "historical_boundary",
+        "publication_integrity",
+        "model_memory_boundary",
+        "strict_test_status",
+        "verification_sources",
+        "promotion_gaps"
+      ],
+      "properties": {
+        "target_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "title": {"type": "string", "minLength": 1},
+        "publication": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["identity_status", "doi", "year", "venue", "url"],
+          "properties": {
+            "identity_status": {"const": "verified_primary"},
+            "doi": {"type": "string", "pattern": "^10\\."},
+            "year": {"type": "integer", "minimum": 2000},
+            "venue": {"type": "string", "minLength": 1},
+            "url": {"type": "string", "format": "uri"}
+          }
+        },
+        "domain_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_-]+$"}
+        },
+        "review_family_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "review_type": {
+          "enum": [
+            "pairwise",
+            "network",
+            "meta_regression",
+            "systematic_review",
+            "mixed_quantitative"
+          ]
+        },
+        "venue_stratum": {
+          "enum": [
+            "general_medical",
+            "multidisciplinary",
+            "topical_nature_portfolio",
+            "field_medical",
+            "field_social_science"
+          ]
+        },
+        "target_scope": {"const": "topic_only"},
+        "reference_question_status": {
+          "enum": ["publisher_abstract_verified", "published_expert_reference", "published_corrected_reference"]
+        },
+        "historical_boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "reported_value", "precision", "source_url", "notes"],
+          "properties": {
+            "status": {
+              "enum": [
+                "publisher_methods_verified",
+                "reported_but_not_normalized",
+                "pending_primary_method_audit"
+              ]
+            },
+            "reported_value": {
+              "type": ["string", "null"],
+              "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$"
+            },
+            "precision": {"enum": ["day", "month", "year", "unknown"]},
+            "source_url": {"type": "string", "format": "uri"},
+            "notes": {"type": "string", "minLength": 1}
+          }
+        },
+        "publication_integrity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "checked_at_utc", "related_notices", "benchmark_action"],
+          "properties": {
+            "status": {"enum": ["no_notice_found", "publisher_correction", "expression_of_concern", "retracted"]},
+            "checked_at_utc": {"type": "string", "format": "date-time"},
+            "related_notices": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["notice_type", "doi", "url", "impact"],
+                "properties": {
+                  "notice_type": {"enum": ["publisher_correction", "author_correction", "expression_of_concern", "retraction"]},
+                  "doi": {"type": "string", "pattern": "^10\\."},
+                  "url": {"type": "string", "format": "uri"},
+                  "impact": {"type": "string", "minLength": 1}
+                }
+              }
+            },
+            "benchmark_action": {"enum": ["use_current_version", "use_corrected_version_only", "exclude_until_integrity_resolved", "exclude"]}
+          }
+        },
+        "model_memory_boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "memorization_probe_required"],
+          "properties": {
+            "status": {"enum": ["unquantifiable", "high", "medium", "low"]},
+            "memorization_probe_required": {"const": true}
+          }
+        },
+        "strict_test_status": {
+          "enum": ["identity_intake_only", "boundary_ready", "sealed_case_ready"]
+        },
+        "verification_sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source_type", "url", "supports"],
+            "properties": {
+              "source_type": {"enum": ["primary_publication", "official_metadata"]},
+              "url": {"type": "string", "format": "uri"},
+              "supports": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "promotion_gaps": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

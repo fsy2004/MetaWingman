@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/living_snapshot.schema.json",
+  "title": "MetaWingman living-review source snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "snapshot_id", "project_id", "source_id", "query_sha256",
+    "search_completed_at_utc", "source_data_timestamp", "records", "snapshot_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "snapshot_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "project_id": {"type": "string", "minLength": 1},
+    "source_id": {"type": "string", "minLength": 1},
+    "query_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "search_completed_at_utc": {"type": "string", "format": "date-time"},
+    "source_data_timestamp": {"type": ["string", "null"]},
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "record_id", "canonical_id", "source_record_id", "metadata_sha256",
+          "status", "version", "published_at", "provenance_node"
+        ],
+        "properties": {
+          "record_id": {"type": "string", "minLength": 1},
+          "canonical_id": {"type": "string", "minLength": 1},
+          "source_record_id": {"type": "string", "minLength": 1},
+          "metadata_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "status": {"enum": ["active", "corrected", "retracted", "withdrawn", "removed"]},
+          "version": {"type": ["string", "null"]},
+          "published_at": {"type": ["string", "null"]},
+          "provenance_node": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "required": ["type", "id"],
+            "properties": {
+              "type": {"enum": ["record", "report", "document", "study", "result"]},
+              "id": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "snapshot_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

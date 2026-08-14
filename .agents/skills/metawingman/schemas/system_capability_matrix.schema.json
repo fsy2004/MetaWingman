@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/system_capability_matrix.schema.json",
+  "title": "MetaWingman system capability and validation matrix",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "matrix_id",
+    "as_of",
+    "claim_policy",
+    "lifecycle_stages",
+    "review_profiles",
+    "synthesis_routes",
+    "cross_cutting_capabilities"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "matrix_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "as_of": {"type": "string", "format": "date"},
+    "claim_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lifecycle_coverage",
+        "profile_coverage",
+        "validation_boundary",
+        "prohibited_shortcuts"
+      ],
+      "properties": {
+        "lifecycle_coverage": {"type": "string", "minLength": 1},
+        "profile_coverage": {"type": "string", "minLength": 1},
+        "validation_boundary": {"type": "string", "minLength": 1},
+        "prohibited_shortcuts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "lifecycle_stages": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {"$ref": "#/$defs/lifecycleStage"}
+    },
+    "review_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/reviewProfile"}
+    },
+    "synthesis_routes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/synthesisRoute"}
+    },
+    "cross_cutting_capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/crossCuttingCapability"}
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?![A-Za-z]:)(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+"
+    },
+    "implementationLevel": {
+      "enum": ["documented", "typed_contract", "executable_component", "workflow_integrated"]
+    },
+    "validationLevel": {
+      "enum": [
+        "not_tested",
+        "schema_tested",
+        "fixture_tested",
+        "published_reconstruction_pending",
+        "published_reconstruction_passed",
+        "prospective_passed"
+      ]
+    },
+    "lifecycleStage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_id",
+        "stage_number",
+        "title",
+        "scope",
+        "implementation_level",
+        "evidence_paths",
+        "validation_level",
+        "validation_evidence",
+        "human_boundary",
+        "known_gaps"
+      ],
+      "properties": {
+        "stage_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "stage_number": {"type": "integer", "minimum": 0, "maximum": 9},
+        "title": {"type": "string", "minLength": 1},
+        "scope": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "implementation_level": {"$ref": "#/$defs/implementationLevel"},
+        "evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/relativePath"}
+        },
+        "validation_level": {"$ref": "#/$defs/validationLevel"},
+        "validation_evidence": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "human_boundary": {"type": "string", "minLength": 1},
+        "known_gaps": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "reviewProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "label",
+        "workflow_coverage",
+        "method_contract_level",
+        "synthesis_implementation",
+        "native_routes",
+        "evidence_paths",
+        "validation_level",
+        "validation_evidence",
+        "limitations"
+      ],
+      "properties": {
+        "profile_id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+        "label": {"type": "string", "minLength": 1},
+        "workflow_coverage": {"enum": ["shared_lifecycle_supported", "profile_specific_partial"]},
+        "method_contract_level": {"enum": ["profile_specific", "shared_with_profile_guard", "documented_route"]},
+        "synthesis_implementation": {
+          "enum": [
+            "native_executable",
+            "generic_executable_with_profile_guard",
+            "structured_synthesis_route",
+            "external_tool_handoff",
+            "not_applicable_overlay"
+          ]
+        },
+        "native_routes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/relativePath"}
+        },
+        "evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/relativePath"}
+        },
+        "validation_level": {"$ref": "#/$defs/validationLevel"},
+        "validation_evidence": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "limitations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "synthesisRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_id",
+        "label",
+        "implementation",
+        "evidence_paths",
+        "validation_level",
+        "validation_evidence",
+        "limitations"
+      ],
+      "properties": {
+        "route_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "label": {"type": "string", "minLength": 1},
+        "implementation": {
+          "enum": [
+            "native_executable",
+            "generic_executable_with_guard",
+            "structured_synthesis_route",
+            "external_tool_handoff"
+          ]
+        },
+        "evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/relativePath"}
+        },
+        "validation_level": {"$ref": "#/$defs/validationLevel"},
+        "validation_evidence": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "limitations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "crossCuttingCapability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capability_id",
+        "label",
+        "stage_ids",
+        "implementation_level",
+        "evidence_paths",
+        "validation_level",
+        "validation_evidence",
+        "known_gaps"
+      ],
+      "properties": {
+        "capability_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "label": {"type": "string", "minLength": 1},
+        "stage_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}
+        },
+        "implementation_level": {"$ref": "#/$defs/implementationLevel"},
+        "evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/relativePath"}
+        },
+        "validation_level": {"$ref": "#/$defs/validationLevel"},
+        "validation_evidence": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "known_gaps": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

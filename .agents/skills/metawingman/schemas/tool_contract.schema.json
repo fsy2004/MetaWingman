@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/tool_contract.schema.json",
+  "title": "MetaWingman typed tool contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "tool_id", "version", "input_schema", "output_schema", "permission_class", "credential_boundary", "idempotent", "retry_budget", "verifier"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "tool_id": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]*$"},
+    "version": {"type": "string", "minLength": 1},
+    "input_schema": {"type": "string", "minLength": 1},
+    "output_schema": {"type": "string", "minLength": 1},
+    "permission_class": {"enum": ["public_read", "local_reversible", "credentialed", "high_risk", "irreversible"]},
+    "credential_boundary": {"enum": ["none", "environment", "user_browser_handoff", "human_only"]},
+    "idempotent": {"type": "boolean"},
+    "retry_budget": {"type": "integer", "minimum": 0, "maximum": 10},
+    "verifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "target"],
+      "properties": {
+        "type": {"enum": ["schema", "checksum", "deterministic_code", "human", "composite"]},
+        "target": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

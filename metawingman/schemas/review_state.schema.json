@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/review_state.schema.json",
+  "title": "MetaWingman review state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "project_id",
+    "title",
+    "profile",
+    "stage",
+    "protocol",
+    "gates",
+    "unresolved_risks",
+    "freezes",
+    "updated_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "project_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "title": {"type": "string", "minLength": 1},
+    "profile": {"type": "string", "minLength": 1},
+    "stage": {"type": "integer", "minimum": 0, "maximum": 9},
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "status", "sha256", "registration"],
+      "properties": {
+        "version": {"type": "string", "minLength": 1},
+        "status": {"enum": ["draft", "frozen", "amended"]},
+        "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "registration": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["registry", "id", "url"],
+          "properties": {
+            "registry": {"type": "string"},
+            "id": {"type": "string"},
+            "url": {"type": "string"}
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "required": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "propertyNames": {"pattern": "^[0-9]$"},
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "verified_by", "verified_at", "evidence"],
+        "properties": {
+          "status": {"enum": ["not_started", "in_progress", "blocked", "complete"]},
+          "verified_by": {"type": "string"},
+          "verified_at": {"type": "string"},
+          "evidence": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+        }
+      }
+    },
+    "unresolved_risks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["risk_id", "stage", "severity", "description", "status"],
+        "properties": {
+          "risk_id": {"type": "string", "minLength": 1},
+          "stage": {"type": "integer", "minimum": 0, "maximum": 9},
+          "severity": {"enum": ["low", "medium", "high", "critical"]},
+          "description": {"type": "string", "minLength": 1},
+          "status": {"enum": ["open", "accepted", "mitigated"]}
+        }
+      }
+    },
+    "freezes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["freeze_id", "kind", "sha256", "created_at_utc", "approved_by"],
+        "properties": {
+          "freeze_id": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["protocol", "search", "screening", "data", "analysis", "report"]},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "created_at_utc": {"type": "string", "format": "date-time"},
+          "approved_by": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "updated_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

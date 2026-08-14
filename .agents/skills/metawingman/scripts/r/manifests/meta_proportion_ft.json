@@ -1,0 +1,74 @@
+{
+  "id": "meta_proportion_ft",
+  "title": "单臂比例 · Freeman-Tukey 双反正弦",
+  "title_en": "Proportion — Freeman-Tukey",
+  "category": "meta",
+  "family": "核心合并 Core Synthesis",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_proportion.R",
+  "workdir": "adapters/meta",
+  "description": "单臂比例 meta 分析,Freeman-Tukey 双反正弦变换(PFT):方差稳定变换,适合接近 0 或 1 的比例。随机效应 REML + 95% 预测区间。注意:反变换依赖假定样本量(调和均值),研究规模差异大时可能不稳,此时优先选 logit(PLOGIT)。输出比例森林图 + 合并汇总表(反变换回自然比例尺度)。基于 meta 包 metaprop(sm=\"PFT\")。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "研究数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/proportion.csv",
+      "spec": "单臂比例:每行一个研究,需列 xi(事件/阳性数)、ni(该组样本量)、study(研究名列)。事件数不得超过样本量。列名可通过 --event/--n/--studlab 覆盖。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "event": {
+        "type": "string",
+        "title": "事件数列名",
+        "default": "xi"
+      },
+      "n": {
+        "type": "string",
+        "title": "样本量列名",
+        "default": "ni"
+      },
+      "studlab": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      }
+    }
+  },
+  "param_flags": {
+    "event": "--event",
+    "n": "--n",
+    "studlab": "--studlab"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "synthesis",
+  "item_order": 110,
+  "analysis": "ft",
+  "shape": "proportion"
+}
