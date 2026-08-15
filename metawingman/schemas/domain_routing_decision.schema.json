@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/domain_routing_decision.schema.json",
+  "title": "MetaWingman biomedical domain routing decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decision_id", "context_id", "task_type", "risk_class", "candidate_pack_ids", "selected_pack_ids", "status", "confidence", "evidence", "reason_codes", "fallback", "created_at_utc"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "decision_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
+    "context_id": {"type": "string", "minLength": 1},
+    "task_type": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "risk_class": {"enum": ["low", "moderate", "high", "critical"]},
+    "candidate_pack_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "selected_pack_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "status": {"enum": ["selected", "fallback", "abstained"]},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "reason_codes": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}, "uniqueItems": true},
+    "fallback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "pack_id"],
+      "properties": {
+        "action": {"enum": ["none", "use_foundation", "abstain"]},
+        "pack_id": {"type": ["string", "null"]}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

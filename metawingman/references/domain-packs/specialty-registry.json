@@ -1,0 +1,190 @@
+{
+  "schema_version": "1.0",
+  "pack_id": "specialty-registry",
+  "pack_type": "registry",
+  "version": "1.0.0",
+  "status": "active",
+  "application_domain": "human_health_clinical_translational_biomedicine",
+  "supported_review_families": [
+    "intervention",
+    "network",
+    "diagnostic",
+    "prognostic",
+    "prediction-model",
+    "etiology",
+    "prevalence",
+    "incidence",
+    "harms",
+    "dose-response",
+    "ipd",
+    "measurement",
+    "scoping",
+    "qualitative",
+    "mixed-methods",
+    "economic",
+    "umbrella",
+    "rapid",
+    "living",
+    "prospective",
+    "other"
+  ],
+  "specialties": [
+    {
+      "specialty_id": "general-medicine",
+      "title_terms": [
+        "medicine",
+        "clinical"
+      ],
+      "aliases": [
+        "internal medicine"
+      ]
+    },
+    {
+      "specialty_id": "oncology",
+      "title_terms": [
+        "cancer",
+        "tumor",
+        "neoplasm"
+      ],
+      "aliases": [
+        "cancer medicine"
+      ]
+    },
+    {
+      "specialty_id": "cardiovascular-medicine",
+      "title_terms": [
+        "cardiovascular",
+        "cardiac",
+        "heart"
+      ],
+      "aliases": [
+        "cardiology"
+      ]
+    },
+    {
+      "specialty_id": "neurology",
+      "title_terms": [
+        "neurologic",
+        "brain",
+        "stroke"
+      ],
+      "aliases": [
+        "neuroscience"
+      ]
+    },
+    {
+      "specialty_id": "infectious-disease",
+      "title_terms": [
+        "infection",
+        "infectious",
+        "pathogen"
+      ],
+      "aliases": [
+        "infectious diseases"
+      ]
+    },
+    {
+      "specialty_id": "mental-health",
+      "title_terms": [
+        "psychiatric",
+        "mental health",
+        "depression"
+      ],
+      "aliases": [
+        "psychiatry"
+      ]
+    },
+    {
+      "specialty_id": "maternal-child-health",
+      "title_terms": [
+        "maternal",
+        "pregnancy",
+        "pediatric"
+      ],
+      "aliases": [
+        "obstetrics",
+        "paediatrics"
+      ]
+    },
+    {
+      "specialty_id": "public-health",
+      "title_terms": [
+        "public health",
+        "population health",
+        "epidemiology"
+      ],
+      "aliases": [
+        "health policy"
+      ]
+    },
+    {
+      "specialty_id": "drug-safety",
+      "title_terms": [
+        "adverse event",
+        "pharmacovigilance",
+        "drug safety"
+      ],
+      "aliases": [
+        "pharmacoepidemiology"
+      ]
+    },
+    {
+      "specialty_id": "diagnostics",
+      "title_terms": [
+        "diagnostic",
+        "sensitivity",
+        "specificity"
+      ],
+      "aliases": [
+        "diagnostic medicine"
+      ]
+    },
+    {
+      "specialty_id": "imaging",
+      "title_terms": [
+        "imaging",
+        "radiology",
+        "magnetic resonance"
+      ],
+      "aliases": [
+        "medical imaging"
+      ]
+    },
+    {
+      "specialty_id": "clinical-omics",
+      "title_terms": [
+        "genomic",
+        "proteomic",
+        "transcriptomic"
+      ],
+      "aliases": [
+        "precision medicine"
+      ]
+    }
+  ],
+  "capabilities": [
+    "specialty_resolution",
+    "weak_title_term_matching"
+  ],
+  "terminology_releases": [],
+  "authority_sources": [
+    "references/methodology-source-registry.md"
+  ],
+  "dependencies": [
+    "biomedical-foundation"
+  ],
+  "constraints": {
+    "may_override_protocol": false,
+    "may_override_authority": false,
+    "may_override_estimand": false,
+    "may_grant_tool_permissions": false,
+    "may_promote_model_output_to_gold": false
+  },
+  "validation": {
+    "level": "contract_only",
+    "evidence": [
+      "docs/architecture/biomedical-application-contract.md"
+    ]
+  },
+  "content_sha256": "42cfb21a5e8c8d34b0331125161de6e6e81aec248885fc2097a8fb95d25c6acb"
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "pack_id": "profile-prognostic",
+  "pack_type": "review_profile",
+  "version": "1.0.0",
+  "status": "active",
+  "application_domain": "human_health_clinical_translational_biomedicine",
+  "supported_review_families": [
+    "prognostic",
+    "prediction-model",
+    "etiology",
+    "prevalence",
+    "incidence"
+  ],
+  "specialties": [],
+  "capabilities": [
+    "profile_routing",
+    "authority_lookup"
+  ],
+  "terminology_releases": [],
+  "authority_sources": [
+    "references/methodology-source-registry.md",
+    "references/appraisal-certainty.md"
+  ],
+  "dependencies": [
+    "biomedical-foundation"
+  ],
+  "constraints": {
+    "may_override_protocol": false,
+    "may_override_authority": false,
+    "may_override_estimand": false,
+    "may_grant_tool_permissions": false,
+    "may_promote_model_output_to_gold": false
+  },
+  "validation": {
+    "level": "fixture_tested",
+    "evidence": [
+      "tests/test_p2_judgment_workbench.py"
+    ]
+  },
+  "content_sha256": "c1ea7c39fcedd9b7a952cd96d55c29d772c02370143d7e74450fe7e05d390a91"
+}

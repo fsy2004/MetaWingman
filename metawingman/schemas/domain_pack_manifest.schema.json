@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/domain_pack_manifest.schema.json",
+  "title": "MetaWingman governed biomedical domain pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "pack_id", "pack_type", "version", "status", "application_domain", "supported_review_families", "specialties", "capabilities", "terminology_releases", "authority_sources", "dependencies", "constraints", "validation", "content_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "pack_id": {"type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"},
+    "pack_type": {"enum": ["foundation", "review_profile", "specialty", "registry"]},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "status": {"enum": ["draft", "active", "retired"]},
+    "application_domain": {"const": "human_health_clinical_translational_biomedicine"},
+    "supported_review_families": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "specialties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["specialty_id", "title_terms", "aliases"],
+        "properties": {
+          "specialty_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+          "title_terms": {"type": "array", "items": {"type": "string", "minLength": 2}, "uniqueItems": true},
+          "aliases": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+        }
+      }
+    },
+    "capabilities": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}, "minItems": 1, "uniqueItems": true},
+    "terminology_releases": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "authority_sources": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "dependencies": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"}, "uniqueItems": true},
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["may_override_protocol", "may_override_authority", "may_override_estimand", "may_grant_tool_permissions", "may_promote_model_output_to_gold"],
+      "properties": {
+        "may_override_protocol": {"const": false},
+        "may_override_authority": {"const": false},
+        "may_override_estimand": {"const": false},
+        "may_grant_tool_permissions": {"const": false},
+        "may_promote_model_output_to_gold": {"const": false}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "evidence"],
+      "properties": {
+        "level": {"enum": ["contract_only", "fixture_tested", "retrospectively_tested", "externally_validated"]},
+        "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      }
+    },
+    "content_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

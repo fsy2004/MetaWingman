@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "pack_id": "biomedical-foundation",
+  "pack_type": "foundation",
+  "version": "1.0.0",
+  "status": "active",
+  "application_domain": "human_health_clinical_translational_biomedicine",
+  "supported_review_families": [
+    "intervention",
+    "network",
+    "diagnostic",
+    "prognostic",
+    "prediction-model",
+    "etiology",
+    "prevalence",
+    "incidence",
+    "harms",
+    "dose-response",
+    "ipd",
+    "measurement",
+    "scoping",
+    "qualitative",
+    "mixed-methods",
+    "economic",
+    "umbrella",
+    "rapid",
+    "living",
+    "prospective",
+    "other"
+  ],
+  "specialties": [],
+  "capabilities": [
+    "terminology_normalization",
+    "source_selection",
+    "ood_detection",
+    "domain_routing"
+  ],
+  "terminology_releases": [],
+  "authority_sources": [
+    "references/methodology-source-registry.md"
+  ],
+  "dependencies": [],
+  "constraints": {
+    "may_override_protocol": false,
+    "may_override_authority": false,
+    "may_override_estimand": false,
+    "may_grant_tool_permissions": false,
+    "may_promote_model_output_to_gold": false
+  },
+  "validation": {
+    "level": "fixture_tested",
+    "evidence": [
+      "tests/test_biomedical_application_contract.py"
+    ]
+  },
+  "content_sha256": "d30cc28b0ef21ff1c37657216af64b57e75ea447bce974a8ad3903c45ca9edd4"
+}

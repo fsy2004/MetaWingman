@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "pack_id": "profile-intervention",
+  "pack_type": "review_profile",
+  "version": "1.0.0",
+  "status": "active",
+  "application_domain": "human_health_clinical_translational_biomedicine",
+  "supported_review_families": [
+    "intervention",
+    "network",
+    "dose-response",
+    "ipd"
+  ],
+  "specialties": [],
+  "capabilities": [
+    "profile_routing",
+    "authority_lookup"
+  ],
+  "terminology_releases": [],
+  "authority_sources": [
+    "references/methodology-source-registry.md",
+    "references/appraisal-certainty.md"
+  ],
+  "dependencies": [
+    "biomedical-foundation"
+  ],
+  "constraints": {
+    "may_override_protocol": false,
+    "may_override_authority": false,
+    "may_override_estimand": false,
+    "may_grant_tool_permissions": false,
+    "may_promote_model_output_to_gold": false
+  },
+  "validation": {
+    "level": "fixture_tested",
+    "evidence": [
+      "tests/test_ai_control_plane.py"
+    ]
+  },
+  "content_sha256": "c8818858c5f2bdfb4865a0fe6d35d14410d81a3539da008e4bf63bd53d1e0247"
+}

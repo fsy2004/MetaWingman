@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "pack_id": "profile-harms",
+  "pack_type": "review_profile",
+  "version": "1.0.0",
+  "status": "active",
+  "application_domain": "human_health_clinical_translational_biomedicine",
+  "supported_review_families": [
+    "harms"
+  ],
+  "specialties": [],
+  "capabilities": [
+    "profile_routing",
+    "authority_lookup"
+  ],
+  "terminology_releases": [],
+  "authority_sources": [
+    "references/methodology-source-registry.md",
+    "references/appraisal-certainty.md"
+  ],
+  "dependencies": [
+    "biomedical-foundation"
+  ],
+  "constraints": {
+    "may_override_protocol": false,
+    "may_override_authority": false,
+    "may_override_estimand": false,
+    "may_grant_tool_permissions": false,
+    "may_promote_model_output_to_gold": false
+  },
+  "validation": {
+    "level": "fixture_tested",
+    "evidence": [
+      "tests/test_p2_judgment_workbench.py"
+    ]
+  },
+  "content_sha256": "8930feba1df1a61c667fbe7af8ad62fe8b4c9ca2cb8a49df30efbfd3977819a9"
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/domain_coverage_report.schema.json",
+  "title": "MetaWingman biomedical domain coverage report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "report_id", "registry_sha256", "generated_at_utc", "application_domain", "profiles", "specialties", "issues", "valid"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "report_id": {"type": "string", "minLength": 1},
+    "registry_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "generated_at_utc": {"type": "string", "format": "date-time"},
+    "application_domain": {"const": "human_health_clinical_translational_biomedicine"},
+    "profiles": {"type": "array", "items": {"$ref": "#/$defs/coverage_item"}},
+    "specialties": {"type": "array", "items": {"$ref": "#/$defs/coverage_item"}},
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["severity", "code", "message"],
+        "properties": {
+          "severity": {"enum": ["info", "warning", "error"]},
+          "code": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "message": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "valid": {"type": "boolean"}
+  },
+  "$defs": {
+    "coverage_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "implementation_level", "validation_level", "evidence_paths", "known_gaps"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "implementation_level": {"enum": ["unsupported", "foundation_fallback", "pack_available", "workflow_integrated"]},
+        "validation_level": {"enum": ["none", "contract_only", "fixture_tested", "retrospectively_tested", "externally_validated"]},
+        "evidence_paths": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "known_gaps": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      }
+    }
+  }
+}
