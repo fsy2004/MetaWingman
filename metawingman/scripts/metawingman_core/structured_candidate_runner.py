@@ -51,6 +51,34 @@ def _usage_total(items: list[dict[str, Any]], field: str) -> int | None:
     return None if any(value is None for value in values) else sum(values)
 
 
+def _validation_diagnostic(phase: str, error: SchemaValidationError) -> dict[str, Any]:
+    """Retain actionable constraint classes without storing provider output or source text."""
+    codes: set[str] = set()
+    for message in error.errors:
+        lower = message.casefold()
+        if "not valid json" in lower:
+            codes.add("invalid_json")
+        elif "must be a json object" in lower:
+            codes.add("non_object_json")
+        elif "required property" in lower or "is a required property" in lower:
+            codes.add("missing_required_property")
+        elif "additional properties" in lower:
+            codes.add("additional_properties")
+        elif "is not of type" in lower:
+            codes.add("type_constraint")
+        elif "is not one of" in lower:
+            codes.add("enum_constraint")
+        elif "was expected" in lower:
+            codes.add("const_constraint")
+        elif "too short" in lower or "too long" in lower:
+            codes.add("length_constraint")
+        elif "is not a" in lower and ("date-time" in lower or "uri" in lower):
+            codes.add("format_constraint")
+        else:
+            codes.add("schema_constraint")
+    return {"phase": phase, "error_codes": sorted(codes)}
+
+
 def run_structured_candidate(
     *,
     task_id: str,
@@ -102,9 +130,11 @@ def run_structured_candidate(
     attempts = 1
     attempt_usage = [_usage("initial_generation", result)]
     reason_codes: list[str] = []
+    validation_diagnostics: list[dict[str, Any]] = []
     try:
         candidate = _candidate(result.content, output_schema)
     except SchemaValidationError as initial_error:
+        validation_diagnostics.append(_validation_diagnostic("initial_generation", initial_error))
         repair_messages = [
             *messages,
             {"role": "assistant", "content": result.content},
@@ -130,7 +160,8 @@ def run_structured_candidate(
         attempt_usage.append(_usage("schema_repair", result))
         try:
             candidate = _candidate(result.content, output_schema)
-        except SchemaValidationError:
+        except SchemaValidationError as repair_error:
+            validation_diagnostics.append(_validation_diagnostic("schema_repair", repair_error))
             candidate = None
             reason_codes.append("provider_output_failed_schema_after_repair")
     run = {
@@ -155,6 +186,7 @@ def run_structured_candidate(
             "max_attempts": 2,
         },
         "attempts": attempts,
+        "validation_diagnostics": validation_diagnostics,
         "acceptance_boundary": "candidate_only_requires_workflow_gate",
         "created_at_utc": created_at_utc or datetime.now(timezone.utc).isoformat(),
     }

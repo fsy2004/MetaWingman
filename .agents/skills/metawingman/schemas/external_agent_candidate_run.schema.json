@@ -86,6 +86,24 @@
       }
     },
     "attempts": {"type": "integer", "minimum": 1, "maximum": 2},
+    "validation_diagnostics": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["phase", "error_codes"],
+        "properties": {
+          "phase": {"enum": ["initial_generation", "schema_repair"]},
+          "error_codes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"enum": ["invalid_json", "non_object_json", "missing_required_property", "additional_properties", "type_constraint", "enum_constraint", "const_constraint", "length_constraint", "format_constraint", "schema_constraint"]}
+          }
+        }
+      }
+    },
     "acceptance_boundary": {"const": "candidate_only_requires_workflow_gate"},
     "created_at_utc": {"type": "string", "format": "date-time"}
   },

@@ -495,6 +495,7 @@ class StructuredCandidateRunnerTests(unittest.TestCase):
         self.assertEqual(run["usage_totals"]["total_tokens"], 30)
         self.assertEqual(run["request_budget"]["max_tokens_per_call"], 4096)
         self.assertEqual(run["acceptance_boundary"], "candidate_only_requires_workflow_gate")
+        self.assertEqual(run["validation_diagnostics"], [])
         self.assertNotIn("content", run["provider_provenance"])
 
     def test_invalid_candidate_repairs_once_then_abstains(self) -> None:
@@ -513,6 +514,8 @@ class StructuredCandidateRunnerTests(unittest.TestCase):
         self.assertEqual(run["usage_totals"]["total_tokens"], 60)
         self.assertIsNone(run["candidate"])
         self.assertIn("provider_output_failed_schema_after_repair", run["reason_codes"])
+        self.assertEqual([item["phase"] for item in run["validation_diagnostics"]], ["initial_generation", "schema_repair"])
+        self.assertIn("missing_required_property", run["validation_diagnostics"][0]["error_codes"])
 
     def test_large_transfer_is_refused_before_provider_call(self) -> None:
         provider = unittest.mock.Mock()

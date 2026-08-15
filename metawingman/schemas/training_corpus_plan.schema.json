@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/training_corpus_plan.schema.json",
+  "title": "MetaWingman reproducible training corpus plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "plan_id", "created_at_utc", "inputs", "policy", "summary", "records"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "plan_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_corpus_path", "source_corpus_sha256", "family_registry_path", "family_registry_sha256"],
+      "properties": {
+        "source_corpus_path": {"type": "string", "minLength": 1},
+        "source_corpus_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "family_registry_path": {"type": "string", "minLength": 1},
+        "family_registry_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["seed", "maximum_records", "train_fraction", "split_policy", "held_out_enabled", "journal_is_stratum_not_oracle", "require_open_access", "require_pmcid", "allowed_licenses", "label_policy"],
+      "properties": {
+        "seed": {"type": "integer", "minimum": 0},
+        "maximum_records": {"type": "integer", "minimum": 1},
+        "train_fraction": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1},
+        "split_policy": {"const": "review_family_hash_train_development_only"},
+        "held_out_enabled": {"const": false},
+        "journal_is_stratum_not_oracle": {"const": true},
+        "require_open_access": {"const": true},
+        "require_pmcid": {"const": true},
+        "allowed_licenses": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "label_policy": {"const": "source_anchored_weak_supervision_until_independently_verified"}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eligible_records", "selected_records", "train_records", "development_records", "selected_families", "selected_journals"],
+      "properties": {
+        "eligible_records": {"type": "integer", "minimum": 0},
+        "selected_records": {"type": "integer", "minimum": 0},
+        "train_records": {"type": "integer", "minimum": 0},
+        "development_records": {"type": "integer", "minimum": 0},
+        "selected_families": {"type": "integer", "minimum": 0},
+        "selected_journals": {"type": "integer", "minimum": 0}
+      }
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["record_id", "family_id", "split", "split_status", "title", "year", "journal", "journal_stratum", "doi", "pmid", "pmcid", "declared_license", "source_url", "integrity_status"],
+        "properties": {
+          "record_id": {"type": "string", "pattern": "^epmc:"},
+          "family_id": {"type": "string", "pattern": "^family:[a-f0-9]{16}$"},
+          "split": {"enum": ["train", "development"]},
+          "split_status": {"const": "provisional_family_isolated_not_held_out"},
+          "title": {"type": "string", "minLength": 1},
+          "year": {"type": "integer", "minimum": 1990},
+          "journal": {"type": "string", "minLength": 1},
+          "journal_stratum": {"type": "string", "minLength": 1},
+          "doi": {"type": "string"},
+          "pmid": {"type": "string"},
+          "pmcid": {"type": "string", "pattern": "^PMC[0-9]+$"},
+          "declared_license": {"type": "string", "minLength": 1},
+          "source_url": {"type": "string", "format": "uri"},
+          "integrity_status": {"const": "no_status_update_in_epmc_record"}
+        }
+      }
+    }
+  }
+}

@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "d85281319eea2d441cbf9b7c6559dee3cc4590d49bf56bc8d7a1a64b1b29e283",
+  "source_tree_sha256": "955130587a28de9d3330e11c2d4bef04db16b1781354831a7d2bd1691c673aab",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -48,8 +48,8 @@
   "files": [
     {
       "path": "SKILL.md",
-      "sha256": "e09d4b344e018e74aa8805adc7f2bf3321840bce161afd26ace5da741ca5d9d9",
-      "bytes": 19969
+      "sha256": "e8e456a784b11f52d35553b65bea78895a7f5b9dc357198e0279fb72503c407b",
+      "bytes": 20474
     },
     {
       "path": "agents/openai.yaml",
@@ -268,8 +268,8 @@
     },
     {
       "path": "schemas/external_agent_candidate_run.schema.json",
-      "sha256": "9e3370333f37808ab4401ef53a757e9a0b150fe494a703bdbb8f5e0969841f24",
-      "bytes": 4659
+      "sha256": "459126ea5b9ae16cc6f12e1d3f155cc63eb16a0ec4b894dcd94ac83912e380b8",
+      "bytes": 5352
     },
     {
       "path": "schemas/extraction_candidate.schema.json",
@@ -432,9 +432,44 @@
       "bytes": 6696
     },
     {
+      "path": "schemas/training_annotation_candidate.schema.json",
+      "sha256": "312d60ba26d21dbc68aa955d3aab46af68f78acff7b53d481f3b86e889ba1796",
+      "bytes": 1600
+    },
+    {
+      "path": "schemas/training_corpus_plan.schema.json",
+      "sha256": "7d8c1a6cd70ac580d82f10741040420fdf7c58f448f978cad88ce58a2d043d37",
+      "bytes": 3976
+    },
+    {
+      "path": "schemas/training_document_manifest.schema.json",
+      "sha256": "ef3a95329682a0a24b52ee0bfdecf2a665f2609f8a5b225b69b00a007bd4ffa1",
+      "bytes": 4856
+    },
+    {
+      "path": "schemas/training_example.schema.json",
+      "sha256": "1274bbcdc0c7edf2150f6900770723b90ed0924f3ae47ab3c9a3c3be7789ee35",
+      "bytes": 2104
+    },
+    {
+      "path": "schemas/training_export_manifest.schema.json",
+      "sha256": "941ea9926bf75a55c263d73f464ed6e38ea259f3d5fde87bbea1a8d28941b942",
+      "bytes": 2947
+    },
+    {
+      "path": "schemas/training_run_plan.schema.json",
+      "sha256": "c11be04a7d70842664575b6b979fe7d8f5aec0f8722226db8ee1e213fcb2cf9c",
+      "bytes": 3125
+    },
+    {
       "path": "scripts/audit_system_coverage.py",
       "sha256": "5d7769962722128a319ca5fcc72120c2bf2ad4ddaee42dfec367c8dda21c5cbf",
       "bytes": 1196
+    },
+    {
+      "path": "scripts/audit_training_dataset.py",
+      "sha256": "f769146a8d5b667a4a7c8745bbed46a15c2dfe4263bd23e9995831cc23f76263",
+      "bytes": 1550
     },
     {
       "path": "scripts/build_judgment_dossier.py",
@@ -517,9 +552,24 @@
       "bytes": 1164
     },
     {
+      "path": "scripts/export_training_splits.py",
+      "sha256": "06f5b6d6ec7d9c7eb9d93d8312c08fe0c8c502480f9d76007302b08259dc4b79",
+      "bytes": 5446
+    },
+    {
       "path": "scripts/fetch_benchmark_materials.py",
       "sha256": "25b37652df3ac886cece26cd5dc948aa0a329daecd65c7cf96a12998b0c85495",
       "bytes": 9785
+    },
+    {
+      "path": "scripts/fetch_training_corpus.py",
+      "sha256": "e71cd7e1f642e9a06c9df611d207d0cc0fe85d2f9150784e37f24ecf783211fa",
+      "bytes": 1847
+    },
+    {
+      "path": "scripts/freeze_training_dataset.py",
+      "sha256": "42c6e7b77a1e41d908333dcacc65e522b62291ac294f09d7238f96c99c0fd443",
+      "bytes": 2376
     },
     {
       "path": "scripts/guard_scientific_action.py",
@@ -692,6 +742,11 @@
       "bytes": 5062
     },
     {
+      "path": "scripts/metawingman_core/training_corpus.py",
+      "sha256": "d9496c3729d899be4420a5cb9a60cbfc07aba79410234400c1a0a048a0dedc28",
+      "bytes": 34289
+    },
+    {
       "path": "scripts/package_benchmark.py",
       "sha256": "95d2623fef2ee0efda663a8d8f29d7539895a09ebf1893d629fc239d2eaa5759",
       "bytes": 1399
@@ -700,6 +755,16 @@
       "path": "scripts/plan_evidence_acquisition.py",
       "sha256": "1711ec145b0a137e2b42481ee5258e58d8f83e344833630837e84552ba64d430",
       "bytes": 1152
+    },
+    {
+      "path": "scripts/plan_training_corpus.py",
+      "sha256": "ed875501e8cb9ed9b9716a378928e30089f8fad1e4cf6daa3fd00d847ff90be7",
+      "bytes": 2109
+    },
+    {
+      "path": "scripts/prepare_training_annotation_tasks.py",
+      "sha256": "0a95d4410a1ef5b1d680c2d93f969e43f7c92ea9aeb2725b347e016e411b4009",
+      "bytes": 3511
     },
     {
       "path": "scripts/r/adapters/_common.R",
@@ -1425,6 +1490,11 @@
       "path": "scripts/verify_citations.py",
       "sha256": "42834313d91410c1d5412250b6cd673c44b4af8a00354af00d1a88c679310c62",
       "bytes": 4116
+    },
+    {
+      "path": "scripts/verify_training_annotations.py",
+      "sha256": "a0cc9dbc87a6e250def5e805ce8fb5be9d5709ba190ec14621a675139bf1a49b",
+      "bytes": 3302
     }
   ]
 }

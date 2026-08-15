@@ -39,6 +39,16 @@ Last checked: 2026-08-15
 - [ ] Complete reference-integrity, reliability, positional, order, latency/cost, and security audits.
 - [ ] Pre-register release thresholds before evaluating the held-out test families.
 
+## Training-data and model gate
+
+- [x] Freeze a deterministic OA train/development plan from hashed corpus and review-family inputs; keep held-out disabled.
+- [x] Verify article-level license and retraction state before OA PDF/XML admission, and hash every accepted artifact.
+- [x] Generate source-anchored weak-supervision examples, model-neutral run plans, and chat-SFT/retrieval-positive exports.
+- [x] Audit file hashes, family isolation, example hashes, weak-label status, and frozen counts before training.
+- [ ] Independently validate labels, mine leakage-safe retrieval negatives, and scale the development set before model selection.
+- [ ] Record the exact base model, revision, tokenizer, model license, hyperparameters, random seeds, compute, and checkpoint hashes before a real training run.
+- [ ] Demonstrate component and end-to-end gains against direct prompting, generic RAG, and prespecified MetaWingman ablations before any capability claim.
+
 ## R2 public submission
 
 - [ ] Verify developer or business identity and submission permission.

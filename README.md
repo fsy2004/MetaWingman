@@ -161,6 +161,14 @@ python .\metawingman\scripts\harvest_top_journal_corpus.py --out .\research\top-
 # 生成保守的综述家族候选注册表；建议 split 在完成家族审计前不可使用
 python .\metawingman\scripts\cluster_review_families.py .\research\top-journal-training-corpus.json --out .\research\top-journal-review-family-registry.json
 
+# 生成可重放的 OA 训练/开发计划；held-out 保持关闭
+python .\metawingman\scripts\plan_training_corpus.py --corpus .\research\top-journal-training-corpus.json --families .\research\top-journal-review-family-registry.json --out .\research\training-corpus-plan-v1.json --maximum-records 24 --seed 20260815
+
+# 下载文章级许可核验后的 OA PDF/XML，并冻结弱监督训练集
+python .\metawingman\scripts\fetch_training_corpus.py .\research\training-corpus-plan-v1.json --out .\validation-output\training-corpus\documents
+python .\metawingman\scripts\freeze_training_dataset.py .\validation-output\training-corpus\documents\training-document-manifest.json --artifact-root .\validation-output\training-corpus\documents --examples-out .\validation-output\training-corpus\training-examples.jsonl --run-plan-out .\validation-output\training-corpus\training-run-plan.json
+python .\metawingman\scripts\audit_training_dataset.py --plan .\research\training-corpus-plan-v1.json --manifest .\validation-output\training-corpus\documents\training-document-manifest.json --examples .\validation-output\training-corpus\training-examples.jsonl --run-plan .\validation-output\training-corpus\training-run-plan.json --artifact-root .\validation-output\training-corpus\documents
+
 # 外接 Agent：通过无密钥配置探测任意兼容 provider
 python .\metawingman\scripts\probe_provider.py .\metawingman\references\deepseek-provider-config.json
 
@@ -202,6 +210,7 @@ AI-only 评测以已发表系统综述/Meta-analysis 的时间切分重建为主
 - [创新与可证伪矩阵](docs/architecture/innovation-and-falsification-matrix.md)：区分方法复用与 MetaWingman 特有优化，并为每个候选创新绑定直接对照、消融和失败条件。
 - [机器可审计能力矩阵](metawingman/references/system-capability-matrix.json)：分别登记十阶段生命周期、21 类 review profile、19 条 synthesis route、跨阶段控制及其验证等级，防止把 workflow coverage 写成已验证能力。
 - [AI-only benchmark protocol](docs/architecture/ai-only-benchmark-protocol.md)、[顶刊训练/开发语料](research/top-journal-training-corpus.json)、[综述家族候选注册表](research/top-journal-review-family-registry.json)、[选题目标注册表](research/topic-rediscovery-target-registry.json)、[广泛复现发现目录](research/meta-reproduction-discovery-catalog.json)与[严格全流程候选注册表](research/benchmark-candidate-registry.json)：官方 API 当前收录 4,098 条元数据，其中 3,534 条为开发候选、388 条等待完整性审计、9 条撤稿排除、167 条评论/来信/指南声明等非参考材料排除；家族层只给出 281 条待审计边和 split 建议，尚无 family 可进入 held-out。期刊层级只用于抽样和分层，不进入质量评分。
+- [可重复训练语料与训练范式](docs/architecture/reproducible-training-corpus.md)及[冻结 v1 采样计划](research/training-corpus-plan-v1.json)：从文章级许可/撤稿核验、OA PDF/XML 下载、家族隔离、证据锚定弱监督、完整性审计到 chat-SFT/检索正样本导出；当前只是 24-family 本地 pilot，不是已训练模型或科学验证集。
 - [Skill 与 plugin 发布方案](docs/architecture/distribution-and-skill-release.md)：单一 skill 源、repo 自动发现、个人安装、skills-only plugin 和公共发布门槛。
 - [Skill/Agent 双产品边界](docs/architecture/two-product-boundary.md)：规定 skill 使用宿主模型且不含模型 API client，后续 Agent 通过 provider-neutral contract 接入任意模型。
 - [模型 provider 与数据流矩阵](docs/architecture/model-provider-support-matrix.md)：区分 DeepSeek 实时连通、通用兼容接口测试、本地 loopback 合同测试和未支持原生 API，并规定密钥、托管传输、schema 校验与候选接纳边界。
