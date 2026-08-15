@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.metadata
 import json
 import os
 import re
+import shutil
+import subprocess
 import tempfile
 import time
 import urllib.error
@@ -697,6 +700,272 @@ def build_training_examples(
     return examples
 
 
+def _tokens(value: str) -> set[str]:
+    return set(re.findall(r"[a-z0-9]+", value.casefold()))
+
+
+def build_retrieval_pairs(
+    examples: list[dict[str, Any]],
+    strata_by_record: dict[str, dict[str, Any]],
+    seed: int,
+) -> list[dict[str, Any]]:
+    """Build source positives and family-isolated medical-neighborhood negatives."""
+    retrieval = [item for item in examples if item.get("task") == "evidence_retrieval"]
+    pairs: list[dict[str, Any]] = []
+    for query in sorted(retrieval, key=lambda item: item["example_id"]):
+        query_stratum = strata_by_record.get(query["record_id"])
+        if not query_stratum:
+            raise TrainingCorpusError(f"missing biomedical stratum for record: {query['record_id']}")
+        candidates: list[tuple[int, str, dict[str, Any], list[str]]] = []
+        query_tokens = _tokens(query["instruction"] + " " + query["input_text"])
+        for candidate in retrieval:
+            if candidate["split"] != query["split"]:
+                continue
+            if candidate["record_id"] == query["record_id"] or candidate["family_id"] == query["family_id"]:
+                continue
+            if candidate["input_text"] == query["input_text"]:
+                continue
+            if candidate["evidence_anchor"]["source_text_sha256"] == query["evidence_anchor"]["source_text_sha256"]:
+                continue
+            candidate_stratum = strata_by_record.get(candidate["record_id"])
+            if not candidate_stratum:
+                continue
+            neighborhood_keys = []
+            if candidate_stratum["primary_specialty"] == query_stratum["primary_specialty"]:
+                neighborhood_keys.append("primary_specialty")
+            if candidate_stratum["question_type"] == query_stratum["question_type"]:
+                neighborhood_keys.append("question_type")
+            if not neighborhood_keys:
+                continue
+            overlap = len(query_tokens & _tokens(candidate["input_text"]))
+            tie = hashlib.sha256(f"{seed}:{query['example_id']}:{candidate['example_id']}".encode()).hexdigest()
+            candidates.append((-overlap, tie, candidate, neighborhood_keys))
+        selected = [(query, 1, ["self_anchored_positive"])]
+        selected.extend((item[2], 0, item[3]) for item in sorted(candidates)[:3])
+        for document, label, neighborhood_keys in selected:
+            identity = f"{seed}:{query['example_id']}:{document['example_id']}:{label}"
+            pair = {
+                "schema_version": "1.0",
+                "pair_id": "training-pair:" + hashlib.sha256(identity.encode()).hexdigest()[:20],
+                "query_example_id": query["example_id"],
+                "query_record_id": query["record_id"],
+                "query_family_id": query["family_id"],
+                "query_split": query["split"],
+                "query_text": query["instruction"],
+                "document_example_id": document["example_id"],
+                "document_record_id": document["record_id"],
+                "document_family_id": document["family_id"],
+                "document_split": document["split"],
+                "document_text": document["input_text"],
+                "label": label,
+                "shared_medical_neighborhood": label == 0,
+                "neighborhood_keys": neighborhood_keys,
+                "label_status": (
+                    "source_anchored_positive_weak_supervision"
+                    if label == 1
+                    else "candidate_hard_negative_not_gold"
+                ),
+                "evidence": [
+                    f"query_anchor:{query['evidence_anchor']['source_text_sha256']}",
+                    f"document_anchor:{document['evidence_anchor']['source_text_sha256']}",
+                ],
+            }
+            pair["content_sha256"] = hashlib.sha256(
+                canonical_json({key: value for key, value in pair.items() if key != "content_sha256"})
+            ).hexdigest()
+            validate_document(pair, "training_pair")
+            pairs.append(pair)
+    pairs.sort(key=lambda item: item["pair_id"])
+    return pairs
+
+
+def build_component_training_job(
+    run_plan: dict[str, Any],
+    component: str,
+    model: dict[str, Any],
+    optimization: dict[str, Any],
+    resources: dict[str, Any],
+    now: str,
+    *,
+    run_plan_path: str = "training-run-plan.json",
+    run_plan_sha256: str | None = None,
+    output_root: str = "training-output",
+    runtime_lock_path: str = "metawingman/references/dependencies/python-training.lock.txt",
+    runtime_lock_sha256: str,
+    seed: int = 20260815,
+) -> dict[str, Any]:
+    validate_document(run_plan, "training_run_plan")
+    if component not in run_plan["objectives"]:
+        raise TrainingCorpusError(f"component objective is absent from run plan: {component}")
+    dataset = run_plan["dataset"]
+    reason_codes = []
+    revision = str(model.get("revision") or "")
+    tokenizer_revision = str(model.get("tokenizer_revision") or "")
+    if not re.fullmatch(r"[a-f0-9]{40}", revision) or not re.fullmatch(r"[a-f0-9]{40}", tokenizer_revision):
+        reason_codes.append("model_revision_not_immutable")
+    if not model.get("declared_license"):
+        reason_codes.append("model_license_unresolved")
+    if dataset.get("development_examples", 0) < 1:
+        reason_codes.append("development_data_missing")
+    if component == "evidence_retrieval" and dataset.get("development_pairs", 0) < 1:
+        reason_codes.append("development_pairs_missing")
+    job = {
+        "schema_version": "1.0",
+        "job_id": f"metawingman-{component.replace('_', '-')}-v1",
+        "created_at_utc": now,
+        "component": component,
+        "status": "blocked" if reason_codes else "ready_for_server_preflight",
+        "reason_codes": sorted(set(reason_codes)),
+        "model": {
+            "repository_id": model["repository_id"],
+            "revision": revision,
+            "tokenizer_revision": tokenizer_revision,
+            "model_card_url": model["model_card_url"],
+            "declared_license": model.get("declared_license"),
+            "release_intent": model.get("release_intent", "internal_research_only"),
+        },
+        "dataset": {
+            "run_plan_path": run_plan_path,
+            "run_plan_sha256": run_plan_sha256 or hashlib.sha256(canonical_json(run_plan)).hexdigest(),
+            "examples_path": dataset["examples_path"],
+            "examples_sha256": dataset["examples_sha256"],
+            "pairs_path": dataset.get("pairs_path", "pairs.jsonl"),
+            "pairs_sha256": dataset.get("pairs_sha256", "0" * 64),
+            "train_examples": dataset["train_examples"],
+            "development_examples": dataset["development_examples"],
+            "train_pairs": dataset.get("train_pairs", 0),
+            "development_pairs": dataset.get("development_pairs", 0),
+            "family_isolation": True,
+            "label_policy": "weak_candidates_not_gold",
+            "release_status": "raw_text_redistribution_forbidden_weights_pending_license_review",
+        },
+        "optimization": dict(optimization),
+        "resources": resources,
+        "output": {
+            "root": output_root,
+            "checkpoint_every_steps": int(optimization.get("checkpoint_every_steps", 250)),
+            "maximum_checkpoints": int(optimization.get("maximum_checkpoints", 3)),
+            "resume_checkpoint_hashes": list(optimization.get("resume_checkpoint_hashes", [])),
+        },
+        "runtime": {
+            "lock_path": runtime_lock_path,
+            "lock_sha256": runtime_lock_sha256,
+            "python": "3.12",
+            "cuda_required": resources.get("gpu_count", 0) > 0,
+        },
+        "seed": seed,
+        "command_argv": [
+            "python",
+            "metawingman/scripts/run_component_training.py",
+            run_plan_path,
+            "--component",
+            component,
+            "--job",
+            f"jobs/{component}.json",
+        ],
+    }
+    for transient in ("checkpoint_every_steps", "maximum_checkpoints", "resume_checkpoint_hashes"):
+        job["optimization"].pop(transient, None)
+    validate_document(job, "component_training_job")
+    return job
+
+
+def _resolve_job_path(root: Path, value: str) -> Path:
+    root = root.resolve()
+    path = (root / value).resolve()
+    try:
+        path.relative_to(root)
+    except ValueError as exc:
+        raise TrainingCorpusError(f"component training path escapes root: {value}") from exc
+    return path
+
+
+def _locked_versions(path: Path) -> dict[str, str]:
+    versions: dict[str, str] = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "==" in line:
+            name, version = line.split("==", 1)
+            versions[name.casefold()] = version
+    return versions
+
+
+def preflight_component_training(
+    job: dict[str, Any], root: Path, *, inspect_server: bool = False
+) -> dict[str, Any]:
+    reason_codes: list[str] = []
+    try:
+        validate_document(job, "component_training_job")
+    except Exception:
+        return {"manifest_valid": False, "ready": False, "training_started": False, "reason_codes": ["job_schema_invalid"]}
+    if not re.fullmatch(r"[a-f0-9]{40}", job["model"]["revision"]) or not re.fullmatch(
+        r"[a-f0-9]{40}", job["model"]["tokenizer_revision"]
+    ):
+        reason_codes.append("model_revision_not_immutable")
+    if not job["model"]["declared_license"]:
+        reason_codes.append("model_license_unresolved")
+    for key in ("run_plan", "examples", "pairs"):
+        path = _resolve_job_path(root, job["dataset"][f"{key}_path"])
+        if not path.is_file():
+            reason_codes.append(f"{key}_file_missing")
+        elif sha256_file(path) != job["dataset"][f"{key}_sha256"]:
+            reason_codes.append(f"{key}_hash_mismatch")
+    lock_path = _resolve_job_path(root, job["runtime"]["lock_path"])
+    if not lock_path.is_file():
+        reason_codes.append("runtime_lock_missing")
+    elif sha256_file(lock_path) != job["runtime"]["lock_sha256"]:
+        reason_codes.append("runtime_lock_hash_mismatch")
+    _resolve_job_path(root, job["output"]["root"])
+    if job["dataset"]["development_examples"] < 1:
+        reason_codes.append("development_data_missing")
+    if job["component"] == "evidence_retrieval" and job["dataset"]["development_pairs"] < 1:
+        reason_codes.append("development_pairs_missing")
+    if job["status"] != "ready_for_server_preflight":
+        reason_codes.extend(job["reason_codes"] or ["job_not_ready_for_server_preflight"])
+    if inspect_server:
+        if shutil.disk_usage(root).free < job["resources"]["storage_gib"] * 1024**3:
+            reason_codes.append("insufficient_free_storage")
+        locks = _locked_versions(lock_path) if lock_path.is_file() else {}
+        for package, expected in locks.items():
+            try:
+                actual = importlib.metadata.version(package)
+            except importlib.metadata.PackageNotFoundError:
+                reason_codes.append(f"package_missing_{package.replace('-', '_')}")
+            else:
+                if actual != expected:
+                    reason_codes.append(f"package_version_mismatch_{package.replace('-', '_')}")
+        if job["resources"]["gpu_count"]:
+            try:
+                completed = subprocess.run(
+                    ["nvidia-smi", "--query-gpu=memory.total", "--format=csv,noheader,nounits"],
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                )
+            except OSError:
+                completed = None
+            if completed is None or completed.returncode != 0:
+                reason_codes.append("cuda_runtime_unverified")
+            else:
+                memories = [int(value.strip()) / 1024 for value in completed.stdout.splitlines() if value.strip().isdigit()]
+                if len(memories) < job["resources"]["gpu_count"]:
+                    reason_codes.append("insufficient_gpu_count")
+                elif any(value < job["resources"]["gpu_memory_gib_each"] for value in memories[: job["resources"]["gpu_count"]]):
+                    reason_codes.append("insufficient_gpu_memory")
+    else:
+        reason_codes.extend(["server_hardware_unverified", "cuda_runtime_unverified", "python_packages_unverified"])
+    pending = {"server_hardware_unverified", "cuda_runtime_unverified", "python_packages_unverified"}
+    scientific_blockers = sorted(code for code in set(reason_codes) if code not in pending)
+    return {
+        "manifest_valid": True,
+        "ready": not reason_codes,
+        "training_started": False,
+        "reason_codes": sorted(set(reason_codes)),
+        "scientific_blockers": scientific_blockers,
+        "server_checks_pending": sorted(pending & set(reason_codes)),
+    }
+
+
 def audit_training_dataset(
     plan: dict[str, Any], manifest: dict[str, Any], examples: list[dict[str, Any]],
     run_plan: dict[str, Any], artifact_root: Path, manifest_path: Path, examples_path: Path,
@@ -803,14 +1072,20 @@ def audit_training_dataset(
 def build_training_run_plan(
     manifest: dict[str, Any], manifest_path: Path, examples_path: Path, examples: list[dict[str, Any]],
     *, run_plan_id: str, created_at_utc: str | None = None,
+    pairs_path: Path | None = None,
+    pairs: list[dict[str, Any]] | None = None,
+    biomedical_strata_counts: dict[str, int] | None = None,
 ) -> dict[str, Any]:
     validate_document(manifest, "training_document_manifest")
     counts = Counter(item["split"] for item in examples)
     objectives = sorted({item["task"] for item in examples})
     if not objectives:
         raise TrainingCorpusError("cannot freeze a training run plan without examples")
+    pairs = pairs or []
+    pair_counts = Counter(item["query_split"] for item in pairs)
+    ready = pairs_path is not None and bool(pairs) and counts["development"] > 0 and pair_counts["development"] > 0
     plan = {
-        "schema_version": "1.0", "run_plan_id": run_plan_id,
+        "schema_version": "1.1" if ready else "1.0", "run_plan_id": run_plan_id,
         "created_at_utc": created_at_utc or utc_now(),
         "dataset": {
             "manifest_path": manifest_path.as_posix(), "manifest_sha256": sha256_file(manifest_path),
@@ -834,5 +1109,18 @@ def build_training_run_plan(
         },
         "execution_state": "planned_not_trained",
     }
+    if ready and pairs_path is not None:
+        plan["dataset"].update({
+            "pairs_path": pairs_path.as_posix(),
+            "pairs_sha256": sha256_file(pairs_path),
+            "train_pairs": pair_counts["train"],
+            "development_pairs": pair_counts["development"],
+            "biomedical_strata_counts": dict(sorted((biomedical_strata_counts or {}).items())),
+        })
+        plan["objective_readiness"] = {
+            "section_role_classification": "ready_for_server_preflight",
+            "evidence_retrieval": "ready_for_server_preflight",
+        }
+        plan["execution_state"] = "ready_for_server_preflight"
     validate_document(plan, "training_run_plan")
     return plan

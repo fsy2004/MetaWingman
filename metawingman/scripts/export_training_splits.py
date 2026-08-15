@@ -8,9 +8,9 @@ import json
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from metawingman_core.schema_guard import validate_jsonl_file
+from metawingman_core.schema_guard import validate_document, validate_jsonl_file
 from metawingman_core.state_store import atomic_write_json, canonical_json
-from metawingman_core.training_corpus import TrainingCorpusError, sha256_file, utc_now
+from metawingman_core.training_corpus import TrainingCorpusError, build_retrieval_pairs, sha256_file, utc_now
 
 
 def _chat_record(example: dict[str, object]) -> dict[str, object]:
@@ -40,6 +40,8 @@ def main() -> int:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--export-id", default="metawingman-training-export-v1")
     parser.add_argument("--created-at-utc")
+    parser.add_argument("--training-plan", type=Path)
+    parser.add_argument("--seed", type=int, default=20260815)
     args = parser.parse_args()
     try:
         examples = validate_jsonl_file(args.examples, "training_example")
@@ -76,13 +78,34 @@ def main() -> int:
                 "sha256": sha256_file(path), "records": len(records),
                 "families": len({item["family_id"] for item in records}), "readiness": readiness,
             })
+        pairs = []
+        training_plan = None
+        if args.training_plan:
+            training_plan = json.loads(args.training_plan.read_text(encoding="utf-8"))
+            validate_document(training_plan, "training_corpus_plan")
+            strata_by_record = {
+                item["record_id"]: item["biomedical_stratum"]
+                for item in training_plan["records"]
+                if "biomedical_stratum" in item
+            }
+            pairs = build_retrieval_pairs(examples, strata_by_record, args.seed)
+            path = args.out / "evidence-retrieval.pairs.jsonl"
+            with path.open("wb") as handle:
+                for record in pairs:
+                    handle.write(canonical_json(record) + b"\n")
+            export_entries.append({
+                "split": "mixed_train_development", "task": "evidence_retrieval", "format": "contrastive_pair_jsonl",
+                "relative_path": path.relative_to(args.out).as_posix(), "sha256": sha256_file(path),
+                "records": len(pairs), "families": len({item["query_family_id"] for item in pairs}),
+                "readiness": "candidate_pairs_require_review",
+            })
         manifest = {
-            "schema_version": "1.0", "export_id": args.export_id,
+            "schema_version": "1.1" if training_plan else "1.0", "export_id": args.export_id,
             "created_at_utc": args.created_at_utc or utc_now(),
             "source_examples": {"path": args.examples.as_posix(), "sha256": sha256_file(args.examples), "records": len(examples)},
             "policy": {
                 "provider_neutral": True, "journal_feature_forbidden": True,
-                "weak_labels_only": True, "retrieval_export_contains_positive_pairs_only": True,
+                "weak_labels_only": True, "retrieval_export_contains_positive_pairs_only": not bool(training_plan),
                 "training_requires_model_and_license_review": True,
             },
             "summary": {
@@ -92,6 +115,9 @@ def main() -> int:
             },
             "exports": export_entries,
         }
+        if training_plan is not None:
+            manifest["source_training_plan"] = {"path": args.training_plan.as_posix(), "sha256": sha256_file(args.training_plan), "records": len(training_plan["records"])}
+            manifest["summary"].update({"pairs": len(pairs), "negative_pairs": sum(item["label"] == 0 for item in pairs)})
         atomic_write_json(args.out / "training-export-manifest.json", manifest, "training_export_manifest")
     except (OSError, TrainingCorpusError, ValueError) as exc:
         print(json.dumps({"ok": False, "error": str(exc)}, indent=2))

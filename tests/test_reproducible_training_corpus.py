@@ -17,11 +17,15 @@ from metawingman_core.training_corpus import (  # noqa: E402
     TrainingCorpusError,
     audit_training_dataset,
     build_training_examples,
+    build_component_training_job,
+    build_retrieval_pairs,
     build_training_plan,
     build_training_run_plan,
     classify_biomedical_stratum,
     fetch_training_plan,
+    preflight_component_training,
 )
+from run_component_training import validate_training_job  # noqa: E402
 
 
 TIMESTAMP = "2026-08-15T00:00:00Z"
@@ -114,7 +118,113 @@ def fixture_medical_plan(maximum_records: int = 12) -> dict[str, object]:
     )
 
 
+def retrieval_example(index: int, split: str, family: str, record: str) -> dict[str, object]:
+    text = f"Section title: Search strategy {index}\n\nMEDLINE search passage {index}"
+    source_hash = hashlib.sha256(text.split("\n\n", 1)[1].encode()).hexdigest()
+    example = {
+        "schema_version": "1.0",
+        "example_id": f"example:{index:020x}",
+        "document_id": f"training-document:PMC{index}",
+        "record_id": record,
+        "family_id": family,
+        "split": split,
+        "task": "evidence_retrieval",
+        "instruction": "Identify the source passage that supports the review workflow field: search.",
+        "input_text": text,
+        "target": {"section_role": "search", "section_title": f"Search strategy {index}"},
+        "evidence_anchor": {
+            "artifact_sha256": f"{index:064x}",
+            "section_path": f"//body//sec[{index}]",
+            "section_index": index,
+            "source_text_sha256": source_hash,
+        },
+        "label_status": "deterministic_weak_supervision_requires_independent_validation",
+        "gold_label": False,
+    }
+    body = json.dumps(example, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+    example["content_sha256"] = hashlib.sha256(body).hexdigest()
+    return example
+
+
+def component_job_fixture(root: Path) -> dict[str, object]:
+    for name, content in (("run-plan.json", "{}\n"), ("examples.jsonl", "{}\n"), ("pairs.jsonl", "{}\n"), ("training.lock", "torch==2.13.0\n")):
+        (root / name).write_text(content, encoding="utf-8")
+    digest = lambda name: hashlib.sha256((root / name).read_bytes()).hexdigest()
+    return {
+        "schema_version": "1.0",
+        "job_id": "fixture-component-job",
+        "created_at_utc": TIMESTAMP,
+        "component": "evidence_retrieval",
+        "status": "ready_for_server_preflight",
+        "reason_codes": [],
+        "model": {
+            "repository_id": "microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext",
+            "revision": "e1354b7a3a09615f6aba48dfad4b7a613eef7062",
+            "tokenizer_revision": "e1354b7a3a09615f6aba48dfad4b7a613eef7062",
+            "model_card_url": "https://huggingface.co/microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext",
+            "declared_license": "mit",
+            "release_intent": "internal_research_only",
+        },
+        "dataset": {
+            "run_plan_path": "run-plan.json", "run_plan_sha256": digest("run-plan.json"),
+            "examples_path": "examples.jsonl", "examples_sha256": digest("examples.jsonl"),
+            "pairs_path": "pairs.jsonl", "pairs_sha256": digest("pairs.jsonl"),
+            "train_examples": 2, "development_examples": 2,
+            "train_pairs": 2, "development_pairs": 2,
+            "family_isolation": True, "label_policy": "weak_candidates_not_gold",
+            "release_status": "raw_text_redistribution_forbidden_weights_pending_license_review",
+        },
+        "optimization": {"epochs": 2, "batch_size": 8, "learning_rate": 2e-5, "weight_decay": 0.01, "warmup_ratio": 0.1, "precision": "bf16", "selection_metric": "retrieval_recall_at_10"},
+        "resources": {"cpu_cores": 8, "ram_gib": 32, "gpu_count": 1, "gpu_memory_gib_each": 24, "storage_gib": 100, "network_required": True},
+        "output": {"root": "output", "checkpoint_every_steps": 100, "maximum_checkpoints": 2, "resume_checkpoint_hashes": []},
+        "runtime": {"lock_path": "training.lock", "lock_sha256": digest("training.lock"), "python": "3.12", "cuda_required": True},
+        "seed": 11,
+        "command_argv": ["python", "metawingman/scripts/run_component_training.py"],
+    }
+
+
 class ReproducibleTrainingCorpusTests(unittest.TestCase):
+    def test_hard_negative_never_crosses_split_or_reuses_family(self) -> None:
+        examples = [
+            retrieval_example(1, "train", "family:0000000000000001", "epmc:MED:1"),
+            retrieval_example(2, "train", "family:0000000000000002", "epmc:MED:2"),
+            retrieval_example(3, "development", "family:0000000000000003", "epmc:MED:3"),
+            retrieval_example(4, "development", "family:0000000000000004", "epmc:MED:4"),
+        ]
+        strata = {
+            item["record_id"]: {
+                "primary_specialty": "oncology",
+                "question_type": "harms",
+            }
+            for item in examples
+        }
+        pairs = build_retrieval_pairs(examples, strata, seed=11)
+        self.assertTrue(any(pair["label"] == 0 for pair in pairs))
+        for pair in pairs:
+            self.assertEqual(pair["query_split"], pair["document_split"])
+            validate_document(pair, "training_pair")
+            if pair["label"] == 0:
+                self.assertNotEqual(pair["query_family_id"], pair["document_family_id"])
+                self.assertTrue(pair["shared_medical_neighborhood"])
+
+    def test_preflight_blocks_mutable_model_revision(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            job = component_job_fixture(root)
+            job["model"]["revision"] = "main"
+            report = preflight_component_training(job, root)
+            self.assertFalse(report["ready"])
+            self.assertIn("model_revision_not_immutable", report["reason_codes"])
+
+    def test_training_runner_validate_only_never_imports_ml_runtime(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            job = component_job_fixture(root)
+            with patch.dict(sys.modules, {"torch": None, "transformers": None}):
+                report = validate_training_job(job, root)
+            self.assertTrue(report["manifest_valid"])
+            self.assertFalse(report["training_started"])
+
     def test_medical_strata_are_source_anchored_and_ignore_journal(self) -> None:
         left = corpus_record(1)
         left["title"] = "Cancer immunotherapy adverse events: systematic review"
