@@ -72,7 +72,7 @@ The biomedical v2 metadata plan selects 2,048 of 2,331 eligible OA records with 
 
 The local 172-example pilot produced 331 retrieval pairs: 86 source-anchored positives and 245 candidate hard negatives from the same split and medical neighborhood but a different report and review family. Both component jobs bind the model, tokenizer, input data, pair set, runtime lock, output path, and checkpoint policy. Output and checkpoint hashes are created only by the execution receipt after a real run. Offline preflight has no scientific or data-integrity blocker; server hardware, CUDA, and exact package compatibility remain pending.
 
-The current metadata-only handoff is generated under `validation-output/server-training-handoff-v2/`; see [server-training-runbook.md](server-training-runbook.md). A strict member allowlist, whole-manifest secret scan, and member/hash semantic validator exclude raw full text, credentials, archives, private-key material, databases, and checkpoints. The handoff does not authorize server execution.
+The current metadata-only handoff is generated under `validation-output/server-training-handoff-v3/`; see [server-training-runbook.md](server-training-runbook.md). A strict member allowlist excludes raw full text, archives, private-key files, databases, and checkpoints. A whole-manifest bounded-pattern scan rejects recognized credential formats but is not proof that every possible secret format is absent; repeat an independent deployment-side scan before upload. The handoff does not authorize server execution.
 
 ## Training Sequence
 

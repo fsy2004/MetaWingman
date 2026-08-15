@@ -282,6 +282,10 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         members = set(result["members"])
         self.assertFalse(any(name.endswith((".pdf", ".xml", ".env", ".pt", ".safetensors")) for name in members))
         self.assertEqual(result["commands"]["download"][0], "python")
+        self.assertEqual(
+            result["content_policy"]["secret_scan_status"],
+            "passed_bounded_patterns_not_proof_of_absence",
+        )
 
     def test_handoff_refuses_scientific_preflight_failure(self) -> None:
         with self.assertRaises(TrainingCorpusError):

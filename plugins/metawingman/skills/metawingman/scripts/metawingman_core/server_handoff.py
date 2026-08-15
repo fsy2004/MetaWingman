@@ -1,4 +1,4 @@
-"""Build a secret-free metadata handoff for an explicitly authorized server run."""
+"""Build a bounded-secret-scan metadata handoff for an authorized server run."""
 
 from __future__ import annotations
 
@@ -175,7 +175,7 @@ def build_server_handoff(spec: dict[str, Any]) -> dict[str, Any]:
         "content_policy": {
             "metadata_only": True,
             "raw_full_text_included": False,
-            "secrets_included": False,
+            "secret_scan_status": "passed_bounded_patterns_not_proof_of_absence",
             "checkpoints_included": False,
             "absolute_author_paths_included": False,
         },

@@ -7,7 +7,7 @@ Last checked: 2026-08-15
 
 This runbook covers lawful full-text retrieval, weak-label freezing, contrastive pair export, and bounded training for section-role classification and evidence retrieval. It does not train a foundation model, run the four existing servers, or authorize model/checkpoint publication.
 
-The current local handoff is `validation-output/server-training-handoff-v2/`. Its manifest must say `local_ready_pending_server_preflight`; `server_ready` is not a valid local state. The earlier local directory is retained only as an ignored development artifact and must not be uploaded.
+The current local handoff is `validation-output/server-training-handoff-v3/`. Its manifest must say `local_ready_pending_server_preflight`; `server_ready` is not a valid local state. Earlier local directories are retained only as ignored development artifacts and must not be uploaded.
 
 ## Recommended Server
 
@@ -19,7 +19,7 @@ One 24-48 GiB GPU is preferable to several small GPUs for the current encoders. 
 
 ## Authorization Boundary
 
-1. Prepare a clean, verified MetaWingman source checkout that contains the command scripts named in the manifest. Overlay only the metadata handoff at the repository root after comparing every member SHA-256 with `server-training-handoff.json`; the handoff alone is not a source-code distribution.
+1. Prepare a clean, verified MetaWingman source checkout that contains the command scripts named in the manifest. Overlay only the metadata handoff at the repository root after comparing every member SHA-256 with `server-training-handoff.json` and running an independent secret scan; the bundled bounded-pattern scan is not proof of absence. The handoff alone is not a source-code distribution.
 2. Run `preflight_component_training.py --inspect-server`; this may inspect disk, installed package versions, and `nvidia-smi`, but it does not import Torch or download a model.
 3. Review unresolved CUDA, package, storage, model-license, dataset-license, and family-isolation findings.
 4. Start download or training only after explicit user authorization for that server and job ID.

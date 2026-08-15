@@ -32,11 +32,11 @@
     },
     "content_policy": {
       "type": "object", "additionalProperties": false,
-      "required": ["metadata_only", "raw_full_text_included", "secrets_included", "checkpoints_included", "absolute_author_paths_included"],
+      "required": ["metadata_only", "raw_full_text_included", "secret_scan_status", "checkpoints_included", "absolute_author_paths_included"],
       "properties": {
         "metadata_only": {"const": true},
         "raw_full_text_included": {"const": false},
-        "secrets_included": {"const": false},
+        "secret_scan_status": {"const": "passed_bounded_patterns_not_proof_of_absence"},
         "checkpoints_included": {"const": false},
         "absolute_author_paths_included": {"const": false}
       }

@@ -188,7 +188,7 @@ python .\metawingman\scripts\audit_biomedical_coverage.py
 python .\metawingman\scripts\preflight_component_training.py .\validation-output\training-corpus\jobs\section-role.json --root . --out .\validation-output\training-corpus\jobs\section-role.preflight.json
 
 # 构建仅含元数据、schema、锁文件和作业清单的服务器交接包
-python .\metawingman\scripts\build_server_training_handoff.py --source-root . --plan .\research\training-corpus-plan-biomedical-v2.json --job .\validation-output\training-corpus\jobs\section-role.json --job .\validation-output\training-corpus\jobs\evidence-retrieval.json --preflight .\validation-output\training-corpus\jobs\section-role.preflight.json --preflight .\validation-output\training-corpus\jobs\evidence-retrieval.preflight.json --lock .\metawingman\references\dependencies\python-training.lock.txt --out .\validation-output\server-training-handoff-v2
+python .\metawingman\scripts\build_server_training_handoff.py --source-root . --plan .\research\training-corpus-plan-biomedical-v2.json --job .\validation-output\training-corpus\jobs\section-role.json --job .\validation-output\training-corpus\jobs\evidence-retrieval.json --preflight .\validation-output\training-corpus\jobs\section-role.preflight.json --preflight .\validation-output\training-corpus\jobs\evidence-retrieval.preflight.json --lock .\metawingman\references\dependencies\python-training.lock.txt --out .\validation-output\server-training-handoff-v3
 
 # 生成实时 R 工具目录
 python .\metawingman\scripts\build_tool_catalog.py .\metawingman

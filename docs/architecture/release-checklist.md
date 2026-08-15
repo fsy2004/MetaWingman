@@ -47,7 +47,7 @@ Last checked: 2026-08-15
 - [x] Generate source-anchored weak-supervision examples, model-neutral run plans, and chat-SFT/retrieval-positive exports.
 - [x] Audit file hashes, family isolation, example hashes, weak-label status, and frozen counts before training.
 - [x] Mine same-split, cross-family hard-negative candidates and freeze two component jobs with an immutable model revision, tokenizer, model card, declared license, hyperparameters, seeds, and resource request.
-- [x] Build a secret-free metadata-only server handoff that distinguishes scientific blockers from hardware, CUDA, and package checks pending on the authorized server.
+- [x] Build a metadata-only server handoff with a strict member allowlist, bounded secret scan, and explicit scientific versus hardware/CUDA/package blockers; require an independent deployment-side secret scan before upload.
 - [ ] Independently validate weak labels and hard negatives, audit review-family candidates, and scale the development set before model selection.
 - [ ] Verify the exact CUDA/package environment, execute authorized jobs, and record accelerator details, elapsed time, metrics, and checkpoint hashes.
 - [ ] Demonstrate component and end-to-end gains against direct prompting, generic RAG, and prespecified MetaWingman ablations before any capability claim.
