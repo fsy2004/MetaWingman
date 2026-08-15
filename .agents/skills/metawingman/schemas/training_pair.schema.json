@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/training_pair.schema.json",
+  "title": "MetaWingman contrastive evidence retrieval pair",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "pair_id", "query_example_id", "query_record_id", "query_family_id", "query_split", "query_text", "document_example_id", "document_record_id", "document_family_id", "document_split", "document_text", "label", "shared_medical_neighborhood", "neighborhood_keys", "label_status", "evidence", "content_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "pair_id": {"type": "string", "pattern": "^training-pair:[a-f0-9]{20}$"},
+    "query_example_id": {"type": "string", "pattern": "^example:"},
+    "query_record_id": {"type": "string", "pattern": "^epmc:"},
+    "query_family_id": {"type": "string", "pattern": "^family:"},
+    "query_split": {"enum": ["train", "development"]},
+    "query_text": {"type": "string", "minLength": 1},
+    "document_example_id": {"type": "string", "pattern": "^example:"},
+    "document_record_id": {"type": "string", "pattern": "^epmc:"},
+    "document_family_id": {"type": "string", "pattern": "^family:"},
+    "document_split": {"enum": ["train", "development"]},
+    "document_text": {"type": "string", "minLength": 1},
+    "label": {"enum": [0, 1]},
+    "shared_medical_neighborhood": {"type": "boolean"},
+    "neighborhood_keys": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "label_status": {"enum": ["source_anchored_positive_weak_supervision", "candidate_hard_negative_not_gold"]},
+    "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "content_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "allOf": [
+    {"if": {"properties": {"label": {"const": 0}}}, "then": {"properties": {"shared_medical_neighborhood": {"const": true}, "label_status": {"const": "candidate_hard_negative_not_gold"}}}},
+    {"if": {"properties": {"label": {"const": 1}}}, "then": {"properties": {"label_status": {"const": "source_anchored_positive_weak_supervision"}}}}
+  ]
+}

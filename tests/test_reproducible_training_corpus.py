@@ -13,7 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "metawingman/scripts"))
 
 from metawingman_core.schema_guard import validate_document  # noqa: E402
-from metawingman_core.server_handoff import build_server_handoff  # noqa: E402
+from metawingman_core.server_handoff import (  # noqa: E402
+    build_server_handoff,
+    materialize_server_handoff,
+)
 from metawingman_core.training_corpus import (  # noqa: E402
     TrainingCorpusError,
     audit_training_dataset,
@@ -185,6 +188,12 @@ def component_job_fixture(root: Path) -> dict[str, object]:
 
 
 class ReproducibleTrainingCorpusTests(unittest.TestCase):
+    def test_handoff_refuses_to_materialize_over_source_root(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            with self.assertRaises(TrainingCorpusError):
+                materialize_server_handoff(root, root, [], {})
+
     def test_handoff_excludes_full_text_secrets_and_checkpoints(self) -> None:
         result = build_server_handoff({
             "handoff_id": "fixture-handoff",

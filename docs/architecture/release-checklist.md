@@ -42,11 +42,14 @@ Last checked: 2026-08-15
 ## Training-data and model gate
 
 - [x] Freeze a deterministic OA train/development plan from hashed corpus and review-family inputs; keep held-out disabled.
+- [x] Freeze a biomedical-stratified 2,048-record metadata plan with a hash-bound specialty registry and no journal feature in model inputs.
 - [x] Verify article-level license and retraction state before OA PDF/XML admission, and hash every accepted artifact.
 - [x] Generate source-anchored weak-supervision examples, model-neutral run plans, and chat-SFT/retrieval-positive exports.
 - [x] Audit file hashes, family isolation, example hashes, weak-label status, and frozen counts before training.
-- [ ] Independently validate labels, mine leakage-safe retrieval negatives, and scale the development set before model selection.
-- [ ] Record the exact base model, revision, tokenizer, model license, hyperparameters, random seeds, compute, and checkpoint hashes before a real training run.
+- [x] Mine same-split, cross-family hard-negative candidates and freeze two component jobs with an immutable model revision, tokenizer, model card, declared license, hyperparameters, seeds, and resource request.
+- [x] Build a secret-free metadata-only server handoff that distinguishes scientific blockers from hardware, CUDA, and package checks pending on the authorized server.
+- [ ] Independently validate weak labels and hard negatives, audit review-family candidates, and scale the development set before model selection.
+- [ ] Verify the exact CUDA/package environment, execute authorized jobs, and record accelerator details, elapsed time, metrics, and checkpoint hashes.
 - [ ] Demonstrate component and end-to-end gains against direct prompting, generic RAG, and prespecified MetaWingman ablations before any capability claim.
 
 ## R2 public submission

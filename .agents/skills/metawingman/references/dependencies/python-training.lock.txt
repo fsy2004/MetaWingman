@@ -1,0 +1,9 @@
+# Direct server-runtime pins resolved from the official Python package index on 2026-08-15.
+# A server-specific CUDA wheel source and transitive hash lock must be frozen before execution.
+accelerate==1.14.0
+datasets==5.0.1
+numpy==2.5.2
+safetensors==0.8.0
+scikit-learn==1.9.0
+torch==2.13.0
+transformers==5.15.0

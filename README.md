@@ -2,7 +2,7 @@
 
 > 面向 Codex 的、方法学优先且可审计的系统综述与 Meta 分析全流程项目。
 
-MetaWingman 不把系统综述简化成“让 AI 搜文献、做森林图”。它把选题与可行性判断、协议与注册、实时数据库检索、合法全文获取、双人筛选、数据提取和研究谱系、偏倚风险评价、统计或 SWiM 综合、GRADE、统一写作、AI 审稿与 living update 放进同一套有状态工作流。
+MetaWingman 不把系统综述简化成“让 AI 搜文献、做森林图”。它面向医学全科证据综合，把选题与可行性判断、协议与注册、实时数据库检索、合法全文获取、筛选、数据提取和研究谱系、偏倚风险评价、统计或 SWiM 综合、GRADE、统一写作、AI 审稿与 living update 放进同一套有状态工作流。
 
 [![Codex Skill](https://img.shields.io/badge/Codex-skill-111827)](metawingman/SKILL.md)
 [![R Toolkit](https://img.shields.io/badge/R_toolkit-26_modules-276DC3)](toolkit/R)
@@ -130,6 +130,8 @@ $metawingman
 
 当前方法学开发、状态管理、检索导入、去重、证据图、PDF 预处理和常规 R Meta 分析不需要模型 API 或本地 GPU，普通 4-8 核 CPU、16 GB RAM 和 SSD 即可。独立 skill 直接使用宿主 agent 的模型与工具，不含任何厂商模型 API client。后续外接 Agent 通过统一 provider contract 接入商业、国产、机构或本地模型；接入不等于训练新模型，也不替代任务校准、跨提供商验证或多模态能力验证。真实工作流验证须同步测量成本、隐私、延迟、校准与路由收益。
 
+首批 2,048 篇元数据计划和两个 BiomedBERT 组件任务适合单卡 24-48 GB VRAM。推荐起步为 1×24 GB GPU、16 vCPU、64 GB RAM、500 GB NVMe；更舒适为 1×48 GB GPU、24-32 vCPU、128 GB RAM、1 TB NVMe。多张低显存卡不会自动合并显存，当前更适合把 OCR、解析器消融、分类、检索和 benchmark 重复实验拆成独立并行任务，而不是把一个小模型跨卡切分。
+
 本机的 i9-13900HX、16 GB RAM、RTX 4060 Laptop 8 GB 足够当前开发、R 分析、OCR/layout 实验和小型量化模型；批量全文解析时 RAM 比 GPU 更先成为瓶颈。只有计划全本地运行多个大语言/视觉模型时，才建议 64 GB RAM 与 24-48 GB VRAM 级别。完整分档和 benchmark 指标见[算力与部署预算](docs/architecture/compute-and-deployment-budget.md)。
 
 ## 开发与验证
@@ -164,6 +166,9 @@ python .\metawingman\scripts\cluster_review_families.py .\research\top-journal-t
 # 生成可重放的 OA 训练/开发计划；held-out 保持关闭
 python .\metawingman\scripts\plan_training_corpus.py --corpus .\research\top-journal-training-corpus.json --families .\research\top-journal-review-family-registry.json --out .\research\training-corpus-plan-v1.json --maximum-records 24 --seed 20260815
 
+# 生成医学分层的 2,048-record metadata-only 计划，不下载全文
+python .\metawingman\scripts\plan_training_corpus.py --corpus .\research\top-journal-training-corpus.json --families .\research\top-journal-review-family-registry.json --specialty-registry .\metawingman\references\domain-packs\specialty-registry.json --out .\research\training-corpus-plan-biomedical-v2.json --maximum-records 2048 --seed 20260815 --created-at-utc 2026-08-15T00:00:00Z
+
 # 下载文章级许可核验后的 OA PDF/XML，并冻结弱监督训练集
 python .\metawingman\scripts\fetch_training_corpus.py .\research\training-corpus-plan-v1.json --out .\validation-output\training-corpus\documents
 python .\metawingman\scripts\freeze_training_dataset.py .\validation-output\training-corpus\documents\training-document-manifest.json --artifact-root .\validation-output\training-corpus\documents --examples-out .\validation-output\training-corpus\training-examples.jsonl --run-plan-out .\validation-output\training-corpus\training-run-plan.json
@@ -177,6 +182,13 @@ python .\metawingman\scripts\run_structured_batch.py .\tasks.jsonl --provider-co
 
 # 审计生命周期、综述类型、统计路线与验证等级的实际覆盖
 python .\metawingman\scripts\audit_system_coverage.py
+python .\metawingman\scripts\audit_biomedical_coverage.py
+
+# 在本地只做组件训练完整性预检；不导入训练 runtime，不启动训练
+python .\metawingman\scripts\preflight_component_training.py .\validation-output\training-corpus\jobs\section-role.json --root . --out .\validation-output\training-corpus\jobs\section-role.preflight.json
+
+# 构建仅含元数据、schema、锁文件和作业清单的服务器交接包
+python .\metawingman\scripts\build_server_training_handoff.py --source-root . --plan .\research\training-corpus-plan-biomedical-v2.json --job .\validation-output\training-corpus\jobs\section-role.json --job .\validation-output\training-corpus\jobs\evidence-retrieval.json --preflight .\validation-output\training-corpus\jobs\section-role.preflight.json --preflight .\validation-output\training-corpus\jobs\evidence-retrieval.preflight.json --lock .\metawingman\references\dependencies\python-training.lock.txt --out .\validation-output\server-training-handoff
 
 # 生成实时 R 工具目录
 python .\metawingman\scripts\build_tool_catalog.py .\metawingman
@@ -195,7 +207,7 @@ python .\metawingman\scripts\test_r_adapters.py .\metawingman --outdir .\validat
 
 MetaWingman 的下一阶段是建立可评估的 AI-first evidence-synthesis agent：模型默认完成可逆、可验证、可审计的主流程，人类处理弃权、分歧、高风险判断、账号授权、不可逆提交和最终责任签署。这不是无条件无人化，而是在预设安全阈值下报告 AI 覆盖率、关键错误率、成本、漂移和复现性。
 
-研发叙事采用四项可证伪贡献而不是功能清单：**选题机会控制**用截止日前的多领域 evidence graph、反对检索、冻结价值/风险门和多样性组合提出问题；**全生命周期系统**覆盖从选题到 living update 的科研责任链；**结论风险控制**按“逐标准残余遗漏风险 × 下游结论影响”反向分配检索、全文、复核和模型计算；**评价贡献**用时间封存的选题重发现与单协议扰动回放分别检验外部吻合和跨阶段责任传播。当前 coverage audit 证明的是工件和边界已显式化，不等于所有综述类型都已原生实现或通过真实验证。
+研发叙事以两项可证伪的方法贡献为主：**结论导向的证据控制**把 scientific responsibility graph、状态转移 verifier 和“残余遗漏风险 × 下游结论影响”结合起来，动态分配检索、全文、复核与 test-time compute；**时间与决策感知的选题机会引擎**用截止日前 evidence graph、反对检索、冻结价值/风险门和前瞻注册发现值得综合的问题。全生命周期系统、多模态全局文档状态和时间封存/协议扰动评测是支撑这两项方法的系统与评价贡献，不单独包装成第三个算法。当前 coverage audit 证明的是工件和边界已显式化，不等于所有综述类型都已原生实现、模型已经训练或通过真实科学验证。
 
 AI-only 评测以已发表系统综述/Meta-analysis 的时间切分重建为主要任务来源：封存原综述答案和截止日后证据，重跑检索、纳排、谱系、提取与分析。顶刊综述团队公开的最终纳排、提取、偏倚评价和分析作为 `published_expert_reference`；有正式更正时只使用核验后的修正版，撤稿、版本冲突或重大内部矛盾未解决时不进入 held-out 评分，不再常规新增双人裁决。实验只比较预先冻结的 AI 配置与消融，每个配置重复运行，并在综述家族完成聚类后隔离训练、开发和测试。报告的是与已发表专家参考的一致性，不是绝对真值准确率；由于没有人工执行臂，不得声称优于人工或节省人工劳动时间。
 
@@ -211,6 +223,7 @@ AI-only 评测以已发表系统综述/Meta-analysis 的时间切分重建为主
 - [机器可审计能力矩阵](metawingman/references/system-capability-matrix.json)：分别登记十阶段生命周期、21 类 review profile、19 条 synthesis route、跨阶段控制及其验证等级，防止把 workflow coverage 写成已验证能力。
 - [AI-only benchmark protocol](docs/architecture/ai-only-benchmark-protocol.md)、[顶刊训练/开发语料](research/top-journal-training-corpus.json)、[综述家族候选注册表](research/top-journal-review-family-registry.json)、[选题目标注册表](research/topic-rediscovery-target-registry.json)、[广泛复现发现目录](research/meta-reproduction-discovery-catalog.json)与[严格全流程候选注册表](research/benchmark-candidate-registry.json)：官方 API 当前收录 4,098 条元数据，其中 3,534 条为开发候选、388 条等待完整性审计、9 条撤稿排除、167 条评论/来信/指南声明等非参考材料排除；家族层只给出 281 条待审计边和 split 建议，尚无 family 可进入 held-out。期刊层级只用于抽样和分层，不进入质量评分。
 - [可重复训练语料与训练范式](docs/architecture/reproducible-training-corpus.md)及[冻结 v1 采样计划](research/training-corpus-plan-v1.json)：从文章级许可/撤稿核验、OA PDF/XML 下载、家族隔离、证据锚定弱监督、完整性审计到 chat-SFT/检索正样本导出；当前只是 24-family 本地 pilot，不是已训练模型或科学验证集。
+- [医学分层 v2 训练计划](research/training-corpus-plan-biomedical-v2.json)与[服务器训练 runbook](docs/architecture/server-training-runbook.md)：冻结 2,048 条 metadata-only 训练候选、组件作业、hard negatives、离线 preflight 和 metadata-only handoff；服务器硬件、CUDA 与精确依赖仍须现场核验，尚未启动训练。
 - [Skill 与 plugin 发布方案](docs/architecture/distribution-and-skill-release.md)：单一 skill 源、repo 自动发现、个人安装、skills-only plugin 和公共发布门槛。
 - [Skill/Agent 双产品边界](docs/architecture/two-product-boundary.md)：规定 skill 使用宿主模型且不含模型 API client，后续 Agent 通过 provider-neutral contract 接入任意模型。
 - [模型 provider 与数据流矩阵](docs/architecture/model-provider-support-matrix.md)：区分 DeepSeek 实时连通、通用兼容接口测试、本地 loopback 合同测试和未支持原生 API，并规定密钥、托管传输、schema 校验与候选接纳边界。

@@ -12,6 +12,7 @@ import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
+from metawingman_core.biomedical_domain import load_domain_packs, resolve_context
 from metawingman_core.provenance_graph import ProvenanceGraph
 from metawingman_core.schema_guard import validate_document
 
@@ -23,6 +24,8 @@ PROFILES = {
     "living", "prospective", "other",
 }
 OPERATING_MODES = {"assurance", "evaluation", "rapid"}
+SCAFFOLD_VERSION = "1.1"
+DOMAIN_PACK_DIR = Path(__file__).resolve().parents[1] / "references" / "domain-packs"
 
 
 def slugify(value: str) -> str:
@@ -72,12 +75,51 @@ def independent_review_rules(mode: str) -> list[dict[str, object]]:
     ]
 
 
+def draft_biomedical_context(
+    context_id: str,
+    review_family: str,
+    specialties: list[str],
+    now: str,
+    *,
+    specialty_was_declared: bool,
+) -> dict[str, object]:
+    context = resolve_context(
+        {
+            "context_id": context_id,
+            "review_family": review_family,
+            "source_text": "",
+            "declared_specialties": specialties,
+        },
+        load_domain_packs(DOMAIN_PACK_DIR),
+        now,
+    )
+    reason_codes = ["source_text_not_reviewed"]
+    if not specialty_was_declared:
+        reason_codes.insert(0, "specialty_not_declared")
+    context["ood_assessment"] = {
+        "status": "uncertain",
+        "reason_codes": reason_codes,
+        **(
+            {"routing_confidence": 0.0}
+            if "routing_confidence" in context["ood_assessment"]
+            else {}
+        ),
+    }
+    validate_document(context, "biomedical_context")
+    return context
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", required=True, help="Human-readable review title")
     parser.add_argument("--root", required=True, type=Path, help="Parent directory")
     parser.add_argument("--slug", help="Project folder name")
     parser.add_argument("--profile", required=True, choices=sorted(PROFILES))
+    parser.add_argument(
+        "--specialty",
+        action="append",
+        help="Declared specialty ID; repeat for secondary specialties",
+    )
     parser.add_argument("--mode", choices=sorted(OPERATING_MODES), default="assurance")
     parser.add_argument("--git", action="store_true", help="Initialize a local Git repository")
     args = parser.parse_args()
@@ -93,6 +135,14 @@ def main() -> int:
         raise SystemExit("Review project path escapes --root") from exc
     if target.exists() and any(target.iterdir()):
         raise SystemExit(f"Refusing to overwrite non-empty directory: {target}")
+    now = datetime.now(timezone.utc).isoformat()
+    biomedical_context = draft_biomedical_context(
+        f"{target.name}-biomedical-context",
+        args.profile,
+        args.specialty or ["general-medicine"],
+        now,
+        specialty_was_declared=bool(args.specialty),
+    )
     target.mkdir(parents=True, exist_ok=True)
 
     dirs = [
@@ -109,8 +159,8 @@ def main() -> int:
     for item in dirs:
         (target / item).mkdir(parents=True, exist_ok=True)
 
-    now = datetime.now(timezone.utc).isoformat()
     project = {
+        "scaffold_version": SCAFFOLD_VERSION,
         "title": args.name,
         "profile": args.profile,
         "operating_mode": args.mode,
@@ -319,6 +369,11 @@ Review profile: {args.profile}
         "updated_at_utc": now,
     }
     write_json(target / "01_protocol/review_profile.json", review_profile, "review_profile")
+    write_json(
+        target / "01_protocol/biomedical_context.json",
+        biomedical_context,
+        "biomedical_context",
+    )
     protocol_criteria = {
         "schema_version": "1.0",
         "protocol_version": "0.1-draft",

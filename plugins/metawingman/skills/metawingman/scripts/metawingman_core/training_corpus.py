@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.metadata
 import json
 import os
 import re
+import shutil
+import subprocess
 import tempfile
 import time
 import urllib.error
@@ -65,6 +68,97 @@ def _stable_record_key(record: dict[str, Any], seed: int) -> str:
     return hashlib.sha256(f"{seed}:{record['record_id']}".encode("utf-8")).hexdigest()
 
 
+_QUESTION_TERMS = (
+    ("harms", ("adverse events", "adverse event", "adverse effects", "adverse effect", "safety", "harm", "toxicity")),
+    ("diagnostic", ("diagnostic", "sensitivity", "specificity", "screening test")),
+    ("prognostic", ("prognostic", "prognosis", "survival prediction")),
+    ("prevalence", ("prevalence", "incidence", "burden")),
+    ("etiology", ("risk factor", "association", "etiology", "aetiology")),
+    ("intervention", ("intervention", "treatment", "therapy", "immunotherapy", "prevention")),
+)
+
+
+def _source_phrase_matches(text: str, terms: Iterable[str]) -> list[str]:
+    lower = text.casefold()
+    matches: list[str] = []
+    for term in sorted(set(terms), key=lambda value: (-len(value), value)):
+        match = re.search(rf"(?<!\w){re.escape(term.casefold())}(?!\w)", lower)
+        if match:
+            matches.append(text[match.start() : match.end()])
+    return matches
+
+
+def classify_biomedical_stratum(record: dict[str, Any], registry: dict[str, Any]) -> dict[str, Any]:
+    """Create an evidence-bearing weak stratum from title/publication types only."""
+    title = str(record.get("title") or "")
+    publication_types = [str(item) for item in record.get("publication_types", []) if str(item)]
+    source = " ".join([title, *publication_types]).strip()
+    specialty_hits: list[tuple[int, str, str]] = []
+    evidence: list[str] = []
+    for specialty in registry.get("specialties", []):
+        terms = [*specialty.get("title_terms", []), *specialty.get("aliases", [])]
+        matches = _source_phrase_matches(source, terms)
+        if matches:
+            specialty_hits.append((max(len(item) for item in matches), specialty["specialty_id"], matches[0]))
+    specialty_hits.sort(key=lambda item: (-item[0], item[1], item[2].casefold()))
+    specialty_ids = list(dict.fromkeys(item[1] for item in specialty_hits))
+    primary_specialty = specialty_ids[0] if specialty_ids else "general-medicine"
+    secondary_specialties = specialty_ids[1:]
+    evidence.extend(f"title_or_publication_type:{item[2]}=>specialty:{item[1]}" for item in specialty_hits)
+
+    question_type = "unresolved"
+    for candidate, terms in _QUESTION_TERMS:
+        matches = _source_phrase_matches(source, terms)
+        if matches:
+            question_type = candidate
+            evidence.append(f"title_or_publication_type:{matches[0]}=>question_type:{candidate}")
+            break
+    normalized_designs = sorted(
+        {
+            re.sub(r"[^a-z0-9]+", "_", item.casefold()).strip("_")
+            for item in publication_types
+            if re.sub(r"[^a-z0-9]+", "_", item.casefold()).strip("_")
+        }
+    ) or ["unresolved"]
+    if publication_types:
+        evidence.extend(f"publication_type:{item}" for item in publication_types)
+    synthesis_route = "pairwise"
+    if re.search(r"\bnetwork meta-analysis\b", title, flags=re.IGNORECASE):
+        synthesis_route = "network"
+        evidence.append("title:network meta-analysis=>synthesis_route:network")
+    elif question_type == "diagnostic" and re.search(r"\b(meta-analysis|systematic review)\b", title, flags=re.IGNORECASE):
+        synthesis_route = "diagnostic"
+        evidence.append("title:diagnostic review=>synthesis_route:diagnostic")
+    else:
+        evidence.append("default:synthesis_route:pairwise")
+    challenge_tags = []
+    if len(specialty_ids) > 1:
+        challenge_tags.append("cross_specialty")
+    if question_type == "harms":
+        challenge_tags.append("adverse_event_evidence")
+    if not specialty_hits:
+        evidence.append("fallback:no_specialty_term_match=>general-medicine")
+    if question_type == "unresolved":
+        evidence.append("fallback:no_question_term_match=>unresolved")
+    sampling_key = "|".join((primary_specialty, question_type, normalized_designs[0], synthesis_route))
+    stratum = {
+        "schema_version": "1.0",
+        "primary_specialty": primary_specialty,
+        "secondary_specialties": secondary_specialties,
+        "question_type": question_type,
+        "study_designs": normalized_designs,
+        "synthesis_routes": [synthesis_route],
+        "languages": ["en"],
+        "document_modalities": ["metadata", "abstract"],
+        "challenge_tags": challenge_tags,
+        "sampling_key": sampling_key,
+        "label_status": "deterministic_weak_candidate",
+        "evidence": list(dict.fromkeys(evidence)),
+    }
+    validate_document(stratum, "biomedical_training_stratum")
+    return stratum
+
+
 def build_training_plan(
     corpus: dict[str, Any], families: dict[str, Any], *, plan_id: str,
     source_corpus_path: str, source_corpus_sha256: str,
@@ -72,6 +166,9 @@ def build_training_plan(
     maximum_records: int = 24, seed: int = 20260815,
     train_fraction: float = 0.8, allowed_licenses: Iterable[str] = DEFAULT_LICENSES,
     created_at_utc: str | None = None,
+    specialty_registry: dict[str, Any] | None = None,
+    specialty_registry_path: str | None = None,
+    specialty_registry_sha256: str | None = None,
 ) -> dict[str, Any]:
     if maximum_records < 1 or not 0 < train_fraction < 1:
         raise TrainingCorpusError("maximum_records and train_fraction are invalid")
@@ -101,29 +198,49 @@ def build_training_plan(
             continue
         if _normalise_license(str(record.get("license") or "")) not in allowed:
             continue
-        eligible.append({**record, "_family_id": family["family_id"]})
-
-    by_journal: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for record in eligible:
-        by_journal[record["journal"]].append(record)
-    for records in by_journal.values():
-        records.sort(key=lambda item: _stable_record_key(item, seed))
+        candidate = {**record, "_family_id": family["family_id"]}
+        if specialty_registry is not None:
+            candidate["_biomedical_stratum"] = classify_biomedical_stratum(record, specialty_registry)
+        eligible.append(candidate)
 
     selected: list[dict[str, Any]] = []
-    journals = sorted(by_journal, key=lambda value: hashlib.sha256(f"{seed}:{value}".encode()).hexdigest())
-    while len(selected) < maximum_records:
-        added = False
-        for journal in journals:
-            if by_journal[journal] and len(selected) < maximum_records:
-                selected.append(by_journal[journal].pop(0))
-                added = True
-        if not added:
-            break
+    if specialty_registry is None:
+        by_journal: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        for record in eligible:
+            by_journal[record["journal"]].append(record)
+        for records in by_journal.values():
+            records.sort(key=lambda item: _stable_record_key(item, seed))
+        journals = sorted(by_journal, key=lambda value: hashlib.sha256(f"{seed}:{value}".encode()).hexdigest())
+        while len(selected) < maximum_records:
+            added = False
+            for journal in journals:
+                if by_journal[journal] and len(selected) < maximum_records:
+                    selected.append(by_journal[journal].pop(0))
+                    added = True
+            if not added:
+                break
+    else:
+        if not specialty_registry_path or not specialty_registry_sha256:
+            raise TrainingCorpusError("biomedical planning requires specialty registry path and sha256")
+        by_stratum: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        for record in eligible:
+            by_stratum[record["_biomedical_stratum"]["sampling_key"]].append(record)
+        for records in by_stratum.values():
+            records.sort(key=lambda item: _stable_record_key(item, seed))
+        stratum_keys = sorted(by_stratum, key=lambda value: hashlib.sha256(f"{seed}:{value}".encode()).hexdigest())
+        while len(selected) < maximum_records:
+            added = False
+            for sampling_key in stratum_keys:
+                if by_stratum[sampling_key] and len(selected) < maximum_records:
+                    selected.append(by_stratum[sampling_key].pop(0))
+                    added = True
+            if not added:
+                break
 
     output_records = []
     for record in selected:
         split = _family_split(record["_family_id"], seed, train_fraction)
-        output_records.append({
+        output_record = {
             "record_id": record["record_id"],
             "family_id": record["_family_id"],
             "split": split,
@@ -138,19 +255,29 @@ def build_training_plan(
             "declared_license": _normalise_license(record["license"]),
             "source_url": record["source_url"],
             "integrity_status": record["integrity_status"],
-        })
+        }
+        if specialty_registry is not None:
+            output_record["biomedical_stratum"] = record["_biomedical_stratum"]
+        output_records.append(output_record)
     output_records.sort(key=lambda item: (item["split"], item["family_id"], item["record_id"]))
     split_counts = Counter(item["split"] for item in output_records)
+    schema_version = "1.1" if specialty_registry is not None else "1.0"
+    inputs = {
+        "source_corpus_path": source_corpus_path,
+        "source_corpus_sha256": source_corpus_sha256,
+        "family_registry_path": family_registry_path,
+        "family_registry_sha256": family_registry_sha256,
+    }
+    if specialty_registry is not None:
+        inputs.update({
+            "specialty_registry_path": specialty_registry_path,
+            "specialty_registry_sha256": specialty_registry_sha256,
+        })
     plan = {
-        "schema_version": "1.0",
+        "schema_version": schema_version,
         "plan_id": plan_id,
         "created_at_utc": created_at_utc or utc_now(),
-        "inputs": {
-            "source_corpus_path": source_corpus_path,
-            "source_corpus_sha256": source_corpus_sha256,
-            "family_registry_path": family_registry_path,
-            "family_registry_sha256": family_registry_sha256,
-        },
+        "inputs": inputs,
         "policy": {
             "seed": seed,
             "maximum_records": maximum_records,
@@ -171,8 +298,22 @@ def build_training_plan(
             "selected_families": len({item["family_id"] for item in output_records}),
             "selected_journals": len({item["journal"] for item in output_records}),
         },
-        "records": output_records,
     }
+    if specialty_registry is not None:
+        strata = [item["biomedical_stratum"] for item in output_records]
+        plan["domain_policy"] = {
+            "application_domain": "human_health_clinical_translational_biomedicine",
+            "classifier_version": "biomedical-title-terms-v1",
+            "source_fields": ["title", "publication_types"],
+            "journal_feature_forbidden": True,
+            "label_status": "deterministic_weak_candidate",
+        }
+        plan["strata_summary"] = {
+            "sampling_keys": dict(sorted(Counter(item["sampling_key"] for item in strata).items())),
+            "primary_specialties": dict(sorted(Counter(item["primary_specialty"] for item in strata).items())),
+            "question_types": dict(sorted(Counter(item["question_type"] for item in strata).items())),
+        }
+    plan["records"] = output_records
     validate_document(plan, "training_corpus_plan")
     return plan
 
@@ -559,6 +700,272 @@ def build_training_examples(
     return examples
 
 
+def _tokens(value: str) -> set[str]:
+    return set(re.findall(r"[a-z0-9]+", value.casefold()))
+
+
+def build_retrieval_pairs(
+    examples: list[dict[str, Any]],
+    strata_by_record: dict[str, dict[str, Any]],
+    seed: int,
+) -> list[dict[str, Any]]:
+    """Build source positives and family-isolated medical-neighborhood negatives."""
+    retrieval = [item for item in examples if item.get("task") == "evidence_retrieval"]
+    pairs: list[dict[str, Any]] = []
+    for query in sorted(retrieval, key=lambda item: item["example_id"]):
+        query_stratum = strata_by_record.get(query["record_id"])
+        if not query_stratum:
+            raise TrainingCorpusError(f"missing biomedical stratum for record: {query['record_id']}")
+        candidates: list[tuple[int, str, dict[str, Any], list[str]]] = []
+        query_tokens = _tokens(query["instruction"] + " " + query["input_text"])
+        for candidate in retrieval:
+            if candidate["split"] != query["split"]:
+                continue
+            if candidate["record_id"] == query["record_id"] or candidate["family_id"] == query["family_id"]:
+                continue
+            if candidate["input_text"] == query["input_text"]:
+                continue
+            if candidate["evidence_anchor"]["source_text_sha256"] == query["evidence_anchor"]["source_text_sha256"]:
+                continue
+            candidate_stratum = strata_by_record.get(candidate["record_id"])
+            if not candidate_stratum:
+                continue
+            neighborhood_keys = []
+            if candidate_stratum["primary_specialty"] == query_stratum["primary_specialty"]:
+                neighborhood_keys.append("primary_specialty")
+            if candidate_stratum["question_type"] == query_stratum["question_type"]:
+                neighborhood_keys.append("question_type")
+            if not neighborhood_keys:
+                continue
+            overlap = len(query_tokens & _tokens(candidate["input_text"]))
+            tie = hashlib.sha256(f"{seed}:{query['example_id']}:{candidate['example_id']}".encode()).hexdigest()
+            candidates.append((-overlap, tie, candidate, neighborhood_keys))
+        selected = [(query, 1, ["self_anchored_positive"])]
+        selected.extend((item[2], 0, item[3]) for item in sorted(candidates)[:3])
+        for document, label, neighborhood_keys in selected:
+            identity = f"{seed}:{query['example_id']}:{document['example_id']}:{label}"
+            pair = {
+                "schema_version": "1.0",
+                "pair_id": "training-pair:" + hashlib.sha256(identity.encode()).hexdigest()[:20],
+                "query_example_id": query["example_id"],
+                "query_record_id": query["record_id"],
+                "query_family_id": query["family_id"],
+                "query_split": query["split"],
+                "query_text": query["instruction"],
+                "document_example_id": document["example_id"],
+                "document_record_id": document["record_id"],
+                "document_family_id": document["family_id"],
+                "document_split": document["split"],
+                "document_text": document["input_text"],
+                "label": label,
+                "shared_medical_neighborhood": label == 0,
+                "neighborhood_keys": neighborhood_keys,
+                "label_status": (
+                    "source_anchored_positive_weak_supervision"
+                    if label == 1
+                    else "candidate_hard_negative_not_gold"
+                ),
+                "evidence": [
+                    f"query_anchor:{query['evidence_anchor']['source_text_sha256']}",
+                    f"document_anchor:{document['evidence_anchor']['source_text_sha256']}",
+                ],
+            }
+            pair["content_sha256"] = hashlib.sha256(
+                canonical_json({key: value for key, value in pair.items() if key != "content_sha256"})
+            ).hexdigest()
+            validate_document(pair, "training_pair")
+            pairs.append(pair)
+    pairs.sort(key=lambda item: item["pair_id"])
+    return pairs
+
+
+def build_component_training_job(
+    run_plan: dict[str, Any],
+    component: str,
+    model: dict[str, Any],
+    optimization: dict[str, Any],
+    resources: dict[str, Any],
+    now: str,
+    *,
+    run_plan_path: str = "training-run-plan.json",
+    run_plan_sha256: str | None = None,
+    output_root: str = "training-output",
+    runtime_lock_path: str = "metawingman/references/dependencies/python-training.lock.txt",
+    runtime_lock_sha256: str,
+    seed: int = 20260815,
+) -> dict[str, Any]:
+    validate_document(run_plan, "training_run_plan")
+    if component not in run_plan["objectives"]:
+        raise TrainingCorpusError(f"component objective is absent from run plan: {component}")
+    dataset = run_plan["dataset"]
+    reason_codes = []
+    revision = str(model.get("revision") or "")
+    tokenizer_revision = str(model.get("tokenizer_revision") or "")
+    if not re.fullmatch(r"[a-f0-9]{40}", revision) or not re.fullmatch(r"[a-f0-9]{40}", tokenizer_revision):
+        reason_codes.append("model_revision_not_immutable")
+    if not model.get("declared_license"):
+        reason_codes.append("model_license_unresolved")
+    if dataset.get("development_examples", 0) < 1:
+        reason_codes.append("development_data_missing")
+    if component == "evidence_retrieval" and dataset.get("development_pairs", 0) < 1:
+        reason_codes.append("development_pairs_missing")
+    job = {
+        "schema_version": "1.0",
+        "job_id": f"metawingman-{component.replace('_', '-')}-v1",
+        "created_at_utc": now,
+        "component": component,
+        "status": "blocked" if reason_codes else "ready_for_server_preflight",
+        "reason_codes": sorted(set(reason_codes)),
+        "model": {
+            "repository_id": model["repository_id"],
+            "revision": revision,
+            "tokenizer_revision": tokenizer_revision,
+            "model_card_url": model["model_card_url"],
+            "declared_license": model.get("declared_license"),
+            "release_intent": model.get("release_intent", "internal_research_only"),
+        },
+        "dataset": {
+            "run_plan_path": run_plan_path,
+            "run_plan_sha256": run_plan_sha256 or hashlib.sha256(canonical_json(run_plan)).hexdigest(),
+            "examples_path": dataset["examples_path"],
+            "examples_sha256": dataset["examples_sha256"],
+            "pairs_path": dataset.get("pairs_path", "pairs.jsonl"),
+            "pairs_sha256": dataset.get("pairs_sha256", "0" * 64),
+            "train_examples": dataset["train_examples"],
+            "development_examples": dataset["development_examples"],
+            "train_pairs": dataset.get("train_pairs", 0),
+            "development_pairs": dataset.get("development_pairs", 0),
+            "family_isolation": True,
+            "label_policy": "weak_candidates_not_gold",
+            "release_status": "raw_text_redistribution_forbidden_weights_pending_license_review",
+        },
+        "optimization": dict(optimization),
+        "resources": resources,
+        "output": {
+            "root": output_root,
+            "checkpoint_every_steps": int(optimization.get("checkpoint_every_steps", 250)),
+            "maximum_checkpoints": int(optimization.get("maximum_checkpoints", 3)),
+            "resume_checkpoint_hashes": list(optimization.get("resume_checkpoint_hashes", [])),
+        },
+        "runtime": {
+            "lock_path": runtime_lock_path,
+            "lock_sha256": runtime_lock_sha256,
+            "python": "3.12",
+            "cuda_required": resources.get("gpu_count", 0) > 0,
+        },
+        "seed": seed,
+        "command_argv": [
+            "python",
+            "metawingman/scripts/run_component_training.py",
+            run_plan_path,
+            "--component",
+            component,
+            "--job",
+            f"jobs/{component}.json",
+        ],
+    }
+    for transient in ("checkpoint_every_steps", "maximum_checkpoints", "resume_checkpoint_hashes"):
+        job["optimization"].pop(transient, None)
+    validate_document(job, "component_training_job")
+    return job
+
+
+def _resolve_job_path(root: Path, value: str) -> Path:
+    root = root.resolve()
+    path = (root / value).resolve()
+    try:
+        path.relative_to(root)
+    except ValueError as exc:
+        raise TrainingCorpusError(f"component training path escapes root: {value}") from exc
+    return path
+
+
+def _locked_versions(path: Path) -> dict[str, str]:
+    versions: dict[str, str] = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "==" in line:
+            name, version = line.split("==", 1)
+            versions[name.casefold()] = version
+    return versions
+
+
+def preflight_component_training(
+    job: dict[str, Any], root: Path, *, inspect_server: bool = False
+) -> dict[str, Any]:
+    reason_codes: list[str] = []
+    try:
+        validate_document(job, "component_training_job")
+    except Exception:
+        return {"manifest_valid": False, "ready": False, "training_started": False, "reason_codes": ["job_schema_invalid"]}
+    if not re.fullmatch(r"[a-f0-9]{40}", job["model"]["revision"]) or not re.fullmatch(
+        r"[a-f0-9]{40}", job["model"]["tokenizer_revision"]
+    ):
+        reason_codes.append("model_revision_not_immutable")
+    if not job["model"]["declared_license"]:
+        reason_codes.append("model_license_unresolved")
+    for key in ("run_plan", "examples", "pairs"):
+        path = _resolve_job_path(root, job["dataset"][f"{key}_path"])
+        if not path.is_file():
+            reason_codes.append(f"{key}_file_missing")
+        elif sha256_file(path) != job["dataset"][f"{key}_sha256"]:
+            reason_codes.append(f"{key}_hash_mismatch")
+    lock_path = _resolve_job_path(root, job["runtime"]["lock_path"])
+    if not lock_path.is_file():
+        reason_codes.append("runtime_lock_missing")
+    elif sha256_file(lock_path) != job["runtime"]["lock_sha256"]:
+        reason_codes.append("runtime_lock_hash_mismatch")
+    _resolve_job_path(root, job["output"]["root"])
+    if job["dataset"]["development_examples"] < 1:
+        reason_codes.append("development_data_missing")
+    if job["component"] == "evidence_retrieval" and job["dataset"]["development_pairs"] < 1:
+        reason_codes.append("development_pairs_missing")
+    if job["status"] != "ready_for_server_preflight":
+        reason_codes.extend(job["reason_codes"] or ["job_not_ready_for_server_preflight"])
+    if inspect_server:
+        if shutil.disk_usage(root).free < job["resources"]["storage_gib"] * 1024**3:
+            reason_codes.append("insufficient_free_storage")
+        locks = _locked_versions(lock_path) if lock_path.is_file() else {}
+        for package, expected in locks.items():
+            try:
+                actual = importlib.metadata.version(package)
+            except importlib.metadata.PackageNotFoundError:
+                reason_codes.append(f"package_missing_{package.replace('-', '_')}")
+            else:
+                if actual != expected:
+                    reason_codes.append(f"package_version_mismatch_{package.replace('-', '_')}")
+        if job["resources"]["gpu_count"]:
+            try:
+                completed = subprocess.run(
+                    ["nvidia-smi", "--query-gpu=memory.total", "--format=csv,noheader,nounits"],
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                )
+            except OSError:
+                completed = None
+            if completed is None or completed.returncode != 0:
+                reason_codes.append("cuda_runtime_unverified")
+            else:
+                memories = [int(value.strip()) / 1024 for value in completed.stdout.splitlines() if value.strip().isdigit()]
+                if len(memories) < job["resources"]["gpu_count"]:
+                    reason_codes.append("insufficient_gpu_count")
+                elif any(value < job["resources"]["gpu_memory_gib_each"] for value in memories[: job["resources"]["gpu_count"]]):
+                    reason_codes.append("insufficient_gpu_memory")
+    else:
+        reason_codes.extend(["server_hardware_unverified", "cuda_runtime_unverified", "python_packages_unverified"])
+    pending = {"server_hardware_unverified", "cuda_runtime_unverified", "python_packages_unverified"}
+    scientific_blockers = sorted(code for code in set(reason_codes) if code not in pending)
+    return {
+        "manifest_valid": True,
+        "ready": not reason_codes,
+        "training_started": False,
+        "reason_codes": sorted(set(reason_codes)),
+        "scientific_blockers": scientific_blockers,
+        "server_checks_pending": sorted(pending & set(reason_codes)),
+    }
+
+
 def audit_training_dataset(
     plan: dict[str, Any], manifest: dict[str, Any], examples: list[dict[str, Any]],
     run_plan: dict[str, Any], artifact_root: Path, manifest_path: Path, examples_path: Path,
@@ -665,14 +1072,20 @@ def audit_training_dataset(
 def build_training_run_plan(
     manifest: dict[str, Any], manifest_path: Path, examples_path: Path, examples: list[dict[str, Any]],
     *, run_plan_id: str, created_at_utc: str | None = None,
+    pairs_path: Path | None = None,
+    pairs: list[dict[str, Any]] | None = None,
+    biomedical_strata_counts: dict[str, int] | None = None,
 ) -> dict[str, Any]:
     validate_document(manifest, "training_document_manifest")
     counts = Counter(item["split"] for item in examples)
     objectives = sorted({item["task"] for item in examples})
     if not objectives:
         raise TrainingCorpusError("cannot freeze a training run plan without examples")
+    pairs = pairs or []
+    pair_counts = Counter(item["query_split"] for item in pairs)
+    ready = pairs_path is not None and bool(pairs) and counts["development"] > 0 and pair_counts["development"] > 0
     plan = {
-        "schema_version": "1.0", "run_plan_id": run_plan_id,
+        "schema_version": "1.1" if ready else "1.0", "run_plan_id": run_plan_id,
         "created_at_utc": created_at_utc or utc_now(),
         "dataset": {
             "manifest_path": manifest_path.as_posix(), "manifest_sha256": sha256_file(manifest_path),
@@ -696,5 +1109,18 @@ def build_training_run_plan(
         },
         "execution_state": "planned_not_trained",
     }
+    if ready and pairs_path is not None:
+        plan["dataset"].update({
+            "pairs_path": pairs_path.as_posix(),
+            "pairs_sha256": sha256_file(pairs_path),
+            "train_pairs": pair_counts["train"],
+            "development_pairs": pair_counts["development"],
+            "biomedical_strata_counts": dict(sorted((biomedical_strata_counts or {}).items())),
+        })
+        plan["objective_readiness"] = {
+            "section_role_classification": "ready_for_server_preflight",
+            "evidence_retrieval": "ready_for_server_preflight",
+        }
+        plan["execution_state"] = "ready_for_server_preflight"
     validate_document(plan, "training_run_plan")
     return plan

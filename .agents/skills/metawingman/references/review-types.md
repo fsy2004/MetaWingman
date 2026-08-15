@@ -3,13 +3,20 @@
 ## Contents
 
 1. Selection rule
-2. Core profiles
-3. Statistical extensions
-4. Invalid substitutions
+2. Biomedical domain routing
+3. Core profiles
+4. Statistical extensions
+5. Invalid substitutions
 
 ## Selection rule
 
 Choose the profile from the decision question, evidence unit, design, and target estimand. A reporting extension does not define the statistical model, and an available R function does not justify a review type.
+
+## Biomedical domain routing
+
+Resolve the typed biomedical context before selecting a profile. The foundation pack governs shared clinical terminology and evidence-integrity boundaries; a profile pack constrains the question and method family; specialty packs add domain concepts and ambiguity checks. These packs are semantic controls, not alternative methodology authorities.
+
+An unresolved or out-of-domain concept must stay explicit. Low-risk reversible work may use the foundation fallback, but ambiguity affecting eligibility, safety, diagnosis, prognosis, effect direction, or conclusions requires abstention. No specialty label permits changing frozen eligibility, substituting an appraisal tool, forcing pooling, or bypassing an accountable decision.
 
 | Profile | Question frame / unit | Preferred appraisal | Reporting / core synthesis |
 |---|---|---|---|

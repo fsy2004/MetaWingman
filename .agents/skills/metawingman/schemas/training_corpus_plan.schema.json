@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": ["schema_version", "plan_id", "created_at_utc", "inputs", "policy", "summary", "records"],
   "properties": {
-    "schema_version": {"const": "1.0"},
+    "schema_version": {"enum": ["1.0", "1.1"]},
     "plan_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
     "created_at_utc": {"type": "string", "format": "date-time"},
     "inputs": {
@@ -17,7 +17,9 @@
         "source_corpus_path": {"type": "string", "minLength": 1},
         "source_corpus_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
         "family_registry_path": {"type": "string", "minLength": 1},
-        "family_registry_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        "family_registry_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "specialty_registry_path": {"type": "string", "minLength": 1},
+        "specialty_registry_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
       }
     },
     "policy": {
@@ -50,6 +52,28 @@
         "selected_journals": {"type": "integer", "minimum": 0}
       }
     },
+    "domain_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["application_domain", "classifier_version", "source_fields", "journal_feature_forbidden", "label_status"],
+      "properties": {
+        "application_domain": {"const": "human_health_clinical_translational_biomedicine"},
+        "classifier_version": {"const": "biomedical-title-terms-v1"},
+        "source_fields": {"const": ["title", "publication_types"]},
+        "journal_feature_forbidden": {"const": true},
+        "label_status": {"const": "deterministic_weak_candidate"}
+      }
+    },
+    "strata_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sampling_keys", "primary_specialties", "question_types"],
+      "properties": {
+        "sampling_keys": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "primary_specialties": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "question_types": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}}
+      }
+    },
     "records": {
       "type": "array",
       "items": {
@@ -70,9 +94,46 @@
           "pmcid": {"type": "string", "pattern": "^PMC[0-9]+$"},
           "declared_license": {"type": "string", "minLength": 1},
           "source_url": {"type": "string", "format": "uri"},
-          "integrity_status": {"const": "no_status_update_in_epmc_record"}
+          "integrity_status": {"const": "no_status_update_in_epmc_record"},
+          "biomedical_stratum": {"$ref": "#/$defs/biomedical_stratum"}
         }
       }
     }
-  }
+  },
+  "$defs": {
+    "biomedical_stratum": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "primary_specialty", "secondary_specialties", "question_type", "study_designs", "synthesis_routes", "languages", "document_modalities", "challenge_tags", "sampling_key", "label_status", "evidence"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "primary_specialty": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "secondary_specialties": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "question_type": {"type": "string", "minLength": 1},
+        "study_designs": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "synthesis_routes": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "languages": {"type": "array", "items": {"type": "string", "minLength": 2}, "minItems": 1, "uniqueItems": true},
+        "document_modalities": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+        "challenge_tags": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "sampling_key": {"type": "string", "minLength": 1},
+        "label_status": {"const": "deterministic_weak_candidate"},
+        "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"schema_version": {"const": "1.1"}}, "required": ["schema_version"]},
+      "then": {
+        "required": ["domain_policy", "strata_summary"],
+        "properties": {
+          "inputs": {"required": ["specialty_registry_path", "specialty_registry_sha256"]},
+          "records": {"items": {"required": ["biomedical_stratum"]}}
+        }
+      },
+      "else": {
+        "not": {"anyOf": [{"required": ["domain_policy"]}, {"required": ["strata_summary"]}]}
+      }
+    }
+  ]
 }

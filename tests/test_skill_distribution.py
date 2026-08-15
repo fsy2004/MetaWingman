@@ -78,6 +78,18 @@ class SkillDistributionTests(unittest.TestCase):
             self.assertIn("uses the host agent's model and tools", skill_text)
             self.assertNotIn("DEEPSEEK_API_KEY", skill_text)
 
+    def test_bundle_declares_biomedical_scope_and_contains_domain_contracts(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            bundle = Path(directory) / "metawingman"
+            manifest = _stage(ROOT, bundle)
+            self.assertTrue((bundle / "schemas/biomedical_context.schema.json").is_file())
+            self.assertTrue(
+                (bundle / "references/domain-packs/biomedical-foundation.json").is_file()
+            )
+            skill_text = (bundle / "SKILL.md").read_text(encoding="utf-8").casefold()
+            self.assertIn("biomedical evidence synthesis", skill_text)
+            self.assertEqual(manifest["requirements"]["direct_model_api"], "not bundled")
+
     def test_release_archive_is_deterministic_and_rooted(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

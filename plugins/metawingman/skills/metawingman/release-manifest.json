@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "955130587a28de9d3330e11c2d4bef04db16b1781354831a7d2bd1691c673aab",
+  "source_tree_sha256": "72ac43fe74798b97ce919996d5890ebedf736ec3ab533b59e907b392127f1868",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -48,8 +48,8 @@
   "files": [
     {
       "path": "SKILL.md",
-      "sha256": "e8e456a784b11f52d35553b65bea78895a7f5b9dc357198e0279fb72503c407b",
-      "bytes": 20474
+      "sha256": "36b2f63c24ee37b746b5d2a66f27e843774965c739daa802cfa9862956a065fa",
+      "bytes": 22224
     },
     {
       "path": "agents/openai.yaml",
@@ -58,8 +58,8 @@
     },
     {
       "path": "references/ai-only-evaluation-plan.template.json",
-      "sha256": "a6b228ddd8309af24e989abad800adb5dfde64a2b74eee802b51793591a66e63",
-      "bytes": 2239
+      "sha256": "13131dd64c56780a445d3fa8116c60ebd68e01d37236da2d55e158e251f55db7",
+      "bytes": 4417
     },
     {
       "path": "references/analysis-methods.md",
@@ -87,9 +87,44 @@
       "bytes": 69
     },
     {
+      "path": "references/dependencies/python-training.lock.txt",
+      "sha256": "30399f1a0c7abacb4092e546e9e25ff357c9145a8e18c2853d9e78e9c44287ee",
+      "bytes": 310
+    },
+    {
       "path": "references/dependencies/r-packages.lock.json",
       "sha256": "14e7e690ea09382e8fff1434a82424f5fc2bbf16eb8e1317dfc88d161fb6141c",
       "bytes": 533
+    },
+    {
+      "path": "references/domain-packs/biomedical-foundation.json",
+      "sha256": "ef7fef3ccddbc3962ad98c17a9eadb13f8b1d8df806741eec9dbec94299b3f7b",
+      "bytes": 1568
+    },
+    {
+      "path": "references/domain-packs/profile-diagnostic.json",
+      "sha256": "415048c1c37858f314100028fa4e636eb3e95ff124a9f92818675e495e49321e",
+      "bytes": 1654
+    },
+    {
+      "path": "references/domain-packs/profile-harms.json",
+      "sha256": "892f6369f3553f193748700bf1a69d7c872b09cd6f5f7b7beae63f3ddf586dbe",
+      "bytes": 1625
+    },
+    {
+      "path": "references/domain-packs/profile-intervention.json",
+      "sha256": "c944a233818e37450bacd4a95553f94180df3f8f3cdf7ab418bed3975a8aff25",
+      "bytes": 1686
+    },
+    {
+      "path": "references/domain-packs/profile-prognostic.json",
+      "sha256": "191afdf503e3d671fc8a4613e67f6589eaf2dc7022d31f193115e075e08681c1",
+      "bytes": 1710
+    },
+    {
+      "path": "references/domain-packs/specialty-registry.json",
+      "sha256": "cbbd696b161d6badab7c3501ac19a0ec00b24a0ba42241603f413a1575a8af2f",
+      "bytes": 4134
     },
     {
       "path": "references/evidence-integrity.md",
@@ -103,8 +138,8 @@
     },
     {
       "path": "references/review-types.md",
-      "sha256": "42bfe164374f62360845191f14170b6d3e04dfd413c1ea81d746743eb367cc89",
-      "bytes": 5697
+      "sha256": "84e69c7bdddbffcfc05b221d99fc33e676a223abdd297b61891efe7ae0d80c6d",
+      "bytes": 6487
     },
     {
       "path": "references/reviewer-and-integrity.md",
@@ -118,8 +153,8 @@
     },
     {
       "path": "references/search-retrieval-and-apis.md",
-      "sha256": "bf6861c85b25d7b7ad266cb2e3faae746c00acf1041e0597fe746290315df234",
-      "bytes": 4607
+      "sha256": "246cea144a138783f974fda966ededf514bc2ccb082e15bd01c21938f95eec2c",
+      "bytes": 5205
     },
     {
       "path": "references/source-provenance.md",
@@ -128,8 +163,8 @@
     },
     {
       "path": "references/system-capability-matrix.json",
-      "sha256": "a3d24379d8e26fce762069441b63a48e44611f7081b2034c84dbb671db698deb",
-      "bytes": 43500
+      "sha256": "7525a884bf07173d6c8a6db4deee2842c42bb7e327293d10f9b49d3ed446654d",
+      "bytes": 49280
     },
     {
       "path": "references/tool-catalog.md",
@@ -168,8 +203,8 @@
     },
     {
       "path": "schemas/ai_only_evaluation_plan.schema.json",
-      "sha256": "b8c4e4dd69a0f4d6312e5314cb208c4ed810b3dc3d067dbf8a9466b067410c1c",
-      "bytes": 5663
+      "sha256": "89931743adf375c56b257000a654ea2c99174062f4198aa11d465b80f419fd9c",
+      "bytes": 6795
     },
     {
       "path": "schemas/ai_only_run_record.schema.json",
@@ -212,6 +247,16 @@
       "bytes": 4409
     },
     {
+      "path": "schemas/biomedical_context.schema.json",
+      "sha256": "697f60096e66ff75ae2105fc81c7468b8d616a126842463c0ceaacd82b2771e7",
+      "bytes": 5125
+    },
+    {
+      "path": "schemas/biomedical_training_stratum.schema.json",
+      "sha256": "82df2be9cb499ab48fa70295b6f0dc864ae9c9a3d539e8560d083ed68ad3b47c",
+      "bytes": 1739
+    },
+    {
       "path": "schemas/causal_replay_report.schema.json",
       "sha256": "0f6189efd0259bd030d3c194d1b28ad73ba9194b8e0b26360a1a984a644fed21",
       "bytes": 4130
@@ -222,6 +267,11 @@
       "bytes": 4831
     },
     {
+      "path": "schemas/component_training_job.schema.json",
+      "sha256": "29e83090bd9785133e099bab47456c4bcc873d9d92ca289b29eb5fcb6cd98213",
+      "bytes": 5140
+    },
+    {
       "path": "schemas/credential_capabilities.schema.json",
       "sha256": "1d1bad3ad9645acc12488303add8f36d2d573c4581608e2d4e8b5ff4c1186d2d",
       "bytes": 1890
@@ -230,6 +280,21 @@
       "path": "schemas/document_state.schema.json",
       "sha256": "53e10fbe8b656ecc389cf1afb065339d7a5f088bd69f1ed49082f982317394c9",
       "bytes": 4296
+    },
+    {
+      "path": "schemas/domain_coverage_report.schema.json",
+      "sha256": "c3eb6a6e73265c29c4926f1a7bc127af0290443ac43a3b038a431e2503f198e9",
+      "bytes": 2367
+    },
+    {
+      "path": "schemas/domain_pack_manifest.schema.json",
+      "sha256": "8aabbdbf6858604d934620ddc4ac578a87580bdd7773553d450b728136a61387",
+      "bytes": 4376
+    },
+    {
+      "path": "schemas/domain_routing_decision.schema.json",
+      "sha256": "9296ad63999167a8605bcc5aa28bb29b1e701be3c918cc12ed36de862838f4f1",
+      "bytes": 2759
     },
     {
       "path": "schemas/effect_estimate.schema.json",
@@ -382,9 +447,14 @@
       "bytes": 4178
     },
     {
+      "path": "schemas/server_training_handoff.schema.json",
+      "sha256": "22677a24b3ddf7fee85b28ad96a7e2b9bd279a683c5c49d1f7820caec476d595",
+      "bytes": 2556
+    },
+    {
       "path": "schemas/system_capability_matrix.schema.json",
-      "sha256": "a2bc9e4129abe290f1b24595a67804d6fd559795a771e3392770f796ecb2d7f1",
-      "bytes": 7946
+      "sha256": "0f79770db1d54a458b580b2199bb097162512cfbbdff55eb2bcc8eddb8610dbe",
+      "bytes": 11545
     },
     {
       "path": "schemas/temporal_evidence_landscape.schema.json",
@@ -438,8 +508,8 @@
     },
     {
       "path": "schemas/training_corpus_plan.schema.json",
-      "sha256": "7d8c1a6cd70ac580d82f10741040420fdf7c58f448f978cad88ce58a2d043d37",
-      "bytes": 3976
+      "sha256": "0bb4c55d013d216de5b072ff239287bda5c1f8c6811882020e82e53e529e1360",
+      "bytes": 7343
     },
     {
       "path": "schemas/training_document_manifest.schema.json",
@@ -453,13 +523,23 @@
     },
     {
       "path": "schemas/training_export_manifest.schema.json",
-      "sha256": "941ea9926bf75a55c263d73f464ed6e38ea259f3d5fde87bbea1a8d28941b942",
-      "bytes": 2947
+      "sha256": "fabf7d0dc378c30e3092388ea448abf55de21044fb558689930788af4e3cdf44",
+      "bytes": 4028
+    },
+    {
+      "path": "schemas/training_pair.schema.json",
+      "sha256": "26a396ae974f15f4a0ad0da56e67dcb0d89fec1dbf747ca9a9892512c7b569f6",
+      "bytes": 2216
     },
     {
       "path": "schemas/training_run_plan.schema.json",
-      "sha256": "c11be04a7d70842664575b6b979fe7d8f5aec0f8722226db8ee1e213fcb2cf9c",
-      "bytes": 3125
+      "sha256": "52ac5ef68908309f968ccb8a16f3eb3fa7ac1cf40c398cc64137bfd9ec031686",
+      "bytes": 4492
+    },
+    {
+      "path": "scripts/audit_biomedical_coverage.py",
+      "sha256": "9ae1c82aefef32c4f84d7cb8e79bf2d4a506d96ba22f70b494fe8654687bd866",
+      "bytes": 1465
     },
     {
       "path": "scripts/audit_system_coverage.py",
@@ -480,6 +560,11 @@
       "path": "scripts/build_poolability_matrix.py",
       "sha256": "bdbc402e9b1a16d0e9be31bb6eaadd5ec7bb23502ce5ddd939cd193dd87a5af1",
       "bytes": 1135
+    },
+    {
+      "path": "scripts/build_server_training_handoff.py",
+      "sha256": "c6cf753e570d65e3e225ee062d0c00287b323e78f8f9d69337d1b6ddffa699ff",
+      "bytes": 3944
     },
     {
       "path": "scripts/build_tool_catalog.py",
@@ -553,8 +638,8 @@
     },
     {
       "path": "scripts/export_training_splits.py",
-      "sha256": "06f5b6d6ec7d9c7eb9d93d8312c08fe0c8c502480f9d76007302b08259dc4b79",
-      "bytes": 5446
+      "sha256": "1537baa3458e2ebfcc8236dd0e57d72c7e515d202272e40f9d5a0f05d7efe618",
+      "bytes": 7153
     },
     {
       "path": "scripts/fetch_benchmark_materials.py",
@@ -568,8 +653,8 @@
     },
     {
       "path": "scripts/freeze_training_dataset.py",
-      "sha256": "42c6e7b77a1e41d908333dcacc65e522b62291ac294f09d7238f96c99c0fd443",
-      "bytes": 2376
+      "sha256": "9ee28afb741bd4d9bb96ab7c263338b93c273f148ea31e85780733713a839574",
+      "bytes": 3283
     },
     {
       "path": "scripts/guard_scientific_action.py",
@@ -588,8 +673,8 @@
     },
     {
       "path": "scripts/init_review.py",
-      "sha256": "d481a703873cbc1bcbc94f471f7d1f1aefad6cfdc21a6a7563c47a98f6652b74",
-      "bytes": 20906
+      "sha256": "c6a363c42ca4272a690bf9736fa2a2f9e8e2e07cf5818f24d5d2ea1e1181d1b7",
+      "bytes": 22600
     },
     {
       "path": "scripts/inspect_graph.py",
@@ -603,8 +688,8 @@
     },
     {
       "path": "scripts/metawingman_core/__init__.py",
-      "sha256": "1bc84c9cc6510941216d65bc5f7a60a160bbad6185afc987742d38bbb7115fb6",
-      "bytes": 1649
+      "sha256": "14a178cafb1ad021f73dd5c5003f5db7be4a94f1f0859e1e2bcec6b0220d3cfe",
+      "bytes": 1882
     },
     {
       "path": "scripts/metawingman_core/action_guard.py",
@@ -627,6 +712,11 @@
       "bytes": 15550
     },
     {
+      "path": "scripts/metawingman_core/biomedical_domain.py",
+      "sha256": "474615471ca2f1d0f3dc86ab48adf031b4c4f33c9bc9aecc3c25c7d463a77dcd",
+      "bytes": 11972
+    },
+    {
       "path": "scripts/metawingman_core/capability_router.py",
       "sha256": "473c76e707f85f6dd406a20ebb793197a05c1aaefc946d3ab726eb428db652c1",
       "bytes": 3998
@@ -643,8 +733,8 @@
     },
     {
       "path": "scripts/metawingman_core/coverage_audit.py",
-      "sha256": "d2f33abe20d561485583df43c4ba23e40e4c4a8fd941ed2803849c78fb528f4e",
-      "bytes": 7528
+      "sha256": "b0c1ef0f3f9ecc306ac11b9ad789f72d2c9fa821bd79e4efef29b60badcbf09e",
+      "bytes": 19895
     },
     {
       "path": "scripts/metawingman_core/document_ingestor.py",
@@ -668,8 +758,8 @@
     },
     {
       "path": "scripts/metawingman_core/living_update.py",
-      "sha256": "f0c43fa8938061227e186e4735e672058374e7f55ccd7c28bc9a7520b8a31f0e",
-      "bytes": 7520
+      "sha256": "5d63c4845d3722f22321c2bc5a97448b19b834f14c50b28d6044d6b86b6c39dc",
+      "bytes": 17818
     },
     {
       "path": "scripts/metawingman_core/method_contract.py",
@@ -727,6 +817,11 @@
       "bytes": 10131
     },
     {
+      "path": "scripts/metawingman_core/server_handoff.py",
+      "sha256": "fd0f619914371be233db322b97b0c43e6d456158a67b2293c4e192d91f0416f2",
+      "bytes": 4536
+    },
+    {
       "path": "scripts/metawingman_core/state_store.py",
       "sha256": "de7de8253286b8065f703036634d5fc30932ab2ae767baa1b84ccb29b3c25de6",
       "bytes": 7673
@@ -743,8 +838,13 @@
     },
     {
       "path": "scripts/metawingman_core/training_corpus.py",
-      "sha256": "d9496c3729d899be4420a5cb9a60cbfc07aba79410234400c1a0a048a0dedc28",
-      "bytes": 34289
+      "sha256": "90cfbefc8fb28205608ebada88eade60f47c9cf67036039b5b79bd4bc3e8afec",
+      "bytes": 55336
+    },
+    {
+      "path": "scripts/migrate_biomedical_context.py",
+      "sha256": "06e611868eaa3e871bb13e122fee1533732d73d320d2b3baee0b9c2b2c629b56",
+      "bytes": 5079
     },
     {
       "path": "scripts/package_benchmark.py",
@@ -758,8 +858,18 @@
     },
     {
       "path": "scripts/plan_training_corpus.py",
-      "sha256": "ed875501e8cb9ed9b9716a378928e30089f8fad1e4cf6daa3fd00d847ff90be7",
-      "bytes": 2109
+      "sha256": "d627542d8d0f3c9a65115751418dd88e6682676f9e9c6940289d6364d6244618",
+      "bytes": 2883
+    },
+    {
+      "path": "scripts/preflight_component_training.py",
+      "sha256": "603682bd3149d33ed9fb5a34020bed1847eedfb1d3f0fa35485c12d5ade58a99",
+      "bytes": 1264
+    },
+    {
+      "path": "scripts/prepare_component_training.py",
+      "sha256": "cc3dd01f514126c48a3c59da004d346f7095a815402f123736e464d4606e7aaa",
+      "bytes": 4591
     },
     {
       "path": "scripts/prepare_training_annotation_tasks.py",
@@ -1457,9 +1567,24 @@
       "bytes": 890
     },
     {
+      "path": "scripts/resolve_biomedical_context.py",
+      "sha256": "5863faeaba0e1c9f9b60d3c31d99cdd380da2cbefd138f20c68afe4af3b30d1c",
+      "bytes": 1468
+    },
+    {
+      "path": "scripts/route_domain_packs.py",
+      "sha256": "1fb89843edeae124ce9987c113ebade0299d645046e0c87e457988cba3474c32",
+      "bytes": 1889
+    },
+    {
       "path": "scripts/route_models.py",
       "sha256": "f06998b70b0c51c93d4704adfa77c3e8e597ff4ecdb780aaab9fed386df6bc46",
       "bytes": 192
+    },
+    {
+      "path": "scripts/run_component_training.py",
+      "sha256": "18e76ad7af5c933977e259d911a3ab7520e5cc566b1a491f182b3bd89f5d818c",
+      "bytes": 9051
     },
     {
       "path": "scripts/screen_record.py",
@@ -1483,8 +1608,8 @@
     },
     {
       "path": "scripts/validate_project.py",
-      "sha256": "a5344d4294c22f0e6dc9f2929c8de10133cf4ac49a5d0e616a552f8882bcef83",
-      "bytes": 11730
+      "sha256": "f15fad4535ec44ba3b350bafcae8bece35f4e0721ff07c7b26046c82cd5e7e9f",
+      "bytes": 13544
     },
     {
       "path": "scripts/verify_citations.py",

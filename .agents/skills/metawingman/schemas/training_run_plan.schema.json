@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": ["schema_version", "run_plan_id", "created_at_utc", "dataset", "model_contract", "objectives", "evaluation", "contamination_controls", "execution_state"],
   "properties": {
-    "schema_version": {"const": "1.0"},
+    "schema_version": {"enum": ["1.0", "1.1"]},
     "run_plan_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
     "created_at_utc": {"type": "string", "format": "date-time"},
     "dataset": {
@@ -20,7 +20,12 @@
         "examples_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
         "train_examples": {"type": "integer", "minimum": 0},
         "development_examples": {"type": "integer", "minimum": 0},
-        "held_out_examples": {"const": 0}
+        "held_out_examples": {"const": 0},
+        "pairs_path": {"type": "string", "minLength": 1},
+        "pairs_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "train_pairs": {"type": "integer", "minimum": 0},
+        "development_pairs": {"type": "integer", "minimum": 0},
+        "biomedical_strata_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}}
       }
     },
     "model_contract": {
@@ -58,6 +63,31 @@
         "model_memory_risk_recorded": {"const": true}
       }
     },
-    "execution_state": {"const": "planned_not_trained"}
-  }
+    "objective_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["section_role_classification", "evidence_retrieval"],
+      "properties": {
+        "section_role_classification": {"enum": ["blocked", "ready_for_server_preflight"]},
+        "evidence_retrieval": {"enum": ["blocked", "ready_for_server_preflight"]}
+      }
+    },
+    "execution_state": {"enum": ["planned_not_trained", "ready_for_server_preflight"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"schema_version": {"const": "1.1"}}, "required": ["schema_version"]},
+      "then": {
+        "required": ["objective_readiness"],
+        "properties": {
+          "dataset": {"required": ["pairs_path", "pairs_sha256", "train_pairs", "development_pairs", "biomedical_strata_counts"]},
+          "execution_state": {"const": "ready_for_server_preflight"}
+        }
+      },
+      "else": {
+        "properties": {"execution_state": {"const": "planned_not_trained"}},
+        "not": {"required": ["objective_readiness"]}
+      }
+    }
+  ]
 }

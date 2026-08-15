@@ -8,7 +8,7 @@
     "family_registry_path": "research/top-journal-review-family-registry.json",
     "family_registry_sha256": "79956a0b89bc96ed1dcfea6f43965123ef389e21ab0f21726025aaeec2bbd20b",
     "specialty_registry_path": "metawingman/references/domain-packs/specialty-registry.json",
-    "specialty_registry_sha256": "9f10d9a896ce87c29fef1d6992a8706c9726eb76beeb87dea728f8223602e2fa"
+    "specialty_registry_sha256": "15d50ac8e4a5ec157176d84992a28892179692e1c7a13518a0399627a36193ed"
   },
   "policy": {
     "seed": 20260815,

@@ -13,6 +13,138 @@
       "Do not claim first, comprehensive validation, human equivalence, or labor savings without direct evidence."
     ]
   },
+  "biomedical_coverage": {
+    "application_domain": "human_health_clinical_translational_biomedicine",
+    "pack_root": "references/domain-packs",
+    "scientific_claim_ceiling": "implemented_not_scientifically_validated",
+    "expected_profile_ids": [
+      "intervention", "network", "diagnostic", "prognostic", "prediction-model",
+      "etiology", "prevalence", "incidence", "harms", "dose-response", "ipd",
+      "measurement", "scoping", "qualitative", "mixed-methods", "economic",
+      "umbrella", "rapid", "living", "prospective", "other"
+    ],
+    "expected_specialty_ids": [
+      "general-medicine", "oncology", "cardiovascular-medicine", "neurology",
+      "infectious-disease", "mental-health", "maternal-child-health", "public-health",
+      "drug-safety", "diagnostics", "imaging", "clinical-omics"
+    ],
+    "pack_inventory": [
+      {
+        "pack_id": "biomedical-foundation",
+        "version": "1.0.0",
+        "content_sha256": "f7fd6908336e091a646903a80d9c6b558cfabcd55afd666ce620f3d2766b06d3",
+        "validation_level": "fixture_tested",
+        "terminology_releases": [],
+        "authority_versions": [
+          {
+            "source_id": "methodology-source-registry",
+            "version": "2026-08-15",
+            "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f"
+          }
+        ]
+      },
+      {
+        "pack_id": "profile-diagnostic",
+        "version": "1.0.0",
+        "content_sha256": "08b0d4c517e43123b1655fea9d56e0d484948f05122fc4138180158faafcb764",
+        "validation_level": "contract_only",
+        "terminology_releases": [],
+        "authority_versions": [
+          {
+            "source_id": "methodology-source-registry",
+            "version": "2026-08-15",
+            "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f"
+          },
+          {
+            "source_id": "appraisal-certainty",
+            "version": "2026-08-15",
+            "content_sha256": "bd317112e89ff21f184e468071bc1a885a8efc16380db3ba87a9098629947e19"
+          }
+        ]
+      },
+      {
+        "pack_id": "profile-harms",
+        "version": "1.0.0",
+        "content_sha256": "fe79cd55ef079fb4688a98bc605ff6a9deea42c0f836fc4e95e8eeb0b690ef18",
+        "validation_level": "contract_only",
+        "terminology_releases": [],
+        "authority_versions": [
+          {
+            "source_id": "methodology-source-registry",
+            "version": "2026-08-15",
+            "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f"
+          },
+          {
+            "source_id": "appraisal-certainty",
+            "version": "2026-08-15",
+            "content_sha256": "bd317112e89ff21f184e468071bc1a885a8efc16380db3ba87a9098629947e19"
+          }
+        ]
+      },
+      {
+        "pack_id": "profile-intervention",
+        "version": "1.0.0",
+        "content_sha256": "4684e560026d26e17de426f7b7ae6c0ff78cb8909761913e2d5d08c14ea2f721",
+        "validation_level": "contract_only",
+        "terminology_releases": [],
+        "authority_versions": [
+          {
+            "source_id": "methodology-source-registry",
+            "version": "2026-08-15",
+            "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f"
+          },
+          {
+            "source_id": "appraisal-certainty",
+            "version": "2026-08-15",
+            "content_sha256": "bd317112e89ff21f184e468071bc1a885a8efc16380db3ba87a9098629947e19"
+          }
+        ]
+      },
+      {
+        "pack_id": "profile-prognostic",
+        "version": "1.0.0",
+        "content_sha256": "25db243dbbe01dfa16b0a68edc5d643cfd146b5bb577b61c3208041e02786dca",
+        "validation_level": "contract_only",
+        "terminology_releases": [],
+        "authority_versions": [
+          {
+            "source_id": "methodology-source-registry",
+            "version": "2026-08-15",
+            "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f"
+          },
+          {
+            "source_id": "appraisal-certainty",
+            "version": "2026-08-15",
+            "content_sha256": "bd317112e89ff21f184e468071bc1a885a8efc16380db3ba87a9098629947e19"
+          }
+        ]
+      },
+      {
+        "pack_id": "specialty-registry",
+        "version": "1.0.0",
+        "content_sha256": "24bdc029e9767c93cd0c725d64a784026236f3808b00a864aa7ab4ad60022a3d",
+        "validation_level": "contract_only",
+        "terminology_releases": [],
+        "authority_versions": [
+          {
+            "source_id": "methodology-source-registry",
+            "version": "2026-08-15",
+            "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f"
+          }
+        ]
+      }
+    ],
+    "capability_evidence": [
+      {"capability_id": "terminology_normalization", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py"]},
+      {"capability_id": "source_selection", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py"]},
+      {"capability_id": "ood_detection", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py"]},
+      {"capability_id": "domain_routing", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py", "scripts/route_domain_packs.py"]},
+      {"capability_id": "profile_routing", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py"]},
+      {"capability_id": "authority_lookup", "evidence_paths": ["references/methodology-source-registry.md"]},
+      {"capability_id": "specialty_resolution", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py"]},
+      {"capability_id": "weak_title_term_matching", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py"]}
+    ]
+  },
   "lifecycle_stages": [
     {
       "stage_id": "topic_feasibility",

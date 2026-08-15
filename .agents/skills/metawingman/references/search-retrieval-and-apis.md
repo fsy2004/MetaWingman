@@ -15,6 +15,8 @@ Build concepts from the question and eligibility criteria, then combine controll
 
 Translate separately for every platform. Preserve the exact executed syntax; a conceptual strategy is not a reproducible search.
 
+Resolve biomedical terminology through the active, hash-bound domain packs before query translation. Record unresolved concepts and alternative mappings with confidence and source spans. A specialty pack may add synonyms, controlled-vocabulary candidates, or known-item tests, but it cannot silently narrow eligibility, omit a required source, or convert a concept mapping into a clinical fact.
+
 ## Source coverage
 
 Select sources by domain and review profile. Common biomedical layers include:
@@ -28,6 +30,8 @@ Select sources by domain and review profile. Common biomedical layers include:
 - backward references, forward citations, related-article searching, included-author searching, and existing-review cross-checks.
 
 Database coverage is an empirical project fact. Never claim a source was searched from a plan, login, subscription, or API capability.
+
+When domain routing abstains, preserve the draft strategy and blocking concepts without executing a consequential search. Out-of-domain requests do not inherit biomedical database coverage by analogy.
 
 ## API automation
 
