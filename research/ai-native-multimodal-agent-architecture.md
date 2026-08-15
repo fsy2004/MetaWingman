@@ -255,7 +255,7 @@ AI-only 验证应报告：覆盖率、弃权率、关键错误率、准确率、
 4. evidence anchor 与 decision provenance graph；
 5. component-level eval harness。
 
-当前 P0 typed control plane 已覆盖 review/profile/protocol、event/evidence/provenance、文档/lineage/extraction、appraisal/poolability/analysis/claim、living update，以及 `temporal_evidence_landscape`、`topic_proposal_batch`、`topic_candidate`、`topic_opportunity_decision` 和 topic rediscovery。已实现模块包括 state/schema/action guards、capability router、credential boundary、provenance graph、受约束模型提案器、冻结选题组合器和 DeepSeek 文本适配器；这些仍只是 fixture-tested primitives，不代表自动图谱构建、选题信号校准、真实全文多模态解析或任何综述家族的科学验证已经完成。
+当前 P0 typed control plane 已覆盖 review/profile/protocol、event/evidence/provenance、文档/lineage/extraction、appraisal/poolability/analysis/claim、living update，以及 `temporal_evidence_landscape`、`topic_proposal_batch`、`topic_candidate`、`topic_opportunity_decision` 和 topic rediscovery。已实现模块包括 state/schema/action guards、capability router、credential boundary、provenance graph、受约束模型提案器、冻结选题组合器、DeepSeek 专用适配器、通用 OpenAI-compatible provider 配置和 schema-gated candidate runner；通用合同已通过 DeepSeek 兼容端点真实调用，但这些仍只是工程连通与候选生成证据，不代表自动图谱构建、选题信号校准、真实全文多模态解析、第二独立 provider 或任何综述家族的科学验证已经完成。
 
 ### P1：先做两个最能体现 AI 的纵向切片
 

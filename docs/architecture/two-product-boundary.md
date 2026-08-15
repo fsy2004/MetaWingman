@@ -1,7 +1,7 @@
 # MetaWingman Two-Product Boundary
 
 Status: binding implementation contract
-Last checked: 2026-08-13
+Last checked: 2026-08-15
 
 ## Product 1: Standalone Skill
 
@@ -16,6 +16,8 @@ The later Agent runtime consumes the same schemas and methods but orchestrates o
 An adapter must return the same content-free provenance fields: provider, model/version, finish status, content hash, token usage, credential source and optional system fingerprint. Capability registration, calibration, modalities, context, cost, latency and allowed tools belong in `model_registry`; API shape or brand does not determine scientific authority.
 
 DeepSeek is only the first connectivity adapter. It is not the architecture, default scientific judge or required public dependency. Future adapters may target any compatible commercial, domestic, institutional or local runtime, including OpenAI-compatible endpoints, native provider APIs, vLLM and Ollama, without changing the scientific workflow.
+
+The external runtime now implements a validated secret-free provider configuration, a generic OpenAI-compatible adapter, explicit loopback-only HTTP support for local runtimes, and a schema-gated candidate runner. The generic contract has been exercised through the live DeepSeek-compatible endpoint; that proves interface portability only, not independent-provider evidence. See [model-provider-support-matrix.md](model-provider-support-matrix.md).
 
 ## Shared and Separate Assets
 

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-08-14T11:43:42.014364+00:00",
+  "generated_at_utc": "2026-08-15T03:11:50.242079+00:00",
   "source": {
     "name": "Europe PMC",
     "api_version": "6.9",
@@ -64,10 +64,10 @@
     "queries": 23,
     "reported_hits": 4098,
     "unique_records": 4098,
-    "development_candidates": 3702,
-    "held_for_integrity": 383,
+    "development_candidates": 3534,
+    "held_for_integrity": 388,
     "excluded_retracted": 9,
-    "excluded_non_reference": 4,
+    "excluded_non_reference": 167,
     "open_access_records": 2605,
     "by_stratum": {
       "leading_open_and_field_medical": 2741,
@@ -508,7 +508,6 @@
       "publication_types": [
         "Journal Article",
         "Meta-Analysis",
-        "Review",
         "review-article",
         "Systematic Review"
       ],
@@ -4968,7 +4967,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -15484,7 +15483,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -15595,7 +15594,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -15783,7 +15782,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -17483,7 +17482,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -18398,7 +18397,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -19682,7 +19681,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -20006,7 +20005,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -20354,7 +20353,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -20570,7 +20569,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -20649,7 +20648,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -20699,9 +20698,9 @@
       "cited_by_count": 0,
       "source_url": "https://europepmc.org/article/MED/41941548",
       "reference_status": "published_expert_reference",
-      "integrity_status": "no_status_update_in_epmc_record",
+      "integrity_status": "status_update_requires_audit",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "hold_integrity_review",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -20755,7 +20754,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -20835,7 +20834,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -20860,7 +20859,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -20885,7 +20884,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -20910,7 +20909,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -20989,7 +20988,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -21014,7 +21013,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -21039,7 +21038,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -21064,7 +21063,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -21402,7 +21401,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -21427,7 +21426,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -21483,7 +21482,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -21508,7 +21507,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -21881,7 +21880,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22082,7 +22081,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22110,7 +22109,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22199,7 +22198,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22228,7 +22227,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22257,7 +22256,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22286,7 +22285,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22376,7 +22375,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22405,7 +22404,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22433,7 +22432,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22548,7 +22547,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22577,7 +22576,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22605,7 +22604,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22635,7 +22634,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -22899,7 +22898,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -23650,7 +23649,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -23678,7 +23677,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -23963,7 +23962,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -23992,7 +23991,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -24021,7 +24020,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -24049,7 +24048,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -24249,7 +24248,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -24277,7 +24276,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -24437,7 +24436,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -25041,7 +25040,7 @@
       ],
       "is_open_access": true,
       "license": "cc by",
-      "cited_by_count": 0,
+      "cited_by_count": 2,
       "source_url": "https://europepmc.org/article/MED/41816189",
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
@@ -25601,7 +25600,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -25629,7 +25628,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -27481,7 +27480,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -27532,7 +27531,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -37175,7 +37174,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -37253,7 +37252,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -37357,7 +37356,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -38443,7 +38442,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -41870,9 +41869,9 @@
       "cited_by_count": 0,
       "source_url": "https://europepmc.org/article/MED/36721986",
       "reference_status": "published_expert_reference",
-      "integrity_status": "no_status_update_in_epmc_record",
+      "integrity_status": "status_update_requires_audit",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "hold_integrity_review",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -42166,7 +42165,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -42550,7 +42549,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -43410,7 +43409,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -43466,7 +43465,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -43613,7 +43612,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -43972,7 +43971,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -44059,7 +44058,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -44088,7 +44087,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -44147,7 +44146,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -44562,7 +44561,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -44591,7 +44590,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -44619,7 +44618,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -44707,7 +44706,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -44735,7 +44734,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -44955,9 +44954,9 @@
       "cited_by_count": 0,
       "source_url": "https://europepmc.org/article/MED/29087458",
       "reference_status": "published_expert_reference",
-      "integrity_status": "no_status_update_in_epmc_record",
+      "integrity_status": "status_update_requires_audit",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "hold_integrity_review",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -45482,7 +45481,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -45690,7 +45689,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -45797,7 +45796,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -45854,7 +45853,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -45879,7 +45878,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -46921,7 +46920,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -47006,7 +47005,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -47232,7 +47231,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -47260,7 +47259,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -47289,7 +47288,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -47490,7 +47489,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -47749,7 +47748,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -47916,9 +47915,9 @@
       "cited_by_count": 44,
       "source_url": "https://europepmc.org/article/MED/39556338",
       "reference_status": "published_expert_reference",
-      "integrity_status": "no_status_update_in_epmc_record",
+      "integrity_status": "status_update_requires_audit",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "hold_integrity_review",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -49362,7 +49361,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -49799,7 +49798,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -49977,7 +49976,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -50005,7 +50004,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -51323,9 +51322,9 @@
       "cited_by_count": 0,
       "source_url": "https://europepmc.org/article/MED/39869340",
       "reference_status": "published_expert_reference",
-      "integrity_status": "no_status_update_in_epmc_record",
+      "integrity_status": "status_update_requires_audit",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "hold_integrity_review",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -56464,7 +56463,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -67010,7 +67009,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -67506,7 +67505,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -69225,7 +69224,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -69511,7 +69510,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -70310,7 +70309,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -70339,7 +70338,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -70395,7 +70394,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -71428,7 +71427,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -71456,7 +71455,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -71510,7 +71509,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -71540,7 +71539,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -72369,7 +72368,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -74721,7 +74720,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -74749,7 +74748,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -75251,7 +75250,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -75280,7 +75279,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -75339,7 +75338,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -76470,7 +76469,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -84751,7 +84750,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -84779,7 +84778,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -87134,7 +87133,7 @@
       ],
       "is_open_access": true,
       "license": "cc by-nc-nd",
-      "cited_by_count": 9,
+      "cited_by_count": 10,
       "source_url": "https://europepmc.org/article/MED/41776077",
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
@@ -94592,7 +94591,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -94622,7 +94621,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -95184,7 +95183,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -95508,7 +95507,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -95536,7 +95535,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -96063,7 +96062,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -96438,7 +96437,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -96658,7 +96657,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -96798,7 +96797,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -97551,7 +97550,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -98671,7 +98670,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -98993,7 +98992,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -101433,7 +101432,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -102070,7 +102069,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -103509,7 +103508,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -103626,7 +103625,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -103989,7 +103988,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -104254,7 +104253,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -104309,7 +104308,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -109051,7 +109050,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -109476,7 +109475,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -109615,7 +109614,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -109756,7 +109755,7 @@
       "status_update_types": [
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -110130,7 +110129,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -110379,7 +110378,7 @@
       "reference_status": "published_expert_reference",
       "integrity_status": "no_status_update_in_epmc_record",
       "status_update_types": [],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -110669,7 +110668,7 @@
       "status_update_types": [
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -110728,7 +110727,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -110869,7 +110868,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -110952,7 +110951,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -111125,7 +111124,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -111326,7 +111325,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -111417,7 +111416,7 @@
       "status_update_types": [
         "Comment in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -111532,7 +111531,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -111643,7 +111642,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -111701,7 +111700,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -112104,7 +112103,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -112166,7 +112165,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -112258,7 +112257,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -112786,7 +112785,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -112815,7 +112814,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -112925,7 +112924,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -112953,7 +112952,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -112982,7 +112981,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -113011,7 +113010,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -113040,7 +113039,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -113071,7 +113070,7 @@
         "Comment in",
         "Summary for patients in"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -113996,7 +113995,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -114025,7 +114024,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -114053,7 +114052,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -114135,7 +114134,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -114164,7 +114163,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -114192,7 +114191,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -114660,7 +114659,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -114688,7 +114687,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -115315,7 +115314,7 @@
         "Comment in",
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },
@@ -115343,7 +115342,7 @@
       "status_update_types": [
         "Comment on"
       ],
-      "admission_status": "development_candidate",
+      "admission_status": "exclude_non_reference",
       "family_assignment_status": "pending_review_family_clustering",
       "split_status": "unassigned_pending_family_audit"
     },

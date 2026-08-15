@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/provider_config.schema.json",
+  "title": "MetaWingman external model provider configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "provider_id", "adapter", "display_name", "base_url",
+    "model", "api_key_required", "api_key_env", "credential_target",
+    "allow_local_http", "features"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "provider_id": {"type": "string", "pattern": "^[a-z0-9._-]+$"},
+    "adapter": {"enum": ["deepseek", "openai_compatible"]},
+    "display_name": {"type": "string", "minLength": 1},
+    "base_url": {"type": "string", "format": "uri"},
+    "model": {"type": "string", "minLength": 1},
+    "api_key_required": {"type": "boolean"},
+    "api_key_env": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+    "credential_target": {"type": ["string", "null"], "minLength": 1},
+    "allow_local_http": {"type": "boolean"},
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["json_output", "reasoning_effort", "deepseek_thinking"],
+      "properties": {
+        "json_output": {"type": "boolean"},
+        "reasoning_effort": {"type": "boolean"},
+        "deepseek_thinking": {"type": "boolean"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"adapter": {"const": "deepseek"}}},
+      "then": {
+        "properties": {
+          "api_key_required": {"const": true},
+          "allow_local_http": {"const": false}
+        }
+      }
+    }
+  ]
+}

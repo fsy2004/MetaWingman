@@ -1,7 +1,7 @@
 # MetaWingman release checklist
 
 Status: local release engineering in progress
-Last checked: 2026-08-13
+Last checked: 2026-08-15
 
 ## R0 repository skill
 
@@ -47,7 +47,7 @@ Last checked: 2026-08-13
 - [x] Produce exact Python core/PDF and direct R package locks; validate Python in an isolated Windows environment and validate R pins against the local tested runtime.
 - [ ] Validate the exact locks in isolated Linux and isolated R libraries. Linux is represented in CI but has not run from this unpushed worktree; WSL has no installed distribution locally.
 - [x] Route every implemented append mutation through a cross-process lock with schema validation and unique-key enforcement. Empty streams without mutation APIs remain single-writer artifacts; distributed services stay disabled until their future writers use the same primitive or a transactional queue.
-- [ ] Publish the exact data-flow and model-provider support matrix.
+- [x] Publish the exact data-flow and model-provider support matrix, including live, contract-only and unsupported evidence levels.
 - [ ] Submit only after R0, R1, and scientific benchmark gates pass.
 
 No checklist item authorizes a remote push, marketplace submission, account creation, purchase, or external publication. Those remain explicit user actions.

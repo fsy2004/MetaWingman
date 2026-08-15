@@ -54,13 +54,22 @@ class SkillDistributionTests(unittest.TestCase):
             self.assertEqual(manifest["requirements"]["execution_model"], "host_model_only")
             self.assertEqual(manifest["requirements"]["direct_model_api"], "not bundled")
             forbidden = [
+                "references/deepseek-provider-config.json",
                 "references/deepseek-model-registry.template.json",
+                "references/provider-config.template.json",
                 "scripts/configure_provider_secret.py",
                 "scripts/probe_deepseek.py",
+                "scripts/probe_provider.py",
                 "scripts/propose_topics.py",
+                "scripts/run_structured_candidate.py",
+                "scripts/run_structured_batch.py",
                 "scripts/metawingman_core/deepseek_provider.py",
                 "scripts/metawingman_core/model_provider.py",
+                "scripts/metawingman_core/openai_compatible_provider.py",
+                "scripts/metawingman_core/provider_factory.py",
                 "scripts/metawingman_core/provider_secrets.py",
+                "scripts/metawingman_core/structured_candidate_runner.py",
+                "scripts/metawingman_core/structured_batch.py",
                 "scripts/metawingman_core/topic_proposer.py",
             ]
             for relative in forbidden:

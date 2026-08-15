@@ -8,13 +8,15 @@ import json
 from pathlib import Path
 
 from metawingman_core.deepseek_provider import DeepSeekProvider, ProviderRequestError
+from metawingman_core.provider_factory import build_provider, load_provider_config
 from metawingman_core.topic_proposer import TopicProposalError, propose_topics
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("landscape", type=Path)
-    parser.add_argument("--provider", choices=("deepseek",), default="deepseek")
+    parser.add_argument("--provider", default="deepseek", help="legacy built-in adapter name")
+    parser.add_argument("--provider-config", type=Path)
     parser.add_argument("--model")
     parser.add_argument("--max-proposals", type=int, default=5)
     parser.add_argument("--max-prompt-characters", type=int, default=250_000)
@@ -34,7 +36,17 @@ def main() -> int:
         return 1
     try:
         landscape = json.loads(args.landscape.read_text(encoding="utf-8"))
-        provider = DeepSeekProvider(model=args.model)
+        if args.provider_config:
+            config = load_provider_config(args.provider_config)
+            if args.model:
+                config = {**config, "model": args.model}
+            provider = build_provider(config)
+        elif args.provider == "deepseek":
+            provider = DeepSeekProvider(model=args.model)
+        else:
+            raise ProviderRequestError(
+                "non-DeepSeek providers require --provider-config"
+            )
         batch = propose_topics(
             landscape,
             provider,

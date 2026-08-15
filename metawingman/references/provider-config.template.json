@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "provider_id": "replace-provider-id",
+  "adapter": "openai_compatible",
+  "display_name": "Replace provider display name",
+  "base_url": "https://api.example.org/v1",
+  "model": "replace-model-name",
+  "api_key_required": true,
+  "api_key_env": "REPLACE_PROVIDER_API_KEY",
+  "credential_target": null,
+  "allow_local_http": false,
+  "features": {
+    "json_output": true,
+    "reasoning_effort": false,
+    "deepseek_thinking": false
+  }
+}

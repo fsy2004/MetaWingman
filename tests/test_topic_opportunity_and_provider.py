@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
+import tempfile
 import unittest
 from copy import deepcopy
 from pathlib import Path
@@ -17,6 +19,16 @@ from metawingman_core.deepseek_provider import (  # noqa: E402
     ProviderRequestError,
     ProviderResult,
 )
+from metawingman_core.openai_compatible_provider import (  # noqa: E402
+    OpenAICompatibleProvider,
+)
+from metawingman_core.provider_factory import build_provider  # noqa: E402
+from metawingman_core.schema_guard import validate_document  # noqa: E402
+from metawingman_core.structured_candidate_runner import (  # noqa: E402
+    StructuredCandidateError,
+    run_structured_candidate,
+)
+from metawingman_core.structured_batch import run_structured_batch  # noqa: E402
 from metawingman_core.topic_opportunity import (  # noqa: E402
     TopicOpportunityError,
     select_topic_portfolio,
@@ -352,6 +364,237 @@ class DeepSeekProviderTests(unittest.TestCase):
     def test_rejects_non_https_base_url(self) -> None:
         with self.assertRaises(ProviderRequestError):
             DeepSeekProvider(api_key="unit-test-secret", base_url="http://example.test")
+
+
+class OpenAICompatibleProviderTests(unittest.TestCase):
+    @staticmethod
+    def _config() -> dict[str, object]:
+        return {
+            "schema_version": "1.0",
+            "provider_id": "generic-test",
+            "adapter": "openai_compatible",
+            "display_name": "Generic Test",
+            "base_url": "https://models.example.test/v1",
+            "model": "model-a",
+            "api_key_required": True,
+            "api_key_env": "GENERIC_TEST_API_KEY",
+            "credential_target": None,
+            "allow_local_http": False,
+            "features": {
+                "json_output": True,
+                "reasoning_effort": False,
+                "deepseek_thinking": False,
+            },
+        }
+
+    def test_factory_builds_secret_free_generic_configuration(self) -> None:
+        config = self._config()
+        validate_document(config, "provider_config")
+        with patch.dict(os.environ, {"GENERIC_TEST_API_KEY": "unit-test-secret"}):
+            provider = build_provider(config)
+        self.assertIsInstance(provider, OpenAICompatibleProvider)
+        self.assertEqual(provider.provider_name, "Generic Test")
+        self.assertEqual(provider.credential_source, "environment:GENERIC_TEST_API_KEY")
+
+    def test_chat_uses_common_payload_without_vendor_thinking_fields(self) -> None:
+        provider = OpenAICompatibleProvider(
+            provider_name="Generic Test",
+            base_url="https://models.example.test/v1",
+            model="model-a",
+            api_key="unit-test-secret",
+            credential_source="test",
+        )
+        response = {
+            "model": "model-a-2026-08",
+            "choices": [{"finish_reason": "stop", "message": {"content": "{}"}}],
+            "usage": {"prompt_tokens": 4, "completion_tokens": 1, "total_tokens": 5},
+        }
+        with patch.object(provider, "_request", return_value=response) as request:
+            result = provider.chat(
+                [{"role": "user", "content": "Return JSON."}],
+                max_tokens=16,
+                json_output=True,
+            )
+        payload = request.call_args.args[2]
+        self.assertEqual(payload["response_format"], {"type": "json_object"})
+        self.assertNotIn("thinking", payload)
+        self.assertNotIn("reasoning_effort", payload)
+        self.assertEqual(result.provider, "Generic Test")
+
+    def test_local_keyless_endpoint_requires_explicit_loopback_opt_in(self) -> None:
+        provider = OpenAICompatibleProvider(
+            provider_name="Local Runtime",
+            base_url="http://127.0.0.1:8000/v1",
+            model="local-model",
+            api_key_required=False,
+            allow_local_http=True,
+            credential_source="none",
+        )
+        self.assertEqual(provider.credential_source, "none")
+        with self.assertRaises(ProviderRequestError):
+            OpenAICompatibleProvider(
+                provider_name="Unsafe Runtime",
+                base_url="http://192.168.1.20:8000/v1",
+                model="local-model",
+                api_key_required=False,
+                allow_local_http=True,
+            )
+
+
+class StructuredCandidateRunnerTests(unittest.TestCase):
+    @staticmethod
+    def _result(content: dict[str, object] | str) -> ProviderResult:
+        text = content if isinstance(content, str) else json.dumps(content)
+        return ProviderResult(
+            provider="generic-test",
+            model="model-a",
+            finish_reason="stop",
+            content=text,
+            content_sha256="d" * 64,
+            prompt_tokens=20,
+            completion_tokens=10,
+            total_tokens=30,
+            reasoning_tokens=None,
+            system_fingerprint=None,
+            credential_source="test",
+        )
+
+    @staticmethod
+    def _abstention() -> dict[str, object]:
+        return {
+            "schema_version": "1.0",
+            "abstention_id": "abstain-1",
+            "timestamp_utc": TIMESTAMP,
+            "stage": 3,
+            "affected_decision": "full-text eligibility",
+            "reason_code": "missing.full_text",
+            "risk_signals": ["No lawful full text is available"],
+            "required_human_role": "review_lead",
+            "status": "open",
+            "resolution": {
+                "decision": "",
+                "resolved_by": "",
+                "resolved_at_utc": "",
+                "rationale": "",
+            },
+        }
+
+    def test_valid_candidate_is_schema_gated_and_not_accepted_state(self) -> None:
+        provider = unittest.mock.Mock()
+        provider.chat.return_value = self._result(self._abstention())
+        run = run_structured_candidate(
+            task_id="task-1",
+            instruction="Create an abstention record from the supplied evidence.",
+            input_document={"full_text": None},
+            output_schema="abstention",
+            provider=provider,
+            created_at_utc=TIMESTAMP,
+        )
+        self.assertEqual(run["status"], "candidate_generated")
+        self.assertEqual(run["attempts"], 1)
+        self.assertEqual(run["usage_totals"]["total_tokens"], 30)
+        self.assertEqual(run["request_budget"]["max_tokens_per_call"], 4096)
+        self.assertEqual(run["acceptance_boundary"], "candidate_only_requires_workflow_gate")
+        self.assertNotIn("content", run["provider_provenance"])
+
+    def test_invalid_candidate_repairs_once_then_abstains(self) -> None:
+        provider = unittest.mock.Mock()
+        provider.chat.side_effect = [self._result({"wrong": True}), self._result("still invalid")]
+        run = run_structured_candidate(
+            task_id="task-2",
+            instruction="Create an abstention record.",
+            input_document={"full_text": None},
+            output_schema="abstention",
+            provider=provider,
+            created_at_utc=TIMESTAMP,
+        )
+        self.assertEqual(run["status"], "abstain")
+        self.assertEqual(run["attempts"], 2)
+        self.assertEqual(run["usage_totals"]["total_tokens"], 60)
+        self.assertIsNone(run["candidate"])
+        self.assertIn("provider_output_failed_schema_after_repair", run["reason_codes"])
+
+    def test_large_transfer_is_refused_before_provider_call(self) -> None:
+        provider = unittest.mock.Mock()
+        with self.assertRaisesRegex(StructuredCandidateError, "transfer limit"):
+            run_structured_candidate(
+                task_id="task-3",
+                instruction="Create an abstention record.",
+                input_document={"text": "x" * 100},
+                output_schema="abstention",
+                provider=provider,
+                maximum_input_characters=20,
+            )
+        provider.chat.assert_not_called()
+
+    def test_batch_reserves_repair_budget_and_resumes_checkpoint(self) -> None:
+        tasks = [
+            {
+                "schema_version": "1.0",
+                "task_id": f"batch-{index}",
+                "instruction": "Create an abstention record.",
+                "input_document": {"record": index},
+                "output_schema": "abstention",
+                "max_tokens": 32,
+                "thinking": False,
+            }
+            for index in (1, 2)
+        ]
+        provider = unittest.mock.Mock()
+        provider.chat.side_effect = [
+            self._result(self._abstention()),
+            self._result({**self._abstention(), "abstention_id": "abstain-2"}),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "runs.jsonl"
+            first = run_structured_batch(
+                tasks,
+                provider=provider,
+                output_path=output,
+                maximum_provider_calls=2,
+                maximum_reserved_output_tokens=128,
+            )
+            self.assertEqual(first["status"], "budget_stopped")
+            self.assertEqual(first["processed"], 1)
+            second = run_structured_batch(
+                tasks,
+                provider=provider,
+                output_path=output,
+                maximum_provider_calls=4,
+                maximum_reserved_output_tokens=128,
+            )
+            self.assertEqual(second["status"], "completed")
+            self.assertEqual(second["resumed"], 1)
+            self.assertEqual(second["processed"], 1)
+            self.assertEqual(len(output.read_text(encoding="utf-8").splitlines()), 2)
+
+    def test_failed_request_is_charged_at_worst_case_and_stops_batch(self) -> None:
+        tasks = [
+            {
+                "schema_version": "1.0",
+                "task_id": f"failure-{index}",
+                "instruction": "Create an abstention record.",
+                "input_document": {"record": index},
+                "output_schema": "abstention",
+                "max_tokens": 32,
+                "thinking": False,
+            }
+            for index in (1, 2)
+        ]
+        provider = unittest.mock.Mock()
+        provider.chat.side_effect = ProviderRequestError("request failed")
+        with tempfile.TemporaryDirectory() as directory:
+            summary = run_structured_batch(
+                tasks,
+                provider=provider,
+                output_path=Path(directory) / "runs.jsonl",
+                maximum_provider_calls=2,
+                maximum_reserved_output_tokens=64,
+            )
+        self.assertEqual(summary["status"], "budget_stopped")
+        self.assertEqual(summary["provider_calls_in_checkpoint"], 2)
+        self.assertEqual(len(summary["dead_letters"]), 1)
+        self.assertEqual(provider.chat.call_count, 1)
 
 
 class TopicProposerTests(unittest.TestCase):

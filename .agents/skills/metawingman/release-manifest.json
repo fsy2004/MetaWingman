@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "8cb72edcd7c5dd71e93f16bc727d78daa5d9e90fea349465be1861269d78eb02",
+  "source_tree_sha256": "d85281319eea2d441cbf9b7c6559dee3cc4590d49bf56bc8d7a1a64b1b29e283",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -262,6 +262,16 @@
       "bytes": 2859
     },
     {
+      "path": "schemas/external_agent_batch_task.schema.json",
+      "sha256": "c23c12823df6f3998a4780bc3ce8f64ce2d4cbbd52ed073af30908504e927983",
+      "bytes": 792
+    },
+    {
+      "path": "schemas/external_agent_candidate_run.schema.json",
+      "sha256": "9e3370333f37808ab4401ef53a757e9a0b150fe494a703bdbb8f5e0969841f24",
+      "bytes": 4659
+    },
+    {
       "path": "schemas/extraction_candidate.schema.json",
       "sha256": "e0748c190a762fbec3af526ccda5af13c514d10211d8c8329e3c3ca29c7540c2",
       "bytes": 3705
@@ -332,9 +342,19 @@
       "bytes": 1810
     },
     {
+      "path": "schemas/provider_config.schema.json",
+      "sha256": "90258a4c826fdf1dd2dd9a0fbbf9129f41e4b97aecbaffdffc3df2b2f6708918",
+      "bytes": 1616
+    },
+    {
       "path": "schemas/reliability_trial.schema.json",
       "sha256": "8af491f5639b50c23a9bede96eaf02b35e411fb84033451f17e7219bfac53df8",
       "bytes": 1510
+    },
+    {
+      "path": "schemas/review_family_registry.schema.json",
+      "sha256": "d84764ee05f6ff32f856b54f21fd136899225612037e06e8681421f2c4ed266c",
+      "bytes": 4545
     },
     {
       "path": "schemas/review_profile.schema.json",
@@ -442,6 +462,11 @@
       "bytes": 2014
     },
     {
+      "path": "scripts/cluster_review_families.py",
+      "sha256": "25985f166f32e7231404334a2cdafd2c75f8d00a452df328ab7e723508c449fb",
+      "bytes": 1117
+    },
+    {
       "path": "scripts/compile_claim.py",
       "sha256": "bdd2a54710518feca0fd7bd6fff12f655f667f176da300ad54270c2c2e8e2743",
       "bytes": 1064
@@ -503,8 +528,8 @@
     },
     {
       "path": "scripts/harvest_top_journal_corpus.py",
-      "sha256": "3594b646d2e87812cd4158d22d6b8d463a155e60093ff6c58963bb1a27c5ea9a",
-      "bytes": 9746
+      "sha256": "d9cc916307430bfc9df37a121783a227c07321ba3d1f4314affa38d413ff3dad",
+      "bytes": 11209
     },
     {
       "path": "scripts/ingest_document.py",
@@ -635,6 +660,11 @@
       "path": "scripts/metawingman_core/reliability.py",
       "sha256": "f72dd3c1e1a86329e9a4ccbf536e2dc84b0f2b6734710fe5cb37b3ffb62585be",
       "bytes": 4990
+    },
+    {
+      "path": "scripts/metawingman_core/review_family.py",
+      "sha256": "d3c84a3afba2df17b7bdcec032dbcb012d3251b7bab1e138afb124be2babac65",
+      "bytes": 9030
     },
     {
       "path": "scripts/metawingman_core/schema_guard.py",

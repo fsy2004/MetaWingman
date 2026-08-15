@@ -8,10 +8,50 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "metawingman/scripts"))
 
-from harvest_top_journal_corpus import harvest  # noqa: E402
+from harvest_top_journal_corpus import _record, harvest  # noqa: E402
 
 
 class TopJournalCorpusTests(unittest.TestCase):
+    def test_title_contamination_routes_notices_and_comments(self) -> None:
+        base = {
+            "source": "MED", "pubYear": "2025",
+            "journalInfo": {"journal": {"title": "Journal A"}},
+        }
+        comment = _record({
+            **base,
+            "id": "comment",
+            "title": "Comments regarding 'A systematic review and meta-analysis of alpha'.",
+            "pubTypeList": {"pubType": ["Comment", "Letter"]},
+        }, "top_general")
+        correction = _record({
+            **base,
+            "id": "correction",
+            "title": "Correction: A systematic review and meta-analysis of alpha.",
+        }, "top_general")
+        retraction = _record({
+            **base,
+            "id": "retraction",
+            "title": "Retraction notice to A systematic review and meta-analysis of alpha.",
+        }, "top_general")
+        self.assertEqual(comment["admission_status"], "exclude_non_reference")
+        self.assertEqual(correction["admission_status"], "hold_integrity_review")
+        self.assertEqual(retraction["admission_status"], "exclude_retracted")
+
+        response = _record({
+            **base,
+            "id": "response",
+            "title": "Response by Smith to Letter Regarding Article, 'A meta-analysis of alpha'.",
+            "pubTypeList": {"pubType": ["Letter"]},
+        }, "top_general")
+        recommendation = _record({
+            **base,
+            "id": "guideline",
+            "title": "Screening for Alpha: Recommendation Statement.",
+            "pubTypeList": {"pubType": ["Practice Guideline", "Systematic Review"]},
+        }, "top_general")
+        self.assertEqual(response["admission_status"], "exclude_non_reference")
+        self.assertEqual(recommendation["admission_status"], "exclude_non_reference")
+
     def test_harvest_deduplicates_and_routes_integrity_updates(self) -> None:
         responses = [
             {
@@ -72,6 +112,14 @@ class TopJournalCorpusTests(unittest.TestCase):
         self.assertEqual(
             corpus["summary"]["development_candidates"],
             sum(record["admission_status"] == "development_candidate" for record in records),
+        )
+        self.assertEqual(
+            corpus["summary"]["held_for_integrity"],
+            sum(record["admission_status"] == "hold_integrity_review" for record in records),
+        )
+        self.assertEqual(
+            corpus["summary"]["excluded_non_reference"],
+            sum(record["admission_status"] == "exclude_non_reference" for record in records),
         )
         self.assertFalse(any("abstract" in record for record in records))
 

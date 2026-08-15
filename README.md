@@ -158,6 +158,15 @@ python -m unittest discover -s .\tests -v
 # 从 Europe PMC 构建顶刊优先的系统综述训练/开发元数据语料
 python .\metawingman\scripts\harvest_top_journal_corpus.py --out .\research\top-journal-training-corpus.json
 
+# 生成保守的综述家族候选注册表；建议 split 在完成家族审计前不可使用
+python .\metawingman\scripts\cluster_review_families.py .\research\top-journal-training-corpus.json --out .\research\top-journal-review-family-registry.json
+
+# 外接 Agent：通过无密钥配置探测任意兼容 provider
+python .\metawingman\scripts\probe_provider.py .\metawingman\references\deepseek-provider-config.json
+
+# 外接 Agent：按调用/输出预算运行可恢复的 schema-gated JSONL 批任务
+python .\metawingman\scripts\run_structured_batch.py .\tasks.jsonl --provider-config .\provider.json --out .\runs.jsonl --max-provider-calls 20 --max-reserved-output-tokens 81920 --allow-hosted-data-transfer
+
 # 审计生命周期、综述类型、统计路线与验证等级的实际覆盖
 python .\metawingman\scripts\audit_system_coverage.py
 
@@ -192,9 +201,10 @@ AI-only 评测以已发表系统综述/Meta-analysis 的时间切分重建为主
 - [顶刊式贡献叙事契约](docs/architecture/top-journal-contribution-story.md)：把选题机会控制、全流程系统、结论风险控制和时间封存/反事实评价组织为一条可证伪的科学故事，并规定每项所需证据。
 - [创新与可证伪矩阵](docs/architecture/innovation-and-falsification-matrix.md)：区分方法复用与 MetaWingman 特有优化，并为每个候选创新绑定直接对照、消融和失败条件。
 - [机器可审计能力矩阵](metawingman/references/system-capability-matrix.json)：分别登记十阶段生命周期、21 类 review profile、19 条 synthesis route、跨阶段控制及其验证等级，防止把 workflow coverage 写成已验证能力。
-- [AI-only benchmark protocol](docs/architecture/ai-only-benchmark-protocol.md)、[顶刊训练/开发语料](research/top-journal-training-corpus.json)、[选题目标注册表](research/topic-rediscovery-target-registry.json)、[广泛复现发现目录](research/meta-reproduction-discovery-catalog.json)与[严格全流程候选注册表](research/benchmark-candidate-registry.json)：先用官方 API 大批量收录元数据，再按综述家族、历史边界、冻结/封存、论文更正、许可和污染边界晋升正式 benchmark；期刊层级只用于抽样和分层，不进入质量评分。
+- [AI-only benchmark protocol](docs/architecture/ai-only-benchmark-protocol.md)、[顶刊训练/开发语料](research/top-journal-training-corpus.json)、[综述家族候选注册表](research/top-journal-review-family-registry.json)、[选题目标注册表](research/topic-rediscovery-target-registry.json)、[广泛复现发现目录](research/meta-reproduction-discovery-catalog.json)与[严格全流程候选注册表](research/benchmark-candidate-registry.json)：官方 API 当前收录 4,098 条元数据，其中 3,534 条为开发候选、388 条等待完整性审计、9 条撤稿排除、167 条评论/来信/指南声明等非参考材料排除；家族层只给出 281 条待审计边和 split 建议，尚无 family 可进入 held-out。期刊层级只用于抽样和分层，不进入质量评分。
 - [Skill 与 plugin 发布方案](docs/architecture/distribution-and-skill-release.md)：单一 skill 源、repo 自动发现、个人安装、skills-only plugin 和公共发布门槛。
 - [Skill/Agent 双产品边界](docs/architecture/two-product-boundary.md)：规定 skill 使用宿主模型且不含模型 API client，后续 Agent 通过 provider-neutral contract 接入任意模型。
+- [模型 provider 与数据流矩阵](docs/architecture/model-provider-support-matrix.md)：区分 DeepSeek 实时连通、通用兼容接口测试、本地 loopback 合同测试和未支持原生 API，并规定密钥、托管传输、schema 校验与候选接纳边界。
 - [算力与部署预算](docs/architecture/compute-and-deployment-budget.md)：cloud-first、hybrid、全本地和团队服务的硬件、成本与 benchmark 方案。
 - [全流程能力、判断瓶颈与创新地图](research/full-workflow-agent-landscape-and-innovation-map.md)：系统综述与 Meta-analysis 全流程能力矩阵和方法学边界。
 - [Meta agent 缺口与研究路线](research/meta-agent-gaps-and-paper-roadmap.md)：早期竞品、工程审计要求和论文路线保留稿。

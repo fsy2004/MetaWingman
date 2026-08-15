@@ -36,6 +36,17 @@ DEFAULT_JOURNAL_STRATA = {
     ],
 }
 
+INTEGRITY_TITLE_PREFIXES = (
+    "correction", "corrigendum", "erratum", "expression of concern",
+    "retraction notice", "retracted:",
+)
+NON_REFERENCE_TITLE_PREFIXES = (
+    "comment", "comments", "response to", "response by", "reply", "authors' reply", "author reply",
+    "editorial comment", "considerations regarding", "correspondence regarding",
+)
+NON_REFERENCE_PUBLICATION_TYPES = {"comment", "editorial", "letter"}
+REFERENCE_PUBLICATION_TYPES = {"systematic review", "meta-analysis"}
+
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -92,9 +103,28 @@ def _record(item: dict[str, Any], stratum: str) -> dict[str, Any] | None:
     if not source or not identifier:
         return None
     updates = _status_updates(item)
+    publication_types = _publication_types(item)
+    folded_publication_types = {value.casefold() for value in publication_types}
     integrity_status, admission_status = _integrity(updates)
     folded_title = title.casefold()
-    if "protocol" in folded_title and admission_status == "development_candidate":
+    stripped_title = folded_title.lstrip("[('")
+    if stripped_title.startswith(("retraction notice", "retracted:")):
+        integrity_status, admission_status = "retracted", "exclude_retracted"
+    elif stripped_title.startswith(INTEGRITY_TITLE_PREFIXES):
+        integrity_status, admission_status = (
+            "status_update_requires_audit", "hold_integrity_review"
+        )
+    elif (
+        stripped_title.startswith(NON_REFERENCE_TITLE_PREFIXES)
+        or folded_title.rstrip(". ").endswith("-reply")
+        or "recommendation statement" in folded_title
+        or (
+            folded_publication_types & NON_REFERENCE_PUBLICATION_TYPES
+            and not folded_publication_types & REFERENCE_PUBLICATION_TYPES
+        )
+    ) and admission_status == "development_candidate":
+        admission_status = "exclude_non_reference"
+    elif "protocol" in folded_title and admission_status == "development_candidate":
         admission_status = "exclude_non_reference"
     return {
         "record_id": f"epmc:{source}:{identifier}",
@@ -107,7 +137,7 @@ def _record(item: dict[str, Any], stratum: str) -> dict[str, Any] | None:
         "doi": str(item.get("doi", "")).strip().casefold(),
         "pmid": str(item.get("pmid", "")).strip(),
         "pmcid": str(item.get("pmcid", "")).strip(),
-        "publication_types": _publication_types(item),
+        "publication_types": publication_types,
         "is_open_access": str(item.get("isOpenAccess", "")).upper() == "Y",
         "license": str(item.get("license", "")).strip().casefold(),
         "cited_by_count": max(0, int(item.get("citedByCount", 0) or 0)),
