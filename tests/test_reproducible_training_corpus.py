@@ -19,6 +19,7 @@ from metawingman_core.training_corpus import (  # noqa: E402
     build_training_examples,
     build_training_plan,
     build_training_run_plan,
+    classify_biomedical_stratum,
     fetch_training_plan,
 )
 
@@ -29,6 +30,11 @@ ZERO_METRICS = {
     "image_blocks": 0, "rotated_pages": 0, "jats_characters": 0,
     "jats_sections": 0, "jats_tables": 0, "jats_figures": 0, "jats_references": 0,
 }
+SPECIALTY_REGISTRY_PATH = ROOT / "metawingman/references/domain-packs/specialty-registry.json"
+
+
+def specialty_registry_fixture() -> dict[str, object]:
+    return json.loads(SPECIALTY_REGISTRY_PATH.read_text(encoding="utf-8"))
 
 
 def corpus_record(index: int, journal: str = "Journal A") -> dict[str, object]:
@@ -66,7 +72,75 @@ def fixture_plan(count: int = 3) -> dict[str, object]:
     )
 
 
+def fixture_medical_plan(maximum_records: int = 12) -> dict[str, object]:
+    titles = (
+        "Cancer immunotherapy adverse events: systematic review",
+        "Cardiovascular treatment outcomes: systematic review",
+        "Diagnostic imaging for stroke: meta-analysis",
+        "Depression prognosis: systematic review",
+        "Infectious disease prevalence: systematic review",
+        "Maternal prevention interventions: systematic review",
+    )
+    records = []
+    for index in range(1, 25):
+        record = corpus_record(index, f"Journal {index % 3}")
+        record["title"] = titles[(index - 1) % len(titles)]
+        records.append(record)
+    families = {"families": [
+        {
+            "family_id": f"family:{index:016x}",
+            "record_ids": [record["record_id"]],
+            "status": "provisional_singleton",
+            "suggested_split": "train",
+            "split_status": "blocked_pending_family_audit",
+        }
+        for index, record in enumerate(records, start=1)
+    ]}
+    return build_training_plan(
+        {"records": records},
+        families,
+        plan_id="fixture-biomedical-plan",
+        source_corpus_path="corpus.json",
+        source_corpus_sha256="1" * 64,
+        family_registry_path="families.json",
+        family_registry_sha256="2" * 64,
+        maximum_records=maximum_records,
+        seed=9,
+        train_fraction=0.6,
+        created_at_utc=TIMESTAMP,
+        specialty_registry=specialty_registry_fixture(),
+        specialty_registry_path="specialty-registry.json",
+        specialty_registry_sha256="3" * 64,
+    )
+
+
 class ReproducibleTrainingCorpusTests(unittest.TestCase):
+    def test_medical_strata_are_source_anchored_and_ignore_journal(self) -> None:
+        left = corpus_record(1)
+        left["title"] = "Cancer immunotherapy adverse events: systematic review"
+        right = dict(left, journal="Unrelated Journal")
+        self.assertEqual(
+            classify_biomedical_stratum(left, specialty_registry_fixture()),
+            classify_biomedical_stratum(right, specialty_registry_fixture()),
+        )
+        result = classify_biomedical_stratum(left, specialty_registry_fixture())
+        self.assertEqual(result["primary_specialty"], "oncology")
+        self.assertEqual(result["question_type"], "harms")
+        self.assertEqual(result["label_status"], "deterministic_weak_candidate")
+        self.assertTrue(result["evidence"])
+
+    def test_plan_balances_composite_strata_before_repeating_them(self) -> None:
+        plan = fixture_medical_plan(maximum_records=12)
+        keys = [item["biomedical_stratum"]["sampling_key"] for item in plan["records"]]
+        self.assertEqual(plan["schema_version"], "1.1")
+        self.assertGreaterEqual(len(set(keys)), 4)
+        validate_document(plan, "training_corpus_plan")
+
+    def test_legacy_plan_remains_schema_version_one(self) -> None:
+        plan = fixture_plan(3)
+        self.assertEqual(plan["schema_version"], "1.0")
+        self.assertNotIn("domain_policy", plan)
+
     def test_plan_is_deterministic_and_never_creates_held_out_records(self) -> None:
         first = fixture_plan(8)
         second = fixture_plan(8)

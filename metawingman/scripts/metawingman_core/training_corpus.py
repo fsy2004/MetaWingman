@@ -65,6 +65,97 @@ def _stable_record_key(record: dict[str, Any], seed: int) -> str:
     return hashlib.sha256(f"{seed}:{record['record_id']}".encode("utf-8")).hexdigest()
 
 
+_QUESTION_TERMS = (
+    ("harms", ("adverse events", "adverse event", "adverse effects", "adverse effect", "safety", "harm", "toxicity")),
+    ("diagnostic", ("diagnostic", "sensitivity", "specificity", "screening test")),
+    ("prognostic", ("prognostic", "prognosis", "survival prediction")),
+    ("prevalence", ("prevalence", "incidence", "burden")),
+    ("etiology", ("risk factor", "association", "etiology", "aetiology")),
+    ("intervention", ("intervention", "treatment", "therapy", "immunotherapy", "prevention")),
+)
+
+
+def _source_phrase_matches(text: str, terms: Iterable[str]) -> list[str]:
+    lower = text.casefold()
+    matches: list[str] = []
+    for term in sorted(set(terms), key=lambda value: (-len(value), value)):
+        match = re.search(rf"(?<!\w){re.escape(term.casefold())}(?!\w)", lower)
+        if match:
+            matches.append(text[match.start() : match.end()])
+    return matches
+
+
+def classify_biomedical_stratum(record: dict[str, Any], registry: dict[str, Any]) -> dict[str, Any]:
+    """Create an evidence-bearing weak stratum from title/publication types only."""
+    title = str(record.get("title") or "")
+    publication_types = [str(item) for item in record.get("publication_types", []) if str(item)]
+    source = " ".join([title, *publication_types]).strip()
+    specialty_hits: list[tuple[int, str, str]] = []
+    evidence: list[str] = []
+    for specialty in registry.get("specialties", []):
+        terms = [*specialty.get("title_terms", []), *specialty.get("aliases", [])]
+        matches = _source_phrase_matches(source, terms)
+        if matches:
+            specialty_hits.append((max(len(item) for item in matches), specialty["specialty_id"], matches[0]))
+    specialty_hits.sort(key=lambda item: (-item[0], item[1], item[2].casefold()))
+    specialty_ids = list(dict.fromkeys(item[1] for item in specialty_hits))
+    primary_specialty = specialty_ids[0] if specialty_ids else "general-medicine"
+    secondary_specialties = specialty_ids[1:]
+    evidence.extend(f"title_or_publication_type:{item[2]}=>specialty:{item[1]}" for item in specialty_hits)
+
+    question_type = "unresolved"
+    for candidate, terms in _QUESTION_TERMS:
+        matches = _source_phrase_matches(source, terms)
+        if matches:
+            question_type = candidate
+            evidence.append(f"title_or_publication_type:{matches[0]}=>question_type:{candidate}")
+            break
+    normalized_designs = sorted(
+        {
+            re.sub(r"[^a-z0-9]+", "_", item.casefold()).strip("_")
+            for item in publication_types
+            if re.sub(r"[^a-z0-9]+", "_", item.casefold()).strip("_")
+        }
+    ) or ["unresolved"]
+    if publication_types:
+        evidence.extend(f"publication_type:{item}" for item in publication_types)
+    synthesis_route = "pairwise"
+    if re.search(r"\bnetwork meta-analysis\b", title, flags=re.IGNORECASE):
+        synthesis_route = "network"
+        evidence.append("title:network meta-analysis=>synthesis_route:network")
+    elif question_type == "diagnostic" and re.search(r"\b(meta-analysis|systematic review)\b", title, flags=re.IGNORECASE):
+        synthesis_route = "diagnostic"
+        evidence.append("title:diagnostic review=>synthesis_route:diagnostic")
+    else:
+        evidence.append("default:synthesis_route:pairwise")
+    challenge_tags = []
+    if len(specialty_ids) > 1:
+        challenge_tags.append("cross_specialty")
+    if question_type == "harms":
+        challenge_tags.append("adverse_event_evidence")
+    if not specialty_hits:
+        evidence.append("fallback:no_specialty_term_match=>general-medicine")
+    if question_type == "unresolved":
+        evidence.append("fallback:no_question_term_match=>unresolved")
+    sampling_key = "|".join((primary_specialty, question_type, normalized_designs[0], synthesis_route))
+    stratum = {
+        "schema_version": "1.0",
+        "primary_specialty": primary_specialty,
+        "secondary_specialties": secondary_specialties,
+        "question_type": question_type,
+        "study_designs": normalized_designs,
+        "synthesis_routes": [synthesis_route],
+        "languages": ["en"],
+        "document_modalities": ["metadata", "abstract"],
+        "challenge_tags": challenge_tags,
+        "sampling_key": sampling_key,
+        "label_status": "deterministic_weak_candidate",
+        "evidence": list(dict.fromkeys(evidence)),
+    }
+    validate_document(stratum, "biomedical_training_stratum")
+    return stratum
+
+
 def build_training_plan(
     corpus: dict[str, Any], families: dict[str, Any], *, plan_id: str,
     source_corpus_path: str, source_corpus_sha256: str,
@@ -72,6 +163,9 @@ def build_training_plan(
     maximum_records: int = 24, seed: int = 20260815,
     train_fraction: float = 0.8, allowed_licenses: Iterable[str] = DEFAULT_LICENSES,
     created_at_utc: str | None = None,
+    specialty_registry: dict[str, Any] | None = None,
+    specialty_registry_path: str | None = None,
+    specialty_registry_sha256: str | None = None,
 ) -> dict[str, Any]:
     if maximum_records < 1 or not 0 < train_fraction < 1:
         raise TrainingCorpusError("maximum_records and train_fraction are invalid")
@@ -101,29 +195,49 @@ def build_training_plan(
             continue
         if _normalise_license(str(record.get("license") or "")) not in allowed:
             continue
-        eligible.append({**record, "_family_id": family["family_id"]})
-
-    by_journal: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for record in eligible:
-        by_journal[record["journal"]].append(record)
-    for records in by_journal.values():
-        records.sort(key=lambda item: _stable_record_key(item, seed))
+        candidate = {**record, "_family_id": family["family_id"]}
+        if specialty_registry is not None:
+            candidate["_biomedical_stratum"] = classify_biomedical_stratum(record, specialty_registry)
+        eligible.append(candidate)
 
     selected: list[dict[str, Any]] = []
-    journals = sorted(by_journal, key=lambda value: hashlib.sha256(f"{seed}:{value}".encode()).hexdigest())
-    while len(selected) < maximum_records:
-        added = False
-        for journal in journals:
-            if by_journal[journal] and len(selected) < maximum_records:
-                selected.append(by_journal[journal].pop(0))
-                added = True
-        if not added:
-            break
+    if specialty_registry is None:
+        by_journal: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        for record in eligible:
+            by_journal[record["journal"]].append(record)
+        for records in by_journal.values():
+            records.sort(key=lambda item: _stable_record_key(item, seed))
+        journals = sorted(by_journal, key=lambda value: hashlib.sha256(f"{seed}:{value}".encode()).hexdigest())
+        while len(selected) < maximum_records:
+            added = False
+            for journal in journals:
+                if by_journal[journal] and len(selected) < maximum_records:
+                    selected.append(by_journal[journal].pop(0))
+                    added = True
+            if not added:
+                break
+    else:
+        if not specialty_registry_path or not specialty_registry_sha256:
+            raise TrainingCorpusError("biomedical planning requires specialty registry path and sha256")
+        by_stratum: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        for record in eligible:
+            by_stratum[record["_biomedical_stratum"]["sampling_key"]].append(record)
+        for records in by_stratum.values():
+            records.sort(key=lambda item: _stable_record_key(item, seed))
+        stratum_keys = sorted(by_stratum, key=lambda value: hashlib.sha256(f"{seed}:{value}".encode()).hexdigest())
+        while len(selected) < maximum_records:
+            added = False
+            for sampling_key in stratum_keys:
+                if by_stratum[sampling_key] and len(selected) < maximum_records:
+                    selected.append(by_stratum[sampling_key].pop(0))
+                    added = True
+            if not added:
+                break
 
     output_records = []
     for record in selected:
         split = _family_split(record["_family_id"], seed, train_fraction)
-        output_records.append({
+        output_record = {
             "record_id": record["record_id"],
             "family_id": record["_family_id"],
             "split": split,
@@ -138,19 +252,29 @@ def build_training_plan(
             "declared_license": _normalise_license(record["license"]),
             "source_url": record["source_url"],
             "integrity_status": record["integrity_status"],
-        })
+        }
+        if specialty_registry is not None:
+            output_record["biomedical_stratum"] = record["_biomedical_stratum"]
+        output_records.append(output_record)
     output_records.sort(key=lambda item: (item["split"], item["family_id"], item["record_id"]))
     split_counts = Counter(item["split"] for item in output_records)
+    schema_version = "1.1" if specialty_registry is not None else "1.0"
+    inputs = {
+        "source_corpus_path": source_corpus_path,
+        "source_corpus_sha256": source_corpus_sha256,
+        "family_registry_path": family_registry_path,
+        "family_registry_sha256": family_registry_sha256,
+    }
+    if specialty_registry is not None:
+        inputs.update({
+            "specialty_registry_path": specialty_registry_path,
+            "specialty_registry_sha256": specialty_registry_sha256,
+        })
     plan = {
-        "schema_version": "1.0",
+        "schema_version": schema_version,
         "plan_id": plan_id,
         "created_at_utc": created_at_utc or utc_now(),
-        "inputs": {
-            "source_corpus_path": source_corpus_path,
-            "source_corpus_sha256": source_corpus_sha256,
-            "family_registry_path": family_registry_path,
-            "family_registry_sha256": family_registry_sha256,
-        },
+        "inputs": inputs,
         "policy": {
             "seed": seed,
             "maximum_records": maximum_records,
@@ -171,8 +295,22 @@ def build_training_plan(
             "selected_families": len({item["family_id"] for item in output_records}),
             "selected_journals": len({item["journal"] for item in output_records}),
         },
-        "records": output_records,
     }
+    if specialty_registry is not None:
+        strata = [item["biomedical_stratum"] for item in output_records]
+        plan["domain_policy"] = {
+            "application_domain": "human_health_clinical_translational_biomedicine",
+            "classifier_version": "biomedical-title-terms-v1",
+            "source_fields": ["title", "publication_types"],
+            "journal_feature_forbidden": True,
+            "label_status": "deterministic_weak_candidate",
+        }
+        plan["strata_summary"] = {
+            "sampling_keys": dict(sorted(Counter(item["sampling_key"] for item in strata).items())),
+            "primary_specialties": dict(sorted(Counter(item["primary_specialty"] for item in strata).items())),
+            "question_types": dict(sorted(Counter(item["question_type"] for item in strata).items())),
+        }
+    plan["records"] = output_records
     validate_document(plan, "training_corpus_plan")
     return plan
 
