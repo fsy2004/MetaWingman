@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "f93d1e746183ed3808202081523595b6f83766cb252754c0e60db878de48d85c",
+  "source_tree_sha256": "b429059e4f459128b11b17bde5bd5c917220e01cebd4c615e985e2b80857c6c4",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -448,8 +448,8 @@
     },
     {
       "path": "schemas/server_training_handoff.schema.json",
-      "sha256": "22677a24b3ddf7fee85b28ad96a7e2b9bd279a683c5c49d1f7820caec476d595",
-      "bytes": 2556
+      "sha256": "3f45330f6a94a21d4a1f433e9f4924298c28e5512720a869a1925ded95d6764e",
+      "bytes": 2640
     },
     {
       "path": "schemas/system_capability_matrix.schema.json",
@@ -563,8 +563,8 @@
     },
     {
       "path": "scripts/build_server_training_handoff.py",
-      "sha256": "c6cf753e570d65e3e225ee062d0c00287b323e78f8f9d69337d1b6ddffa699ff",
-      "bytes": 3944
+      "sha256": "a3b7f75c4ccbbe1f0f401641ba23441aa128ae62a4c59941687ed0465e542588",
+      "bytes": 3962
     },
     {
       "path": "scripts/build_tool_catalog.py",
@@ -818,8 +818,8 @@
     },
     {
       "path": "scripts/metawingman_core/server_handoff.py",
-      "sha256": "5f856c391fb4fd719543ec2aa2890da4ad3e828ad456a1b27cc0d556abfd6bf5",
-      "bytes": 4597
+      "sha256": "8ddc70cf51f97953be54d83e45dad18690d8e449c45f8072408892c93f10c134",
+      "bytes": 11262
     },
     {
       "path": "scripts/metawingman_core/state_store.py",
@@ -838,8 +838,8 @@
     },
     {
       "path": "scripts/metawingman_core/training_corpus.py",
-      "sha256": "90cfbefc8fb28205608ebada88eade60f47c9cf67036039b5b79bd4bc3e8afec",
-      "bytes": 55336
+      "sha256": "1fa38c14404cca897c8cfe2293c56e08fa9b7c3a52e4331a6f9f266562097854",
+      "bytes": 55356
     },
     {
       "path": "scripts/migrate_biomedical_context.py",
@@ -868,8 +868,8 @@
     },
     {
       "path": "scripts/prepare_component_training.py",
-      "sha256": "cc3dd01f514126c48a3c59da004d346f7095a815402f123736e464d4606e7aaa",
-      "bytes": 4591
+      "sha256": "2cf929d0f70c1340e5eb538f50b1e7b444b54b55c034503fc654fdd6d399ea50",
+      "bytes": 4633
     },
     {
       "path": "scripts/prepare_training_annotation_tasks.py",

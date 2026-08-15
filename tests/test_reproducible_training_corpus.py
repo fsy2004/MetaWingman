@@ -14,8 +14,10 @@ sys.path.insert(0, str(ROOT / "metawingman/scripts"))
 
 from metawingman_core.schema_guard import validate_document  # noqa: E402
 from metawingman_core.server_handoff import (  # noqa: E402
+    build_server_commands,
     build_server_handoff,
     materialize_server_handoff,
+    validate_server_handoff_manifest,
 )
 from metawingman_core.training_corpus import (  # noqa: E402
     TrainingCorpusError,
@@ -192,16 +194,51 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         result = build_server_handoff({
             "handoff_id": "portable-handoff",
             "created_at_utc": TIMESTAMP,
-            "members": [r".\jobs\retrieval.json"],
-            "member_contents": {"jobs/retrieval.json": "{}"},
+            "members": [r".\validation-output\training-corpus\jobs\retrieval.json"],
+            "member_contents": {"validation-output/training-corpus/jobs/retrieval.json": "{}"},
             "component_job_ids": ["fixture-component-job"],
             "preflight": {"scientific_blockers": [], "server_checks_pending": []},
             "commands": {key: [key] for key in (
-                "download", "freeze", "audit", "export", "preflight", "train", "benchmark"
+                "download", "freeze_base", "freeze", "audit", "export",
+                "preflight", "train", "benchmark"
             )},
         })
-        self.assertEqual(result["members"], ["jobs/retrieval.json"])
+        self.assertEqual(
+            result["members"],
+            ["validation-output/training-corpus/jobs/retrieval.json"],
+        )
         self.assertNotIn("\\", result["members"][0])
+
+    def test_handoff_commands_use_python_and_materialized_member_paths(self) -> None:
+        commands = build_server_commands(
+            "research/training-corpus-plan-biomedical-v2.json",
+            "validation-output/training-corpus/jobs/evidence-retrieval.json",
+        )
+        self.assertTrue(all(argv[0] == "python" for argv in commands.values()))
+        self.assertIn(
+            "research/training-corpus-plan-biomedical-v2.json",
+            commands["download"],
+        )
+        self.assertIn(
+            "validation-output/training-corpus/jobs/evidence-retrieval.json",
+            commands["train"],
+        )
+
+    def test_handoff_hash_index_must_exactly_match_members(self) -> None:
+        result = build_server_handoff({
+            "handoff_id": "hash-index-handoff", "created_at_utc": TIMESTAMP,
+            "members": ["research/training-corpus-plan-biomedical-v2.json"],
+            "member_contents": {"research/training-corpus-plan-biomedical-v2.json": "{}"},
+            "component_job_ids": ["job"],
+            "preflight": {"scientific_blockers": []},
+            "commands": build_server_commands(
+                "research/training-corpus-plan-biomedical-v2.json",
+                "validation-output/training-corpus/jobs/evidence-retrieval.json",
+            ),
+        })
+        result["member_hashes"] = {"wrong-member.json": "0" * 64}
+        with self.assertRaises(TrainingCorpusError):
+            validate_server_handoff_manifest(result)
 
     def test_handoff_refuses_to_materialize_over_source_root(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -209,34 +246,48 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
             with self.assertRaises(TrainingCorpusError):
                 materialize_server_handoff(root, root, [], {})
 
+    def test_handoff_refuses_unmanaged_existing_output(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            output = root / "handoff"
+            output.mkdir()
+            (output / "unmanaged.txt").write_text("do not overwrite", encoding="utf-8")
+            with self.assertRaises(TrainingCorpusError):
+                materialize_server_handoff(root, output, [], {})
+
     def test_handoff_excludes_full_text_secrets_and_checkpoints(self) -> None:
         result = build_server_handoff({
             "handoff_id": "fixture-handoff",
             "created_at_utc": TIMESTAMP,
-            "members": ["plan.json", "jobs/retrieval.json", "locks/training.txt"],
-            "member_contents": {"plan.json": "{}", "jobs/retrieval.json": "{}", "locks/training.txt": "torch==2.13.0"},
+            "members": [
+                "research/training-corpus-plan-biomedical-v2.json",
+                "validation-output/training-corpus/jobs/retrieval.json",
+                "metawingman/references/dependencies/python-training.lock.txt",
+            ],
+            "member_contents": {
+                "research/training-corpus-plan-biomedical-v2.json": "{}",
+                "validation-output/training-corpus/jobs/retrieval.json": "{}",
+                "metawingman/references/dependencies/python-training.lock.txt": "torch==2.13.0",
+            },
             "component_job_ids": ["fixture-component-job"],
             "preflight": {"ready": False, "scientific_blockers": [], "server_checks_pending": ["server_hardware_unverified"]},
             "storage_estimate_gib": 500,
             "commands": {
-                "download": ["metawingman/scripts/fetch_training_corpus.py"],
-                "freeze": ["metawingman/scripts/freeze_training_dataset.py"],
-                "audit": ["metawingman/scripts/audit_training_dataset.py"],
-                "export": ["metawingman/scripts/export_training_splits.py"],
-                "preflight": ["metawingman/scripts/preflight_component_training.py"],
-                "train": ["metawingman/scripts/run_component_training.py"],
-                "benchmark": ["metawingman/scripts/evaluate_pipeline.py"],
+                **build_server_commands(
+                    "research/training-corpus-plan-biomedical-v2.json",
+                    "validation-output/training-corpus/jobs/retrieval.json",
+                ),
             },
         })
         members = set(result["members"])
         self.assertFalse(any(name.endswith((".pdf", ".xml", ".env", ".pt", ".safetensors")) for name in members))
-        self.assertTrue(result["commands"]["download"][0].endswith("fetch_training_corpus.py"))
+        self.assertEqual(result["commands"]["download"][0], "python")
 
     def test_handoff_refuses_scientific_preflight_failure(self) -> None:
         with self.assertRaises(TrainingCorpusError):
             build_server_handoff({
                 "handoff_id": "blocked-handoff", "created_at_utc": TIMESTAMP,
-                "members": ["plan.json"], "component_job_ids": ["job"],
+                "members": ["research/training-corpus-plan-biomedical-v2.json"], "component_job_ids": ["job"],
                 "preflight": {"ready": False, "blocking_reasons": ["dataset_hash_mismatch"]},
                 "commands": {},
             })
@@ -245,9 +296,16 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         with self.assertRaises(TrainingCorpusError):
             build_server_handoff({
                 "handoff_id": "secret-handoff", "created_at_utc": TIMESTAMP,
-                "members": ["provider.json"], "member_contents": {"provider.json": "api_key=sk-1234567890abcdef"},
+                "members": ["research/training-corpus-plan-biomedical-v2.json"],
+                "member_contents": {"research/training-corpus-plan-biomedical-v2.json": "{}"},
                 "component_job_ids": ["job"], "preflight": {"scientific_blockers": []},
-                "commands": {key: [key] for key in ("download", "freeze", "audit", "export", "preflight", "train", "benchmark")},
+                "commands": {
+                    **build_server_commands(
+                        "research/training-corpus-plan-biomedical-v2.json",
+                        "validation-output/training-corpus/jobs/retrieval.json",
+                    ),
+                    "benchmark": ["python", "metawingman/scripts/evaluate_pipeline.py", "api_key=sk-1234567890abcdef"],
+                },
             })
 
     def test_hard_negative_never_crosses_split_or_reuses_family(self) -> None:
@@ -419,6 +477,41 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
             validate_document(run_plan, "training_run_plan")
             self.assertEqual(run_plan["dataset"]["held_out_examples"], 0)
             self.assertEqual(run_plan["execution_state"], "planned_not_trained")
+            job_path = "validation-output/training-corpus/jobs/section-role.json"
+            job_run_plan = json.loads(json.dumps(run_plan))
+            job_run_plan["dataset"]["train_examples"] = 3
+            job_run_plan["dataset"]["development_examples"] = 1
+            run_plan_path.write_text(json.dumps(job_run_plan), encoding="utf-8")
+            job = build_component_training_job(
+                job_run_plan,
+                "section_role_classification",
+                {
+                    "repository_id": "example/model",
+                    "revision": "a" * 40,
+                    "tokenizer_revision": "b" * 40,
+                    "model_card_url": "https://example.org/model",
+                    "declared_license": "mit",
+                },
+                {
+                    "epochs": 1, "batch_size": 2, "learning_rate": 2e-5,
+                    "weight_decay": 0.01, "warmup_ratio": 0.1,
+                    "precision": "fp32", "selection_metric": "macro_f1",
+                },
+                {
+                    "cpu_cores": 2, "ram_gib": 4, "gpu_count": 0,
+                    "gpu_memory_gib_each": 0, "storage_gib": 10,
+                    "network_required": False,
+                },
+                TIMESTAMP,
+                run_plan_path=run_plan_path.as_posix(),
+                run_plan_sha256=hashlib.sha256(run_plan_path.read_bytes()).hexdigest(),
+                job_path=job_path,
+                runtime_lock_sha256="c" * 64,
+            )
+            self.assertEqual(job["command_argv"], [
+                "python", "metawingman/scripts/run_component_training.py",
+                job_path, "--root", ".",
+            ])
 
     def test_artifact_drift_is_detected_before_training(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

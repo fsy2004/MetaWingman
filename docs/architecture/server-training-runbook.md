@@ -7,7 +7,7 @@ Last checked: 2026-08-15
 
 This runbook covers lawful full-text retrieval, weak-label freezing, contrastive pair export, and bounded training for section-role classification and evidence retrieval. It does not train a foundation model, run the four existing servers, or authorize model/checkpoint publication.
 
-The local handoff is `validation-output/server-training-handoff/`. Its manifest must say `local_ready_pending_server_preflight`; `server_ready` is not a valid local state.
+The current local handoff is `validation-output/server-training-handoff-v2/`. Its manifest must say `local_ready_pending_server_preflight`; `server_ready` is not a valid local state. The earlier local directory is retained only as an ignored development artifact and must not be uploaded.
 
 ## Recommended Server
 
@@ -19,7 +19,7 @@ One 24-48 GiB GPU is preferable to several small GPUs for the current encoders. 
 
 ## Authorization Boundary
 
-1. Upload only the metadata handoff after comparing every member SHA-256 with `server-training-handoff.json`.
+1. Prepare a clean, verified MetaWingman source checkout that contains the command scripts named in the manifest. Overlay only the metadata handoff at the repository root after comparing every member SHA-256 with `server-training-handoff.json`; the handoff alone is not a source-code distribution.
 2. Run `preflight_component_training.py --inspect-server`; this may inspect disk, installed package versions, and `nvidia-smi`, but it does not import Torch or download a model.
 3. Review unresolved CUDA, package, storage, model-license, dataset-license, and family-isolation findings.
 4. Start download or training only after explicit user authorization for that server and job ID.
@@ -32,16 +32,17 @@ The first candidate is `microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-ful
 
 ## Execution Order
 
-Use the argv arrays in the handoff manifest as the source of truth:
+Use the argv arrays in the handoff manifest from the verified repository root. Every array begins with `python` and uses the exact materialized member paths:
 
 1. Re-run metadata, license, retraction, path, and storage preflight.
 2. Download only article-level permitted OA content with resumable manifests.
-3. Freeze examples, hashes, review-family splits, and biomedical strata.
-4. Export positive and candidate hard-negative pairs; audit that no negative crosses split or family.
-5. Rebuild component jobs against the server-local file hashes.
-6. Run `run_component_training.py <job> --root <handoff-root> --validate-only`.
-7. Run normal training only when inspected preflight returns `ready: true`.
-8. Run component and end-to-end benchmarks at matched cost before selecting a checkpoint.
+3. Run `freeze_base` to create source-anchored weak-label examples.
+4. Run `export` to create positive and candidate hard-negative pairs; audit that no negative crosses split or family.
+5. Run the final `freeze` command with the exported pairs and biomedical plan to create the component-ready run plan.
+6. Rebuild component jobs against the server-local file hashes.
+7. Run `run_component_training.py <job> --root <handoff-root> --validate-only`.
+8. Run normal training only when inspected preflight returns `ready: true`.
+9. Run component and end-to-end benchmarks at matched cost before selecting a checkpoint.
 
 ## Resume And Recovery
 

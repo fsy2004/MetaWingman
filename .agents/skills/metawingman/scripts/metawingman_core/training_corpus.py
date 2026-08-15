@@ -789,6 +789,7 @@ def build_component_training_job(
     *,
     run_plan_path: str = "training-run-plan.json",
     run_plan_sha256: str | None = None,
+    job_path: str | None = None,
     output_root: str = "training-output",
     runtime_lock_path: str = "metawingman/references/dependencies/python-training.lock.txt",
     runtime_lock_sha256: str,
@@ -857,11 +858,9 @@ def build_component_training_job(
         "command_argv": [
             "python",
             "metawingman/scripts/run_component_training.py",
-            run_plan_path,
-            "--component",
-            component,
-            "--job",
-            f"jobs/{component}.json",
+            job_path or f"validation-output/training-corpus/jobs/{component}.json",
+            "--root",
+            ".",
         ],
     }
     for transient in ("checkpoint_every_steps", "maximum_checkpoints", "resume_checkpoint_hashes"):

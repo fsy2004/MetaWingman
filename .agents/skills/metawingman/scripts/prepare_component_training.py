@@ -81,6 +81,7 @@ def main() -> int:
             now,
             run_plan_path=args.run_plan.as_posix(),
             run_plan_sha256=sha256_file(args.run_plan),
+            job_path=args.out.as_posix(),
             output_root=args.output_root,
             runtime_lock_path=args.runtime_lock.as_posix(),
             runtime_lock_sha256=sha256_file(args.runtime_lock),

@@ -8,7 +8,8 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from metawingman_core.server_handoff import materialize_server_handoff
+from metawingman_core.server_handoff import build_server_commands, materialize_server_handoff
+from metawingman_core.schema_guard import validate_document
 from metawingman_core.training_corpus import TrainingCorpusError
 
 
@@ -34,19 +35,25 @@ def main() -> int:
             "metawingman/schemas/component_training_job.schema.json",
             "metawingman/schemas/server_training_handoff.schema.json",
         ])
+        plan = json.loads((root / args.plan).read_text(encoding="utf-8"))
+        validate_document(plan, "training_corpus_plan")
         jobs = [json.loads((root / path).read_text(encoding="utf-8")) for path in args.job]
+        for job in jobs:
+            validate_document(job, "component_training_job")
         reports = [json.loads((root / path).read_text(encoding="utf-8")) for path in args.preflight]
+        allowed_report_keys = {
+            "manifest_valid", "ready", "training_started", "reason_codes",
+            "scientific_blockers", "server_checks_pending",
+        }
+        if any(set(report) != allowed_report_keys for report in reports):
+            raise TrainingCorpusError("preflight report has unexpected or missing fields")
         blockers = sorted({code for report in reports for code in report.get("scientific_blockers", [])})
         pending = sorted({code for report in reports for code in report.get("server_checks_pending", [])})
-        commands = {
-            "download": ["metawingman/scripts/fetch_training_corpus.py", "training-corpus-plan-biomedical-v2.json", "--out", "documents"],
-            "freeze": ["metawingman/scripts/freeze_training_dataset.py", "documents/training-document-manifest.json", "--artifact-root", "documents"],
-            "audit": ["metawingman/scripts/audit_training_dataset.py", "--plan", "training-corpus-plan-biomedical-v2.json"],
-            "export": ["metawingman/scripts/export_training_splits.py", "training-examples.jsonl", "--training-plan", "training-corpus-plan-biomedical-v2.json"],
-            "preflight": ["metawingman/scripts/preflight_component_training.py", "jobs/evidence-retrieval.json", "--root", ".", "--inspect-server"],
-            "train": ["metawingman/scripts/run_component_training.py", "jobs/evidence-retrieval.json", "--root", "."],
-            "benchmark": ["metawingman/scripts/evaluate_pipeline.py", "--help"],
-        }
+        job_paths = dict(zip((job["component"] for job in jobs), args.job))
+        evidence_job = job_paths.get("evidence_retrieval")
+        if not evidence_job:
+            raise TrainingCorpusError("evidence_retrieval job is required for server handoff commands")
+        commands = build_server_commands(args.plan, evidence_job)
         now = args.created_at_utc or datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
         manifest = materialize_server_handoff(
             root,

@@ -70,9 +70,9 @@ A three-document DeepSeek annotation pilot tested the optional `T4` layer. On th
 
 The biomedical v2 metadata plan selects 2,048 of 2,331 eligible OA records with 2,040 review families, 12 title-resolved primary specialties, and 108 composite sampling strata. No family crosses train/development. About 69% fall back to `general-medicine`, which is an explicit limitation of title-only weak classification, not evidence of specialty resolution accuracy.
 
-The local 172-example pilot produced 331 retrieval pairs: 86 source-anchored positives and 245 candidate hard negatives from the same split and medical neighborhood but a different report and review family. Both component jobs bind the model, tokenizer, data, pair, runtime-lock, and output hashes. Offline preflight has no scientific or data-integrity blocker; server hardware, CUDA, and exact package compatibility remain pending.
+The local 172-example pilot produced 331 retrieval pairs: 86 source-anchored positives and 245 candidate hard negatives from the same split and medical neighborhood but a different report and review family. Both component jobs bind the model, tokenizer, input data, pair set, runtime lock, output path, and checkpoint policy. Output and checkpoint hashes are created only by the execution receipt after a real run. Offline preflight has no scientific or data-integrity blocker; server hardware, CUDA, and exact package compatibility remain pending.
 
-The metadata-only handoff is generated under `validation-output/server-training-handoff/`; see [server-training-runbook.md](server-training-runbook.md). It contains no raw PDF/XML, credentials, or checkpoints and does not authorize server execution.
+The current metadata-only handoff is generated under `validation-output/server-training-handoff-v2/`; see [server-training-runbook.md](server-training-runbook.md). A strict member allowlist, whole-manifest secret scan, and member/hash semantic validator exclude raw full text, credentials, archives, private-key material, databases, and checkpoints. The handoff does not authorize server execution.
 
 ## Training Sequence
 
