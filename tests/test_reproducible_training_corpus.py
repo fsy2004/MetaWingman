@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "metawingman/scripts"))
 
 from metawingman_core.schema_guard import validate_document  # noqa: E402
+from metawingman_core.server_handoff import build_server_handoff  # noqa: E402
 from metawingman_core.training_corpus import (  # noqa: E402
     TrainingCorpusError,
     audit_training_dataset,
@@ -184,6 +185,47 @@ def component_job_fixture(root: Path) -> dict[str, object]:
 
 
 class ReproducibleTrainingCorpusTests(unittest.TestCase):
+    def test_handoff_excludes_full_text_secrets_and_checkpoints(self) -> None:
+        result = build_server_handoff({
+            "handoff_id": "fixture-handoff",
+            "created_at_utc": TIMESTAMP,
+            "members": ["plan.json", "jobs/retrieval.json", "locks/training.txt"],
+            "member_contents": {"plan.json": "{}", "jobs/retrieval.json": "{}", "locks/training.txt": "torch==2.13.0"},
+            "component_job_ids": ["fixture-component-job"],
+            "preflight": {"ready": False, "scientific_blockers": [], "server_checks_pending": ["server_hardware_unverified"]},
+            "storage_estimate_gib": 500,
+            "commands": {
+                "download": ["metawingman/scripts/fetch_training_corpus.py"],
+                "freeze": ["metawingman/scripts/freeze_training_dataset.py"],
+                "audit": ["metawingman/scripts/audit_training_dataset.py"],
+                "export": ["metawingman/scripts/export_training_splits.py"],
+                "preflight": ["metawingman/scripts/preflight_component_training.py"],
+                "train": ["metawingman/scripts/run_component_training.py"],
+                "benchmark": ["metawingman/scripts/evaluate_pipeline.py"],
+            },
+        })
+        members = set(result["members"])
+        self.assertFalse(any(name.endswith((".pdf", ".xml", ".env", ".pt", ".safetensors")) for name in members))
+        self.assertTrue(result["commands"]["download"][0].endswith("fetch_training_corpus.py"))
+
+    def test_handoff_refuses_scientific_preflight_failure(self) -> None:
+        with self.assertRaises(TrainingCorpusError):
+            build_server_handoff({
+                "handoff_id": "blocked-handoff", "created_at_utc": TIMESTAMP,
+                "members": ["plan.json"], "component_job_ids": ["job"],
+                "preflight": {"ready": False, "blocking_reasons": ["dataset_hash_mismatch"]},
+                "commands": {},
+            })
+
+    def test_handoff_rejects_secret_like_metadata(self) -> None:
+        with self.assertRaises(TrainingCorpusError):
+            build_server_handoff({
+                "handoff_id": "secret-handoff", "created_at_utc": TIMESTAMP,
+                "members": ["provider.json"], "member_contents": {"provider.json": "api_key=sk-1234567890abcdef"},
+                "component_job_ids": ["job"], "preflight": {"scientific_blockers": []},
+                "commands": {key: [key] for key in ("download", "freeze", "audit", "export", "preflight", "train", "benchmark")},
+            })
+
     def test_hard_negative_never_crosses_split_or_reuses_family(self) -> None:
         examples = [
             retrieval_example(1, "train", "family:0000000000000001", "epmc:MED:1"),

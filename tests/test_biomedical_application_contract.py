@@ -313,6 +313,26 @@ class BiomedicalApplicationContractTests(unittest.TestCase):
             }.issubset(ids)
         )
 
+    def test_biomedical_coverage_cli_accepts_governed_live_packs(self) -> None:
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPTS / "audit_biomedical_coverage.py"),
+                "--packs",
+                str(PACK_DIR),
+                "--matrix",
+                str(SKILL_ROOT / "references/system-capability-matrix.json"),
+            ],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+        report = json.loads(completed.stdout)
+        self.assertTrue(report["valid"], report["issues"])
+        self.assertEqual(report["unsupported_combinations"], [])
+
     def test_resolver_preserves_source_text_and_unresolved_terms(self) -> None:
         result = resolve_context(
             {

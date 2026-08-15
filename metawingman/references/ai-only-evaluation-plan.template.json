@@ -8,8 +8,41 @@
   "target_tasks": ["screening", "lineage", "extraction", "analysis", "end_to_end"],
   "configurations": [
     {
-      "configuration_id": "full-system",
-      "description": "Complete MetaWingman configuration selected before test-family evaluation.",
+      "configuration_id": "general-model-baseline",
+      "description": "General model without biomedical schemas, terminology, routing, or MetaWingman verification components.",
+      "model_registry_refs": ["replace-model-ref"],
+      "pipeline_version": "replace-pipeline-version",
+      "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "tool_versions": ["metawingman@replace-version"],
+      "ablations": ["biomedical_schema", "biomedical_terminology", "biomedical_retrieval", "domain_routing", "evidence_graph", "document_state", "external_verifiers", "test_time_scaling", "abstention"],
+      "max_model_calls": 1,
+      "retry_budget": 0
+    },
+    {
+      "configuration_id": "biomedical-schema",
+      "description": "General model with biomedical prompts and schemas but without terminology-aware retrieval or domain routing.",
+      "model_registry_refs": ["replace-model-ref"],
+      "pipeline_version": "replace-pipeline-version",
+      "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "tool_versions": ["metawingman@replace-version"],
+      "ablations": ["biomedical_terminology", "biomedical_retrieval", "domain_routing", "evidence_graph", "document_state", "external_verifiers", "test_time_scaling", "abstention"],
+      "max_model_calls": 1,
+      "retry_budget": 0
+    },
+    {
+      "configuration_id": "biomedical-routing",
+      "description": "Biomedical schemas, terminology, retrieval, and deterministic domain routing without the full verification stack.",
+      "model_registry_refs": ["replace-model-ref"],
+      "pipeline_version": "replace-pipeline-version",
+      "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "tool_versions": ["metawingman@replace-version"],
+      "ablations": ["evidence_graph", "document_state", "external_verifiers", "test_time_scaling", "abstention"],
+      "max_model_calls": 1,
+      "retry_budget": 0
+    },
+    {
+      "configuration_id": "full-biomedical-stack",
+      "description": "Full biomedical stack with evidence graph, document state, external verifiers, test-time scaling, and abstention.",
       "model_registry_refs": ["replace-model-ref"],
       "pipeline_version": "replace-pipeline-version",
       "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
@@ -29,7 +62,7 @@
   },
   "metrics": {
     "primary": ["critical_error_rate", "false_exclusion_rate", "unsupported_value_rate", "end_to_end_result_accuracy"],
-    "secondary": ["coverage", "abstention_rate", "precision", "recall", "numerical_equivalence", "run_to_run_reliability", "position_sensitivity", "judge_order_sensitivity", "wall_clock_seconds", "model_calls", "input_tokens", "output_tokens", "api_cost", "compute_cost"],
+    "secondary": ["coverage", "abstention_rate", "precision", "recall", "numerical_equivalence", "run_to_run_reliability", "position_sensitivity", "judge_order_sensitivity", "anchor_accuracy", "lineage_precision", "lineage_recall", "exact_recomputation_rate", "selective_coverage", "abstention_quality", "wall_clock_seconds", "model_calls", "input_tokens", "output_tokens", "api_cost", "compute_cost"],
     "aggregation_unit": "review_family",
     "uncertainty_method": "paired_bootstrap_by_review_family"
   },

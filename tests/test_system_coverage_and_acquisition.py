@@ -12,7 +12,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "metawingman/scripts"
 sys.path.insert(0, str(SCRIPTS))
 
-from metawingman_core.coverage_audit import audit_capability_matrix  # noqa: E402
+from metawingman_core.coverage_audit import (  # noqa: E402
+    audit_biomedical_coverage,
+    audit_capability_matrix,
+)
 from metawingman_core.evidence_acquisition import (  # noqa: E402
     EvidenceAcquisitionError,
     plan_evidence_acquisition,
@@ -126,6 +129,72 @@ class SystemCoverageTests(unittest.TestCase):
         self.assertEqual(report["coverage"]["review_profiles_declared"], 21)
         self.assertGreaterEqual(report["coverage"]["synthesis_routes_declared"], 19)
         self.assertEqual(report["advanced_validation_claims"], 0)
+
+    def test_biomedical_matrix_freezes_pack_and_capability_evidence_contract(self) -> None:
+        self.assertIn("biomedical_coverage", self.matrix)
+        biomedical = self.matrix["biomedical_coverage"]
+        self.assertEqual(
+            biomedical["scientific_claim_ceiling"],
+            "implemented_not_scientifically_validated",
+        )
+        self.assertEqual(len(biomedical["pack_inventory"]), 6)
+        self.assertGreaterEqual(len(biomedical["capability_evidence"]), 8)
+
+    def test_biomedical_coverage_is_conservative_and_explicit(self) -> None:
+        report = audit_biomedical_coverage(
+            ROOT / "metawingman/references/domain-packs",
+            self.matrix,
+        )
+        self.assertTrue(report["valid"], report["issues"])
+        diagnostic = next(
+            item for item in report["profiles"] if item["id"] == "diagnostic"
+        )
+        self.assertNotEqual(diagnostic["validation_level"], "externally_validated")
+        self.assertEqual(
+            diagnostic["scientific_claim_level"],
+            "implemented_not_scientifically_validated",
+        )
+        self.assertIn("unsupported_combinations", report)
+        self.assertEqual(report["unsupported_combinations"], [])
+
+    def test_domain_pack_hash_drift_fails_closed(self) -> None:
+        matrix = deepcopy(self.matrix)
+        matrix["biomedical_coverage"]["pack_inventory"][0]["content_sha256"] = "0" * 64
+        report = audit_biomedical_coverage(
+            ROOT / "metawingman/references/domain-packs", matrix
+        )
+        self.assertFalse(report["valid"])
+        self.assertIn("domain_pack_hash_changed", {
+            item["code"] for item in report["issues"]
+        })
+
+    def test_terminology_release_drift_fails_closed(self) -> None:
+        matrix = deepcopy(self.matrix)
+        matrix["biomedical_coverage"]["pack_inventory"][0]["terminology_releases"] = [{
+            "system": "SNOMED CT",
+            "release": "2099-01-01",
+            "content_sha256": "1" * 64,
+        }]
+        report = audit_biomedical_coverage(
+            ROOT / "metawingman/references/domain-packs", matrix
+        )
+        self.assertFalse(report["valid"])
+        self.assertIn("terminology_release_changed", {
+            item["code"] for item in report["issues"]
+        })
+
+    def test_missing_biomedical_capability_evidence_fails_closed(self) -> None:
+        matrix = deepcopy(self.matrix)
+        matrix["biomedical_coverage"]["capability_evidence"][0]["evidence_paths"] = [
+            "references/not-real.md"
+        ]
+        report = audit_biomedical_coverage(
+            ROOT / "metawingman/references/domain-packs", matrix
+        )
+        self.assertFalse(report["valid"])
+        self.assertIn("missing_capability_evidence", {
+            item["code"] for item in report["issues"]
+        })
 
     def test_missing_profile_is_rejected_even_when_schema_is_valid(self) -> None:
         matrix = deepcopy(self.matrix)

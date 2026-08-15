@@ -7,7 +7,9 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from .biomedical_domain import BiomedicalDomainError, load_domain_packs
 from .schema_guard import validate_document
+from .state_store import sha256_json
 
 
 EXPECTED_STAGES = {
@@ -46,6 +48,7 @@ REQUIRED_SYNTHESIS_ROUTES = {
 }
 
 ADVANCED_VALIDATION_LEVELS = {"published_reconstruction_passed", "prospective_passed"}
+SCIENTIFIC_CLAIM_CEILING = "implemented_not_scientifically_validated"
 
 
 class CoverageAuditError(ValueError):
@@ -178,4 +181,302 @@ def audit_capability_matrix(matrix: dict[str, Any], skill_root: Path) -> dict[st
         "validation_counts": dict(sorted(validation_counts.items())),
         "advanced_validation_claims": sum(validation_counts[level] for level in ADVANCED_VALIDATION_LEVELS),
         "issues": issues,
+    }
+
+
+def _issue(code: str, message: str) -> dict[str, str]:
+    return {"severity": "error", "code": code, "message": message}
+
+
+def _versioned_terms(pack: dict[str, Any]) -> list[dict[str, str]]:
+    return sorted(
+        (
+            {
+                "system": item["system"],
+                "release": item["release"],
+                "content_sha256": item["content_sha256"],
+            }
+            for item in pack["terminology_releases"]
+        ),
+        key=lambda item: (item["system"], item["release"], item["content_sha256"]),
+    )
+
+
+def _authority_versions(pack: dict[str, Any]) -> list[dict[str, str]]:
+    return sorted(
+        (
+            {
+                "source_id": item["source_id"],
+                "version": item["version"],
+                "content_sha256": item["content_sha256"],
+            }
+            for item in pack["authority_sources"]
+        ),
+        key=lambda item: (item["source_id"], item["version"], item["content_sha256"]),
+    )
+
+
+def _pack_evidence_paths(
+    packs: list[dict[str, Any]],
+    capability_paths: dict[str, list[str]],
+) -> list[str]:
+    capabilities = {
+        capability
+        for pack in packs
+        for capability in pack["capabilities"]
+    }
+    return sorted({
+        path
+        for capability in capabilities
+        for path in capability_paths.get(capability, [])
+    })
+
+
+def audit_biomedical_coverage(
+    pack_root: Path,
+    capability_matrix: dict[str, Any],
+) -> dict[str, Any]:
+    """Audit the frozen biomedical pack inventory without promoting test fixtures."""
+    pack_root = Path(pack_root).resolve()
+    skill_root = pack_root.parents[1]
+    issues: list[dict[str, str]] = []
+
+    try:
+        matrix_report = audit_capability_matrix(capability_matrix, skill_root)
+    except (CoverageAuditError, KeyError, TypeError) as exc:
+        return {
+            "valid": False,
+            "profiles": [],
+            "specialties": [],
+            "capabilities": [],
+            "unsupported_combinations": [],
+            "issues": [_issue("invalid_capability_matrix", str(exc))],
+        }
+    issues.extend(
+        _issue("invalid_capability_matrix", message)
+        for message in matrix_report["issues"]
+    )
+    biomedical = capability_matrix["biomedical_coverage"]
+
+    configured_root = (skill_root / biomedical["pack_root"]).resolve()
+    if configured_root != pack_root:
+        issues.append(_issue(
+            "pack_root_mismatch",
+            f"matrix pack root is {configured_root}; audited root is {pack_root}",
+        ))
+
+    try:
+        packs = load_domain_packs(pack_root)
+    except BiomedicalDomainError as exc:
+        return {
+            "valid": False,
+            "profiles": [],
+            "specialties": [],
+            "capabilities": [],
+            "unsupported_combinations": [],
+            "issues": issues + [_issue("domain_pack_integrity_failed", str(exc))],
+        }
+
+    actual_by_id = {pack["pack_id"]: pack for pack in packs}
+    inventory = biomedical["pack_inventory"]
+    inventory_ids = [item["pack_id"] for item in inventory]
+    for duplicate in _duplicates(inventory_ids):
+        issues.append(_issue("duplicate_pack_inventory", f"duplicate pack inventory entry: {duplicate}"))
+    expected_by_id = {item["pack_id"]: item for item in inventory}
+    missing_pack_ids = sorted(set(expected_by_id) - set(actual_by_id))
+    unexpected_pack_ids = sorted(set(actual_by_id) - set(expected_by_id))
+    if missing_pack_ids:
+        issues.append(_issue("missing_domain_pack", f"missing packs: {missing_pack_ids}"))
+    if unexpected_pack_ids:
+        issues.append(_issue("unregistered_domain_pack", f"unregistered packs: {unexpected_pack_ids}"))
+
+    for pack_id in sorted(set(expected_by_id) & set(actual_by_id)):
+        expected = expected_by_id[pack_id]
+        actual = actual_by_id[pack_id]
+        if expected["version"] != actual["version"]:
+            issues.append(_issue(
+                "domain_pack_version_changed",
+                f"{pack_id}: expected {expected['version']}, observed {actual['version']}",
+            ))
+        if expected["content_sha256"] != actual["content_sha256"]:
+            issues.append(_issue(
+                "domain_pack_hash_changed",
+                f"{pack_id}: frozen content hash does not match the live pack",
+            ))
+        if expected["validation_level"] != actual["validation"]["level"]:
+            issues.append(_issue(
+                "domain_pack_validation_changed",
+                f"{pack_id}: frozen validation level does not match the live pack",
+            ))
+        if sorted(expected["terminology_releases"], key=lambda item: (item["system"], item["release"])) != _versioned_terms(actual):
+            issues.append(_issue(
+                "terminology_release_changed",
+                f"{pack_id}: terminology system, release, or content hash changed",
+            ))
+        if sorted(expected["authority_versions"], key=lambda item: (item["source_id"], item["version"])) != _authority_versions(actual):
+            issues.append(_issue(
+                "authority_version_changed",
+                f"{pack_id}: authority version or content hash changed",
+            ))
+
+    expected_profiles = set(biomedical["expected_profile_ids"])
+    matrix_profiles = {item["profile_id"] for item in capability_matrix["review_profiles"]}
+    if expected_profiles != matrix_profiles:
+        issues.append(_issue(
+            "profile_catalog_drift",
+            f"expected profiles {sorted(expected_profiles)}; matrix profiles {sorted(matrix_profiles)}",
+        ))
+
+    expected_specialties = set(biomedical["expected_specialty_ids"])
+    observed_specialties = {
+        specialty["specialty_id"]
+        for pack in packs
+        for specialty in pack["specialties"]
+    }
+    if expected_specialties != observed_specialties:
+        issues.append(_issue(
+            "specialty_catalog_drift",
+            f"expected specialties {sorted(expected_specialties)}; live specialties {sorted(observed_specialties)}",
+        ))
+
+    expected_capabilities = {
+        capability
+        for pack in packs
+        for capability in pack["capabilities"]
+    }
+    capability_entries = biomedical["capability_evidence"]
+    capability_ids = [item["capability_id"] for item in capability_entries]
+    for duplicate in _duplicates(capability_ids):
+        issues.append(_issue(
+            "duplicate_capability_evidence",
+            f"duplicate capability evidence entry: {duplicate}",
+        ))
+    capability_paths = {
+        item["capability_id"]: item["evidence_paths"]
+        for item in capability_entries
+    }
+    if expected_capabilities != set(capability_paths):
+        issues.append(_issue(
+            "capability_catalog_drift",
+            f"pack capabilities {sorted(expected_capabilities)}; matrix capabilities {sorted(capability_paths)}",
+        ))
+    for capability_id, paths in sorted(capability_paths.items()):
+        for relative in paths:
+            evidence_path = (skill_root / relative).resolve()
+            try:
+                evidence_path.relative_to(skill_root)
+            except ValueError:
+                issues.append(_issue(
+                    "capability_evidence_path_escape",
+                    f"{capability_id}: evidence path escapes skill root: {relative}",
+                ))
+                continue
+            if not evidence_path.is_file():
+                issues.append(_issue(
+                    "missing_capability_evidence",
+                    f"{capability_id}: missing evidence path: {relative}",
+                ))
+
+    active_packs = [pack for pack in packs if pack["status"] == "active"]
+    foundation = next(
+        (pack for pack in active_packs if pack["pack_type"] == "foundation"),
+        None,
+    )
+    profiles: list[dict[str, Any]] = []
+    for profile_id in sorted(expected_profiles):
+        profile_packs = [
+            pack for pack in active_packs
+            if pack["pack_type"] == "review_profile"
+            and profile_id in pack["supported_review_families"]
+        ]
+        foundation_support = bool(
+            foundation and profile_id in foundation["supported_review_families"]
+        )
+        relevant = profile_packs or ([foundation] if foundation_support and foundation else [])
+        if profile_packs:
+            implementation_level = "pack_available"
+            validation_level = min(
+                (pack["validation"]["level"] for pack in profile_packs),
+                key=("contract_only", "fixture_tested", "retrospectively_tested", "externally_validated").index,
+            )
+            known_gaps = ["No external scientific validation is established by fixture or contract evidence."]
+        elif foundation_support:
+            implementation_level = "foundation_fallback"
+            validation_level = "contract_only"
+            known_gaps = ["No profile-specific domain pack; biomedical foundation fallback only."]
+        else:
+            implementation_level = "unsupported"
+            validation_level = "none"
+            known_gaps = ["No active domain pack supports this review profile."]
+        profiles.append({
+            "id": profile_id,
+            "implementation_level": implementation_level,
+            "validation_level": validation_level,
+            "scientific_claim_level": biomedical["scientific_claim_ceiling"],
+            "evidence_paths": _pack_evidence_paths(relevant, capability_paths),
+            "known_gaps": known_gaps,
+        })
+
+    specialties: list[dict[str, Any]] = []
+    for specialty_id in sorted(expected_specialties):
+        specialty_packs = [
+            pack for pack in active_packs
+            if specialty_id in {item["specialty_id"] for item in pack["specialties"]}
+        ]
+        specialties.append({
+            "id": specialty_id,
+            "implementation_level": "pack_available" if specialty_packs else "unsupported",
+            "validation_level": (
+                "contract_only" if specialty_packs else "none"
+            ),
+            "scientific_claim_level": biomedical["scientific_claim_ceiling"],
+            "evidence_paths": _pack_evidence_paths(specialty_packs, capability_paths),
+            "known_gaps": (
+                ["Specialty resolution is contract-level and not externally validated."]
+                if specialty_packs else ["No active pack declares this specialty."]
+            ),
+        })
+
+    unsupported_combinations = [
+        {
+            "profile_id": profile_id,
+            "specialty_id": specialty_id,
+            "reason_codes": sorted(reason_codes),
+        }
+        for profile_id in sorted(expected_profiles)
+        for specialty_id in sorted(expected_specialties)
+        for reason_codes in [[
+            *([] if foundation and profile_id in foundation["supported_review_families"] else ["profile_not_supported"]),
+            *([] if specialty_id in observed_specialties else ["specialty_not_supported"]),
+        ]]
+        if reason_codes
+    ]
+
+    pack_state = [
+        {
+            "pack_id": pack["pack_id"],
+            "version": pack["version"],
+            "content_sha256": pack["content_sha256"],
+            "terminology_releases": _versioned_terms(pack),
+            "authority_versions": _authority_versions(pack),
+        }
+        for pack in sorted(active_packs, key=lambda item: item["pack_id"])
+    ]
+    return {
+        "schema_version": "1.0",
+        "report_id": f"biomedical-coverage:{capability_matrix['matrix_id']}",
+        "registry_sha256": sha256_json(pack_state),
+        "generated_at_utc": f"{capability_matrix['as_of']}T00:00:00Z",
+        "application_domain": biomedical["application_domain"],
+        "scientific_claim_ceiling": SCIENTIFIC_CLAIM_CEILING,
+        "pack_state": pack_state,
+        "profiles": profiles,
+        "specialties": specialties,
+        "capabilities": [
+            {"capability_id": item, "evidence_paths": capability_paths.get(item, [])}
+            for item in sorted(expected_capabilities)
+        ],
+        "unsupported_combinations": unsupported_combinations,
+        "issues": issues,
+        "valid": not issues and not unsupported_combinations,
     }

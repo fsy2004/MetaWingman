@@ -1,6 +1,6 @@
 # Reproducible Training Corpus and Training Paradigm
 
-Status: local v1 pilot implemented; model training and scientific validation have not started.
+Status: local v2 biomedical planning, pair export, component jobs, and metadata-only server handoff implemented; model training and scientific validation have not started.
 Last checked: 2026-08-15
 
 ## Purpose
@@ -68,10 +68,16 @@ Deterministic section labeling produced 172 weak-supervision examples from 19 do
 
 A three-document DeepSeek annotation pilot tested the optional `T4` layer. On the second frozen replay, all three tasks returned schema-valid candidates in four provider calls using 10,254 observed tokens. Six of eight proposed annotations contained an exact source excerpt; two paraphrased the source and were rejected by `verify_training_annotations.py`. This is development evidence for the abstention and verifier boundary, not annotation-accuracy evidence. None of the model candidates is gold or admitted to the frozen SFT export.
 
+The biomedical v2 metadata plan selects 2,048 of 2,331 eligible OA records with 2,040 review families, 12 title-resolved primary specialties, and 108 composite sampling strata. No family crosses train/development. About 69% fall back to `general-medicine`, which is an explicit limitation of title-only weak classification, not evidence of specialty resolution accuracy.
+
+The local 172-example pilot produced 331 retrieval pairs: 86 source-anchored positives and 245 candidate hard negatives from the same split and medical neighborhood but a different report and review family. Both component jobs bind the model, tokenizer, data, pair, runtime-lock, and output hashes. Offline preflight has no scientific or data-integrity blocker; server hardware, CUDA, and exact package compatibility remain pending.
+
+The metadata-only handoff is generated under `validation-output/server-training-handoff/`; see [server-training-runbook.md](server-training-runbook.md). It contains no raw PDF/XML, credentials, or checkpoints and does not authorize server execution.
+
 ## Training Sequence
 
 1. Start with a small encoder or LoRA adapter for section-role classification and evidence retrieval. Do not train a foundation model from scratch.
-2. Mine hard negatives only within the same frozen split, excluding the same report and likely companion reports. The v1 retrieval export contains positive pairs only and is not yet a complete contrastive dataset.
+2. Mine hard negatives only within the same frozen split, excluding the same report, review family, exact source span, and likely companion reports. The v2 export keeps these as candidate negatives rather than gold labels.
 3. Add schema-constrained SFT for protocol, screening, extraction, and appraisal candidates only after independently checked labels and abstention examples exist.
 4. Use preference optimization only with versioned, independently verified proposal-opposition pairs. Model self-preference is not a valid label.
 5. Select checkpoints on development families and aggregate uncertainty by review family. Never tune on sealed reconstruction families.

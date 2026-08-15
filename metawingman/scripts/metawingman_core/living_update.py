@@ -6,6 +6,7 @@ import copy
 from datetime import datetime, timezone
 from typing import Any
 
+from .biomedical_domain import validate_pack_integrity
 from .provenance_graph import GraphError, ProvenanceGraph
 from .schema_guard import SchemaValidationError, validate_document
 from .state_store import sha256_json
@@ -13,6 +14,255 @@ from .state_store import sha256_json
 
 class LivingUpdateError(ValueError):
     """Raised when living-review snapshots are invalid or incomparable."""
+
+
+def _require_sha256(value: Any, field: str) -> str:
+    if not isinstance(value, str) or len(value) != 64 or any(
+        character not in "0123456789abcdef" for character in value
+    ):
+        raise LivingUpdateError(f"{field} must be a lowercase SHA-256 digest")
+    return value
+
+
+def _domain_state_payload(snapshot: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key: value
+        for key, value in snapshot.items()
+        if key != "domain_state_sha256"
+    }
+
+
+def _canonical_terminology_releases(values: Any) -> list[dict[str, str]]:
+    if not isinstance(values, list):
+        raise LivingUpdateError("terminology_releases must be a list")
+    releases: list[dict[str, str]] = []
+    for item in values:
+        if not isinstance(item, dict):
+            raise LivingUpdateError("terminology release entries must be objects")
+        try:
+            release = {
+                "pack_id": str(item["pack_id"]),
+                "system": str(item["system"]),
+                "release": str(item["release"]),
+                "content_sha256": _require_sha256(
+                    item["content_sha256"], "terminology release content_sha256"
+                ),
+            }
+        except KeyError as exc:
+            raise LivingUpdateError(
+                f"terminology release is missing {exc.args[0]}"
+            ) from exc
+        if not all(release[field] for field in ("pack_id", "system", "release")):
+            raise LivingUpdateError("terminology release identifiers must not be empty")
+        releases.append(release)
+    identities = [
+        (item["pack_id"], item["system"], item["release"])
+        for item in releases
+    ]
+    if len(identities) != len(set(identities)):
+        raise LivingUpdateError("terminology release identities must be unique")
+    return sorted(
+        releases,
+        key=lambda item: (
+            item["pack_id"], item["system"], item["release"], item["content_sha256"]
+        ),
+    )
+
+
+def build_domain_state_snapshot(
+    packs: list[dict[str, Any]],
+    *,
+    snapshot_id: str,
+    affected_evidence: list[str] | None = None,
+    affected_claims: list[str] | None = None,
+) -> dict[str, Any]:
+    """Capture active domain pack and terminology state for a living run."""
+    active = []
+    pack_ids: set[str] = set()
+    terminology_releases: list[dict[str, str]] = []
+    for pack in packs:
+        validate_pack_integrity(pack)
+        if pack["status"] != "active":
+            continue
+        if pack["pack_id"] in pack_ids:
+            raise LivingUpdateError(f"duplicate active domain pack: {pack['pack_id']}")
+        pack_ids.add(pack["pack_id"])
+        active.append({
+            "pack_id": pack["pack_id"],
+            "version": pack["version"],
+            "content_sha256": pack["content_sha256"],
+        })
+        terminology_releases.extend({
+            "pack_id": pack["pack_id"],
+            "system": item["system"],
+            "release": item["release"],
+            "content_sha256": item["content_sha256"],
+        } for item in pack["terminology_releases"])
+    if not active:
+        raise LivingUpdateError("at least one active domain pack is required")
+    active.sort(key=lambda item: item["pack_id"])
+    output = {
+        "schema_version": "1.0",
+        "snapshot_id": snapshot_id,
+        "active_pack_ids": [item["pack_id"] for item in active],
+        "active_packs": active,
+        "domain_pack_hash": sha256_json(active),
+        "terminology_releases": _canonical_terminology_releases(terminology_releases),
+        "affected_evidence": sorted(set(affected_evidence or [])),
+        "affected_claims": sorted(set(affected_claims or [])),
+    }
+    output["domain_state_sha256"] = sha256_json(_domain_state_payload(output))
+    return output
+
+
+def _verify_domain_state_snapshot(snapshot: dict[str, Any]) -> None:
+    if "domain_state_sha256" not in snapshot:
+        return
+    expected = sha256_json(_domain_state_payload(snapshot))
+    if _require_sha256(snapshot["domain_state_sha256"], "domain_state_sha256") != expected:
+        raise LivingUpdateError("domain state snapshot hash mismatch")
+    active_packs = snapshot.get("active_packs")
+    if not isinstance(active_packs, list) or not active_packs:
+        raise LivingUpdateError("domain state active_packs must be a non-empty list")
+    computed_pack_hash = sha256_json(active_packs)
+    if snapshot.get("domain_pack_hash") != computed_pack_hash:
+        raise LivingUpdateError("domain state pack aggregate hash mismatch")
+    if snapshot.get("active_pack_ids") != [item.get("pack_id") for item in active_packs]:
+        raise LivingUpdateError("active_pack_ids do not match active_packs")
+    _canonical_terminology_releases(snapshot.get("terminology_releases", []))
+
+
+def _pack_drift_codes(
+    previous: dict[str, Any],
+    current: dict[str, Any] | None,
+) -> list[str]:
+    if current is None or "active_packs" not in previous:
+        return []
+    prior = {item["pack_id"]: item for item in previous["active_packs"]}
+    present = {item["pack_id"]: item for item in current["active_packs"]}
+    codes: list[str] = []
+    if set(prior) != set(present):
+        codes.append("domain_pack_set_changed")
+    common = set(prior) & set(present)
+    if any(prior[item]["version"] != present[item]["version"] for item in common):
+        codes.append("domain_pack_version_changed")
+    if any(
+        prior[item]["content_sha256"] != present[item]["content_sha256"]
+        for item in common
+    ):
+        codes.append("domain_pack_hash_changed")
+    return codes
+
+
+def plan_living_update(
+    previous_domain_snapshot: dict[str, Any],
+    *,
+    current_pack_hash: str | None = None,
+    current_domain_snapshot: dict[str, Any] | None = None,
+    current_terminology_releases: list[dict[str, str]] | None = None,
+    migration_event: dict[str, Any] | None = None,
+    affected_evidence: list[str] | None = None,
+    affected_claims: list[str] | None = None,
+) -> dict[str, Any]:
+    """Fail closed on domain drift until a matching non-model migration is explicit."""
+    _verify_domain_state_snapshot(previous_domain_snapshot)
+    if current_domain_snapshot is not None:
+        _verify_domain_state_snapshot(current_domain_snapshot)
+    previous_pack_hash = _require_sha256(
+        previous_domain_snapshot.get("domain_pack_hash"), "previous domain_pack_hash"
+    )
+    if current_domain_snapshot is not None:
+        observed_current_hash = _require_sha256(
+            current_domain_snapshot.get("domain_pack_hash"), "current domain_pack_hash"
+        )
+        if current_pack_hash is not None and current_pack_hash != observed_current_hash:
+            raise LivingUpdateError(
+                "current_pack_hash does not match current_domain_snapshot"
+            )
+        current_pack_hash = observed_current_hash
+    current_pack_hash = _require_sha256(
+        current_pack_hash, "current domain_pack_hash"
+    )
+
+    previous_terms = _canonical_terminology_releases(
+        previous_domain_snapshot.get("terminology_releases", [])
+    )
+    if current_domain_snapshot is not None:
+        current_terms = _canonical_terminology_releases(
+            current_domain_snapshot.get("terminology_releases", [])
+        )
+        if current_terminology_releases is not None:
+            supplied_terms = _canonical_terminology_releases(
+                current_terminology_releases
+            )
+            if supplied_terms != current_terms:
+                raise LivingUpdateError(
+                    "current terminology releases do not match current_domain_snapshot"
+                )
+    elif current_terminology_releases is None:
+        current_terms = previous_terms
+    else:
+        current_terms = _canonical_terminology_releases(
+            current_terminology_releases
+        )
+
+    reason_codes = _pack_drift_codes(
+        previous_domain_snapshot, current_domain_snapshot
+    )
+    if previous_pack_hash != current_pack_hash:
+        reason_codes.append("domain_pack_hash_changed")
+    if previous_terms != current_terms:
+        reason_codes.append("terminology_release_changed")
+    reason_codes = sorted(set(reason_codes))
+
+    previous_state_hash = previous_domain_snapshot.get(
+        "domain_state_sha256", previous_pack_hash
+    )
+    current_state_hash = (
+        current_domain_snapshot.get("domain_state_sha256", current_pack_hash)
+        if current_domain_snapshot is not None else current_pack_hash
+    )
+    migration_accepted = False
+    if reason_codes and migration_event is not None:
+        actor_type = migration_event.get("actor_type")
+        if actor_type == "model":
+            reason_codes.append("model_response_cannot_authorize_domain_migration")
+        elif (
+            migration_event.get("event_type") == "domain_migration"
+            and actor_type in {"human", "tool"}
+            and migration_event.get("approved") is True
+            and migration_event.get("from_domain_state_sha256") == previous_state_hash
+            and migration_event.get("to_domain_state_sha256") == current_state_hash
+        ):
+            migration_accepted = True
+        else:
+            reason_codes.append("invalid_domain_migration_event")
+
+    drift = bool(reason_codes)
+    if not drift:
+        status = "ready_for_living_update"
+    elif migration_accepted:
+        status = "ready_after_domain_migration"
+    else:
+        status = "blocked_pending_domain_migration"
+    evidence = affected_evidence
+    if evidence is None:
+        evidence = previous_domain_snapshot.get("affected_evidence", [])
+    claims = affected_claims
+    if claims is None:
+        claims = previous_domain_snapshot.get("affected_claims", [])
+    return {
+        "status": status,
+        "migration_required": drift and not migration_accepted,
+        "reason_codes": sorted(set(reason_codes)),
+        "previous_domain_pack_hash": previous_pack_hash,
+        "current_domain_pack_hash": current_pack_hash,
+        "previous_terminology_releases": previous_terms,
+        "current_terminology_releases": current_terms,
+        "affected_evidence": sorted(set(evidence)),
+        "affected_claims": sorted(set(claims)),
+        "migration_event": copy.deepcopy(migration_event) if migration_accepted else None,
+    }
 
 
 def _snapshot_payload(snapshot: dict[str, Any]) -> dict[str, Any]:

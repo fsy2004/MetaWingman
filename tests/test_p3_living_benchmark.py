@@ -18,14 +18,18 @@ from metawingman_core.benchmark_packager import (  # noqa: E402
 )
 from metawingman_core.living_update import (  # noqa: E402
     LivingUpdateError,
+    build_domain_state_snapshot,
     build_snapshot,
     compare_snapshots,
+    plan_living_update,
 )
+from metawingman_core.biomedical_domain import load_domain_packs  # noqa: E402
 from metawingman_core.provenance_graph import ProvenanceGraph  # noqa: E402
 
 
 TIMESTAMP = "2026-08-13T00:00:00Z"
 QUERY_HASH = "a" * 64
+PACK_DIR = REPO_ROOT / "metawingman/references/domain-packs"
 
 
 def node(node_type: str, node_id: str) -> dict[str, object]:
@@ -74,6 +78,15 @@ def snapshot(snapshot_id: str, records: list[dict[str, object]]) -> dict[str, ob
         "query_sha256": QUERY_HASH, "search_completed_at_utc": TIMESTAMP,
         "source_data_timestamp": "2026-08-13", "records": records,
     })
+
+
+def snapshot_with_pack_hash(pack_hash: str) -> dict[str, object]:
+    return {
+        "domain_pack_hash": pack_hash,
+        "terminology_releases": [],
+        "affected_evidence": ["report:report-1"],
+        "affected_claims": ["claim:claim-1"],
+    }
 
 
 def benchmark_candidate(
@@ -132,6 +145,85 @@ def benchmark_candidate(
 
 
 class LivingUpdateTests(unittest.TestCase):
+    def test_domain_state_snapshot_records_active_pack_versions_terms_and_hashes(self) -> None:
+        value = build_domain_state_snapshot(
+            load_domain_packs(PACK_DIR),
+            snapshot_id="domain-state-1",
+            affected_evidence=["report:report-1"],
+            affected_claims=["claim:claim-1"],
+        )
+        self.assertEqual(len(value["active_packs"]), 6)
+        self.assertEqual(
+            {"pack_id", "version", "content_sha256"},
+            set(value["active_packs"][0]),
+        )
+        self.assertEqual(value["terminology_releases"], [])
+        self.assertEqual(len(value["domain_state_sha256"]), 64)
+
+    def test_domain_pack_drift_requires_explicit_living_migration(self) -> None:
+        result = plan_living_update(
+            snapshot_with_pack_hash("1" * 64),
+            current_pack_hash="2" * 64,
+        )
+        self.assertEqual(result["status"], "blocked_pending_domain_migration")
+        self.assertIn("domain_pack_hash_changed", result["reason_codes"])
+        self.assertEqual(result["affected_evidence"], ["report:report-1"])
+        self.assertEqual(result["affected_claims"], ["claim:claim-1"])
+
+    def test_terminology_drift_requires_explicit_living_migration(self) -> None:
+        previous = snapshot_with_pack_hash("1" * 64)
+        previous["terminology_releases"] = [{
+            "pack_id": "biomedical-foundation",
+            "system": "SNOMED CT",
+            "release": "2026-01-01",
+            "content_sha256": "3" * 64,
+        }]
+        result = plan_living_update(
+            previous,
+            current_pack_hash="1" * 64,
+            current_terminology_releases=[{
+                "pack_id": "biomedical-foundation",
+                "system": "SNOMED CT",
+                "release": "2026-07-01",
+                "content_sha256": "4" * 64,
+            }],
+        )
+        self.assertEqual(result["status"], "blocked_pending_domain_migration")
+        self.assertIn("terminology_release_changed", result["reason_codes"])
+
+    def test_only_explicit_non_model_migration_event_clears_domain_drift(self) -> None:
+        previous = snapshot_with_pack_hash("1" * 64)
+        model_result = plan_living_update(
+            previous,
+            current_pack_hash="2" * 64,
+            migration_event={
+                "event_type": "domain_migration",
+                "actor_type": "model",
+                "approved": True,
+                "from_domain_state_sha256": "1" * 64,
+                "to_domain_state_sha256": "2" * 64,
+            },
+        )
+        self.assertEqual(model_result["status"], "blocked_pending_domain_migration")
+        self.assertIn(
+            "model_response_cannot_authorize_domain_migration",
+            model_result["reason_codes"],
+        )
+
+        migrated = plan_living_update(
+            previous,
+            current_pack_hash="2" * 64,
+            migration_event={
+                "event_type": "domain_migration",
+                "actor_type": "human",
+                "approved": True,
+                "from_domain_state_sha256": "1" * 64,
+                "to_domain_state_sha256": "2" * 64,
+            },
+        )
+        self.assertEqual(migrated["status"], "ready_after_domain_migration")
+        self.assertFalse(migrated["migration_required"])
+
     def test_snapshot_hash_detects_tampering(self) -> None:
         value = snapshot("snapshot-1", [record("doi:1", "1" * 64)])
         value["records"][0]["status"] = "retracted"
