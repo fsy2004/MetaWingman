@@ -4,7 +4,7 @@
   "title": "MetaWingman biomedical application context",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "context_id", "application_domain", "status", "review_family", "primary_specialty", "secondary_specialties", "question_framework", "terminology_releases", "source_classes", "languages", "geographies", "ood_assessment", "created_at_utc", "updated_at_utc"],
+  "required": ["schema_version", "context_id", "application_domain", "status", "review_family", "primary_specialty", "secondary_specialties", "question_framework", "eligible_study_designs", "population_constraints", "setting_constraints", "equity_constraints", "database_constraints", "terminology_releases", "source_classes", "languages", "geographies", "ood_assessment", "created_at_utc", "updated_at_utc"],
   "properties": {
     "schema_version": {"const": "1.0"},
     "context_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
@@ -25,19 +25,37 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["source_phrase", "normalized_term", "identifier", "terminology", "pack_id"],
+            "required": ["source_phrase", "normalized_term", "identifier", "terminology", "pack_id", "confidence", "alternatives"],
             "properties": {
               "source_phrase": {"type": "string", "minLength": 1},
               "normalized_term": {"type": "string", "minLength": 1},
               "identifier": {"type": "string"},
               "terminology": {"type": "string", "minLength": 1},
-              "pack_id": {"type": "string", "minLength": 1}
+              "pack_id": {"type": "string", "minLength": 1},
+              "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+              "alternatives": {
+                "type": "array",
+                "items": {
+                  "type": "object", "additionalProperties": false,
+                  "required": ["normalized_term", "identifier", "confidence"],
+                  "properties": {
+                    "normalized_term": {"type": "string", "minLength": 1},
+                    "identifier": {"type": "string"},
+                    "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+                  }
+                }
+              }
             }
           }
         },
         "unresolved_terms": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
       }
     },
+    "eligible_study_designs": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "population_constraints": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "setting_constraints": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "equity_constraints": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "database_constraints": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
     "terminology_releases": {
       "type": "array",
       "items": {
@@ -57,10 +75,11 @@
     "ood_assessment": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status", "reason_codes"],
+      "required": ["status", "reason_codes", "routing_confidence"],
       "properties": {
         "status": {"enum": ["in_scope", "uncertain", "out_of_scope"]},
-        "reason_codes": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}, "uniqueItems": true}
+        "reason_codes": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}, "uniqueItems": true},
+        "routing_confidence": {"type": "number", "minimum": 0, "maximum": 1}
       }
     },
     "created_at_utc": {"type": "string", "format": "date-time"},

@@ -15,11 +15,27 @@
   ],
   "terminology_releases": [],
   "authority_sources": [
-    "references/methodology-source-registry.md",
-    "references/appraisal-certainty.md"
+    {
+      "source_id": "methodology-source-registry",
+      "path": "references/methodology-source-registry.md",
+      "version": "2026-08-15",
+      "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f",
+      "verified_at_utc": "2026-08-15T00:00:00Z"
+    },
+    {
+      "source_id": "appraisal-certainty",
+      "path": "references/appraisal-certainty.md",
+      "version": "2026-08-15",
+      "content_sha256": "bd317112e89ff21f184e468071bc1a885a8efc16380db3ba87a9098629947e19",
+      "verified_at_utc": "2026-08-15T00:00:00Z"
+    }
   ],
   "dependencies": [
-    "biomedical-foundation"
+    {
+      "pack_id": "biomedical-foundation",
+      "version": "1.0.0",
+      "content_sha256": "f7fd6908336e091a646903a80d9c6b558cfabcd55afd666ce620f3d2766b06d3"
+    }
   ],
   "constraints": {
     "may_override_protocol": false,
@@ -29,10 +45,10 @@
     "may_promote_model_output_to_gold": false
   },
   "validation": {
-    "level": "fixture_tested",
+    "level": "contract_only",
     "evidence": [
-      "tests/test_p2_judgment_workbench.py"
+      "docs/architecture/biomedical-application-contract.md"
     ]
   },
-  "content_sha256": "8930feba1df1a61c667fbe7af8ad62fe8b4c9ca2cb8a49df30efbfd3977819a9"
+  "content_sha256": "fe79cd55ef079fb4688a98bc605ff6a9deea42c0f836fc4e95e8eeb0b690ef18"
 }

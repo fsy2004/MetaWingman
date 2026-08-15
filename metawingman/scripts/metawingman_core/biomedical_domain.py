@@ -55,6 +55,25 @@ def load_domain_packs(pack_dir: Path) -> list[dict[str, Any]]:
             raise BiomedicalDomainError(f"duplicate domain pack id: {pack['pack_id']}")
         ids.add(pack["pack_id"])
         packs.append(pack)
+    by_id = {pack["pack_id"]: pack for pack in packs}
+    skill_root = pack_dir.resolve().parents[1]
+    for pack in packs:
+        for authority in pack["authority_sources"]:
+            authority_path = (skill_root / authority["path"]).resolve()
+            try:
+                authority_path.relative_to(skill_root)
+            except ValueError as exc:
+                raise BiomedicalDomainError(f"authority path escapes skill root: {authority['path']}") from exc
+            if not authority_path.is_file():
+                raise BiomedicalDomainError(f"authority source is missing: {authority['path']}")
+            if hashlib.sha256(authority_path.read_bytes()).hexdigest() != authority["content_sha256"]:
+                raise BiomedicalDomainError(f"authority source hash mismatch: {authority['source_id']}")
+        for dependency in pack["dependencies"]:
+            target = by_id.get(dependency["pack_id"])
+            if target is None:
+                raise BiomedicalDomainError(f"missing domain pack dependency: {dependency['pack_id']}")
+            if target["version"] != dependency["version"] or target["content_sha256"] != dependency["content_sha256"]:
+                raise BiomedicalDomainError(f"domain pack dependency drift: {dependency['pack_id']}")
     return packs
 
 
@@ -84,6 +103,8 @@ def _matched_concepts(source_text: str, packs: list[dict[str, Any]]) -> list[dic
                     "identifier": specialty_id,
                     "terminology": "specialty_registry_weak_title_terms",
                     "pack_id": pack_id,
+                    "confidence": 0.5,
+                    "alternatives": [],
                 }
             )
     return sorted(concepts, key=lambda item: (source_text.casefold().find(item["source_phrase"].casefold()), item["normalized_term"]))
@@ -117,6 +138,11 @@ def resolve_context(seed: dict[str, Any], packs: list[dict[str, Any]], now: str)
             "normalized_concepts": _matched_concepts(source_text, packs),
             "unresolved_terms": _unresolved_source_terms(source_text),
         },
+        "eligible_study_designs": list(dict.fromkeys(seed.get("eligible_study_designs", []))),
+        "population_constraints": list(dict.fromkeys(seed.get("population_constraints", []))),
+        "setting_constraints": list(dict.fromkeys(seed.get("setting_constraints", []))),
+        "equity_constraints": list(dict.fromkeys(seed.get("equity_constraints", []))),
+        "database_constraints": list(dict.fromkeys(seed.get("database_constraints", []))),
         "terminology_releases": [],
         "source_classes": list(dict.fromkeys(seed.get("source_classes", []))),
         "languages": list(dict.fromkeys(seed.get("languages", ["en"]))),
@@ -124,6 +150,7 @@ def resolve_context(seed: dict[str, Any], packs: list[dict[str, Any]], now: str)
         "ood_assessment": {
             "status": "in_scope" if declared else "uncertain",
             "reason_codes": [] if declared else ["specialty_not_declared"],
+            "routing_confidence": 1.0 if declared else 0.0,
         },
         "created_at_utc": now,
         "updated_at_utc": now,
@@ -178,13 +205,21 @@ def route_domain_packs(
     else:
         reason_codes.append("missing_profile_pack")
     selected.extend(specialties)
-    missing_dependencies = sorted(
-        {dependency for pack in selected for dependency in pack["dependencies"] if dependency not in by_id}
-    )
+    selected_by_id = {pack["pack_id"]: pack for pack in selected}
+    missing_dependencies = sorted({
+        dependency["pack_id"]
+        for pack in selected
+        for dependency in pack["dependencies"]
+        if dependency["pack_id"] not in selected_by_id
+        or selected_by_id[dependency["pack_id"]]["version"] != dependency["version"]
+        or selected_by_id[dependency["pack_id"]]["content_sha256"] != dependency["content_sha256"]
+    })
     if missing_dependencies:
         reason_codes.append("missing_pack_dependency")
     high_risk = risk_class in {"high", "critical"}
     profile_validated = bool(profiles) and _VALIDATION_RANK[profiles[0]["validation"]["level"]] >= _VALIDATION_RANK["fixture_tested"]
+    if high_risk and profiles and not profile_validated:
+        reason_codes.append("profile_not_fixture_tested")
     abstain = foundation is None or bool(missing_dependencies) or (high_risk and not profile_validated) or len(profiles) > 1
     if abstain:
         status = "abstained"
@@ -222,7 +257,15 @@ def route_domain_packs(
         "selected_pack_ids": selected_ids,
         "status": status,
         "confidence": confidence,
-        "evidence": [f"{pack['pack_id']}@{pack['version']}:{pack['content_sha256']}" for pack in selected],
+        "evidence": [
+            {
+                "pack_id": pack["pack_id"],
+                "version": pack["version"],
+                "content_sha256": pack["content_sha256"],
+                "validation_level": pack["validation"]["level"],
+            }
+            for pack in selected
+        ],
         "reason_codes": sorted(set(reason_codes)),
         "fallback": fallback,
         "created_at_utc": now,

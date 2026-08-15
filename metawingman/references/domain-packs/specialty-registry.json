@@ -168,10 +168,20 @@
   ],
   "terminology_releases": [],
   "authority_sources": [
-    "references/methodology-source-registry.md"
+    {
+      "source_id": "methodology-source-registry",
+      "path": "references/methodology-source-registry.md",
+      "version": "2026-08-15",
+      "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f",
+      "verified_at_utc": "2026-08-15T00:00:00Z"
+    }
   ],
   "dependencies": [
-    "biomedical-foundation"
+    {
+      "pack_id": "biomedical-foundation",
+      "version": "1.0.0",
+      "content_sha256": "f7fd6908336e091a646903a80d9c6b558cfabcd55afd666ce620f3d2766b06d3"
+    }
   ],
   "constraints": {
     "may_override_protocol": false,
@@ -186,5 +196,5 @@
       "docs/architecture/biomedical-application-contract.md"
     ]
   },
-  "content_sha256": "42cfb21a5e8c8d34b0331125161de6e6e81aec248885fc2097a8fb95d25c6acb"
+  "content_sha256": "24bdc029e9767c93cd0c725d64a784026236f3808b00a864aa7ab4ad60022a3d"
 }

@@ -28,6 +28,12 @@
     },
     "valid": {"type": "boolean"}
   },
+  "allOf": [
+    {
+      "if": {"properties": {"valid": {"const": true}}, "required": ["valid"]},
+      "then": {"properties": {"issues": {"not": {"contains": {"properties": {"severity": {"const": "error"}}, "required": ["severity"]}}}}}
+    }
+  ],
   "$defs": {
     "coverage_item": {
       "type": "object",

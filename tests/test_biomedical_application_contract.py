@@ -46,11 +46,16 @@ def biomedical_context_fixture(review_family: str = "intervention") -> dict[str,
             "normalized_concepts": [],
             "unresolved_terms": ["intervention"],
         },
+        "eligible_study_designs": [],
+        "population_constraints": [],
+        "setting_constraints": [],
+        "equity_constraints": [],
+        "database_constraints": [],
         "terminology_releases": [],
         "source_classes": ["bibliographic_database"],
         "languages": ["en"],
         "geographies": [],
-        "ood_assessment": {"status": "in_scope", "reason_codes": []},
+        "ood_assessment": {"status": "in_scope", "reason_codes": [], "routing_confidence": 1.0},
         "created_at_utc": TIMESTAMP,
         "updated_at_utc": TIMESTAMP,
     }
@@ -376,12 +381,23 @@ class BiomedicalApplicationContractTests(unittest.TestCase):
         self.assertIn("missing_profile_pack", result["reason_codes"])
         validate_document(result, "domain_routing_decision")
 
-    def test_high_risk_route_selects_foundation_then_profile(self) -> None:
+    def test_high_risk_route_abstains_when_profile_is_contract_only(self) -> None:
         result = route_domain_packs(
             biomedical_context_fixture("diagnostic"),
             load_domain_packs(PACK_DIR),
             "appraisal",
             "high",
+            TIMESTAMP,
+        )
+        self.assertEqual(result["status"], "abstained")
+        self.assertIn("profile_not_fixture_tested", result["reason_codes"])
+
+    def test_moderate_route_selects_foundation_then_contract_profile(self) -> None:
+        result = route_domain_packs(
+            biomedical_context_fixture("diagnostic"),
+            load_domain_packs(PACK_DIR),
+            "appraisal",
+            "moderate",
             TIMESTAMP,
         )
         self.assertEqual(result["status"], "selected")
@@ -396,13 +412,52 @@ class BiomedicalApplicationContractTests(unittest.TestCase):
                 biomedical_context_fixture("intervention"), tampered, "screening", "moderate", TIMESTAMP
             )
 
+    def test_authority_source_drift_is_fail_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "metawingman"
+            packs = root / "references" / "domain-packs"
+            packs.mkdir(parents=True)
+            for path in PACK_DIR.glob("*.json"):
+                (packs / path.name).write_bytes(path.read_bytes())
+            for name in ("methodology-source-registry.md", "appraisal-certainty.md"):
+                source = SKILL_ROOT / "references" / name
+                (root / "references" / name).write_bytes(source.read_bytes())
+            load_domain_packs(packs)
+            with (root / "references" / "methodology-source-registry.md").open("ab") as handle:
+                handle.write(b"\ndrift")
+            with self.assertRaises(BiomedicalDomainError):
+                load_domain_packs(packs)
+
+    def test_claim_bearing_schemas_reject_overclaim_states(self) -> None:
+        stratum = {
+            "schema_version": "1.0", "primary_specialty": "oncology", "secondary_specialties": [],
+            "question_type": "harms", "study_designs": ["randomized_trial"],
+            "synthesis_routes": ["pairwise"], "languages": ["en"],
+            "document_modalities": ["abstract"], "challenge_tags": [],
+            "sampling_key": "oncology|harms|randomized_trial|pairwise",
+            "label_status": "gold", "evidence": ["model-output"],
+        }
+        with self.assertRaises(SchemaValidationError):
+            validate_document(stratum, "biomedical_training_stratum")
+        report = {
+            "schema_version": "1.0", "report_id": "coverage-fixture", "registry_sha256": "1" * 64,
+            "generated_at_utc": TIMESTAMP, "application_domain": APPLICATION_DOMAIN,
+            "profiles": [], "specialties": [],
+            "issues": [{"severity": "error", "code": "missing_evidence", "message": "fixture"}],
+            "valid": True,
+        }
+        with self.assertRaises(SchemaValidationError):
+            validate_document(report, "domain_coverage_report")
+
     def test_route_cli_writes_valid_abstention_and_returns_two(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             root = Path(temporary_directory)
             context_path = root / "context.json"
             out_path = root / "route.json"
-            packs = root / "packs"
-            packs.mkdir()
+            packs = root / "metawingman" / "references" / "domain-packs"
+            packs.mkdir(parents=True)
+            authority = root / "metawingman" / "references" / "methodology-source-registry.md"
+            authority.write_bytes((SKILL_ROOT / "references" / "methodology-source-registry.md").read_bytes())
             context_path.write_text(json.dumps(biomedical_context_fixture("diagnostic")), encoding="utf-8")
             (packs / "biomedical-foundation.json").write_text(
                 (PACK_DIR / "biomedical-foundation.json").read_text(encoding="utf-8"),
@@ -434,6 +489,14 @@ class BiomedicalApplicationContractTests(unittest.TestCase):
             validate_document(route, "domain_routing_decision")
             self.assertEqual(route["status"], "abstained")
 
+    def test_routing_schema_rejects_incoherent_selected_state(self) -> None:
+        route = route_domain_packs(
+            biomedical_context_fixture("diagnostic"), load_domain_packs(PACK_DIR), "screening", "moderate", TIMESTAMP
+        )
+        route["selected_pack_ids"] = []
+        route["fallback"] = {"action": "abstain", "pack_id": None}
+        with self.assertRaises(SchemaValidationError):
+            validate_document(route, "domain_routing_decision")
 
 if __name__ == "__main__":
     unittest.main()
