@@ -69,6 +69,7 @@ SECRET_PATTERNS = [
     re.compile(r"(?i)(api[_-]?key|token|password|secret)\s*[:=]\s*['\"]?[A-Za-z0-9_\-]{12,}"),
     re.compile(r"gh[opusr]_[A-Za-z0-9]{20,}"),
 ]
+BIOMEDICAL_SCAFFOLD_VERSION = (1, 1)
 
 
 def data_rows(path: Path) -> int:
@@ -90,9 +91,23 @@ def safe_project_path(root: Path, relative: object) -> Path:
     return candidate
 
 
+def scaffold_version(value: object) -> tuple[int, ...]:
+    if not isinstance(value, str) or not re.fullmatch(r"\d+(?:\.\d+)*", value):
+        return (1, 0)
+    return tuple(int(part) for part in value.split("."))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(); parser.add_argument("project", type=Path); args = parser.parse_args(); root = args.project.resolve()
     issues, warnings = [], []
+    project_document: dict[str, object] = {}
+    try:
+        loaded_project = json.loads((root / "00_admin/project.json").read_text(encoding="utf-8"))
+        if not isinstance(loaded_project, dict):
+            raise ValueError("project.json must contain a JSON object")
+        project_document = loaded_project
+    except Exception as exc:
+        issues.append(f"Cannot read project.json: {exc}")
     gate_file = root / "00_admin/gate_status.json"
     try: gates = json.loads(gate_file.read_text(encoding="utf-8"))
     except Exception as exc: gates = {}; issues.append(f"Cannot read gate_status.json: {exc}")
@@ -102,6 +117,7 @@ def main() -> int:
         "00_admin/model_registry.json": "model_registry",
         "00_admin/credential_capabilities.json": "credential_capabilities",
         "01_protocol/review_profile.json": "review_profile",
+        "01_protocol/biomedical_context.json": "biomedical_context",
         "01_protocol/protocol.json": "protocol",
         "01_protocol/protocol_criteria.json": "protocol_criteria",
         "10_benchmark/ai_only_evaluation_plan.json": "ai_only_evaluation_plan",
@@ -110,12 +126,35 @@ def main() -> int:
     for rel, schema_name in schema_files.items():
         path = root / rel
         if not path.exists():
+            if rel == "01_protocol/biomedical_context.json":
+                continue
             warnings.append(f"AI control-plane file is missing (legacy project): {rel}")
             continue
         try:
             validated[rel] = validate_json_file(path, schema_name)
         except SchemaValidationError as exc:
             issues.append(str(exc))
+    context_rel = "01_protocol/biomedical_context.json"
+    if context_rel in validated:
+        biomedical_readiness = {"status": "ready", "ready": True, "context": context_rel}
+    elif (root / context_rel).exists():
+        biomedical_readiness = {"status": "invalid_context", "ready": False, "context": context_rel}
+    elif scaffold_version(project_document.get("scaffold_version")) >= BIOMEDICAL_SCAFFOLD_VERSION:
+        biomedical_readiness = {
+            "status": "missing_required_context",
+            "ready": False,
+            "context": context_rel,
+        }
+        issues.append(f"Biomedical context is required for this scaffold: {context_rel}")
+    else:
+        biomedical_readiness = {
+            "status": "migration_required",
+            "ready": False,
+            "context": context_rel,
+        }
+        warnings.append(
+            "migration_required: legacy project remains readable but is not biomedical-ready"
+        )
     jsonl_files = {
         "00_admin/event_ledger.jsonl": "event_ledger",
         "00_admin/abstentions.jsonl": "abstention",
@@ -230,7 +269,7 @@ def main() -> int:
     if gates.get("5", {}).get("status") == "complete" and results and not rob: issues.append("Appraisal complete but no risk-of-bias rows")
     if gates.get("6", {}).get("status") == "complete" and not results: issues.append("Synthesis complete but extraction results are empty")
     if screening == 0: warnings.append("No screening decisions yet")
-    report = {"project": str(root), "issues": issues, "warnings": warnings, "row_counts": {"screening": screening, "results": results, "risk_of_bias": rob}, "valid": not issues}
+    report = {"project": str(root), "issues": issues, "warnings": warnings, "biomedical_readiness": biomedical_readiness, "row_counts": {"screening": screening, "results": results, "risk_of_bias": rob}, "valid": not issues}
     print(json.dumps(report, indent=2)); return 1 if issues else 0
 
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import subprocess
 import sys
@@ -59,7 +60,171 @@ def domain_pack_fixture() -> dict[str, object]:
     return json.loads((PACK_DIR / "biomedical-foundation.json").read_text(encoding="utf-8"))
 
 
+def initialize_review(root: Path, name: str = "Legacy Oncology Review") -> Path:
+    completed = subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPTS / "init_review.py"),
+            "--name",
+            name,
+            "--root",
+            str(root),
+            "--profile",
+            "diagnostic",
+        ],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return Path(completed.stdout.strip())
+
+
+def make_legacy(project: Path) -> None:
+    context_path = project / "01_protocol/biomedical_context.json"
+    if context_path.exists():
+        context_path.unlink()
+    (project / "10_benchmark/ai_only_evaluation_plan.json").unlink(missing_ok=True)
+    project_path = project / "00_admin/project.json"
+    project_document = json.loads(project_path.read_text(encoding="utf-8"))
+    project_document.pop("scaffold_version", None)
+    project_path.write_text(json.dumps(project_document, indent=2) + "\n", encoding="utf-8")
+
+
+def run_migration(project: Path, *arguments: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPTS / "migrate_biomedical_context.py"),
+            str(project),
+            *arguments,
+        ],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+
 class BiomedicalApplicationContractTests(unittest.TestCase):
+    def test_init_review_writes_declared_specialties_without_name_inference(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPTS / "init_review.py"),
+                    "--name",
+                    "Oncology Imaging Review",
+                    "--root",
+                    temporary_directory,
+                    "--profile",
+                    "diagnostic",
+                    "--specialty",
+                    "diagnostics",
+                    "--specialty",
+                    "imaging",
+                ],
+                cwd=REPO_ROOT,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+            context = json.loads(
+                (Path(completed.stdout.strip()) / "01_protocol/biomedical_context.json")
+                .read_text(encoding="utf-8")
+            )
+            validate_document(context, "biomedical_context")
+            self.assertEqual(context["primary_specialty"], "diagnostics")
+            self.assertEqual(context["secondary_specialties"], ["imaging"])
+            self.assertEqual(context["question_framework"]["source_text"], "")
+            self.assertEqual(context["question_framework"]["normalized_concepts"], [])
+            self.assertEqual(context["ood_assessment"]["status"], "uncertain")
+
+    def test_migration_requires_explicit_specialty(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            project = initialize_review(Path(temporary_directory))
+            make_legacy(project)
+            completed = run_migration(project)
+            self.assertEqual(completed.returncode, 2)
+            self.assertIn("--specialty is required", completed.stderr)
+
+    def test_migration_writes_context_and_profile_hash_provenance(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            project = initialize_review(Path(temporary_directory))
+            make_legacy(project)
+            profile_path = project / "01_protocol/review_profile.json"
+            profile_hash = hashlib.sha256(profile_path.read_bytes()).hexdigest()
+
+            completed = run_migration(
+                project,
+                "--specialty",
+                "diagnostics",
+                "--specialty",
+                "imaging",
+                "--created-at-utc",
+                TIMESTAMP,
+            )
+
+            self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+            result = json.loads(completed.stdout)
+            self.assertEqual(result["status"], "migrated")
+            self.assertEqual(result["profile_sha256"], profile_hash)
+            context_path = project / "01_protocol/biomedical_context.json"
+            context = json.loads(context_path.read_text(encoding="utf-8"))
+            validate_document(context, "biomedical_context")
+            self.assertEqual(context["primary_specialty"], "diagnostics")
+            self.assertEqual(context["secondary_specialties"], ["imaging"])
+            self.assertEqual(context["question_framework"]["source_text"], "")
+            self.assertEqual(context["ood_assessment"]["status"], "uncertain")
+            events = [
+                json.loads(line)
+                for line in (project / "00_admin/event_ledger.jsonl")
+                .read_text(encoding="utf-8")
+                .splitlines()
+            ]
+            self.assertEqual(events[-1]["action_type"], "biomedical_context_migrated")
+            self.assertEqual(events[-1]["input"]["sha256"], profile_hash)
+            self.assertEqual(
+                events[-1]["output"]["sha256"],
+                hashlib.sha256(context_path.read_bytes()).hexdigest(),
+            )
+
+    def test_migration_dry_run_does_not_write_context_or_event(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            project = initialize_review(Path(temporary_directory))
+            make_legacy(project)
+            ledger_path = project / "00_admin/event_ledger.jsonl"
+            ledger_before = ledger_path.read_bytes()
+
+            completed = run_migration(
+                project,
+                "--specialty",
+                "diagnostics",
+                "--dry-run",
+                "--created-at-utc",
+                TIMESTAMP,
+            )
+
+            self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+            proposed = json.loads(completed.stdout)
+            validate_document(proposed, "biomedical_context")
+            self.assertFalse((project / "01_protocol/biomedical_context.json").exists())
+            self.assertEqual(ledger_path.read_bytes(), ledger_before)
+
+    def test_migration_refuses_to_overwrite_existing_context(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            project = initialize_review(Path(temporary_directory))
+            context_path = project / "01_protocol/biomedical_context.json"
+            self.assertTrue(context_path.is_file())
+            original = context_path.read_bytes()
+
+            completed = run_migration(project, "--specialty", "diagnostics")
+
+            self.assertEqual(completed.returncode, 2)
+            self.assertIn("Refusing to overwrite existing biomedical context", completed.stderr)
+            self.assertEqual(context_path.read_bytes(), original)
+
     def test_new_schemas_are_valid_draft_2020_12(self) -> None:
         for name in (
             "biomedical_context",

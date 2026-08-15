@@ -842,7 +842,16 @@ class ProjectIntegrationTests(unittest.TestCase):
     def test_new_project_contains_valid_control_plane(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             init_result = subprocess.run(
-                [sys.executable, str(SCRIPTS / "init_review.py"), "--name", "Control Plane Test", "--root", directory, "--profile", "intervention"],
+                [
+                    sys.executable,
+                    str(SCRIPTS / "init_review.py"),
+                    "--name",
+                    "Oncology Control Plane Test",
+                    "--root",
+                    directory,
+                    "--profile",
+                    "intervention",
+                ],
                 check=True,
                 capture_output=True,
                 text=True,
@@ -859,6 +868,15 @@ class ProjectIntegrationTests(unittest.TestCase):
             self.assertTrue((project / "00_topic/topic_decision.md").is_file())
             self.assertTrue((project / "01_protocol/review_profile.json").is_file())
             self.assertTrue((project / "01_protocol/protocol.json").is_file())
+            self.assertTrue((project / "01_protocol/biomedical_context.json").is_file())
+            context = json.loads(
+                (project / "01_protocol/biomedical_context.json").read_text(encoding="utf-8")
+            )
+            validate_document(context, "biomedical_context")
+            self.assertEqual(context["primary_specialty"], "general-medicine")
+            self.assertEqual(context["secondary_specialties"], [])
+            self.assertEqual(context["question_framework"]["source_text"], "")
+            self.assertEqual(context["ood_assessment"]["status"], "uncertain")
             self.assertTrue((project / "02_search/retrieval/document_state.jsonl").is_file())
             self.assertTrue((project / "03_screening/screening_assessments.jsonl").is_file())
             self.assertTrue((project / "04_extraction/lineage_edges.jsonl").is_file())
@@ -881,6 +899,84 @@ class ProjectIntegrationTests(unittest.TestCase):
             report = json.loads(validation.stdout)
             self.assertEqual(validation.returncode, 0, validation.stdout + validation.stderr)
             self.assertTrue(report["valid"])
+            self.assertEqual(report["biomedical_readiness"]["status"], "ready")
+
+    def test_legacy_project_without_biomedical_context_requires_migration(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            init_result = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPTS / "init_review.py"),
+                    "--name",
+                    "Legacy Readability Test",
+                    "--root",
+                    directory,
+                    "--profile",
+                    "intervention",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            project = Path(init_result.stdout.strip())
+            context_path = project / "01_protocol/biomedical_context.json"
+            if context_path.exists():
+                context_path.unlink()
+            project_path = project / "00_admin/project.json"
+            project_document = json.loads(project_path.read_text(encoding="utf-8"))
+            project_document.pop("scaffold_version", None)
+            project_path.write_text(json.dumps(project_document, indent=2) + "\n", encoding="utf-8")
+
+            validation = subprocess.run(
+                [sys.executable, str(SCRIPTS / "validate_project.py"), str(project)],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            report = json.loads(validation.stdout)
+            self.assertEqual(validation.returncode, 0, validation.stdout + validation.stderr)
+            self.assertTrue(report["valid"])
+            self.assertEqual(
+                report.get("biomedical_readiness", {}).get("status"),
+                "migration_required",
+            )
+            self.assertTrue(any("migration_required" in warning for warning in report["warnings"]))
+
+    def test_current_project_missing_biomedical_context_is_invalid(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            init_result = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPTS / "init_review.py"),
+                    "--name",
+                    "Current Scaffold Test",
+                    "--root",
+                    directory,
+                    "--profile",
+                    "intervention",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            project = Path(init_result.stdout.strip())
+            context_path = project / "01_protocol/biomedical_context.json"
+            self.assertTrue(context_path.is_file())
+            context_path.unlink()
+
+            validation = subprocess.run(
+                [sys.executable, str(SCRIPTS / "validate_project.py"), str(project)],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            report = json.loads(validation.stdout)
+            self.assertEqual(validation.returncode, 1, validation.stdout + validation.stderr)
+            self.assertFalse(report["valid"])
+            self.assertEqual(
+                report["biomedical_readiness"]["status"],
+                "missing_required_context",
+            )
 
     def test_new_project_protocol_cannot_freeze_before_method_contract_is_ready(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
