@@ -22,12 +22,13 @@ _SECRET_PATTERNS = (
 
 
 def _safe_member(name: str) -> str:
-    posix = PurePosixPath(name)
+    normalized = name.replace("\\", "/")
+    posix = PurePosixPath(normalized)
     if posix.is_absolute() or ".." in posix.parts or not posix.parts:
         raise TrainingCorpusError(f"unsafe handoff member path: {name}")
-    if name.casefold().endswith(_FORBIDDEN_SUFFIXES):
+    if normalized.casefold().endswith(_FORBIDDEN_SUFFIXES):
         raise TrainingCorpusError(f"forbidden raw or checkpoint artifact in handoff: {name}")
-    if re.match(r"^[A-Za-z]:[\\/]", name) or name.startswith(("/home/", "/Users/")):
+    if re.match(r"^[A-Za-z]:/", normalized) or normalized.startswith(("/home/", "/Users/")):
         raise TrainingCorpusError(f"absolute author path in handoff: {name}")
     return posix.as_posix()
 

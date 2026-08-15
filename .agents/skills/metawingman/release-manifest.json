@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "72ac43fe74798b97ce919996d5890ebedf736ec3ab533b59e907b392127f1868",
+  "source_tree_sha256": "f93d1e746183ed3808202081523595b6f83766cb252754c0e60db878de48d85c",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -78,7 +78,7 @@
     },
     {
       "path": "references/dependencies/python-core.lock.txt",
-      "sha256": "e665e2db29cffcb3b305bb8f7e7139e27d4d72ca16f425a612d58ce85e4f7eeb",
+      "sha256": "ed8b2a6d4e581c7554bfd81c61dfc2711a4daf246bd2051b0ca3ef2ffa3a9912",
       "bytes": 468
     },
     {
@@ -818,8 +818,8 @@
     },
     {
       "path": "scripts/metawingman_core/server_handoff.py",
-      "sha256": "fd0f619914371be233db322b97b0c43e6d456158a67b2293c4e192d91f0416f2",
-      "bytes": 4536
+      "sha256": "5f856c391fb4fd719543ec2aa2890da4ad3e828ad456a1b27cc0d556abfd6bf5",
+      "bytes": 4597
     },
     {
       "path": "scripts/metawingman_core/state_store.py",

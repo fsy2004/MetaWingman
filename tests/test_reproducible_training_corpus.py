@@ -188,6 +188,21 @@ def component_job_fixture(root: Path) -> dict[str, object]:
 
 
 class ReproducibleTrainingCorpusTests(unittest.TestCase):
+    def test_handoff_normalizes_windows_member_paths_for_linux(self) -> None:
+        result = build_server_handoff({
+            "handoff_id": "portable-handoff",
+            "created_at_utc": TIMESTAMP,
+            "members": [r".\jobs\retrieval.json"],
+            "member_contents": {"jobs/retrieval.json": "{}"},
+            "component_job_ids": ["fixture-component-job"],
+            "preflight": {"scientific_blockers": [], "server_checks_pending": []},
+            "commands": {key: [key] for key in (
+                "download", "freeze", "audit", "export", "preflight", "train", "benchmark"
+            )},
+        })
+        self.assertEqual(result["members"], ["jobs/retrieval.json"])
+        self.assertNotIn("\\", result["members"][0])
+
     def test_handoff_refuses_to_materialize_over_source_root(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory).resolve()

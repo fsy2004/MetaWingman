@@ -2,7 +2,7 @@
 arrow==1.4.0
 attrs==26.1.0
 fqdn==1.5.1
-idna==3.13
+idna==3.18
 isoduration==20.11.0
 jsonpointer==3.1.1
 jsonschema==4.26.0
