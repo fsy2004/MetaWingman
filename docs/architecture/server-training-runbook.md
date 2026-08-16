@@ -26,7 +26,16 @@ One 24-48 GiB GPU is preferable to several small GPUs for the current encoders. 
 
 ## Environment
 
-Create a clean Python 3.12 environment. The direct pins in `python-training.lock.txt` were resolved from the official Python package index on 2026-08-15. Before execution, resolve a server/CUDA-specific transitive hash lock and verify that the selected Torch wheel matches the installed driver. Do not install packages into an unrelated running analysis environment.
+Create a clean Python 3.12 environment. The handoff carries three runtime
+locks that must all be installed: `python-core.lock.txt` (jsonschema-based
+schema guard), `python-pdf.lock.txt` (PyMuPDF PDF metrics), and
+`python-training.lock.txt` (accelerate/datasets/numpy/safetensors/
+scikit-learn/torch/transformers). Install core first, then training (so the
+training pins win any overlap), then pdf. The training pins were resolved from
+the official Python package index on 2026-08-15. Before execution, resolve a
+server/CUDA-specific transitive hash lock and verify that the selected Torch
+wheel matches the installed driver. Do not install packages into an unrelated
+running analysis environment.
 
 The first candidate is `microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext`, immutable revision `e1354b7a3a09615f6aba48dfad4b7a613eef7062`, declared MIT license. The model card and Hub metadata must be rechecked at execution time. Raw source redistribution and public checkpoint release remain blocked pending a separate dataset-license review.
 

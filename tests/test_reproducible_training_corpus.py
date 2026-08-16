@@ -12,6 +12,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "metawingman/scripts"))
 
+import build_server_training_handoff  # noqa: E402
 from metawingman_core.schema_guard import validate_document  # noqa: E402
 from metawingman_core.server_handoff import (  # noqa: E402
     build_server_commands,
@@ -223,6 +224,18 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
             "validation-output/training-corpus/jobs/evidence-retrieval.json",
             commands["train"],
         )
+
+    def test_handoff_includes_core_and_pdf_runtime_locks(self) -> None:
+        for relative in build_server_training_handoff.SERVER_RUNTIME_LOCKS:
+            self.assertTrue((ROOT / relative).is_file(), relative)
+        core = (
+            ROOT / "metawingman/references/dependencies/python-core.lock.txt"
+        ).read_text(encoding="utf-8")
+        pdf = (
+            ROOT / "metawingman/references/dependencies/python-pdf.lock.txt"
+        ).read_text(encoding="utf-8")
+        self.assertIn("jsonschema", core)
+        self.assertIn("PyMuPDF", pdf)
 
     def test_handoff_hash_index_must_exactly_match_members(self) -> None:
         result = build_server_handoff({
