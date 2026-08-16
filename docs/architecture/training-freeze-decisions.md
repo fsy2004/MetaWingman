@@ -38,6 +38,11 @@ this value by `run_component_training.py`.
 | checkpoint cadence | every 250 steps, keep ≤ 3 |
 | resume policy | only from checkpoint hashes listed in the job ledger |
 
+> Precision/GPU coupling: `bf16` is native on Ada-class cards (RTX 4090). On
+> Ampere-class cards (RTX 3090) bf16 is not natively supported and runs via
+> slow emulation; if the rented GPU is a 3090, re-freeze `precision` to `fp16`
+> for that server and re-run preflight before training.
+
 ## 4. Frozen resources
 
 1× GPU with 24 GiB VRAM (single card; multi-GPU not used), 16 vCPU, 64 GiB RAM,

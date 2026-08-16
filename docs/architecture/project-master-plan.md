@@ -98,6 +98,7 @@ metadata intake（4,098 篇顶刊优先语料）
 - **结论**：本任务微调 110M 的 BERT-base，**单卡 24 GB 即可，无需 5090、无需多卡**。
 - **首选**：RTX 4090（24 GB）@ AutoDL；**更省**：RTX 3090（24 GB）。
 - 16 GB（A4000/L4）能跑，但 bi-encoder + in-batch negatives 场景余量偏小；L40S/A100 严重过剩。
+- 精度耦合：4090（Ada）原生 bf16、吞吐约 3090 的 2×；3090（Ampere）仅 fp16——选 3090 需把冻结的 `precision` 从 `bf16` 改为 `fp16` 再 preflight。
 - 参考价（近似、时效敏感，下单前核实 spot 价）：3090 约 $0.07–0.20/hr，4090 约 $0.30–0.70/hr。
 - 平台：AutoDL（国内通常最便宜）、Vast.ai、RunPod、Lambda。组件 job 已声明 24 GB GPU 需求，与选型一致。
 
