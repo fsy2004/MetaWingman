@@ -138,3 +138,21 @@ download or training may start until the user authorizes that server and job ID.
 - The 96–120-family scale-up target is superseded by the 2,048-record
   metadata-only plan; the outstanding family work is the **held-out audit**,
   not more plan records.
+
+## 12. Server adaptation record (2026-08-16, AutoDL 4090 D)
+
+The rented server's measured reality, recorded before any training:
+
+- Container: AutoDL (Ubuntu 22.04), `root@connect.westb.seetacloud.com:12977`.
+- GPU: RTX 4090 D, `nvidia-smi` reports 24564 MiB (≈ 23.99 GiB) with driver
+  595.71.05. Because the preflight check compares GiB, the component jobs are
+  **rebuilt with `gpu_memory_gib_each: 23`** (a 24 GiB nominal card always
+  reports slightly below 24 GiB); precision stays `bf16` (Ada-native).
+- Host RAM 503 GiB; data disk 650 GiB at `/root/autodl-tmp` (repo and all
+  caches live there; the 30 GiB overlay is not used for data).
+- `huggingface.co` is unreachable from the server; model downloads use
+  `HF_ENDPOINT=https://hf-mirror.com`. The model card and LICENSE are rechecked
+  from the mirror at execution time.
+- pip uses the AutoDL aliyun mirror. `pip freeze` after install is saved as
+  `server-lock.txt` (the runbook's server/CUDA-specific transitive lock).
+
