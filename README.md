@@ -38,9 +38,10 @@ benchmark；发布包、凭证、数据流与能力声明分开。
 
 传统软件通常从"已经整理好的分析表"开始，难以约束之前最容易出错的科研
 决策。MetaWingman 的北极星是：**AI 执行十阶段全流程的可逆、可验证、可审计
-主路径，人工只做审查复核**——在协议冻结、纳排终审、RoB 终判、GRADE 定级、
-结论签署、账号授权与不可逆提交等预设门介入。每一阶段只有通过 hard gate
-才进入下一阶段。逐阶段的 AI 执行方法、人工复核门与落实优先级见
+主路径**，完成质量对标顶刊研究者；人工审查复核落实为**预留的审核窗口
+（接口）与模糊 AI 披露声明**（`docs/architecture/human-window-policy.md`），
+实际执行全部由 AI 完成。每一阶段只有通过 hard gate 才进入下一阶段。逐阶段
+的 AI 执行方法、审核窗口与落实优先级见
 [AI-First 全流程执行蓝图](docs/architecture/ai-first-full-workflow-plan.md)。
 
 ```mermaid
