@@ -266,6 +266,12 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         self.assertEqual(result["precision_at_1"], 0.0)
         self.assertEqual(result["recall_at_10"], 1.0)
 
+    def test_pad_id_lists_pads_to_batch_maximum(self) -> None:
+        padded, masks = run_component_training._pad_id_lists([[1, 2], [3], []], 0)
+        self.assertEqual(padded, [[1, 2], [3, 0], [0, 0]])
+        self.assertEqual(masks, [[1, 1], [1, 0], [0, 0]])
+        self.assertEqual(run_component_training._pad_id_lists([], 0), ([], []))
+
     def test_retrieval_query_includes_review_title_when_available(self) -> None:
         example = retrieval_example(1, "train", "family:0000000000000001", "epmc:0000000000000001")
         example["review_title"] = "Antibiotics for chronic wounds: a meta-analysis"

@@ -28,6 +28,16 @@ def _warmup_steps(train_count: int, batch_size: int, epochs: int, warmup_ratio: 
     return max(0, int(round(steps_per_epoch * epochs * warmup_ratio)))
 
 
+def _pad_id_lists(id_lists: list[list[int]], pad_id: int) -> tuple[list[list[int]], list[list[int]]]:
+    """Pad token id lists to the batch maximum with attention masks."""
+    if not id_lists:
+        return [], []
+    longest = max(len(ids) for ids in id_lists)
+    padded = [ids + [pad_id] * (longest - len(ids)) for ids in id_lists]
+    masks = [[1] * len(ids) + [0] * (longest - len(ids)) for ids in id_lists]
+    return padded, masks
+
+
 def _rank_metrics(similarities: list[list[float]], families: list[str]) -> dict[str, float]:
     """Full-corpus dev ranking metrics; each query's positive is its own document.
 
@@ -145,6 +155,30 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
     batch_size = job["optimization"]["batch_size"]
     query_ids = sorted(positives_by_query)
     batches = [query_ids[i:i + batch_size] for i in range(0, len(query_ids), batch_size)]
+    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else 0
+
+    # Pre-tokenize every distinct text once (batched); the loop then pads ids.
+    def _tokenize_texts(texts: list[str], max_length: int) -> list[list[int]]:
+        output: list[list[int]] = []
+        for start in range(0, len(texts), 256):
+            output.extend(
+                tokenizer(texts[start:start + 256], padding=False, truncation=True, max_length=max_length)["input_ids"]
+            )
+        return output
+
+    query_texts = [positives_by_query[query_id]["query_text"] for query_id in query_ids]
+    query_cache = dict(zip(query_ids, _tokenize_texts(query_texts, 256)))
+    document_texts_by_id: dict[str, str] = {}
+    for query_id in query_ids:
+        positive = positives_by_query[query_id]
+        document_texts_by_id[positive["document_example_id"]] = positive["document_text"]
+        for negative in negatives_by_query.get(query_id, []):
+            document_texts_by_id[negative["document_example_id"]] = negative["document_text"]
+    document_ids = sorted(document_texts_by_id)
+    document_cache = dict(zip(
+        document_ids, _tokenize_texts([document_texts_by_id[identifier] for identifier in document_ids], 512)
+    ))
+
     optimizer = torch.optim.AdamW(model.parameters(), lr=job["optimization"]["learning_rate"], weight_decay=job["optimization"]["weight_decay"])
     model.train()
     losses = []
@@ -156,13 +190,23 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
                 hard_negatives.extend(
                     sorted(negatives_by_query.get(query_id, []), key=lambda item: item["pair_id"])[:3]
                 )
-            queries = tokenizer([item["query_text"] for item in positives], padding=True, truncation=True, max_length=256, return_tensors="pt").to(device)
-            documents = tokenizer(
-                [item["document_text"] for item in positives] + [item["document_text"] for item in hard_negatives],
-                padding=True, truncation=True, max_length=512, return_tensors="pt",
-            ).to(device)
-            query_vectors = functional.normalize(model(**queries).last_hidden_state[:, 0], dim=-1)
-            document_vectors = functional.normalize(model(**documents).last_hidden_state[:, 0], dim=-1)
+            query_id_lists = [query_cache[query_id] for query_id in query_batch]
+            document_id_lists = (
+                [document_cache[item["document_example_id"]] for item in positives]
+                + [document_cache[item["document_example_id"]] for item in hard_negatives]
+            )
+            padded_queries, query_masks = _pad_id_lists(query_id_lists, pad_id)
+            padded_documents, document_masks = _pad_id_lists(document_id_lists, pad_id)
+            query_tensors = {
+                "input_ids": torch.tensor(padded_queries, device=device),
+                "attention_mask": torch.tensor(query_masks, device=device),
+            }
+            document_tensors = {
+                "input_ids": torch.tensor(padded_documents, device=device),
+                "attention_mask": torch.tensor(document_masks, device=device),
+            }
+            query_vectors = functional.normalize(model(**query_tensors).last_hidden_state[:, 0], dim=-1)
+            document_vectors = functional.normalize(model(**document_tensors).last_hidden_state[:, 0], dim=-1)
             logits = query_vectors @ document_vectors.T
             labels = torch.arange(len(positives), device=device)
             loss = functional.cross_entropy(logits, labels)
