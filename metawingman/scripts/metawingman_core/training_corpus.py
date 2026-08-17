@@ -770,7 +770,7 @@ def _build_overlap_lookup(
             rows.append(row)
             columns.append(column)
     matrix = sparse.csr_matrix(
-        (np.ones(len(rows), dtype=np.int8), (rows, columns)),
+        (np.ones(len(rows), dtype=np.int32), (rows, columns)),
         shape=(len(retrieval), len(vocabulary)),
     )
     token_columns = {
@@ -786,9 +786,9 @@ def _build_overlap_lookup(
         if query_columns.size == 0:
             overlaps = np.zeros(len(candidate_ids), dtype=np.int64)
         else:
-            query_vector = np.zeros(len(vocabulary), dtype=np.int8)
+            query_vector = np.zeros(len(vocabulary), dtype=np.int32)
             query_vector[query_columns] = 1
-            overlaps = np.asarray(matrix[indices] @ query_vector).ravel()
+            overlaps = np.asarray(matrix[indices] @ query_vector, dtype=np.int64).ravel()
         return {
             identifier: int(value)
             for identifier, value in zip(candidate_ids, overlaps.tolist())
