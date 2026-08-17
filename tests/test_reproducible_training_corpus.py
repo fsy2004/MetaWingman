@@ -614,6 +614,36 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
             self.assertEqual(len(pdf_attempts), 1)
             self.assertTrue(pdf_attempts[0].endswith("fullTextXML"))
 
+    def test_bucketed_negative_mining_respects_medical_neighborhood(self) -> None:
+        examples = []
+        for index in range(12):
+            example = retrieval_example(index, "train", f"family:{index:08x}", f"epmc:{index:08x}")
+            example["input_text"] = f"shared passage token {index} " * 20
+            examples.append(example)
+        strata = {
+            f"epmc:{index:08x}": {
+                "primary_specialty": "oncology" if index < 6 else "neurology",
+                "question_type": "intervention" if index % 2 == 0 else "diagnostic",
+            }
+            for index in range(12)
+        }
+        pairs = build_retrieval_pairs(examples, strata, seed=11)
+        negatives = [pair for pair in pairs if pair["label"] == 0]
+        self.assertTrue(negatives)
+        self.assertTrue(all(pair["shared_medical_neighborhood"] for pair in negatives))
+        for pair in negatives:
+            query_stratum = strata[pair["query_record_id"]]
+            document_stratum = strata[pair["document_record_id"]]
+            same_specialty = query_stratum["primary_specialty"] == document_stratum["primary_specialty"]
+            same_question = query_stratum["question_type"] == document_stratum["question_type"]
+            self.assertTrue(same_specialty or same_question)
+            expected = []
+            if same_specialty:
+                expected.append("primary_specialty")
+            if same_question:
+                expected.append("question_type")
+            self.assertEqual(pair["neighborhood_keys"], expected)
+
     def test_examples_and_run_plan_remain_weak_supervision(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

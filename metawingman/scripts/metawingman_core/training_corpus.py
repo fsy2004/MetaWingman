@@ -745,13 +745,26 @@ def build_retrieval_pairs(
         item["example_id"]: _tokens(item["input_text"])
         for item in retrieval
     }
+    by_specialty: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    by_question: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for item in retrieval:
+        stratum = strata_by_record.get(item["record_id"])
+        if not stratum:
+            continue
+        by_specialty[stratum.get("primary_specialty")].append(item)
+        by_question[stratum.get("question_type")].append(item)
     for query in sorted(retrieval, key=lambda item: item["example_id"]):
         query_stratum = strata_by_record.get(query["record_id"])
         if not query_stratum:
             raise TrainingCorpusError(f"missing biomedical stratum for record: {query['record_id']}")
         candidates: list[tuple[int, str, dict[str, Any], list[str]]] = []
         query_tokens = query_token_sets[query["example_id"]]
-        for candidate in retrieval:
+        neighborhood: dict[str, dict[str, Any]] = {}
+        for candidate in by_specialty.get(query_stratum.get("primary_specialty"), []):
+            neighborhood[candidate["example_id"]] = candidate
+        for candidate in by_question.get(query_stratum.get("question_type"), []):
+            neighborhood[candidate["example_id"]] = candidate
+        for candidate in neighborhood.values():
             if candidate["split"] != query["split"]:
                 continue
             if candidate["record_id"] == query["record_id"] or candidate["family_id"] == query["family_id"]:
@@ -768,8 +781,6 @@ def build_retrieval_pairs(
                 neighborhood_keys.append("primary_specialty")
             if candidate_stratum["question_type"] == query_stratum["question_type"]:
                 neighborhood_keys.append("question_type")
-            if not neighborhood_keys:
-                continue
             overlap = len(query_tokens & document_token_sets[candidate["example_id"]])
             tie = hashlib.sha256(f"{seed}:{query['example_id']}:{candidate['example_id']}".encode()).hexdigest()
             candidates.append((-overlap, tie, candidate, neighborhood_keys))
