@@ -53,8 +53,10 @@ Invoke-Step 'push to gitee' {
 }
 
 Write-Host '== push to github (direct via local proxy)' -ForegroundColor Cyan
-git push origin @Branches 2>&1 | ForEach-Object { Write-Host $_ }
+$ErrorActionPreference = 'Continue'
+git push origin @Branches
 $directOk = ($LASTEXITCODE -eq 0)
+$ErrorActionPreference = 'Stop'
 if ($directOk) {
     Write-Host '== verify (origin remote-tracking refs)' -ForegroundColor Cyan
     if (Verify-Shas $Branches) {
@@ -85,7 +87,9 @@ while ((Get-Date) -lt $deadline) {
 }
 if (-not $completed) { throw 'sync run did not complete within the timeout' }
 
+$ErrorActionPreference = 'Continue'
 git fetch origin --quiet
+$ErrorActionPreference = 'Stop'
 Write-Host '== verify (fetched origin refs)' -ForegroundColor Cyan
 if (Verify-Shas $Branches) {
     Write-Host "synced (bridge): $Repo" -ForegroundColor Green
