@@ -204,6 +204,33 @@ absolute-accuracy claim is made.
 - Retraining + re-evaluation results will be appended when the automatic
   phase-3 chain (`mw-phase3-all.sh`) completes.
 
+## 12. 12k retrain results (2026-08-18, receipts archived on server)
+
+- Download final: **12,000 planned → 11,875 complete, 125 failed at source**
+  (Europe PMC has no XML for them), 8/8 shards final-passed.
+- `freeze_base`: **109,028 weak-supervised examples** (87,264 train / 21,764
+  dev / 0 held-out) from 11,983 families.
+- Export pairs: R5 vectorization shipped (`f38ae02`/`50d27e7`): per-query
+  filter loop replaced by sparse-matrix batch ops; 12k/30k export **3.77 min**
+  (was 90+ min), byte-identical output, 234/234 tests green, CI green.
+- section-role retrain: **eval macro-F1 0.9995** (3 epochs). Note: no
+  title-stripped pass was run this time, so this is not comparable to the
+  2,048-record title-stripped 0.670; treat as upper-bound only.
+- evidence-retrieval retrain: **dev full-corpus MRR 0.00096 / R@10 0.0013 /
+  P@1 0.0; hard-negative MRR 0.933 / P@1 0.892; train_mean_loss 2.606**
+  (batch 8 forced by CUDA OOM at batch 16; 3 epochs, ~1.8 h). The full-corpus
+  dev numbers are not acceptable and are under investigation:
+  - training construction is correct (self-anchored positive vs 3 hard
+    negatives, cross-entropy on the diagonal);
+  - `_rank_metrics` semantics are correct (query i's positive is document i,
+    same-family masked);
+  - leading hypothesis: batch 8 (vs 16 at 2,048-record scale) degraded
+    convergence, possibly compounded by only 3 hard negatives per query on a
+    6× larger corpus. Fix candidates: gradient accumulation to restore
+    effective batch 16, more epochs, larger negative count.
+- Next action: retrain evidence-retrieval with accumulation + re-evaluate;
+  keep the batch-8 run receipt for provenance.
+
 
 
 
