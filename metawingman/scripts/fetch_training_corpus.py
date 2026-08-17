@@ -21,6 +21,7 @@ def main() -> int:
     parser.add_argument("--delay-seconds", type=float, default=0.2)
     parser.add_argument("--created-at-utc")
     parser.add_argument("--refresh", action="store_true", help="Ignore verified local artifacts and recheck remote sources.")
+    parser.add_argument("--skip-pdf", action="store_true", help="XML-only acquisition; skip OA PDF downloads (training uses JATS XML).")
     args = parser.parse_args()
     try:
         plan = json.loads(args.plan.read_text(encoding="utf-8"))
@@ -28,7 +29,7 @@ def main() -> int:
             plan, args.out, manifest_id=args.manifest_id, maximum_records=args.maximum_records,
             max_file_bytes=args.max_file_bytes, max_total_bytes=args.max_total_bytes,
             delay_seconds=args.delay_seconds, created_at_utc=args.created_at_utc,
-            reuse_existing=not args.refresh,
+            reuse_existing=not args.refresh, skip_pdf=args.skip_pdf,
         )
     except (OSError, json.JSONDecodeError, TrainingCorpusError, ValueError) as exc:
         print(json.dumps({"ok": False, "error": str(exc)}, indent=2))

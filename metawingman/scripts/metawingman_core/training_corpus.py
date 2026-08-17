@@ -509,6 +509,7 @@ def fetch_training_plan(
     maximum_records: int | None = None, max_file_bytes: int = 40 * 1024 * 1024,
     max_total_bytes: int = 500 * 1024 * 1024, delay_seconds: float = 0.2,
     created_at_utc: str | None = None, reuse_existing: bool = True,
+    skip_pdf: bool = False,
 ) -> dict[str, Any]:
     validate_document(plan, "training_corpus_plan")
     output_root = output_root.resolve()
@@ -543,11 +544,14 @@ def fetch_training_plan(
                 raise TrainingCorpusError("PMC OA service marks the article as retracted")
             if retrieved_license not in allowed:
                 raise TrainingCorpusError(f"article license is outside the frozen allowlist: {retrieved_license}")
-            pdf_url, xml_url = _full_text_urls(record)
+            if skip_pdf:
+                xml_url = f"https://www.ebi.ac.uk/europepmc/webservices/rest/{record['pmcid']}/fullTextXML"
+            else:
+                pdf_url, xml_url = _full_text_urls(record)
         except TrainingCorpusError as exc:
             failures.append(str(exc))
 
-        if not failures and pdf_url:
+        if not skip_pdf and not failures and pdf_url:
             try:
                 body, final_url = _request_bytes(pdf_url, max_bytes=max_file_bytes)
                 if not body.startswith(b"%PDF"):
@@ -561,7 +565,7 @@ def fetch_training_plan(
                     total_bytes += len(body)
             except TrainingCorpusError as exc:
                 failures.append(f"pdf_retrieval_failed: {exc}")
-        elif not failures:
+        elif not skip_pdf and not failures:
             failures.append("no_open_access_pdf_url")
 
         if xml_url is not None and integrity_status == "verified_not_retracted" and retrieved_license in allowed:
@@ -585,7 +589,13 @@ def fetch_training_plan(
         except TrainingCorpusError as exc:
             failures.append(f"parser_failed: {exc}")
             metrics = _parser_metrics(None, None)
-        status = "complete" if {item["kind"] for item in artifacts} == {"pdf", "jats_xml"} and not failures else ("partial" if artifacts else "failed")
+        if skip_pdf:
+            status = (
+                "complete" if xml_path is not None and not failures
+                else ("partial" if xml_path is not None else "failed")
+            )
+        else:
+            status = "complete" if {item["kind"] for item in artifacts} == {"pdf", "jats_xml"} and not failures else ("partial" if artifacts else "failed")
         documents.append({
             "document_id": f"training-document:{record['pmcid']}",
             "record_id": record["record_id"], "family_id": record["family_id"],

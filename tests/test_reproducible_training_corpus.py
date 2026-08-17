@@ -590,6 +590,30 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
                 )
             self.assertEqual(replay, manifest)
 
+    def test_skip_pdf_fetches_xml_only_and_marks_complete(self) -> None:
+        plan = fixture_plan(1)
+        xml = b"<article><body><sec><title>Search methods</title><p>" + b"x" * 300 + b"</p></sec></body></article>"
+        pdf_attempts: list[str] = []
+
+        def request(url: str, **_: object) -> tuple[bytes, str]:
+            pdf_attempts.append(url)
+            return xml, url
+
+        with tempfile.TemporaryDirectory() as directory, \
+            patch("metawingman_core.training_corpus._oa_license", return_value=("CC BY", "verified_not_retracted")), \
+            patch("metawingman_core.training_corpus._full_text_urls", side_effect=AssertionError("pdf lookup must be skipped")), \
+            patch("metawingman_core.training_corpus._request_bytes", side_effect=request), \
+            patch("metawingman_core.training_corpus._parser_metrics", return_value=dict(ZERO_METRICS)):
+            manifest = fetch_training_plan(
+                plan, Path(directory), manifest_id="fixture-manifest", delay_seconds=0,
+                created_at_utc=TIMESTAMP, skip_pdf=True,
+            )
+            self.assertEqual(manifest["summary"]["complete"], 1)
+            self.assertEqual(manifest["summary"]["xml_files"], 1)
+            self.assertEqual(manifest["summary"]["pdf_files"], 0)
+            self.assertEqual(len(pdf_attempts), 1)
+            self.assertTrue(pdf_attempts[0].endswith("fullTextXML"))
+
     def test_examples_and_run_plan_remain_weak_supervision(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
