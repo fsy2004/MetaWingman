@@ -66,7 +66,9 @@ def load_domain_packs(pack_dir: Path) -> list[dict[str, Any]]:
                 raise BiomedicalDomainError(f"authority path escapes skill root: {authority['path']}") from exc
             if not authority_path.is_file():
                 raise BiomedicalDomainError(f"authority source is missing: {authority['path']}")
-            if hashlib.sha256(authority_path.read_bytes()).hexdigest() != authority["content_sha256"]:
+            # LF-normalized so the hash is identical on CRLF (Windows) and LF working trees.
+            normalized = authority_path.read_bytes().replace(b"\r\n", b"\n")
+            if hashlib.sha256(normalized).hexdigest() != authority["content_sha256"]:
                 raise BiomedicalDomainError(f"authority source hash mismatch: {authority['source_id']}")
         for dependency in pack["dependencies"]:
             target = by_id.get(dependency["pack_id"])
