@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "dd328ec107b5c054dcab2a41970c8a2f1db8c1f67558de5e920ddcd16f0e7b4f",
+  "source_tree_sha256": "6d5a1b0c4fa60bdf90ef85e7446e214d14939f8409d552e8a2fa33948e4bbd0d",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -857,8 +857,8 @@
     },
     {
       "path": "scripts/metawingman_core/training_corpus.py",
-      "sha256": "6f9077aa9003d981075bb875283b04c321895ef2e5aeb20fcf7730d1261cb6da",
-      "bytes": 60451
+      "sha256": "52fa440092450b1aafd0c8a8cd3a34d201a9f6474a638e4e2c5c7f05e6ef461d",
+      "bytes": 68503
     },
     {
       "path": "scripts/migrate_biomedical_context.py",
