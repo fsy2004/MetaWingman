@@ -256,6 +256,25 @@ absolute-accuracy claim is made.
   two-stage retrieve-then-rank design. No over-claiming: all numbers are
   dev weak-label metrics.
 
+## 14. Full-corpus baselines (mw-baseline-v3.py, 2026-08-18)
+
+| Full-corpus dev metric (10,882 queries × 10,882 docs) | TF-IDF lexical | Trained 110M (V3) |
+|---|---|---|
+| MRR | **0.220** | 0.00452 |
+| Recall@10 | **0.315** | 0.00597 |
+| Precision@1 | **0.170** | 0.00055 |
+
+- Finding: the fine-tuned model's full-corpus recall is ~48× weaker than the
+  lexical baseline, while its candidate-set (hard-negative) discrimination
+  is the strongest recorded (MRR 0.962 / P@1 0.933). The model is a strong
+  **reranker** and a weak **retriever** — the training objective (self
+  positive vs 3 mined hard negatives) never exposed it to corpus-scale
+  negatives.
+- Consequence for the pipeline design: prefer a two-stage
+  retrieve-then-rank layout (TF-IDF/BM25 recall + trained reranker), or
+  retrain with corpus-scale in-batch negatives (larger GPU memory than the
+  24 GiB available). Recorded as an honest limitation, not a fix claim.
+
 
 
 
