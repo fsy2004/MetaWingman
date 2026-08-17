@@ -45,7 +45,6 @@ The bundled scripts support an open, auditable backend:
 | Crossref REST | DOI metadata verification and enrichment | `CROSSREF_EMAIL`; optional Plus token |
 | Unpaywall API v2 | verified OA locations for DOI records | `UNPAYWALL_EMAIL` required |
 | OpenAlex API | citation discovery and open scholarly graph | `OPENALEX_API_KEY` when required by current service; optional email/contact parameter |
-| Zotero Web API | library import, collections, attachments, metadata | user-created key and library ID; least privilege |
 
 Run small test queries before large retrieval. Batch requests, retry transient failures with backoff, cache raw responses, record server timestamps, and never silently truncate a result set. Compare API count with retrieved unique records and fail when they differ.
 

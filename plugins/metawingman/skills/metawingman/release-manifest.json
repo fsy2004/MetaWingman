@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "a1ead0c354ec0da5e1886cf311e9292fabcb58ea20011793c54cd06877aef4d0",
+  "source_tree_sha256": "dd328ec107b5c054dcab2a41970c8a2f1db8c1f67558de5e920ddcd16f0e7b4f",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -97,32 +97,32 @@
     },
     {
       "path": "references/domain-packs/biomedical-foundation.json",
-      "sha256": "ef7fef3ccddbc3962ad98c17a9eadb13f8b1d8df806741eec9dbec94299b3f7b",
+      "sha256": "f769520254be92ab33d60486d5d51316cc73fd2f2a7e731a96ff22b7626ed421",
       "bytes": 1568
     },
     {
       "path": "references/domain-packs/profile-diagnostic.json",
-      "sha256": "415048c1c37858f314100028fa4e636eb3e95ff124a9f92818675e495e49321e",
+      "sha256": "3813fe20ed4eae8c7268fe95a109c05fcc02c4654640a98c413b72e5f1efcade",
       "bytes": 1654
     },
     {
       "path": "references/domain-packs/profile-harms.json",
-      "sha256": "892f6369f3553f193748700bf1a69d7c872b09cd6f5f7b7beae63f3ddf586dbe",
+      "sha256": "a5069c2fa236a91491ee5c770e63d1ac1a949d044f5a7aa9f78cad6653e831de",
       "bytes": 1625
     },
     {
       "path": "references/domain-packs/profile-intervention.json",
-      "sha256": "c944a233818e37450bacd4a95553f94180df3f8f3cdf7ab418bed3975a8aff25",
+      "sha256": "1a1df5d8d2a889ff8e89bfb27c431bbcac3f446399b5c69a1401497a385e4ed8",
       "bytes": 1686
     },
     {
       "path": "references/domain-packs/profile-prognostic.json",
-      "sha256": "191afdf503e3d671fc8a4613e67f6589eaf2dc7022d31f193115e075e08681c1",
+      "sha256": "d87557e5beaac492e8f4be8e592dfa78ecdb0cc74941301344079959e7be424e",
       "bytes": 1710
     },
     {
       "path": "references/domain-packs/specialty-registry.json",
-      "sha256": "cbbd696b161d6badab7c3501ac19a0ec00b24a0ba42241603f413a1575a8af2f",
+      "sha256": "358017aed614f1fbe401fe13f866b912573e67fe27b834ab599c54aecde7492e",
       "bytes": 4134
     },
     {
@@ -152,8 +152,8 @@
     },
     {
       "path": "references/search-retrieval-and-apis.md",
-      "sha256": "246cea144a138783f974fda966ededf514bc2ccb082e15bd01c21938f95eec2c",
-      "bytes": 5205
+      "sha256": "67cc8d84df0274f9273528d8cd2c9bd801197f9c204965b4b180e51d9c01c6f1",
+      "bytes": 5082
     },
     {
       "path": "references/source-provenance.md",
@@ -162,8 +162,8 @@
     },
     {
       "path": "references/system-capability-matrix.json",
-      "sha256": "7525a884bf07173d6c8a6db4deee2842c42bb7e327293d10f9b49d3ed446654d",
-      "bytes": 49280
+      "sha256": "46923431e5015790f920e7657728fd22221cb22f35f5bcc47108c86a511a455f",
+      "bytes": 55206
     },
     {
       "path": "references/tool-catalog.md",
@@ -692,8 +692,8 @@
     },
     {
       "path": "scripts/init_review.py",
-      "sha256": "c6a363c42ca4272a690bf9736fa2a2f9e8e2e07cf5818f24d5d2ea1e1181d1b7",
-      "bytes": 22600
+      "sha256": "95f5cdbe01f76696d1780d3a51a8abd989e5831cb178979569794d05a6877875",
+      "bytes": 21992
     },
     {
       "path": "scripts/inspect_graph.py",
@@ -732,8 +732,8 @@
     },
     {
       "path": "scripts/metawingman_core/biomedical_domain.py",
-      "sha256": "474615471ca2f1d0f3dc86ab48adf031b4c4f33c9bc9aecc3c25c7d463a77dcd",
-      "bytes": 11972
+      "sha256": "50c32a1bbc95cbd576429823e4cb6222f51744d3b6a3438c06ffab88949d3027",
+      "bytes": 12125
     },
     {
       "path": "scripts/metawingman_core/capability_router.py",

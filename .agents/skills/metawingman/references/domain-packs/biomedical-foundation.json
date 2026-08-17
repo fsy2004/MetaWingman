@@ -41,7 +41,7 @@
       "source_id": "methodology-source-registry",
       "path": "references/methodology-source-registry.md",
       "version": "2026-08-15",
-      "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f",
+      "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027",
       "verified_at_utc": "2026-08-15T00:00:00Z"
     }
   ],
@@ -59,5 +59,5 @@
       "tests/test_biomedical_application_contract.py"
     ]
   },
-  "content_sha256": "f7fd6908336e091a646903a80d9c6b558cfabcd55afd666ce620f3d2766b06d3"
+  "content_sha256": "96e2fbe3f50f129c76c6d83737f235f56e7fdaccdbf3c4ecea2e004d34ef1950"
 }
