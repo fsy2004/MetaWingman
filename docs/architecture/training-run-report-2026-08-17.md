@@ -158,3 +158,33 @@ Two method revisions were made after measuring the first run (recorded in
   Negatives in Noise Contrastive Estimation*, NAACL 2021,
   [arXiv:2104.06245](https://arxiv.org/abs/2104.06245).
 
+## 10. AI-only pilot results (preregistered, C0–C3, DeepSeek)
+
+Frozen design: `ai-only-pilot-preregistration.md`. 200 dev examples per task,
+seed 20260817, single repetition, prompts hash-frozen per configuration. All
+numbers are agreement with the same deterministic weak labels used by the
+trained components.
+
+| Configuration (200 tasks × 2) | section-role macro-F1 | retrieval candidate MRR | retrieval P@1 | calls / tokens |
+|---|---|---|---|---|
+| C0 general-model-baseline | 0.853 | 0.408 | 0.195 | 400 / 930k |
+| C1 + schema definitions | **0.908** | **0.415** | 0.215 | 400 / 951k |
+| C2 + biomedical context | 0.880 | 0.405 | 0.205 | 400 / 1.04M |
+| C3 + trained verifier | **0.967** | 0.495 | 0.240 | 400 / 1.03M |
+| **trained 110M components (local GPU)** | **0.983** | **0.954** | **0.919** | 0 API calls |
+| TF-IDF / majority baselines | 0.046 (majority) | 0.712 (TF-IDF) | 0.549 | — |
+
+Interpretation (development-only, weak-label agreement): the 110M fine-tuned
+BiomedBERT components outperform a frontier hosted model on both narrow tasks
+by large margins (retrieval MRR more than double the best hosted config) at
+zero API cost — consistent with the domain-specialized-small-model finding of
+[OpenScholar](https://github.com/akariasai/OpenScholar). Schema definitions
+help the hosted model (C1 > C0); the full-stack C3 (trained verifier +
+hosted model) is the best hosted config on section-role (0.967), but on
+retrieval the hosted model stays at 0.495 MRR despite a verifier whose own
+P@1 is 0.919 — it frequently overrides the verifier's index, a
+verifier-weighting finding for the C3 design. No human-superiority or
+absolute-accuracy claim is made.
+
+
+
