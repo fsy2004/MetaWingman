@@ -9,9 +9,26 @@ MetaWingman 不把系统综述简化成“让 AI 搜文献、做森林图”。�
 [![Analysis manifests](https://img.shields.io/badge/manifests-61-0A7BBC)](metawingman/scripts/r/manifests)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-## 两个交付物，先发布 skill
+## 两个交付物：skill 面向多数用户，agent 面向纵深
 
-MetaWingman 分成两条产品线：第一条是使用 Codex/宿主模型和现有工具的独立 skill，不要求额外模型 API；第二条是后续可外接任意厂商或本地模型的多 agent runtime。两者共享方法学、schema、证据图、确定性 verifier、R toolkit 和 benchmark，但发布包、凭证、数据流与能力声明分开。DeepSeek 只是当前研发区的第一个 adapter，不是 Agent 架构绑定。
+MetaWingman 分成两条产品线，共享同一套方法学、schema、证据图、确定性
+verifier、R toolkit 和 benchmark，但发布包、凭证、数据流与能力声明分开：
+
+1. **独立 skill（先发布、多数人使用）**：使用宿主模型（Codex 等）与现有工具，
+   不要求额外模型 API。十阶段全流程由 skill 编排，内置 26 个 R 统计模块，
+   是日常做系统综述/Meta 分析的主入口。
+2. **多 agent runtime（后续）**：provider-neutral contract 外接任意厂商或本地
+   模型，面向自动化批量与评估场景。
+
+**已训练的领域组件**（训练门第一阶段成果）：两个 110M BiomedBERT 组件——
+section-role 分类（8 类工作流角色）与证据检索（字段 + 综述标题 → 证据段落）。
+它们是全流程中的两个窄子任务，作为 skill 的领域专家助手。全流程本身不靠
+训练——检索、筛选、提取、RoB、Meta、GRADE 由 skill 编排与确定性 R 工具完成，
+训练组件只承担其中可学习的窄环节。dev 集（弱监督标签，非金标准）实测：
+section-role macro-F1 0.983（剥离标题行后 0.670），检索候选集 MRR 0.954；
+四配置 AI-only pilot 中两个组件以零 API 成本超过托管模型（详见
+`docs/architecture/training-run-report-2026-08-17.md`）。所有指标均为开发集
+弱标签一致性，非科学有效性声明。
 
 ## 为什么先做成 skill，而不是另一个 Meta 软件
 
@@ -223,7 +240,7 @@ AI-only 评测以已发表系统综述/Meta-analysis 的时间切分重建为主
 - [机器可审计能力矩阵](metawingman/references/system-capability-matrix.json)：分别登记十阶段生命周期、21 类 review profile、19 条 synthesis route、跨阶段控制及其验证等级，防止把 workflow coverage 写成已验证能力。
 - [AI-only benchmark protocol](docs/architecture/ai-only-benchmark-protocol.md)、[顶刊训练/开发语料](research/top-journal-training-corpus.json)、[综述家族候选注册表](research/top-journal-review-family-registry.json)、[选题目标注册表](research/topic-rediscovery-target-registry.json)、[广泛复现发现目录](research/meta-reproduction-discovery-catalog.json)与[严格全流程候选注册表](research/benchmark-candidate-registry.json)：官方 API 当前收录 4,098 条元数据，其中 3,534 条为开发候选、388 条等待完整性审计、9 条撤稿排除、167 条评论/来信/指南声明等非参考材料排除；家族层只给出 281 条待审计边和 split 建议，尚无 family 可进入 held-out。期刊层级只用于抽样和分层，不进入质量评分。
 - [可重复训练语料与训练范式](docs/architecture/reproducible-training-corpus.md)及[冻结 v1 采样计划](research/training-corpus-plan-v1.json)：从文章级许可/撤稿核验、OA PDF/XML 下载、家族隔离、证据锚定弱监督、完整性审计到 chat-SFT/检索正样本导出；当前只是 24-family 本地 pilot，不是已训练模型或科学验证集。
-- [医学分层 v2 训练计划](research/training-corpus-plan-biomedical-v2.json)与[服务器训练 runbook](docs/architecture/server-training-runbook.md)：冻结 2,048 条 metadata-only 训练候选、组件作业、hard negatives、离线 preflight 和 metadata-only handoff；服务器硬件、CUDA 与精确依赖仍须现场核验，尚未启动训练。
+- [医学分层 v2 训练计划](research/training-corpus-plan-biomedical-v2.json)、[医学分层 v3 训练计划（12,000 条）](research/training-corpus-plan-biomedical-v3.json)、[扩增语料 v2（27,046 条）](research/top-journal-training-corpus-v2.json)与[服务器训练 runbook](docs/architecture/server-training-runbook.md)：训练门已在租用 4090 上真实执行——12,000 条 OA 全文（逐篇许可/撤稿核验）、109,028 条弱监督样本、两个 BiomedBERT 组件已训练并落 receipt；[训练运行报告](docs/architecture/training-run-report-2026-08-17.md)与[对抗审查](docs/architecture/adversarial-review-2026-08-17.md)记录全部实测数字与缺陷修复。12k 数据上的重训与重评在服务器自动推进中，完成后追加结果。
 - [Skill 与 plugin 发布方案](docs/architecture/distribution-and-skill-release.md)：单一 skill 源、repo 自动发现、个人安装、skills-only plugin 和公共发布门槛。
 - [Skill/Agent 双产品边界](docs/architecture/two-product-boundary.md)：规定 skill 使用宿主模型且不含模型 API client，后续 Agent 通过 provider-neutral contract 接入任意模型。
 - [模型 provider 与数据流矩阵](docs/architecture/model-provider-support-matrix.md)：区分 DeepSeek 实时连通、通用兼容接口测试、本地 loopback 合同测试和未支持原生 API，并规定密钥、托管传输、schema 校验与候选接纳边界。
