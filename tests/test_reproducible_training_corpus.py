@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "metawingman/scripts"))
 
 import build_server_training_handoff  # noqa: E402
+import prepare_independent_validation_sample  # noqa: E402
 import run_component_training  # noqa: E402
 from metawingman_core.schema_guard import validate_document  # noqa: E402
 from metawingman_core.server_handoff import (  # noqa: E402
@@ -262,6 +263,39 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         self.assertAlmostEqual(result["mrr"], 0.5)
         self.assertEqual(result["precision_at_1"], 0.0)
         self.assertEqual(result["recall_at_10"], 1.0)
+
+    def test_validation_sample_is_stratified_blind_and_deterministic(self) -> None:
+        total = 240
+        examples = []
+        plan_records = []
+        for index in range(total):
+            specialty = f"spec-{index % 24}"
+            question = f"qt-{index % 3}"
+            record_id = f"epmc:{index:08x}"
+            examples.append(retrieval_example(index, "development", f"family:{index:08x}", record_id))
+            plan_records.append({
+                "record_id": record_id,
+                "pmcid": f"PMC{index}",
+                "biomedical_stratum": {
+                    "primary_specialty": specialty,
+                    "question_type": question,
+                    "sampling_key": f"{specialty}|{question}",
+                },
+            })
+        plan = {"records": plan_records}
+        blind, key, summary = prepare_independent_validation_sample.build_validation_sample(
+            examples, plan, target_records=200, minimum_strata=20, seed=7,
+        )
+        self.assertGreaterEqual(summary["selected_records"], 200)
+        self.assertGreaterEqual(summary["strata_covered"], 20)
+        for row in blind:
+            self.assertNotIn("biomedical_stratum", json.dumps(row))
+            self.assertIn("record_id", row)
+        blind_again, _, _ = prepare_independent_validation_sample.build_validation_sample(
+            examples, plan, target_records=200, minimum_strata=20, seed=7,
+        )
+        self.assertEqual(blind, blind_again)
+        self.assertEqual(key[0]["record_id"], blind[0]["record_id"])
 
     def test_handoff_hash_index_must_exactly_match_members(self) -> None:
         result = build_server_handoff({

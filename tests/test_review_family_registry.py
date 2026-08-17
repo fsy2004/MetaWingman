@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 import unittest
@@ -11,6 +12,7 @@ sys.path.insert(0, str(ROOT / "metawingman/scripts"))
 
 from metawingman_core.review_family import (  # noqa: E402
     ReviewFamilyError,
+    audit_review_families,
     build_review_family_registry,
 )
 from metawingman_core.schema_guard import validate_document  # noqa: E402
@@ -116,6 +118,64 @@ class ReviewFamilyRegistryTests(unittest.TestCase):
         self.assertEqual(len(member_ids), len(corpus["records"]))
         self.assertEqual(set(member_ids), {record["record_id"] for record in corpus["records"]})
         self.assertEqual(registry["summary"]["held_out_ready_families"], 0)
+
+    def _audit_fixture(self) -> tuple[dict, dict]:
+        corpus = {"records": [
+            _record("1", "Exercise therapy for chronic low back pain: systematic review and meta-analysis", 2020, "Smith J, Doe A"),
+            _record("2", "Updated exercise therapy for chronic low back pain: a systematic review and meta-analysis", 2024, "Smith J, Roe B"),
+            _record("3", "Air pollution and childhood asthma: systematic review", 2023, "Chen L, Ray P"),
+        ]}
+        registry = build_review_family_registry(corpus, source_path="fixture.json", generated_at_utc=TIMESTAMP)
+        return corpus, registry
+
+    def test_audit_confirm_produces_confirmed_family_with_bucket_aware_held_out(self) -> None:
+        corpus, registry = self._audit_fixture()
+        decisions = [
+            {"edge_id": edge["edge_id"], "decision": "confirm"}
+            for edge in registry["candidate_edges"]
+            if {edge["left_record_id"], edge["right_record_id"]} == {"epmc:MED:1", "epmc:MED:2"}
+        ]
+        self.assertTrue(decisions)
+        report = audit_review_families(registry, corpus, decisions)
+        validate_document(report, "family_audit_report")
+        linked = [family for family in report["families"] if len(family["record_ids"]) > 1]
+        self.assertEqual(len(linked), 1)
+        self.assertEqual(linked[0]["status"], "confirmed")
+        bucket = int(hashlib.sha256(linked[0]["family_id"].encode("utf-8")).hexdigest()[:8], 16) % 100
+        self.assertEqual(linked[0]["held_out_candidate"], bucket >= 90)
+        self.assertEqual(report["summary"]["confirmed_families"], 1)
+
+    def test_audit_reject_splits_candidate_back_to_singletons(self) -> None:
+        corpus, registry = self._audit_fixture()
+        decisions = [{"edge_id": edge["edge_id"], "decision": "reject"} for edge in registry["candidate_edges"]]
+        report = audit_review_families(registry, corpus, decisions)
+        self.assertEqual(report["summary"]["confirmed_families"], 0)
+        self.assertEqual(report["decisions"]["rejected"], len(decisions))
+
+    def test_audit_rejects_unknown_or_duplicate_decisions(self) -> None:
+        corpus, registry = self._audit_fixture()
+        with self.assertRaises(ReviewFamilyError):
+            audit_review_families(registry, corpus, [{"edge_id": "edge:ffffffffffffffff", "decision": "confirm"}])
+        edge_id = registry["candidate_edges"][0]["edge_id"]
+        with self.assertRaises(ReviewFamilyError):
+            audit_review_families(registry, corpus, [
+                {"edge_id": edge_id, "decision": "confirm"},
+                {"edge_id": edge_id, "decision": "reject"},
+            ])
+
+    def test_audit_integrity_blocked_family_stays_blocked(self) -> None:
+        corpus = {"records": [
+            _record("1", "Exercise therapy for chronic low back pain: systematic review and meta-analysis", 2020, "Smith J, Doe A"),
+            _record("2", "Exercise therapy for chronic low back pain: systematic review and meta-analysis", 2021, "Smith J, Roe B", "hold_integrity_review"),
+        ]}
+        registry = build_review_family_registry(corpus, source_path="fixture.json", generated_at_utc=TIMESTAMP)
+        self.assertTrue(registry["candidate_edges"])
+        decisions = [{"edge_id": edge["edge_id"], "decision": "confirm"} for edge in registry["candidate_edges"]]
+        report = audit_review_families(registry, corpus, decisions)
+        family = report["families"][0]
+        self.assertEqual(family["status"], "blocked_integrity")
+        self.assertFalse(family["held_out_candidate"])
+        self.assertEqual(report["summary"]["held_out_candidates"], 0)
 
 
 if __name__ == "__main__":
