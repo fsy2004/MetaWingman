@@ -18,131 +18,198 @@
     "pack_root": "references/domain-packs",
     "scientific_claim_ceiling": "implemented_not_scientifically_validated",
     "expected_profile_ids": [
-      "intervention", "network", "diagnostic", "prognostic", "prediction-model",
-      "etiology", "prevalence", "incidence", "harms", "dose-response", "ipd",
-      "measurement", "scoping", "qualitative", "mixed-methods", "economic",
-      "umbrella", "rapid", "living", "prospective", "other"
+      "intervention",
+      "network",
+      "diagnostic",
+      "prognostic",
+      "prediction-model",
+      "etiology",
+      "prevalence",
+      "incidence",
+      "harms",
+      "dose-response",
+      "ipd",
+      "measurement",
+      "scoping",
+      "qualitative",
+      "mixed-methods",
+      "economic",
+      "umbrella",
+      "rapid",
+      "living",
+      "prospective",
+      "other"
     ],
     "expected_specialty_ids": [
-      "general-medicine", "oncology", "cardiovascular-medicine", "neurology",
-      "infectious-disease", "mental-health", "maternal-child-health", "public-health",
-      "drug-safety", "diagnostics", "imaging", "clinical-omics"
+      "general-medicine",
+      "oncology",
+      "cardiovascular-medicine",
+      "neurology",
+      "infectious-disease",
+      "mental-health",
+      "maternal-child-health",
+      "public-health",
+      "drug-safety",
+      "diagnostics",
+      "imaging",
+      "clinical-omics"
     ],
     "pack_inventory": [
       {
         "pack_id": "biomedical-foundation",
         "version": "1.0.0",
-        "content_sha256": "f7fd6908336e091a646903a80d9c6b558cfabcd55afd666ce620f3d2766b06d3",
+        "content_sha256": "96e2fbe3f50f129c76c6d83737f235f56e7fdaccdbf3c4ecea2e004d34ef1950",
         "validation_level": "fixture_tested",
         "terminology_releases": [],
         "authority_versions": [
           {
             "source_id": "methodology-source-registry",
             "version": "2026-08-15",
-            "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f"
+            "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027"
           }
         ]
       },
       {
         "pack_id": "profile-diagnostic",
         "version": "1.0.0",
-        "content_sha256": "08b0d4c517e43123b1655fea9d56e0d484948f05122fc4138180158faafcb764",
+        "content_sha256": "495883ec7b94371e7fee2b12c5357fea80f1ea915795e15e168a9077a28aa4e5",
         "validation_level": "contract_only",
         "terminology_releases": [],
         "authority_versions": [
           {
             "source_id": "methodology-source-registry",
             "version": "2026-08-15",
-            "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f"
+            "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027"
           },
           {
             "source_id": "appraisal-certainty",
             "version": "2026-08-15",
-            "content_sha256": "bd317112e89ff21f184e468071bc1a885a8efc16380db3ba87a9098629947e19"
+            "content_sha256": "eb70f149f6c59b15a7d822a77a9d46dbeede36d6b26e7a0eca04c4db6c7d91ff"
           }
         ]
       },
       {
         "pack_id": "profile-harms",
         "version": "1.0.0",
-        "content_sha256": "fe79cd55ef079fb4688a98bc605ff6a9deea42c0f836fc4e95e8eeb0b690ef18",
+        "content_sha256": "e513afdb4dafe74735d6c6372d654c474aa4dcc7feef681644f02cd7144891ef",
         "validation_level": "contract_only",
         "terminology_releases": [],
         "authority_versions": [
           {
             "source_id": "methodology-source-registry",
             "version": "2026-08-15",
-            "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f"
+            "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027"
           },
           {
             "source_id": "appraisal-certainty",
             "version": "2026-08-15",
-            "content_sha256": "bd317112e89ff21f184e468071bc1a885a8efc16380db3ba87a9098629947e19"
+            "content_sha256": "eb70f149f6c59b15a7d822a77a9d46dbeede36d6b26e7a0eca04c4db6c7d91ff"
           }
         ]
       },
       {
         "pack_id": "profile-intervention",
         "version": "1.0.0",
-        "content_sha256": "4684e560026d26e17de426f7b7ae6c0ff78cb8909761913e2d5d08c14ea2f721",
+        "content_sha256": "2c63d3039960bf7a64d3012fb5c2acf4898359ee2c5bbc5a75d4bf21685be080",
         "validation_level": "contract_only",
         "terminology_releases": [],
         "authority_versions": [
           {
             "source_id": "methodology-source-registry",
             "version": "2026-08-15",
-            "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f"
+            "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027"
           },
           {
             "source_id": "appraisal-certainty",
             "version": "2026-08-15",
-            "content_sha256": "bd317112e89ff21f184e468071bc1a885a8efc16380db3ba87a9098629947e19"
+            "content_sha256": "eb70f149f6c59b15a7d822a77a9d46dbeede36d6b26e7a0eca04c4db6c7d91ff"
           }
         ]
       },
       {
         "pack_id": "profile-prognostic",
         "version": "1.0.0",
-        "content_sha256": "25db243dbbe01dfa16b0a68edc5d643cfd146b5bb577b61c3208041e02786dca",
+        "content_sha256": "f9faa4ef65ba9631dbbd4c612af809620e2abca3ec4da8b710427f426a15062e",
         "validation_level": "contract_only",
         "terminology_releases": [],
         "authority_versions": [
           {
             "source_id": "methodology-source-registry",
             "version": "2026-08-15",
-            "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f"
+            "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027"
           },
           {
             "source_id": "appraisal-certainty",
             "version": "2026-08-15",
-            "content_sha256": "bd317112e89ff21f184e468071bc1a885a8efc16380db3ba87a9098629947e19"
+            "content_sha256": "eb70f149f6c59b15a7d822a77a9d46dbeede36d6b26e7a0eca04c4db6c7d91ff"
           }
         ]
       },
       {
         "pack_id": "specialty-registry",
         "version": "1.0.0",
-        "content_sha256": "24bdc029e9767c93cd0c725d64a784026236f3808b00a864aa7ab4ad60022a3d",
+        "content_sha256": "d0739aae743040067247ed2b2ecd734d53346022852d83f43a84e3f95401a23a",
         "validation_level": "contract_only",
         "terminology_releases": [],
         "authority_versions": [
           {
             "source_id": "methodology-source-registry",
             "version": "2026-08-15",
-            "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f"
+            "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027"
           }
         ]
       }
     ],
     "capability_evidence": [
-      {"capability_id": "terminology_normalization", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py"]},
-      {"capability_id": "source_selection", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py"]},
-      {"capability_id": "ood_detection", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py"]},
-      {"capability_id": "domain_routing", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py", "scripts/route_domain_packs.py"]},
-      {"capability_id": "profile_routing", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py"]},
-      {"capability_id": "authority_lookup", "evidence_paths": ["references/methodology-source-registry.md"]},
-      {"capability_id": "specialty_resolution", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py"]},
-      {"capability_id": "weak_title_term_matching", "evidence_paths": ["scripts/metawingman_core/biomedical_domain.py"]}
+      {
+        "capability_id": "terminology_normalization",
+        "evidence_paths": [
+          "scripts/metawingman_core/biomedical_domain.py"
+        ]
+      },
+      {
+        "capability_id": "source_selection",
+        "evidence_paths": [
+          "scripts/metawingman_core/biomedical_domain.py"
+        ]
+      },
+      {
+        "capability_id": "ood_detection",
+        "evidence_paths": [
+          "scripts/metawingman_core/biomedical_domain.py"
+        ]
+      },
+      {
+        "capability_id": "domain_routing",
+        "evidence_paths": [
+          "scripts/metawingman_core/biomedical_domain.py",
+          "scripts/route_domain_packs.py"
+        ]
+      },
+      {
+        "capability_id": "profile_routing",
+        "evidence_paths": [
+          "scripts/metawingman_core/biomedical_domain.py"
+        ]
+      },
+      {
+        "capability_id": "authority_lookup",
+        "evidence_paths": [
+          "references/methodology-source-registry.md"
+        ]
+      },
+      {
+        "capability_id": "specialty_resolution",
+        "evidence_paths": [
+          "scripts/metawingman_core/biomedical_domain.py"
+        ]
+      },
+      {
+        "capability_id": "weak_title_term_matching",
+        "evidence_paths": [
+          "scripts/metawingman_core/biomedical_domain.py"
+        ]
+      }
     ]
   },
   "lifecycle_stages": [
@@ -150,121 +217,290 @@
       "stage_id": "topic_feasibility",
       "stage_number": 0,
       "title": "Topic selection and feasibility",
-      "scope": ["decision need", "time-bounded multidisciplinary evidence landscape", "existing-review and protocol overlap", "freshness and update need", "feasibility", "diverse candidate portfolio", "stop, proceed, or abstain"],
+      "scope": [
+        "decision need",
+        "time-bounded multidisciplinary evidence landscape",
+        "existing-review and protocol overlap",
+        "freshness and update need",
+        "feasibility",
+        "diverse candidate portfolio",
+        "stop, proceed, or abstain"
+      ],
       "implementation_level": "executable_component",
-      "evidence_paths": ["schemas/temporal_evidence_landscape.schema.json", "schemas/topic_proposal_batch.schema.json", "schemas/topic_candidate.schema.json", "schemas/topic_opportunity_decision.schema.json", "scripts/propose_topics.py", "scripts/select_topics.py", "scripts/evaluate_topic_rediscovery.py", "references/workflow-and-gates.md"],
+      "evidence_paths": [
+        "schemas/temporal_evidence_landscape.schema.json",
+        "schemas/topic_proposal_batch.schema.json",
+        "schemas/topic_candidate.schema.json",
+        "schemas/topic_opportunity_decision.schema.json",
+        "scripts/propose_topics.py",
+        "scripts/select_topics.py",
+        "scripts/evaluate_topic_rediscovery.py",
+        "references/workflow-and-gates.md"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["time-boundary, target-leakage, false-opportunity, deterministic-ranking, diversity, and sealed-rediscovery fixtures"],
+      "validation_evidence": [
+        "time-boundary, target-leakage, false-opportunity, deterministic-ranking, diversity, and sealed-rediscovery fixtures"
+      ],
       "human_boundary": "AI builds and ranks the evidence-grounded portfolio by default; accountable stakeholders own value choices and the final production topic signature, while historical AI-only evaluation uses sealed published expert references after run lock.",
-      "known_gaps": ["Automatic source-complete landscape construction and calibrated overlap/freshness signals remain pending.", "No held-out historical or prospective topic-opportunity validation has passed."]
+      "known_gaps": [
+        "Automatic source-complete landscape construction and calibrated overlap/freshness signals remain pending.",
+        "No held-out historical or prospective topic-opportunity validation has passed."
+      ]
     },
     {
       "stage_id": "protocol_registration",
       "stage_number": 1,
       "title": "Protocol, registration, and amendments",
-      "scope": ["review profile", "questions and estimands", "eligibility predicates", "source plan", "analysis plan", "registration", "amendments"],
+      "scope": [
+        "review profile",
+        "questions and estimands",
+        "eligibility predicates",
+        "source plan",
+        "analysis plan",
+        "registration",
+        "amendments"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["schemas/protocol.schema.json", "schemas/protocol_criteria.schema.json", "scripts/compile_protocol.py", "scripts/metawingman_core/method_contract.py"],
+      "evidence_paths": [
+        "schemas/protocol.schema.json",
+        "schemas/protocol_criteria.schema.json",
+        "scripts/compile_protocol.py",
+        "scripts/metawingman_core/method_contract.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["tests/test_ai_control_plane.py protocol compiler and freeze-readiness fixtures"],
+      "validation_evidence": [
+        "tests/test_ai_control_plane.py protocol compiler and freeze-readiness fixtures"
+      ],
       "human_boundary": "Protocol freeze, registration, and material amendments require an accountable human signature.",
-      "known_gaps": ["Registry submission remains a credentialed human action."]
+      "known_gaps": [
+        "Registry submission remains a credentialed human action."
+      ]
     },
     {
       "stage_id": "search_retrieval",
       "stage_number": 2,
       "title": "Search, deduplication, and lawful retrieval",
-      "scope": ["source-specific search", "query audit", "database export handoff", "deduplication", "open-access retrieval", "license and checksum"],
+      "scope": [
+        "source-specific search",
+        "query audit",
+        "database export handoff",
+        "deduplication",
+        "open-access retrieval",
+        "license and checksum"
+      ],
       "implementation_level": "executable_component",
-      "evidence_paths": ["scripts/search_sources.py", "scripts/deduplicate_records.py", "scripts/download_open_access.py", "scripts/plan_evidence_acquisition.py", "references/search-retrieval-and-apis.md"],
+      "evidence_paths": [
+        "scripts/search_sources.py",
+        "scripts/deduplicate_records.py",
+        "scripts/download_open_access.py",
+        "scripts/plan_evidence_acquisition.py",
+        "references/search-retrieval-and-apis.md"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["local command and source-adapter validation; published end-to-end recall pending"],
+      "validation_evidence": [
+        "local command and source-adapter validation; published end-to-end recall pending"
+      ],
       "human_boundary": "Institutional logins, licensed exports, and unresolved access rights remain user-controlled handoffs.",
-      "known_gaps": ["No end-to-end recall validation across all required licensed databases.", "Conclusion-directed acquisition controller requires domain calibration."]
+      "known_gaps": [
+        "No end-to-end recall validation across all required licensed databases.",
+        "Conclusion-directed acquisition controller requires domain calibration."
+      ]
     },
     {
       "stage_id": "selection",
       "stage_number": 3,
       "title": "Deduplicated record and full-text selection",
-      "scope": ["criterion-level decisions", "evidence anchors", "hard negatives", "opposition", "abstention", "conflict and exclusion reasons"],
+      "scope": [
+        "criterion-level decisions",
+        "evidence anchors",
+        "hard negatives",
+        "opposition",
+        "abstention",
+        "conflict and exclusion reasons"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["schemas/screening_assessment.schema.json", "scripts/screen_record.py", "scripts/metawingman_core/screening_engine.py"],
+      "evidence_paths": [
+        "schemas/screening_assessment.schema.json",
+        "scripts/screen_record.py",
+        "scripts/metawingman_core/screening_engine.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["tests/test_p1_vertical_slices.py screening fixtures"],
+      "validation_evidence": [
+        "tests/test_p1_vertical_slices.py screening fixtures"
+      ],
       "human_boundary": "Production-review eligibility follows the selected authority; AI-only replacement is restricted to preregistered evaluation mode.",
-      "known_gaps": ["Held-out hard-negative and full-text false-exclusion calibration pending."]
+      "known_gaps": [
+        "Held-out hard-negative and full-text false-exclusion calibration pending."
+      ]
     },
     {
       "stage_id": "data_lineage",
       "stage_number": 4,
       "title": "Multimodal full text, lineage, and extraction",
-      "scope": ["PDF and supplement state", "page and table anchors", "report-study-result lineage", "extraction candidates", "effect recomputation"],
+      "scope": [
+        "PDF and supplement state",
+        "page and table anchors",
+        "report-study-result lineage",
+        "extraction candidates",
+        "effect recomputation"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["schemas/document_state.schema.json", "schemas/lineage_edge.schema.json", "schemas/extraction_candidate.schema.json", "scripts/ingest_document.py", "scripts/recalculate_effect.py"],
+      "evidence_paths": [
+        "schemas/document_state.schema.json",
+        "schemas/lineage_edge.schema.json",
+        "schemas/extraction_candidate.schema.json",
+        "scripts/ingest_document.py",
+        "scripts/recalculate_effect.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["tests/test_p1_vertical_slices.py document and effect fixtures"],
+      "validation_evidence": [
+        "tests/test_p1_vertical_slices.py document and effect fixtures"
+      ],
       "human_boundary": "Unresolved documents, inaccessible supplements, conflicting numbers, and final accepted extraction follow the profile/mode responsibility rule.",
-      "known_gaps": ["Global multimodal result-state solver and diverse real-PDF benchmark remain pending."]
+      "known_gaps": [
+        "Global multimodal result-state solver and diverse real-PDF benchmark remain pending."
+      ]
     },
     {
       "stage_id": "appraisal",
       "stage_number": 5,
       "title": "Risk of bias, missing evidence, and poolability",
-      "scope": ["result-level appraisal", "synthesis-level missing evidence", "proposal-opposition-judge dossier", "estimand alignment", "poolability"],
+      "scope": [
+        "result-level appraisal",
+        "synthesis-level missing evidence",
+        "proposal-opposition-judge dossier",
+        "estimand alignment",
+        "poolability"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["schemas/appraisal_dossier.schema.json", "schemas/missing_evidence_matrix.schema.json", "schemas/poolability_matrix.schema.json", "scripts/build_judgment_dossier.py", "scripts/build_poolability_matrix.py"],
+      "evidence_paths": [
+        "schemas/appraisal_dossier.schema.json",
+        "schemas/missing_evidence_matrix.schema.json",
+        "schemas/poolability_matrix.schema.json",
+        "scripts/build_judgment_dossier.py",
+        "scripts/build_poolability_matrix.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["tests/test_p2_judgment_workbench.py appraisal and poolability fixtures"],
+      "validation_evidence": [
+        "tests/test_p2_judgment_workbench.py appraisal and poolability fixtures"
+      ],
       "human_boundary": "The dossier may be AI-generated; final RoB, certainty inputs, and poolability are accountable scientific judgments.",
-      "known_gaps": ["Only selected appraisal frameworks have typed adapters; domain-specific real-case agreement is pending."]
+      "known_gaps": [
+        "Only selected appraisal frameworks have typed adapters; domain-specific real-case agreement is pending."
+      ]
     },
     {
       "stage_id": "freeze_synthesis",
       "stage_number": 6,
       "title": "Data freeze and deterministic synthesis",
-      "scope": ["analysis manifest", "dataset hash", "estimand guard", "R execution", "diagnostics", "sensitivity analysis", "reproducible outputs"],
+      "scope": [
+        "analysis manifest",
+        "dataset hash",
+        "estimand guard",
+        "R execution",
+        "diagnostics",
+        "sensitivity analysis",
+        "reproducible outputs"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["schemas/analysis_manifest.schema.json", "references/tool-catalog.md", "scripts/r/adapters/run_pairwise.R", "scripts/r/adapters/run_network.R", "scripts/r/adapters/run_diagnostic.R"],
+      "evidence_paths": [
+        "schemas/analysis_manifest.schema.json",
+        "references/tool-catalog.md",
+        "scripts/r/adapters/run_pairwise.R",
+        "scripts/r/adapters/run_network.R",
+        "scripts/r/adapters/run_diagnostic.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["61 local R adapter fixtures passed before this matrix revision"],
+      "validation_evidence": [
+        "61 local R adapter fixtures passed before this matrix revision"
+      ],
       "human_boundary": "The accountable analyst approves the estimand, pooling decision, deviations, and final analysis freeze.",
-      "known_gaps": ["Published reconstruction across all synthesis families and clean environment lockfiles remain pending."]
+      "known_gaps": [
+        "Published reconstruction across all synthesis families and clean environment lockfiles remain pending."
+      ]
     },
     {
       "stage_id": "certainty_interpretation",
       "stage_number": 7,
       "title": "Certainty, thresholds, and interpretation",
-      "scope": ["GRADE or profile-specific certainty", "decision thresholds", "absolute effects", "applicability", "claim strength"],
+      "scope": [
+        "GRADE or profile-specific certainty",
+        "decision thresholds",
+        "absolute effects",
+        "applicability",
+        "claim strength"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["references/appraisal-certainty.md", "scripts/check_grade_threshold.py", "scripts/compile_claim.py", "scripts/metawingman_core/claim_compiler.py"],
+      "evidence_paths": [
+        "references/appraisal-certainty.md",
+        "scripts/check_grade_threshold.py",
+        "scripts/compile_claim.py",
+        "scripts/metawingman_core/claim_compiler.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["tests/test_p2_judgment_workbench.py threshold and claim fixtures"],
+      "validation_evidence": [
+        "tests/test_p2_judgment_workbench.py threshold and claim fixtures"
+      ],
       "human_boundary": "Final certainty and clinical or policy interpretation require accountable domain judgment.",
-      "known_gaps": ["Profile-specific certainty adapters beyond the current shared dossier route are incomplete."]
+      "known_gaps": [
+        "Profile-specific certainty adapters beyond the current shared dossier route are incomplete."
+      ]
     },
     {
       "stage_id": "reporting_review",
       "stage_number": 8,
       "title": "Reporting, AI review, revision, and release",
-      "scope": ["PRISMA reporting", "claim-evidence ledger", "citation identity", "reviewer lenses", "revision trace", "clean rerun"],
+      "scope": [
+        "PRISMA reporting",
+        "claim-evidence ledger",
+        "citation identity",
+        "reviewer lenses",
+        "revision trace",
+        "clean rerun"
+      ],
       "implementation_level": "executable_component",
-      "evidence_paths": ["references/reviewer-and-integrity.md", "references/writing-style.md", "scripts/verify_citations.py", "scripts/compile_claim.py"],
+      "evidence_paths": [
+        "references/reviewer-and-integrity.md",
+        "references/writing-style.md",
+        "scripts/verify_citations.py",
+        "scripts/compile_claim.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["claim compiler and citation identity fixtures"],
+      "validation_evidence": [
+        "claim compiler and citation identity fixtures"
+      ],
       "human_boundary": "External submission, authorship, disclosure, response to reviewers, and release require human responsibility.",
-      "known_gaps": ["End-to-end changed-artifact verifier and journal-specific reporting adapters need expansion."]
+      "known_gaps": [
+        "End-to-end changed-artifact verifier and journal-specific reporting adapters need expansion."
+      ]
     },
     {
       "stage_id": "living_update",
       "stage_number": 9,
       "title": "Living surveillance and change-impact update",
-      "scope": ["source snapshots", "delta detection", "retraction or correction", "graph impact", "targeted rerun", "version and retirement"],
+      "scope": [
+        "source snapshots",
+        "delta detection",
+        "retraction or correction",
+        "graph impact",
+        "targeted rerun",
+        "version and retirement"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["schemas/living_snapshot.schema.json", "schemas/living_delta.schema.json", "scripts/living_update.py", "scripts/metawingman_core/living_update.py"],
+      "evidence_paths": [
+        "schemas/living_snapshot.schema.json",
+        "schemas/living_delta.schema.json",
+        "scripts/living_update.py",
+        "scripts/metawingman_core/living_update.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["tests/test_p3_living_benchmark.py snapshot and impact fixtures"],
+      "validation_evidence": [
+        "tests/test_p3_living_benchmark.py snapshot and impact fixtures"
+      ],
       "human_boundary": "Publication-trigger, conclusion-change, notification, and retirement decisions remain accountable decisions.",
-      "known_gaps": ["Scheduled provider integrations and prospective full-rerun equivalence are pending."]
+      "known_gaps": [
+        "Scheduled provider integrations and prospective full-rerun equivalence are pending."
+      ]
     }
   ],
   "review_profiles": [
@@ -274,11 +510,20 @@
       "workflow_coverage": "shared_lifecycle_supported",
       "method_contract_level": "profile_specific",
       "synthesis_implementation": "native_executable",
-      "native_routes": ["scripts/r/adapters/run_pairwise.R"],
-      "evidence_paths": ["references/review-types.md", "scripts/r/adapters/run_pairwise.R"],
+      "native_routes": [
+        "scripts/r/adapters/run_pairwise.R"
+      ],
+      "evidence_paths": [
+        "references/review-types.md",
+        "scripts/r/adapters/run_pairwise.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["pairwise R adapter fixtures"],
-      "limitations": ["Non-randomized intervention appraisal and complex estimands still require profile-specific authority and judgment."]
+      "validation_evidence": [
+        "pairwise R adapter fixtures"
+      ],
+      "limitations": [
+        "Non-randomized intervention appraisal and complex estimands still require profile-specific authority and judgment."
+      ]
     },
     {
       "profile_id": "network",
@@ -286,11 +531,20 @@
       "workflow_coverage": "shared_lifecycle_supported",
       "method_contract_level": "profile_specific",
       "synthesis_implementation": "native_executable",
-      "native_routes": ["scripts/r/adapters/run_network.R"],
-      "evidence_paths": ["references/review-types.md", "scripts/r/adapters/run_network.R"],
+      "native_routes": [
+        "scripts/r/adapters/run_network.R"
+      ],
+      "evidence_paths": [
+        "references/review-types.md",
+        "scripts/r/adapters/run_network.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["network R adapter fixtures"],
-      "limitations": ["Transitivity, network geometry, ROB-MEN, and CINeMA remain scientific judgments; published reconstruction is pending."]
+      "validation_evidence": [
+        "network R adapter fixtures"
+      ],
+      "limitations": [
+        "Transitivity, network geometry, ROB-MEN, and CINeMA remain scientific judgments; published reconstruction is pending."
+      ]
     },
     {
       "profile_id": "diagnostic",
@@ -298,11 +552,20 @@
       "workflow_coverage": "shared_lifecycle_supported",
       "method_contract_level": "profile_specific",
       "synthesis_implementation": "native_executable",
-      "native_routes": ["scripts/r/adapters/run_diagnostic.R"],
-      "evidence_paths": ["references/review-types.md", "scripts/r/adapters/run_diagnostic.R"],
+      "native_routes": [
+        "scripts/r/adapters/run_diagnostic.R"
+      ],
+      "evidence_paths": [
+        "references/review-types.md",
+        "scripts/r/adapters/run_diagnostic.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["DTA R adapter fixtures"],
-      "limitations": ["QUADAS versioning, threshold effects, and comparative tests need review-specific handling."]
+      "validation_evidence": [
+        "DTA R adapter fixtures"
+      ],
+      "limitations": [
+        "QUADAS versioning, threshold effects, and comparative tests need review-specific handling."
+      ]
     },
     {
       "profile_id": "prognostic",
@@ -310,11 +573,21 @@
       "workflow_coverage": "shared_lifecycle_supported",
       "method_contract_level": "shared_with_profile_guard",
       "synthesis_implementation": "generic_executable_with_profile_guard",
-      "native_routes": ["scripts/r/adapters/run_pairwise.R", "scripts/r/adapters/run_heterogeneity.R"],
-      "evidence_paths": ["references/review-types.md", "scripts/r/adapters/run_pairwise.R"],
+      "native_routes": [
+        "scripts/r/adapters/run_pairwise.R",
+        "scripts/r/adapters/run_heterogeneity.R"
+      ],
+      "evidence_paths": [
+        "references/review-types.md",
+        "scripts/r/adapters/run_pairwise.R"
+      ],
       "validation_level": "schema_tested",
-      "validation_evidence": ["review profile contract validation"],
-      "limitations": ["No dedicated prognostic-factor adapter or published reconstruction; crude and adjusted estimates must remain separate."]
+      "validation_evidence": [
+        "review profile contract validation"
+      ],
+      "limitations": [
+        "No dedicated prognostic-factor adapter or published reconstruction; crude and adjusted estimates must remain separate."
+      ]
     },
     {
       "profile_id": "prediction-model",
@@ -323,10 +596,15 @@
       "method_contract_level": "documented_route",
       "synthesis_implementation": "external_tool_handoff",
       "native_routes": [],
-      "evidence_paths": ["references/review-types.md", "references/analysis-methods.md"],
+      "evidence_paths": [
+        "references/review-types.md",
+        "references/analysis-methods.md"
+      ],
       "validation_level": "not_tested",
       "validation_evidence": [],
-      "limitations": ["No native performance/meta-regression adapter for discrimination, calibration, or validation-type synthesis."]
+      "limitations": [
+        "No native performance/meta-regression adapter for discrimination, calibration, or validation-type synthesis."
+      ]
     },
     {
       "profile_id": "etiology",
@@ -334,11 +612,21 @@
       "workflow_coverage": "shared_lifecycle_supported",
       "method_contract_level": "shared_with_profile_guard",
       "synthesis_implementation": "generic_executable_with_profile_guard",
-      "native_routes": ["scripts/r/adapters/run_pairwise.R", "scripts/r/adapters/run_heterogeneity.R"],
-      "evidence_paths": ["references/review-types.md", "scripts/r/adapters/run_pairwise.R"],
+      "native_routes": [
+        "scripts/r/adapters/run_pairwise.R",
+        "scripts/r/adapters/run_heterogeneity.R"
+      ],
+      "evidence_paths": [
+        "references/review-types.md",
+        "scripts/r/adapters/run_pairwise.R"
+      ],
       "validation_level": "schema_tested",
-      "validation_evidence": ["review profile contract validation"],
-      "limitations": ["Causal estimands, confounding structures, and adjusted-effect harmonization are not automated away."]
+      "validation_evidence": [
+        "review profile contract validation"
+      ],
+      "limitations": [
+        "Causal estimands, confounding structures, and adjusted-effect harmonization are not automated away."
+      ]
     },
     {
       "profile_id": "prevalence",
@@ -346,11 +634,20 @@
       "workflow_coverage": "shared_lifecycle_supported",
       "method_contract_level": "profile_specific",
       "synthesis_implementation": "native_executable",
-      "native_routes": ["scripts/r/adapters/run_proportion.R"],
-      "evidence_paths": ["references/review-types.md", "scripts/r/adapters/run_proportion.R"],
+      "native_routes": [
+        "scripts/r/adapters/run_proportion.R"
+      ],
+      "evidence_paths": [
+        "references/review-types.md",
+        "scripts/r/adapters/run_proportion.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["proportion R adapter fixtures"],
-      "limitations": ["Sampling frame, case definition, denominator, and transformation choice need domain validation."]
+      "validation_evidence": [
+        "proportion R adapter fixtures"
+      ],
+      "limitations": [
+        "Sampling frame, case definition, denominator, and transformation choice need domain validation."
+      ]
     },
     {
       "profile_id": "incidence",
@@ -358,11 +655,20 @@
       "workflow_coverage": "shared_lifecycle_supported",
       "method_contract_level": "profile_specific",
       "synthesis_implementation": "native_executable",
-      "native_routes": ["scripts/r/adapters/run_proportion.R"],
-      "evidence_paths": ["references/review-types.md", "scripts/r/adapters/run_proportion.R"],
+      "native_routes": [
+        "scripts/r/adapters/run_proportion.R"
+      ],
+      "evidence_paths": [
+        "references/review-types.md",
+        "scripts/r/adapters/run_proportion.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["incidence-rate R adapter fixtures"],
-      "limitations": ["Person-time definitions, recurrent events, and rate standardization need explicit contracts."]
+      "validation_evidence": [
+        "incidence-rate R adapter fixtures"
+      ],
+      "limitations": [
+        "Person-time definitions, recurrent events, and rate standardization need explicit contracts."
+      ]
     },
     {
       "profile_id": "harms",
@@ -370,11 +676,20 @@
       "workflow_coverage": "shared_lifecycle_supported",
       "method_contract_level": "shared_with_profile_guard",
       "synthesis_implementation": "generic_executable_with_profile_guard",
-      "native_routes": ["scripts/r/adapters/run_pairwise.R"],
-      "evidence_paths": ["references/review-types.md", "scripts/r/adapters/run_pairwise.R"],
+      "native_routes": [
+        "scripts/r/adapters/run_pairwise.R"
+      ],
+      "evidence_paths": [
+        "references/review-types.md",
+        "scripts/r/adapters/run_pairwise.R"
+      ],
       "validation_level": "schema_tested",
-      "validation_evidence": ["review profile contract validation"],
-      "limitations": ["Attribution, grade, competing risk, recurrent event, and reporting-window semantics are not a generic binary outcome."]
+      "validation_evidence": [
+        "review profile contract validation"
+      ],
+      "limitations": [
+        "Attribution, grade, competing risk, recurrent event, and reporting-window semantics are not a generic binary outcome."
+      ]
     },
     {
       "profile_id": "dose-response",
@@ -382,11 +697,20 @@
       "workflow_coverage": "shared_lifecycle_supported",
       "method_contract_level": "profile_specific",
       "synthesis_implementation": "native_executable",
-      "native_routes": ["scripts/r/adapters/run_complex.R"],
-      "evidence_paths": ["references/review-types.md", "scripts/r/adapters/run_complex.R"],
+      "native_routes": [
+        "scripts/r/adapters/run_complex.R"
+      ],
+      "evidence_paths": [
+        "references/review-types.md",
+        "scripts/r/adapters/run_complex.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["linear and spline dose-response R fixtures"],
-      "limitations": ["Reference dose, covariance, exposure harmonization, and nonlinearity assumptions need prespecification."]
+      "validation_evidence": [
+        "linear and spline dose-response R fixtures"
+      ],
+      "limitations": [
+        "Reference dose, covariance, exposure harmonization, and nonlinearity assumptions need prespecification."
+      ]
     },
     {
       "profile_id": "ipd",
@@ -395,10 +719,17 @@
       "method_contract_level": "documented_route",
       "synthesis_implementation": "external_tool_handoff",
       "native_routes": [],
-      "evidence_paths": ["references/review-types.md", "references/analysis-methods.md"],
+      "evidence_paths": [
+        "references/review-types.md",
+        "references/analysis-methods.md"
+      ],
       "validation_level": "published_reconstruction_pending",
-      "validation_evidence": ["controlled HEPSANET material plan; IPD access is not public"],
-      "limitations": ["No native one-stage/two-stage IPD pipeline; governance, harmonization, clustering, and data access remain study-specific."]
+      "validation_evidence": [
+        "controlled HEPSANET material plan; IPD access is not public"
+      ],
+      "limitations": [
+        "No native one-stage/two-stage IPD pipeline; governance, harmonization, clustering, and data access remain study-specific."
+      ]
     },
     {
       "profile_id": "measurement",
@@ -407,10 +738,15 @@
       "method_contract_level": "documented_route",
       "synthesis_implementation": "structured_synthesis_route",
       "native_routes": [],
-      "evidence_paths": ["references/review-types.md", "references/workflow-and-gates.md"],
+      "evidence_paths": [
+        "references/review-types.md",
+        "references/workflow-and-gates.md"
+      ],
       "validation_level": "not_tested",
       "validation_evidence": [],
-      "limitations": ["No native COSMIN property-specific synthesis or certainty adapter."]
+      "limitations": [
+        "No native COSMIN property-specific synthesis or certainty adapter."
+      ]
     },
     {
       "profile_id": "scoping",
@@ -419,10 +755,17 @@
       "method_contract_level": "profile_specific",
       "synthesis_implementation": "not_applicable_overlay",
       "native_routes": [],
-      "evidence_paths": ["references/review-types.md", "references/workflow-and-gates.md"],
+      "evidence_paths": [
+        "references/review-types.md",
+        "references/workflow-and-gates.md"
+      ],
       "validation_level": "schema_tested",
-      "validation_evidence": ["review profile contract validation"],
-      "limitations": ["Mapping and charting are supported by the shared workflow; effectiveness pooling must not be implied."]
+      "validation_evidence": [
+        "review profile contract validation"
+      ],
+      "limitations": [
+        "Mapping and charting are supported by the shared workflow; effectiveness pooling must not be implied."
+      ]
     },
     {
       "profile_id": "qualitative",
@@ -431,10 +774,15 @@
       "method_contract_level": "documented_route",
       "synthesis_implementation": "structured_synthesis_route",
       "native_routes": [],
-      "evidence_paths": ["references/review-types.md", "references/appraisal-certainty.md"],
+      "evidence_paths": [
+        "references/review-types.md",
+        "references/appraisal-certainty.md"
+      ],
       "validation_level": "not_tested",
       "validation_evidence": [],
-      "limitations": ["No native meta-aggregation, meta-ethnography, or GRADE-CERQual workbench."]
+      "limitations": [
+        "No native meta-aggregation, meta-ethnography, or GRADE-CERQual workbench."
+      ]
     },
     {
       "profile_id": "mixed-methods",
@@ -443,10 +791,15 @@
       "method_contract_level": "documented_route",
       "synthesis_implementation": "structured_synthesis_route",
       "native_routes": [],
-      "evidence_paths": ["references/review-types.md", "references/workflow-and-gates.md"],
+      "evidence_paths": [
+        "references/review-types.md",
+        "references/workflow-and-gates.md"
+      ],
       "validation_level": "not_tested",
       "validation_evidence": [],
-      "limitations": ["No executable convergent or sequential integration transform with validation."]
+      "limitations": [
+        "No executable convergent or sequential integration transform with validation."
+      ]
     },
     {
       "profile_id": "economic",
@@ -455,10 +808,15 @@
       "method_contract_level": "documented_route",
       "synthesis_implementation": "structured_synthesis_route",
       "native_routes": [],
-      "evidence_paths": ["references/review-types.md", "references/workflow-and-gates.md"],
+      "evidence_paths": [
+        "references/review-types.md",
+        "references/workflow-and-gates.md"
+      ],
       "validation_level": "not_tested",
       "validation_evidence": [],
-      "limitations": ["No native cost normalization, model appraisal, or economic synthesis adapter."]
+      "limitations": [
+        "No native cost normalization, model appraisal, or economic synthesis adapter."
+      ]
     },
     {
       "profile_id": "umbrella",
@@ -467,10 +825,17 @@
       "method_contract_level": "profile_specific",
       "synthesis_implementation": "structured_synthesis_route",
       "native_routes": [],
-      "evidence_paths": ["references/review-types.md", "references/appraisal-certainty.md"],
+      "evidence_paths": [
+        "references/review-types.md",
+        "references/appraisal-certainty.md"
+      ],
       "validation_level": "schema_tested",
-      "validation_evidence": ["review profile contract validation"],
-      "limitations": ["No native overlap matrix or corrected-covered-area engine yet; primary-study double counting remains a hard guard requirement."]
+      "validation_evidence": [
+        "review profile contract validation"
+      ],
+      "limitations": [
+        "No native overlap matrix or corrected-covered-area engine yet; primary-study double counting remains a hard guard requirement."
+      ]
     },
     {
       "profile_id": "rapid",
@@ -479,10 +844,17 @@
       "method_contract_level": "profile_specific",
       "synthesis_implementation": "not_applicable_overlay",
       "native_routes": [],
-      "evidence_paths": ["references/review-types.md", "references/workflow-and-gates.md"],
+      "evidence_paths": [
+        "references/review-types.md",
+        "references/workflow-and-gates.md"
+      ],
       "validation_level": "schema_tested",
-      "validation_evidence": ["rapid operating-mode scaffold"],
-      "limitations": ["Shortcuts and their likely biases must be declared; this overlay does not make an incomplete search comprehensive."]
+      "validation_evidence": [
+        "rapid operating-mode scaffold"
+      ],
+      "limitations": [
+        "Shortcuts and their likely biases must be declared; this overlay does not make an incomplete search comprehensive."
+      ]
     },
     {
       "profile_id": "living",
@@ -490,11 +862,20 @@
       "workflow_coverage": "shared_lifecycle_supported",
       "method_contract_level": "profile_specific",
       "synthesis_implementation": "not_applicable_overlay",
-      "native_routes": ["scripts/living_update.py"],
-      "evidence_paths": ["references/review-types.md", "scripts/living_update.py"],
+      "native_routes": [
+        "scripts/living_update.py"
+      ],
+      "evidence_paths": [
+        "references/review-types.md",
+        "scripts/living_update.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["living snapshot and graph-impact fixtures"],
-      "limitations": ["Surveillance provider scheduling and prospective conclusion-change validation are pending."]
+      "validation_evidence": [
+        "living snapshot and graph-impact fixtures"
+      ],
+      "limitations": [
+        "Surveillance provider scheduling and prospective conclusion-change validation are pending."
+      ]
     },
     {
       "profile_id": "prospective",
@@ -502,11 +883,20 @@
       "workflow_coverage": "shared_lifecycle_supported",
       "method_contract_level": "profile_specific",
       "synthesis_implementation": "not_applicable_overlay",
-      "native_routes": ["scripts/r/adapters/run_sequential.R"],
-      "evidence_paths": ["references/review-types.md", "scripts/r/adapters/run_sequential.R"],
+      "native_routes": [
+        "scripts/r/adapters/run_sequential.R"
+      ],
+      "evidence_paths": [
+        "references/review-types.md",
+        "scripts/r/adapters/run_sequential.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["cumulative and sequential R fixtures"],
-      "limitations": ["Prospective evidence governance is broader than cumulative meta-analysis or TSA and remains protocol-specific."]
+      "validation_evidence": [
+        "cumulative and sequential R fixtures"
+      ],
+      "limitations": [
+        "Prospective evidence governance is broader than cumulative meta-analysis or TSA and remains protocol-specific."
+      ]
     },
     {
       "profile_id": "other",
@@ -515,10 +905,15 @@
       "method_contract_level": "documented_route",
       "synthesis_implementation": "structured_synthesis_route",
       "native_routes": [],
-      "evidence_paths": ["references/review-types.md", "references/workflow-and-gates.md"],
+      "evidence_paths": [
+        "references/review-types.md",
+        "references/workflow-and-gates.md"
+      ],
       "validation_level": "not_tested",
       "validation_evidence": [],
-      "limitations": ["A new authority, profile contract, appraisal route, and synthesis route must be pinned before scientific execution."]
+      "limitations": [
+        "A new authority, profile contract, appraisal route, and synthesis route must be pinned before scientific execution."
+      ]
     }
   ],
   "synthesis_routes": [
@@ -526,324 +921,672 @@
       "route_id": "pairwise",
       "label": "Pairwise common or random effects",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_pairwise.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_pairwise.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["pairwise adapter fixtures"],
-      "limitations": ["Estimand alignment and dependency must be resolved before execution."]
+      "validation_evidence": [
+        "pairwise adapter fixtures"
+      ],
+      "limitations": [
+        "Estimand alignment and dependency must be resolved before execution."
+      ]
     },
     {
       "route_id": "network",
       "label": "Network meta-analysis",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_network.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_network.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["network adapter fixtures"],
-      "limitations": ["Transitivity and consistency are scientific assumptions, not software outputs."]
+      "validation_evidence": [
+        "network adapter fixtures"
+      ],
+      "limitations": [
+        "Transitivity and consistency are scientific assumptions, not software outputs."
+      ]
     },
     {
       "route_id": "diagnostic",
       "label": "Bivariate or HSROC diagnostic synthesis",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_diagnostic.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_diagnostic.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["diagnostic adapter fixtures"],
-      "limitations": ["Comparative tests and threshold structure need profile-specific extension."]
+      "validation_evidence": [
+        "diagnostic adapter fixtures"
+      ],
+      "limitations": [
+        "Comparative tests and threshold structure need profile-specific extension."
+      ]
     },
     {
       "route_id": "proportion_prevalence",
       "label": "Proportion or prevalence synthesis",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_proportion.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_proportion.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["proportion adapter fixtures"],
-      "limitations": ["Transformation and denominator decisions remain prespecified choices."]
+      "validation_evidence": [
+        "proportion adapter fixtures"
+      ],
+      "limitations": [
+        "Transformation and denominator decisions remain prespecified choices."
+      ]
     },
     {
       "route_id": "incidence_rate",
       "label": "Incidence-rate synthesis",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_proportion.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_proportion.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["incidence-rate adapter fixture"],
-      "limitations": ["Person-time and recurrent-event compatibility must be established."]
+      "validation_evidence": [
+        "incidence-rate adapter fixture"
+      ],
+      "limitations": [
+        "Person-time and recurrent-event compatibility must be established."
+      ]
     },
     {
       "route_id": "multilevel",
       "label": "Multilevel meta-analysis",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_complex.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_complex.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["three-level adapter fixture"],
-      "limitations": ["Dependency structure and cluster identifiers must be scientifically correct."]
+      "validation_evidence": [
+        "three-level adapter fixture"
+      ],
+      "limitations": [
+        "Dependency structure and cluster identifiers must be scientifically correct."
+      ]
     },
     {
       "route_id": "robust_variance",
       "label": "Robust variance estimation",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_complex.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_complex.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["RVE adapter fixture"],
-      "limitations": ["Small numbers of independent clusters can invalidate nominal inference."]
+      "validation_evidence": [
+        "RVE adapter fixture"
+      ],
+      "limitations": [
+        "Small numbers of independent clusters can invalidate nominal inference."
+      ]
     },
     {
       "route_id": "dose_response",
       "label": "Linear and nonlinear dose-response",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_complex.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_complex.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["linear and spline adapter fixtures"],
-      "limitations": ["Within-study covariance and dose harmonization require explicit inputs."]
+      "validation_evidence": [
+        "linear and spline adapter fixtures"
+      ],
+      "limitations": [
+        "Within-study covariance and dose harmonization require explicit inputs."
+      ]
     },
     {
       "route_id": "bayesian",
       "label": "Bayesian random-effects synthesis",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_bayesian.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_bayesian.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["Bayesian adapter fixtures"],
-      "limitations": ["Prior choice and sensitivity analysis cannot be delegated to defaults."]
+      "validation_evidence": [
+        "Bayesian adapter fixtures"
+      ],
+      "limitations": [
+        "Prior choice and sensitivity analysis cannot be delegated to defaults."
+      ]
     },
     {
       "route_id": "meta_regression",
       "label": "Subgroup and meta-regression",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_heterogeneity.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_heterogeneity.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["heterogeneity adapter fixtures"],
-      "limitations": ["Study-level associations are vulnerable to ecological bias and low power."]
+      "validation_evidence": [
+        "heterogeneity adapter fixtures"
+      ],
+      "limitations": [
+        "Study-level associations are vulnerable to ecological bias and low power."
+      ]
     },
     {
       "route_id": "component_network",
       "label": "Component network meta-analysis",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_network.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_network.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["component-network adapter fixture"],
-      "limitations": ["Component additivity must be defensible."]
+      "validation_evidence": [
+        "component-network adapter fixture"
+      ],
+      "limitations": [
+        "Component additivity must be defensible."
+      ]
     },
     {
       "route_id": "rare_event",
       "label": "Rare-event sensitivity routes",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_pairwise.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_pairwise.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["Peto, Mantel-Haenszel, and GLMM adapter fixtures"],
-      "limitations": ["No single method is universally appropriate for zero-event structures."]
+      "validation_evidence": [
+        "Peto, Mantel-Haenszel, and GLMM adapter fixtures"
+      ],
+      "limitations": [
+        "No single method is universally appropriate for zero-event structures."
+      ]
     },
     {
       "route_id": "sequential",
       "label": "Cumulative and trial-sequential analysis",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_sequential.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_sequential.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["RIS and TSA adapter fixtures"],
-      "limitations": ["Information-size and error-spending assumptions require justification."]
+      "validation_evidence": [
+        "RIS and TSA adapter fixtures"
+      ],
+      "limitations": [
+        "Information-size and error-spending assumptions require justification."
+      ]
     },
     {
       "route_id": "reporting_bias_sensitivity",
       "label": "Reporting-bias and small-study sensitivity analyses",
       "implementation": "native_executable",
-      "evidence_paths": ["scripts/r/adapters/run_pairwise.R"],
+      "evidence_paths": [
+        "scripts/r/adapters/run_pairwise.R"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["funnel, Egger, Begg, trim-fill, and PET-PEESE fixtures"],
-      "limitations": ["These methods do not diagnose publication bias mechanically."]
+      "validation_evidence": [
+        "funnel, Egger, Begg, trim-fill, and PET-PEESE fixtures"
+      ],
+      "limitations": [
+        "These methods do not diagnose publication bias mechanically."
+      ]
     },
     {
       "route_id": "multivariate",
       "label": "Multivariate meta-analysis",
       "implementation": "external_tool_handoff",
-      "evidence_paths": ["references/analysis-methods.md"],
+      "evidence_paths": [
+        "references/analysis-methods.md"
+      ],
       "validation_level": "not_tested",
       "validation_evidence": [],
-      "limitations": ["No native typed adapter or benchmark yet."]
+      "limitations": [
+        "No native typed adapter or benchmark yet."
+      ]
     },
     {
       "route_id": "ipd_one_two_stage",
       "label": "One-stage or two-stage IPD synthesis",
       "implementation": "external_tool_handoff",
-      "evidence_paths": ["references/review-types.md"],
+      "evidence_paths": [
+        "references/review-types.md"
+      ],
       "validation_level": "published_reconstruction_pending",
-      "validation_evidence": ["controlled IPD benchmark candidate only"],
-      "limitations": ["No native IPD harmonization and modelling pipeline."]
+      "validation_evidence": [
+        "controlled IPD benchmark candidate only"
+      ],
+      "limitations": [
+        "No native IPD harmonization and modelling pipeline."
+      ]
     },
     {
       "route_id": "prediction_model_performance",
       "label": "Prediction-model performance synthesis",
       "implementation": "external_tool_handoff",
-      "evidence_paths": ["references/review-types.md"],
+      "evidence_paths": [
+        "references/review-types.md"
+      ],
       "validation_level": "not_tested",
       "validation_evidence": [],
-      "limitations": ["No native calibration, discrimination, or O:E synthesis route."]
+      "limitations": [
+        "No native calibration, discrimination, or O:E synthesis route."
+      ]
     },
     {
       "route_id": "prognostic_factor",
       "label": "Prognostic-factor association synthesis",
       "implementation": "generic_executable_with_guard",
-      "evidence_paths": ["references/review-types.md", "scripts/r/adapters/run_pairwise.R"],
+      "evidence_paths": [
+        "references/review-types.md",
+        "scripts/r/adapters/run_pairwise.R"
+      ],
       "validation_level": "schema_tested",
-      "validation_evidence": ["profile and analysis-manifest schema guards"],
-      "limitations": ["No dedicated adjusted-effect and prognostic appraisal adapter."]
+      "validation_evidence": [
+        "profile and analysis-manifest schema guards"
+      ],
+      "limitations": [
+        "No dedicated adjusted-effect and prognostic appraisal adapter."
+      ]
     },
     {
       "route_id": "structured_no_pooling",
       "label": "SWiM or profile-specific structured synthesis without pooling",
       "implementation": "structured_synthesis_route",
-      "evidence_paths": ["references/analysis-methods.md", "references/workflow-and-gates.md"],
+      "evidence_paths": [
+        "references/analysis-methods.md",
+        "references/workflow-and-gates.md"
+      ],
       "validation_level": "not_tested",
       "validation_evidence": [],
-      "limitations": ["The reporting contract is documented but not yet represented by an executable structured-synthesis schema."]
+      "limitations": [
+        "The reporting contract is documented but not yet represented by an executable structured-synthesis schema."
+      ]
     }
   ],
   "cross_cutting_capabilities": [
     {
       "capability_id": "topic_opportunity_control",
       "label": "Time-bounded evidence landscapes, review-opportunity gates, and diverse topic portfolios",
-      "stage_ids": ["topic_feasibility", "protocol_registration", "living_update"],
+      "stage_ids": [
+        "topic_feasibility",
+        "protocol_registration",
+        "living_update"
+      ],
       "implementation_level": "executable_component",
-      "evidence_paths": ["schemas/temporal_evidence_landscape.schema.json", "schemas/topic_proposal_batch.schema.json", "schemas/topic_candidate.schema.json", "schemas/topic_opportunity_decision.schema.json", "schemas/topic_rediscovery_case.schema.json", "schemas/topic_rediscovery_report.schema.json", "scripts/propose_topics.py", "scripts/select_topics.py", "scripts/evaluate_topic_rediscovery.py", "scripts/metawingman_core/topic_proposer.py", "scripts/metawingman_core/topic_opportunity.py", "scripts/metawingman_core/topic_rediscovery.py"],
+      "evidence_paths": [
+        "schemas/temporal_evidence_landscape.schema.json",
+        "schemas/topic_proposal_batch.schema.json",
+        "schemas/topic_candidate.schema.json",
+        "schemas/topic_opportunity_decision.schema.json",
+        "schemas/topic_rediscovery_case.schema.json",
+        "schemas/topic_rediscovery_report.schema.json",
+        "scripts/propose_topics.py",
+        "scripts/select_topics.py",
+        "scripts/evaluate_topic_rediscovery.py",
+        "scripts/metawingman_core/topic_proposer.py",
+        "scripts/metawingman_core/topic_opportunity.py",
+        "scripts/metawingman_core/topic_rediscovery.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["evidence-bound model proposal, frozen-policy portfolio, and sealed framework-concordance fixtures"],
-      "known_gaps": ["Graph extraction, independent review-overlap and feasibility retrieval, task-signal calibration, hard-negative controls, and prospective outcome follow-up remain pending."]
+      "validation_evidence": [
+        "evidence-bound model proposal, frozen-policy portfolio, and sealed framework-concordance fixtures"
+      ],
+      "known_gaps": [
+        "Graph extraction, independent review-overlap and feasibility retrieval, task-signal calibration, hard-negative controls, and prospective outcome follow-up remain pending."
+      ]
     },
     {
       "capability_id": "typed_state_and_events",
       "label": "Typed scientific state, events, hashes, and idempotency",
-      "stage_ids": ["topic_feasibility", "protocol_registration", "search_retrieval", "selection", "data_lineage", "appraisal", "freeze_synthesis", "certainty_interpretation", "reporting_review", "living_update"],
+      "stage_ids": [
+        "topic_feasibility",
+        "protocol_registration",
+        "search_retrieval",
+        "selection",
+        "data_lineage",
+        "appraisal",
+        "freeze_synthesis",
+        "certainty_interpretation",
+        "reporting_review",
+        "living_update"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["schemas/review_state.schema.json", "schemas/event_ledger.schema.json", "scripts/record_event.py"],
+      "evidence_paths": [
+        "schemas/review_state.schema.json",
+        "schemas/event_ledger.schema.json",
+        "scripts/record_event.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["hash-chain, tampering, and idempotency fixtures"],
-      "known_gaps": ["Distributed queue and multi-user concurrency are not implemented."]
+      "validation_evidence": [
+        "hash-chain, tampering, and idempotency fixtures"
+      ],
+      "known_gaps": [
+        "Distributed queue and multi-user concurrency are not implemented."
+      ]
     },
     {
       "capability_id": "evidence_graph_lineage",
       "label": "Evidence anchors, assertions, and report-study-result lineage",
-      "stage_ids": ["search_retrieval", "selection", "data_lineage", "appraisal", "freeze_synthesis", "certainty_interpretation", "reporting_review", "living_update"],
+      "stage_ids": [
+        "search_retrieval",
+        "selection",
+        "data_lineage",
+        "appraisal",
+        "freeze_synthesis",
+        "certainty_interpretation",
+        "reporting_review",
+        "living_update"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["schemas/evidence_anchor.schema.json", "schemas/evidence_assertion.schema.json", "schemas/lineage_edge.schema.json", "scripts/inspect_graph.py"],
+      "evidence_paths": [
+        "schemas/evidence_anchor.schema.json",
+        "schemas/evidence_assertion.schema.json",
+        "schemas/lineage_edge.schema.json",
+        "scripts/inspect_graph.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["provenance graph fixtures"],
-      "known_gaps": ["Global cross-document constraint solving is pending."]
+      "validation_evidence": [
+        "provenance graph fixtures"
+      ],
+      "known_gaps": [
+        "Global cross-document constraint solving is pending."
+      ]
     },
     {
       "capability_id": "multimodal_document_state",
       "label": "Global PDF, text, page-image, table, supplement, and license state",
-      "stage_ids": ["search_retrieval", "selection", "data_lineage", "appraisal"],
+      "stage_ids": [
+        "search_retrieval",
+        "selection",
+        "data_lineage",
+        "appraisal"
+      ],
       "implementation_level": "executable_component",
-      "evidence_paths": ["schemas/document_state.schema.json", "scripts/ingest_document.py"],
+      "evidence_paths": [
+        "schemas/document_state.schema.json",
+        "scripts/ingest_document.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["document ingestion fixtures"],
-      "known_gaps": ["No bundled OCR/VLM model; field-level real-PDF ensemble benchmark pending."]
+      "validation_evidence": [
+        "document ingestion fixtures"
+      ],
+      "known_gaps": [
+        "No bundled OCR/VLM model; field-level real-PDF ensemble benchmark pending."
+      ]
     },
     {
       "capability_id": "conclusion_directed_acquisition",
       "label": "Criterion-level residual-risk and downstream-claim-impact acquisition control",
-      "stage_ids": ["protocol_registration", "search_retrieval", "selection", "freeze_synthesis", "certainty_interpretation"],
+      "stage_ids": [
+        "protocol_registration",
+        "search_retrieval",
+        "selection",
+        "freeze_synthesis",
+        "certainty_interpretation"
+      ],
       "implementation_level": "executable_component",
-      "evidence_paths": ["schemas/evidence_acquisition_state.schema.json", "schemas/evidence_acquisition_decision.schema.json", "scripts/plan_evidence_acquisition.py", "scripts/metawingman_core/evidence_acquisition.py"],
+      "evidence_paths": [
+        "schemas/evidence_acquisition_state.schema.json",
+        "schemas/evidence_acquisition_decision.schema.json",
+        "scripts/plan_evidence_acquisition.py",
+        "scripts/metawingman_core/evidence_acquisition.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["continue, stop-candidate, lawful-action abstention, and leakage fixtures"],
-      "known_gaps": ["Residual omission-risk and expected-impact calibration require held-out review families."]
+      "validation_evidence": [
+        "continue, stop-candidate, lawful-action abstention, and leakage fixtures"
+      ],
+      "known_gaps": [
+        "Residual omission-risk and expected-impact calibration require held-out review families."
+      ]
     },
     {
       "capability_id": "capability_routing",
       "label": "Capability-based models, test-time compute, and proposal-opposition-judge routing",
-      "stage_ids": ["topic_feasibility", "protocol_registration", "search_retrieval", "selection", "data_lineage", "appraisal", "certainty_interpretation", "reporting_review"],
+      "stage_ids": [
+        "topic_feasibility",
+        "protocol_registration",
+        "search_retrieval",
+        "selection",
+        "data_lineage",
+        "appraisal",
+        "certainty_interpretation",
+        "reporting_review"
+      ],
       "implementation_level": "executable_component",
-      "evidence_paths": ["schemas/model_registry.schema.json", "scripts/route_models.py", "scripts/metawingman_core/capability_router.py"],
+      "evidence_paths": [
+        "schemas/model_registry.schema.json",
+        "scripts/route_models.py",
+        "scripts/metawingman_core/capability_router.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["provider diversity and risk-tier routing fixtures"],
-      "known_gaps": ["The standalone skill uses the host model and cannot itself guarantee independent-provider diversity; task-specific calibration and a multimodal vision route remain pending."]
+      "validation_evidence": [
+        "provider diversity and risk-tier routing fixtures"
+      ],
+      "known_gaps": [
+        "The standalone skill uses the host model and cannot itself guarantee independent-provider diversity; task-specific calibration and a multimodal vision route remain pending."
+      ]
     },
     {
       "capability_id": "security_authority",
       "label": "Untrusted-document isolation and bounded scientific actions",
-      "stage_ids": ["search_retrieval", "selection", "data_lineage", "appraisal", "freeze_synthesis", "reporting_review", "living_update"],
+      "stage_ids": [
+        "search_retrieval",
+        "selection",
+        "data_lineage",
+        "appraisal",
+        "freeze_synthesis",
+        "reporting_review",
+        "living_update"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["schemas/scientific_action.schema.json", "scripts/guard_scientific_action.py", "scripts/metawingman_core/action_guard.py"],
+      "evidence_paths": [
+        "schemas/scientific_action.schema.json",
+        "scripts/guard_scientific_action.py",
+        "scripts/metawingman_core/action_guard.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["prompt-injection, authority, and poisoned-retrieval fixtures"],
-      "known_gaps": ["No claim of robustness to unseen attacks or provider-side compromise."]
+      "validation_evidence": [
+        "prompt-injection, authority, and poisoned-retrieval fixtures"
+      ],
+      "known_gaps": [
+        "No claim of robustness to unseen attacks or provider-side compromise."
+      ]
     },
     {
       "capability_id": "lawful_access_credentials",
       "label": "Lawful retrieval, credential boundaries, and secret-free artifacts",
-      "stage_ids": ["topic_feasibility", "protocol_registration", "search_retrieval", "selection", "data_lineage", "appraisal", "freeze_synthesis", "certainty_interpretation", "reporting_review", "living_update"],
+      "stage_ids": [
+        "topic_feasibility",
+        "protocol_registration",
+        "search_retrieval",
+        "selection",
+        "data_lineage",
+        "appraisal",
+        "freeze_synthesis",
+        "certainty_interpretation",
+        "reporting_review",
+        "living_update"
+      ],
       "implementation_level": "executable_component",
-      "evidence_paths": ["schemas/credential_capabilities.schema.json", "scripts/download_open_access.py", "references/search-retrieval-and-apis.md"],
+      "evidence_paths": [
+        "schemas/credential_capabilities.schema.json",
+        "scripts/download_open_access.py",
+        "references/search-retrieval-and-apis.md"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["credential capability scaffold validation and environment-only literature-service configuration fixtures"],
-      "known_gaps": ["Licensed vendor integrations remain human export handoffs; the skill contains no direct model-provider credential manager."]
+      "validation_evidence": [
+        "credential capability scaffold validation and environment-only literature-service configuration fixtures"
+      ],
+      "known_gaps": [
+        "Licensed vendor integrations remain human export handoffs; the skill contains no direct model-provider credential manager."
+      ]
     },
     {
       "capability_id": "deterministic_verification",
       "label": "Schema, numeric, method, and citation verifiers",
-      "stage_ids": ["protocol_registration", "search_retrieval", "selection", "data_lineage", "appraisal", "freeze_synthesis", "certainty_interpretation", "reporting_review", "living_update"],
+      "stage_ids": [
+        "protocol_registration",
+        "search_retrieval",
+        "selection",
+        "data_lineage",
+        "appraisal",
+        "freeze_synthesis",
+        "certainty_interpretation",
+        "reporting_review",
+        "living_update"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["scripts/validate_project.py", "scripts/recalculate_effect.py", "scripts/verify_citations.py"],
+      "evidence_paths": [
+        "scripts/validate_project.py",
+        "scripts/recalculate_effect.py",
+        "scripts/verify_citations.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["schema, effect-equivalence, and citation fixtures"],
-      "known_gaps": ["External package cross-checks and clean-room environment reproduction need expansion."]
+      "validation_evidence": [
+        "schema, effect-equivalence, and citation fixtures"
+      ],
+      "known_gaps": [
+        "External package cross-checks and clean-room environment reproduction need expansion."
+      ]
     },
     {
       "capability_id": "judgment_dossiers",
       "label": "Evidence-grounded appraisal, missing-evidence, poolability, and certainty dossiers",
-      "stage_ids": ["appraisal", "freeze_synthesis", "certainty_interpretation"],
+      "stage_ids": [
+        "appraisal",
+        "freeze_synthesis",
+        "certainty_interpretation"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["scripts/build_judgment_dossier.py", "scripts/build_poolability_matrix.py", "scripts/check_grade_threshold.py"],
+      "evidence_paths": [
+        "scripts/build_judgment_dossier.py",
+        "scripts/build_poolability_matrix.py",
+        "scripts/check_grade_threshold.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["judgment workbench fixtures"],
-      "known_gaps": ["Broader profile-specific appraisal and certainty adapters are pending."]
+      "validation_evidence": [
+        "judgment workbench fixtures"
+      ],
+      "known_gaps": [
+        "Broader profile-specific appraisal and certainty adapters are pending."
+      ]
     },
     {
       "capability_id": "claim_compilation",
       "label": "Evidence-, number-, certainty-, and threshold-constrained claims",
-      "stage_ids": ["certainty_interpretation", "reporting_review", "living_update"],
+      "stage_ids": [
+        "certainty_interpretation",
+        "reporting_review",
+        "living_update"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["schemas/claim.schema.json", "scripts/compile_claim.py", "scripts/metawingman_core/claim_compiler.py"],
+      "evidence_paths": [
+        "schemas/claim.schema.json",
+        "scripts/compile_claim.py",
+        "scripts/metawingman_core/claim_compiler.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["unsupported-number and overclaim rejection fixtures"],
-      "known_gaps": ["Manuscript-wide contradiction and changed-artifact compilation are pending."]
+      "validation_evidence": [
+        "unsupported-number and overclaim rejection fixtures"
+      ],
+      "known_gaps": [
+        "Manuscript-wide contradiction and changed-artifact compilation are pending."
+      ]
     },
     {
       "capability_id": "ai_review_revision",
       "label": "Independent reviewer lenses and changed-artifact revision trace",
-      "stage_ids": ["reporting_review"],
+      "stage_ids": [
+        "reporting_review"
+      ],
       "implementation_level": "documented",
-      "evidence_paths": ["references/reviewer-and-integrity.md", "references/writing-style.md"],
+      "evidence_paths": [
+        "references/reviewer-and-integrity.md",
+        "references/writing-style.md"
+      ],
       "validation_level": "not_tested",
       "validation_evidence": [],
-      "known_gaps": ["No executable finding-to-patch-to-verdict state machine yet."]
+      "known_gaps": [
+        "No executable finding-to-patch-to-verdict state machine yet."
+      ]
     },
     {
       "capability_id": "living_change_impact",
       "label": "Versioned source deltas and dependency-scoped rerun plans",
-      "stage_ids": ["search_retrieval", "data_lineage", "appraisal", "freeze_synthesis", "certainty_interpretation", "reporting_review", "living_update"],
+      "stage_ids": [
+        "search_retrieval",
+        "data_lineage",
+        "appraisal",
+        "freeze_synthesis",
+        "certainty_interpretation",
+        "reporting_review",
+        "living_update"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["scripts/living_update.py", "scripts/metawingman_core/living_update.py"],
+      "evidence_paths": [
+        "scripts/living_update.py",
+        "scripts/metawingman_core/living_update.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["living graph-impact fixtures"],
-      "known_gaps": ["Prospective equivalence to full reruns remains untested."]
+      "validation_evidence": [
+        "living graph-impact fixtures"
+      ],
+      "known_gaps": [
+        "Prospective equivalence to full reruns remains untested."
+      ]
     },
     {
       "capability_id": "counterfactual_protocol_replay",
       "label": "Single-change protocol stress tests and replay-supported software error attribution",
-      "stage_ids": ["protocol_registration", "selection", "data_lineage", "appraisal", "freeze_synthesis", "certainty_interpretation", "reporting_review"],
+      "stage_ids": [
+        "protocol_registration",
+        "selection",
+        "data_lineage",
+        "appraisal",
+        "freeze_synthesis",
+        "certainty_interpretation",
+        "reporting_review"
+      ],
       "implementation_level": "executable_component",
-      "evidence_paths": ["schemas/protocol_counterfactual_case.schema.json", "schemas/causal_replay_report.schema.json", "scripts/evaluate_causal_replay.py", "scripts/metawingman_core/causal_replay.py"],
+      "evidence_paths": [
+        "schemas/protocol_counterfactual_case.schema.json",
+        "schemas/causal_replay_report.schema.json",
+        "scripts/evaluate_causal_replay.py",
+        "scripts/metawingman_core/causal_replay.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["single-change, sealed-boundary, earliest-event, recovery, and event-order fixtures"],
-      "known_gaps": ["No real-review counterfactual set derived from integrity-audited published expert artifacts or prospective intervention replay has passed; attribution is limited to the sealed software execution graph."]
+      "validation_evidence": [
+        "single-change, sealed-boundary, earliest-event, recovery, and event-order fixtures"
+      ],
+      "known_gaps": [
+        "No real-review counterfactual set derived from integrity-audited published expert artifacts or prospective intervention replay has passed; attribution is limited to the sealed software execution graph."
+      ]
     },
     {
       "capability_id": "ai_only_benchmarking",
       "label": "Sealed AI-only repeated runs, review-family splits, cost, reliability, and error attribution",
-      "stage_ids": ["topic_feasibility", "protocol_registration", "search_retrieval", "selection", "data_lineage", "appraisal", "freeze_synthesis", "certainty_interpretation", "reporting_review", "living_update"],
+      "stage_ids": [
+        "topic_feasibility",
+        "protocol_registration",
+        "search_retrieval",
+        "selection",
+        "data_lineage",
+        "appraisal",
+        "freeze_synthesis",
+        "certainty_interpretation",
+        "reporting_review",
+        "living_update"
+      ],
       "implementation_level": "workflow_integrated",
-      "evidence_paths": ["schemas/ai_only_evaluation_plan.schema.json", "schemas/ai_only_run_record.schema.json", "scripts/evaluate_ai_only.py", "scripts/package_benchmark.py"],
+      "evidence_paths": [
+        "schemas/ai_only_evaluation_plan.schema.json",
+        "schemas/ai_only_run_record.schema.json",
+        "scripts/evaluate_ai_only.py",
+        "scripts/package_benchmark.py"
+      ],
       "validation_level": "fixture_tested",
-      "validation_evidence": ["AI-only evaluator and benchmark packaging fixtures"],
-      "known_gaps": ["No frozen hosted-model run or held-out published reconstruction has passed yet."]
+      "validation_evidence": [
+        "AI-only evaluator and benchmark packaging fixtures"
+      ],
+      "known_gaps": [
+        "No frozen hosted-model run or held-out published reconstruction has passed yet."
+      ]
     }
   ]
 }
