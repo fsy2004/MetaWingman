@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/agent_observation.schema.json",
+  "title": "MetaWingman bounded agent observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "observation_id", "task_id", "source", "content_sha256",
+    "media_type", "excerpts", "facts", "security", "truncation",
+    "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "observation_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "task_id": {"type": "string", "minLength": 1},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "trust", "uri", "tool", "tool_version"],
+      "properties": {
+        "type": {
+          "enum": [
+            "system_state", "frozen_protocol", "user_artifact", "public_retrieval",
+            "licensed_retrieval", "untrusted_document", "tool_output"
+          ]
+        },
+        "trust": {"enum": ["trusted_control", "trusted_data", "untrusted_data"]},
+        "uri": {"type": ["string", "null"]},
+        "tool": {"type": "string", "minLength": 1},
+        "tool_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "content_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "media_type": {"type": "string", "minLength": 1},
+    "excerpts": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["excerpt_id", "text", "page", "anchor_id"],
+        "properties": {
+          "excerpt_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "text": {"type": "string", "maxLength": 2000},
+          "page": {"type": ["integer", "null"], "minimum": 1},
+          "anchor_id": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "facts": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "value", "anchor_ids", "confidence"],
+        "properties": {
+          "field": {"type": "string", "minLength": 1},
+          "value": {},
+          "anchor_ids": {
+            "type": "array",
+            "items": {"type": "string", "minLength": 1},
+            "uniqueItems": true
+          },
+          "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instruction_like_content_detected", "signal_codes", "quarantined",
+        "allowed_interpretation"
+      ],
+      "properties": {
+        "instruction_like_content_detected": {"type": "boolean"},
+        "signal_codes": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "uniqueItems": true
+        },
+        "quarantined": {"type": "boolean"},
+        "allowed_interpretation": {"const": "evidence_data_only"}
+      }
+    },
+    "truncation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["original_bytes", "included_bytes", "strategy"],
+      "properties": {
+        "original_bytes": {"type": "integer", "minimum": 0},
+        "included_bytes": {"type": "integer", "minimum": 0},
+        "strategy": {"enum": ["none", "head", "selected_anchors", "structured_summary"]}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "user_artifact", "public_retrieval", "licensed_retrieval",
+                  "untrusted_document", "tool_output"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "source": {"properties": {"trust": {"enum": ["trusted_data", "untrusted_data"]}}}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "security": {"properties": {"instruction_like_content_detected": {"const": true}}}
+        }
+      },
+      "then": {
+        "properties": {
+          "security": {
+            "properties": {
+              "signal_codes": {"minItems": 1},
+              "quarantined": {"const": true}
+            }
+          }
+        }
+      }
+    }
+  ]
+}

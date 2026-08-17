@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "r_version_tested": "4.4.3",
+  "repository": "https://cloud.r-project.org",
+  "packages": {
+    "EValue": "4.1.4",
+    "RTSA": "0.2.2",
+    "bayesmeta": "3.5",
+    "clubSandwich": "0.7.0",
+    "dosresmeta": "2.2.0",
+    "estmeansd": "1.0.1",
+    "ggplot2": "4.0.3",
+    "gridExtra": "2.3",
+    "mada": "0.5.12",
+    "meta": "8.5-0",
+    "metafor": "5.0-1",
+    "metasens": "1.5-3",
+    "netmeta": "3.5-0",
+    "pdftools": "3.8.0",
+    "rms": "8.1-1",
+    "robumeta": "2.1",
+    "robvis": "0.3.1"
+  }
+}

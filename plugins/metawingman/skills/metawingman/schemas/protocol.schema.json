@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/protocol.schema.json",
+  "title": "MetaWingman typed protocol",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "protocol_id", "protocol_version", "status", "profile_id",
+    "decision_context", "review_questions", "synthesis_questions", "outcome_hierarchy",
+    "criteria_artifact", "source_plan", "amendment_policy", "created_at_utc",
+    "frozen_at_utc", "frozen_by"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "protocol_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "protocol_version": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "frozen", "amended", "retired"]},
+    "profile_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "decision_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "stakeholders", "setting", "intended_use"],
+      "properties": {
+        "decision": {"type": "string"},
+        "stakeholders": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "setting": {"type": "string"},
+        "intended_use": {"type": "string"}
+      }
+    },
+    "review_questions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/review_question"}
+    },
+    "synthesis_questions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/synthesis_question"}
+    },
+    "outcome_hierarchy": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/outcome"}
+    },
+    "criteria_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "schema", "status", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "schema": {"const": "protocol_criteria"},
+        "status": {"enum": ["draft", "frozen", "amended"]},
+        "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "source_plan": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "source_type", "database", "platform", "access_route", "required", "query_file", "coverage"],
+        "properties": {
+          "source_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "source_type": {"enum": ["bibliographic_database", "trial_registry", "grey_literature", "citation_search", "website", "other"]},
+          "database": {"type": "string", "minLength": 1},
+          "platform": {"type": "string"},
+          "access_route": {"enum": ["public_api", "user_export", "credentialed_browser_handoff", "manual", "other"]},
+          "required": {"type": "boolean"},
+          "query_file": {"type": "string"},
+          "coverage": {"type": "string"}
+        }
+      }
+    },
+    "amendment_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["freeze_trigger", "prospective_change_rule", "post_hoc_label_required", "rerun_impact_analysis"],
+      "properties": {
+        "freeze_trigger": {"type": "string"},
+        "prospective_change_rule": {"type": "string"},
+        "post_hoc_label_required": {"type": "boolean"},
+        "rerun_impact_analysis": {"type": "boolean"}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "frozen_at_utc": {"type": ["string", "null"], "format": "date-time"},
+    "frozen_by": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"enum": ["frozen", "amended"]}}},
+      "then": {
+        "properties": {
+          "review_questions": {"minItems": 1},
+          "synthesis_questions": {"minItems": 1},
+          "outcome_hierarchy": {"minItems": 1},
+          "source_plan": {"minItems": 1},
+          "criteria_artifact": {
+            "properties": {
+              "status": {"enum": ["frozen", "amended"]},
+              "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+            }
+          },
+          "frozen_at_utc": {"type": "string", "format": "date-time"},
+          "frozen_by": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "review_question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question_id", "objective", "framework", "dimensions"],
+      "properties": {
+        "question_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "objective": {"type": "string", "minLength": 1},
+        "framework": {"enum": ["PICO", "PECO", "PIRD", "PICOTS", "PCC", "SPIDER", "custom"]},
+        "dimensions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "value", "operational_definition"],
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "value": {"type": "string", "minLength": 1},
+              "operational_definition": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "synthesis_question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "synthesis_id", "review_question_ids", "population", "contrast", "outcome_id",
+        "time_window", "effect_measure", "estimand", "decision_thresholds", "poolability_rule"
+      ],
+      "properties": {
+        "synthesis_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "review_question_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "population": {"type": "string", "minLength": 1},
+        "contrast": {"type": "string", "minLength": 1},
+        "outcome_id": {"type": "string", "minLength": 1},
+        "time_window": {"type": "string", "minLength": 1},
+        "effect_measure": {"type": "string", "minLength": 1},
+        "estimand": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["estimand_id", "target_population", "contrast", "outcome", "time_horizon", "population_summary", "analysis_unit", "conditioning_set"],
+          "properties": {
+            "estimand_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+            "target_population": {"type": "string", "minLength": 1},
+            "contrast": {"type": "string", "minLength": 1},
+            "outcome": {"type": "string", "minLength": 1},
+            "time_horizon": {"type": "string", "minLength": 1},
+            "population_summary": {"type": "string", "minLength": 1},
+            "analysis_unit": {"type": "string", "minLength": 1},
+            "conditioning_set": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+          }
+        },
+        "decision_thresholds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["threshold_id", "type", "value", "unit", "direction", "rationale"],
+            "properties": {
+              "threshold_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+              "type": {"enum": ["minimal_importance", "equivalence", "noninferiority", "decision", "probability", "other"]},
+              "value": {"not": {"type": "null"}},
+              "unit": {"type": ["string", "null"]},
+              "direction": {"enum": ["greater", "less", "inside", "outside", "two_sided", "not_applicable"]},
+              "rationale": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "poolability_rule": {"type": "string", "minLength": 1}
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome_id", "label", "role", "construct", "preferred_measures", "time_windows", "result_selection_rule"],
+      "properties": {
+        "outcome_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "label": {"type": "string", "minLength": 1},
+        "role": {"enum": ["primary", "secondary", "harms", "exploratory"]},
+        "construct": {"type": "string", "minLength": 1},
+        "preferred_measures": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "time_windows": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "result_selection_rule": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

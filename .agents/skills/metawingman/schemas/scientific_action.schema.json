@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/scientific_action.schema.json",
+  "title": "MetaWingman scientific action request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "action_id", "action_type", "stage", "risk_class", "instruction_source", "requested_by", "input_sha256", "idempotency_key", "evidence_anchor_ids", "human_approval"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "action_id": {"type": "string", "minLength": 1},
+    "action_type": {
+      "enum": [
+        "read_public_metadata",
+        "import_user_artifact",
+        "retrieve_open_access",
+        "rank_records",
+        "propose_screening",
+        "propose_extraction",
+        "run_analysis",
+        "draft_claim",
+        "credentialed_browser_handoff",
+        "finalize_exclusion",
+        "freeze_protocol",
+        "finalize_risk_of_bias",
+        "finalize_grade",
+        "decide_poolability",
+        "submit_external"
+      ]
+    },
+    "stage": {"type": "integer", "minimum": 0, "maximum": 9},
+    "risk_class": {"enum": ["low", "medium", "high", "irreversible"]},
+    "instruction_source": {"enum": ["user", "system", "protocol", "agent", "untrusted_document"]},
+    "requested_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id"],
+      "properties": {
+        "type": {"enum": ["human", "model", "system"]},
+        "id": {"type": "string", "minLength": 1}
+      }
+    },
+    "input_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "idempotency_key": {"type": "string", "minLength": 1},
+    "evidence_anchor_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "human_approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "approved_by", "approved_at_utc", "scope"],
+      "properties": {
+        "status": {"enum": ["not_required", "pending", "approved", "rejected"]},
+        "approved_by": {"type": "string"},
+        "approved_at_utc": {"type": "string"},
+        "scope": {"type": "string"}
+      }
+    }
+  }
+}

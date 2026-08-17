@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/training_example.schema.json",
+  "title": "MetaWingman source-anchored weak-supervision training example",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "example_id", "document_id", "record_id", "family_id", "split", "task", "instruction", "input_text", "target", "evidence_anchor", "label_status", "gold_label", "content_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "example_id": {"type": "string", "pattern": "^example:[a-f0-9]{20}$"},
+    "document_id": {"type": "string", "pattern": "^training-document:"},
+    "record_id": {"type": "string", "pattern": "^epmc:"},
+    "family_id": {"type": "string", "pattern": "^family:"},
+    "split": {"enum": ["train", "development"]},
+    "task": {"enum": ["section_role_classification", "evidence_retrieval"]},
+    "instruction": {"type": "string", "minLength": 1},
+    "input_text": {"type": "string", "minLength": 1},
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["section_role", "section_title"],
+      "properties": {
+        "section_role": {"enum": ["search", "eligibility", "selection", "extraction", "appraisal", "synthesis", "certainty", "protocol"]},
+        "section_title": {"type": "string", "minLength": 1}
+      }
+    },
+    "evidence_anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_sha256", "section_path", "section_index", "source_text_sha256"],
+      "properties": {
+        "artifact_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "section_path": {"type": "string", "minLength": 1},
+        "section_index": {"type": "integer", "minimum": 1},
+        "source_text_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "label_status": {"const": "deterministic_weak_supervision_requires_independent_validation"},
+    "gold_label": {"const": false},
+    "content_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

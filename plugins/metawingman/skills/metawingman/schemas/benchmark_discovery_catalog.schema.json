@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/benchmark_discovery_catalog.schema.json",
+  "title": "MetaWingman broad published-meta reproduction discovery catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "verified_at_utc", "admission_policy", "candidates"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "verified_at_utc": {"type": "string", "format": "date-time"},
+    "admission_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["broad_component_admission", "formal_identity_required", "promotion_requires_strict_registry", "journal_name_is_not_material_completeness"],
+      "properties": {
+        "broad_component_admission": {"const": true},
+        "formal_identity_required": {"const": true},
+        "promotion_requires_strict_registry": {"const": true},
+        "journal_name_is_not_material_completeness": {"const": true}
+      }
+    },
+    "candidates": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": [
+          "candidate_id", "title", "publication", "venue_band", "review_type",
+          "temporal_boundaries", "materials", "usable_for", "reproduction_ceiling",
+          "priority", "promotion_gaps"
+        ],
+        "properties": {
+          "candidate_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "title": {"type": "string", "minLength": 1},
+          "publication": {
+            "type": "object", "additionalProperties": false,
+            "required": ["doi", "year", "venue", "pmcid", "url"],
+            "properties": {
+              "doi": {"type": "string", "pattern": "^10\\."},
+              "year": {"type": "integer", "minimum": 2000},
+              "venue": {"type": "string", "minLength": 1},
+              "pmcid": {"type": "string", "pattern": "^PMC[0-9]+$"},
+              "url": {"type": "string", "format": "uri"}
+            }
+          },
+          "venue_band": {"enum": ["general_medical", "multidisciplinary", "high_transparency_medical", "methods_meta_research"]},
+          "review_type": {"enum": ["pairwise", "network", "diagnostic", "ipd", "living_network", "living_diagnostic", "meta_regression", "meta_research"]},
+          "temporal_boundaries": {
+            "type": "array",
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["kind", "value", "precision", "source_note"],
+              "properties": {
+                "kind": {"enum": ["search_cutoff", "update_cutoff", "data_access_cutoff"]},
+                "value": {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$"},
+                "precision": {"enum": ["day", "month", "year"]},
+                "source_note": {"type": "string", "minLength": 1}
+              }
+            }
+          },
+          "materials": {
+            "type": "array", "minItems": 1,
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["kind", "url", "access", "license_status"],
+              "properties": {
+                "kind": {"enum": ["github", "zenodo", "osf", "dataverse", "article_source_data", "controlled_repository"]},
+                "url": {"type": "string", "format": "uri"},
+                "access": {"enum": ["open", "controlled", "mixed"]},
+                "license_status": {"enum": ["verified_open", "repository_review_required", "controlled_terms", "article_terms"]}
+              }
+            }
+          },
+          "usable_for": {
+            "type": "array", "minItems": 1, "uniqueItems": true,
+            "items": {"enum": ["screening", "lineage", "extraction", "appraisal", "analysis", "living_update", "ipd_workflow", "reporting_audit"]}
+          },
+          "reproduction_ceiling": {"enum": ["analysis_only", "extraction_to_analysis", "screening_to_analysis", "living_update", "controlled_ipd_analysis", "end_to_end_candidate"]},
+          "priority": {"enum": ["high", "medium", "watch"]},
+          "promotion_gaps": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+        }
+      }
+    }
+  }
+}

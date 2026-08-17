@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "pack_id": "carbon-pricing-screening",
+  "candidate_ids": ["carbon-pricing-screening-meta"],
+  "review_family_id": "carbon-pricing-ex-post",
+  "supported_scopes": ["screening", "extraction", "analysis"],
+  "reproduction_ceiling": "screening_to_analysis",
+  "status": "blocked",
+  "historical_boundaries": [],
+  "license_assessment": {
+    "pack_redistributable": false,
+    "reviewed_at_utc": "2026-08-13T10:00:00Z",
+    "notes": "The pinned GitHub tree has no license file. Files remain metadata-only until the authors or repository provide explicit reuse terms."
+  },
+  "artifacts": [
+    {
+      "artifact_id": "carbon-readme", "role": "documentation", "artifact_type": "readme",
+      "source_url": "https://raw.githubusercontent.com/doebbeling/carbon_pricing_effectiveness/75b82e530f199884856967245fad6ad3a1572132/README.md",
+      "immutable_revision": "75b82e530f199884856967245fad6ad3a1572132", "destination": "carbon-pricing-screening/documentation/README.md",
+      "expected_sha256": "e924399b9ea423637999f0257ab6446e3260ea69f468f521eaeadb4ea0292a99", "expected_bytes": 3827,
+      "license": {"status": "repository_review_required", "identifier": "NOASSERTION", "redistributable": false, "evidence_url": "https://github.com/doebbeling/carbon_pricing_effectiveness/tree/75b82e530f199884856967245fad6ad3a1572132"},
+      "temporal_relation": "unresolved", "contains_answer": false, "retrieval_policy": "metadata_only", "notes": "Describes the released screening and analysis assets."
+    },
+    {
+      "artifact_id": "carbon-analysis-code", "role": "operational_input", "artifact_type": "analysis_code",
+      "source_url": "https://raw.githubusercontent.com/doebbeling/carbon_pricing_effectiveness/75b82e530f199884856967245fad6ad3a1572132/meta_analysis.R",
+      "immutable_revision": "75b82e530f199884856967245fad6ad3a1572132", "destination": "carbon-pricing-screening/operational/meta_analysis.R",
+      "expected_sha256": "8a515004bc4b0f702803d6a1f97319bb1b906827102c2b21aaadafecf016fd50", "expected_bytes": 11320,
+      "license": {"status": "repository_review_required", "identifier": "NOASSERTION", "redistributable": false, "evidence_url": "https://github.com/doebbeling/carbon_pricing_effectiveness/tree/75b82e530f199884856967245fad6ad3a1572132"},
+      "temporal_relation": "unresolved", "contains_answer": false, "retrieval_policy": "metadata_only", "notes": "Pinned code, held until reuse terms are resolved."
+    },
+    {
+      "artifact_id": "carbon-screening-reference", "role": "sealed_reference", "artifact_type": "screening_reference",
+      "source_url": "https://raw.githubusercontent.com/doebbeling/carbon_pricing_effectiveness/75b82e530f199884856967245fad6ad3a1572132/screening_data.csv",
+      "immutable_revision": "75b82e530f199884856967245fad6ad3a1572132", "destination": "carbon-pricing-screening/sealed-reference/screening_data.csv",
+      "expected_sha256": "5be8b3265d24bbc4dd2dd64251995f109fc18bb8ca16e07b33bde0789fc24b8d", "expected_bytes": 5767505,
+      "license": {"status": "repository_review_required", "identifier": "NOASSERTION", "redistributable": false, "evidence_url": "https://github.com/doebbeling/carbon_pricing_effectiveness/tree/75b82e530f199884856967245fad6ad3a1572132"},
+      "temporal_relation": "unresolved", "contains_answer": true, "retrieval_policy": "metadata_only", "notes": "Answer-bearing screening labels; also blocked by missing license and unresolved cutoff."
+    }
+  ],
+  "blockers": ["Resolve the exact search cutoff.", "Obtain explicit artifact reuse terms.", "Audit screening_data.csv coverage and label semantics before benchmark promotion."]
+}

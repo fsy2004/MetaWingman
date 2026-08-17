@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "pack_id": "biomedical-foundation",
+  "pack_type": "foundation",
+  "version": "1.0.0",
+  "status": "active",
+  "application_domain": "human_health_clinical_translational_biomedicine",
+  "supported_review_families": [
+    "intervention",
+    "network",
+    "diagnostic",
+    "prognostic",
+    "prediction-model",
+    "etiology",
+    "prevalence",
+    "incidence",
+    "harms",
+    "dose-response",
+    "ipd",
+    "measurement",
+    "scoping",
+    "qualitative",
+    "mixed-methods",
+    "economic",
+    "umbrella",
+    "rapid",
+    "living",
+    "prospective",
+    "other"
+  ],
+  "specialties": [],
+  "capabilities": [
+    "terminology_normalization",
+    "source_selection",
+    "ood_detection",
+    "domain_routing"
+  ],
+  "terminology_releases": [],
+  "authority_sources": [
+    {
+      "source_id": "methodology-source-registry",
+      "path": "references/methodology-source-registry.md",
+      "version": "2026-08-15",
+      "content_sha256": "4d71eb1352e6e221751c61cb4368bbac35a23b97ee2c793fd7eb5dc3e1c2df4f",
+      "verified_at_utc": "2026-08-15T00:00:00Z"
+    }
+  ],
+  "dependencies": [],
+  "constraints": {
+    "may_override_protocol": false,
+    "may_override_authority": false,
+    "may_override_estimand": false,
+    "may_grant_tool_permissions": false,
+    "may_promote_model_output_to_gold": false
+  },
+  "validation": {
+    "level": "fixture_tested",
+    "evidence": [
+      "tests/test_biomedical_application_contract.py"
+    ]
+  },
+  "content_sha256": "f7fd6908336e091a646903a80d9c6b558cfabcd55afd666ce620f3d2766b06d3"
+}

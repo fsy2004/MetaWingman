@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0",
+  "verified_at_utc": "2026-08-13T08:00:00Z",
+  "selection_policy": {
+    "reference_is_not_oracle": true,
+    "published_expert_reference": true,
+    "no_de_novo_human_adjudication": true,
+    "verified_corrections_only": true,
+    "unresolved_integrity_blocks_held_out": true,
+    "family_split_required": true,
+    "answer_sealing_required": true,
+    "license_review_required": true
+  },
+  "candidates": [
+    {
+      "candidate_id": "taar1-living-human",
+      "title": "Trace amine-associated receptor 1 agonism for psychosis: a living systematic review and meta-analysis of human and non-human data",
+      "review_family_id": "taar1-psychosis-living",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.12688/wellcomeopenres.21302.1",
+        "year": 2024,
+        "venue": "Wellcome Open Research",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11258611/"
+      },
+      "repository": {
+        "url": "https://github.com/galenos-project/LSR3_taar1_H",
+        "commit_sha": "ee29722404b75378af1888a92913e57c7802ed67",
+        "commit_date_utc": "2026-05-22T10:19:54Z"
+      },
+      "historical_cutoffs": ["2023-11-17", "2025-08-25"],
+      "supported_scopes": ["lineage", "extraction", "appraisal", "analysis", "living_update"],
+      "material_coverage": {
+        "protocol": "linked", "search_strategy": "linked", "search_export": "unverified",
+        "screening_labels": "partial", "extraction": "present", "appraisal": "present",
+        "analysis_code": "present", "source_reports": "lawful_routes_only"
+      },
+      "license_status": "redistributable_verified",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11258611/",
+          "supports": "Article identity, DOI, first-iteration human search cutoff of 2023-11-17, protocol registration, and methods."
+        },
+        {
+          "source_type": "repository",
+          "url": "https://github.com/galenos-project/LSR3_taar1_H/tree/ee29722404b75378af1888a92913e57c7802ed67",
+          "supports": "First and updated analysis artifacts, 2025-08-25 update cutoff, and executable R materials."
+        },
+        {
+          "source_type": "license",
+          "url": "https://github.com/galenos-project/LSR3_taar1_H/blob/ee29722404b75378af1888a92913e57c7802ed67/LICENSE.txt",
+          "supports": "Repository-level CC BY 4.0 declaration."
+        }
+      ],
+      "contamination_controls": {
+        "seal_published_answers": true, "seal_post_cutoff_evidence": true, "pin_repository_commit": true
+      },
+      "eligibility": "priority_pilot",
+      "blockers": [
+        "Archive immutable first-iteration and update snapshots separately.",
+        "Verify whether complete database search exports and exclusion labels are available before adding search or screening scope.",
+        "Build lawful source-report manifests; repository data do not grant rights to redistribute every cited report."
+      ]
+    },
+    {
+      "candidate_id": "lbw-adiponectin",
+      "title": "Is low birth weight associated with lower adiponectin levels? A systematic review and meta-analysis",
+      "review_family_id": "birthweight-adiponectin",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1371/journal.pone.0335598",
+        "year": 2025,
+        "venue": "PLOS ONE",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12671802/"
+      },
+      "repository": {
+        "url": "https://github.com/TT2DR-StenoDiabetesCenterCopenhagen/Systematic_review_and_meta-analysis_adiponectin",
+        "commit_sha": "c37eba16db7f40e57e9c1ad4f44cc8f88027ce9f",
+        "commit_date_utc": "2025-04-14T06:51:31Z"
+      },
+      "historical_cutoffs": ["2024-07-04"],
+      "supported_scopes": ["screening", "analysis"],
+      "material_coverage": {
+        "protocol": "linked", "search_strategy": "present", "search_export": "present",
+        "screening_labels": "present", "extraction": "partial", "appraisal": "linked",
+        "analysis_code": "present", "source_reports": "lawful_routes_only"
+      },
+      "license_status": "review_required",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12671802/",
+          "supports": "Article identity, DOI, PROSPERO ID, 2024-07-04 search date, methods, and linked supplements."
+        },
+        {
+          "source_type": "repository",
+          "url": "https://github.com/TT2DR-StenoDiabetesCenterCopenhagen/Systematic_review_and_meta-analysis_adiponectin/tree/c37eba16db7f40e57e9c1ad4f44cc8f88027ce9f",
+          "supports": "Screened-record workbook and analysis materials at a pinned commit."
+        }
+      ],
+      "contamination_controls": {
+        "seal_published_answers": true, "seal_post_cutoff_evidence": true, "pin_repository_commit": true
+      },
+      "eligibility": "component_candidate",
+      "blockers": [
+        "Obtain or clarify a license for repository spreadsheets and analysis code before redistribution.",
+        "Audit label semantics in the screened-record workbook before treating it as a reference standard."
+      ]
+    },
+    {
+      "candidate_id": "vaccine-uptake-nma",
+      "title": "Recipient-focused interventions to increase vaccine uptake in high and upper-middle income countries: a systematic review and network meta-analysis",
+      "review_family_id": "vaccine-uptake-interventions",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1016/j.eclinm.2025.103643",
+        "year": 2025,
+        "venue": "eClinicalMedicine",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12666792/"
+      },
+      "repository": {
+        "url": "https://github.com/AnnieDavies/VaccineReview",
+        "commit_sha": "96d56f69e758dadd99aa5e2e14d3ae5ccdc5f709",
+        "commit_date_utc": "2025-07-09T15:52:28Z"
+      },
+      "historical_cutoffs": ["2024-04-12", "2024-04-18", "2024-06-24"],
+      "supported_scopes": ["extraction", "appraisal", "analysis"],
+      "material_coverage": {
+        "protocol": "unverified", "search_strategy": "unverified", "search_export": "absent",
+        "screening_labels": "absent", "extraction": "present", "appraisal": "present",
+        "analysis_code": "present", "source_reports": "lawful_routes_only"
+      },
+      "license_status": "review_required",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12666792/",
+          "supports": "Final article identity, DOI, database-specific search dates, methods, and NMA scope."
+        },
+        {
+          "source_type": "repository",
+          "url": "https://github.com/AnnieDavies/VaccineReview/tree/96d56f69e758dadd99aa5e2e14d3ae5ccdc5f709",
+          "supports": "Extraction tables, overall risk-of-bias table, and analysis code at a pinned commit."
+        }
+      ],
+      "contamination_controls": {
+        "seal_published_answers": true, "seal_post_cutoff_evidence": true, "pin_repository_commit": true
+      },
+      "eligibility": "component_candidate",
+      "blockers": [
+        "Verify lineage between the repository's prerelease paper title and the final eClinicalMedicine article.",
+        "Obtain or clarify repository data and code licenses before redistribution.",
+        "Locate search exports and screening decisions before considering end-to-end use."
+      ]
+    },
+    {
+      "candidate_id": "avocado-cardiometabolic",
+      "title": "Avocado consumption favorably modifies lipid profiles, with pronounced effects in individuals with dyslipidemia: a systematic review and meta-analysis",
+      "review_family_id": "avocado-cardiometabolic",
+      "publication": {
+        "identity_status": "provisional",
+        "doi": null,
+        "year": null,
+        "venue": null,
+        "url": "https://doi.org/10.5281/zenodo.20620598"
+      },
+      "repository": {
+        "url": "https://github.com/jennifer-traverse/avocado-cardiometabolic-health-ma-data-repository",
+        "commit_sha": "f4cc45ce42a8ee867016b309d0b3c1d362558296",
+        "commit_date_utc": "2026-06-10T04:31:55Z"
+      },
+      "historical_cutoffs": [],
+      "supported_scopes": ["extraction", "appraisal", "analysis"],
+      "material_coverage": {
+        "protocol": "linked", "search_strategy": "unverified", "search_export": "absent",
+        "screening_labels": "partial", "extraction": "present", "appraisal": "present",
+        "analysis_code": "partial", "source_reports": "lawful_routes_only"
+      },
+      "license_status": "redistributable_verified",
+      "verification_sources": [
+        {
+          "source_type": "archive",
+          "url": "https://zenodo.org/records/20620598",
+          "supports": "Dataset identity, release date, version, related repository, and CC BY 4.0 archive license."
+        },
+        {
+          "source_type": "repository",
+          "url": "https://github.com/jennifer-traverse/avocado-cardiometabolic-health-ma-data-repository/tree/f4cc45ce42a8ee867016b309d0b3c1d362558296",
+          "supports": "PROSPERO ID, extracted data, exclusions, GRADE/RoB outputs, and code/material inventory."
+        },
+        {
+          "source_type": "license",
+          "url": "https://github.com/jennifer-traverse/avocado-cardiometabolic-health-ma-data-repository/blob/f4cc45ce42a8ee867016b309d0b3c1d362558296/LICENSE",
+          "supports": "Repository-wide CC BY 4.0 license statement."
+        }
+      ],
+      "contamination_controls": {
+        "seal_published_answers": true, "seal_post_cutoff_evidence": true, "pin_repository_commit": true
+      },
+      "eligibility": "hold",
+      "blockers": [
+        "Verify the final article DOI, venue, publication state, and search cutoff from a primary publication source.",
+        "Locate raw search exports before any search or screening benchmark use.",
+        "Separate sponsor-funded review-family conflicts and use only under a prespecified split."
+      ]
+    }
+  ]
+}

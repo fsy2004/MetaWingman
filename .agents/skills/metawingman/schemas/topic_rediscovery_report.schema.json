@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/topic_rediscovery_report.schema.json",
+  "title": "MetaWingman topic rediscovery evaluation report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "case_id", "reference_status", "venue_stratum", "top_k_hits",
+    "first_matching_rank", "best_candidate_id", "best_framework_similarity", "exact_framework_hit",
+    "best_field_similarities", "independence_claim_status", "reason_codes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "case_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "reference_status": {"enum": ["published_expert_reference", "published_corrected_reference"]},
+    "venue_stratum": {"enum": ["top_general", "top_field", "other_peer_reviewed", "prospective_not_published"]},
+    "top_k_hits": {"type": "object", "additionalProperties": {"type": "boolean"}},
+    "first_matching_rank": {"type": ["integer", "null"], "minimum": 1},
+    "best_candidate_id": {"type": "string"},
+    "best_framework_similarity": {"type": "number", "minimum": 0, "maximum": 1},
+    "exact_framework_hit": {"type": "boolean"},
+    "best_field_similarities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["population", "intervention_or_exposure", "comparator", "outcome", "study_design", "synthesis_route"],
+      "properties": {
+        "population": {"type": "number", "minimum": 0, "maximum": 1},
+        "intervention_or_exposure": {"type": "number", "minimum": 0, "maximum": 1},
+        "comparator": {"type": "number", "minimum": 0, "maximum": 1},
+        "outcome": {"type": "number", "minimum": 0, "maximum": 1},
+        "study_design": {"type": "number", "minimum": 0, "maximum": 1},
+        "synthesis_route": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "independence_claim_status": {"enum": ["supported", "not_supported"]},
+    "reason_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+  }
+}

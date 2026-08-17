@@ -1,0 +1,234 @@
+{
+  "schema_version": "1.0",
+  "verified_at_utc": "2026-08-13T08:00:00Z",
+  "admission_policy": {
+    "broad_component_admission": true,
+    "formal_identity_required": true,
+    "promotion_requires_strict_registry": true,
+    "journal_name_is_not_material_completeness": true
+  },
+  "candidates": [
+    {
+      "candidate_id": "bmj-covid-therapies-living-nma",
+      "title": "Antibody and cellular therapies for treatment of COVID-19: a living systematic review and network meta-analysis",
+      "publication": {"doi": "10.1136/bmj.n2231", "year": 2021, "venue": "BMJ", "pmcid": "PMC8459162", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8459162/"},
+      "venue_band": "general_medical", "review_type": "living_network",
+      "temporal_boundaries": [
+        {"kind": "search_cutoff", "value": "2021-02-20", "precision": "day", "source_note": "Chinese literature search cutoff."},
+        {"kind": "search_cutoff", "value": "2021-07-21", "precision": "day", "source_note": "WHO COVID-19 information-source cutoff."}
+      ],
+      "materials": [{"kind": "github", "url": "https://github.com/covid19lnma/covid19_lnma/tree/59f0716b482a05107787585bcb0023bfcf02933c", "access": "open", "license_status": "verified_open"}],
+      "usable_for": ["lineage", "extraction", "appraisal", "analysis", "living_update"],
+      "reproduction_ceiling": "living_update", "priority": "high",
+      "promotion_gaps": ["Inventory exact answer-bearing files for each article version.", "Verify whether screened-record exports are complete enough for screening evaluation."]
+    },
+    {
+      "candidate_id": "bmj-covid-vaccine-regimens-living-nma",
+      "title": "Effectiveness of heterologous and homologous COVID-19 vaccine regimens: living systematic review with network meta-analysis",
+      "publication": {"doi": "10.1136/bmj-2022-069989", "year": 2022, "venue": "BMJ", "pmcid": "PMC9724446", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9724446/"},
+      "venue_band": "general_medical", "review_type": "living_network",
+      "temporal_boundaries": [{"kind": "update_cutoff", "value": "2022-07-31", "precision": "day", "source_note": "Weekly living-search update cutoff reported in Methods."}],
+      "materials": [{"kind": "github", "url": "https://github.com/wyauac/NMA-of-heterologous-and-homologous-vaccine-effectiveness/tree/468cc98f1eec9051ea2db62becf6fb38f0e96d31", "access": "open", "license_status": "repository_review_required"}],
+      "usable_for": ["extraction", "analysis", "living_update"],
+      "reproduction_ceiling": "living_update", "priority": "high",
+      "promotion_gaps": ["Clarify repository license.", "Map versioned article updates to immutable data snapshots.", "Locate complete screening decisions if available."]
+    },
+    {
+      "candidate_id": "jme-drug-resistance-ipd",
+      "title": "Individualised prediction of drug resistance and seizure recurrence after medication withdrawal in people with juvenile myoclonic epilepsy: a systematic review and individual participant data meta-analysis",
+      "publication": {"doi": "10.1016/j.eclinm.2022.101732", "year": 2022, "venue": "eClinicalMedicine", "pmcid": "PMC9716332", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9716332/"},
+      "venue_band": "high_transparency_medical", "review_type": "ipd",
+      "temporal_boundaries": [],
+      "materials": [{"kind": "osf", "url": "https://osf.io/b9zjc/", "access": "mixed", "license_status": "repository_review_required"}],
+      "usable_for": ["lineage", "analysis", "ipd_workflow"],
+      "reproduction_ceiling": "controlled_ipd_analysis", "priority": "medium",
+      "promotion_gaps": ["Verify exact search cutoff and OSF file inventory.", "Document IPD access restrictions and construct public aggregate fixtures."]
+    },
+    {
+      "candidate_id": "hepsanet-fibrosis-ipd",
+      "title": "Systematic review and individual-patient-data meta-analysis of non-invasive fibrosis markers for chronic hepatitis B in Africa",
+      "publication": {"doi": "10.1038/s41467-022-35729-w", "year": 2023, "venue": "Nature Communications", "pmcid": "PMC9810658", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9810658/"},
+      "venue_band": "multidisciplinary", "review_type": "ipd",
+      "temporal_boundaries": [{"kind": "search_cutoff", "value": "2022-07-12", "precision": "day", "source_note": "Final bibliographic search date reported in Methods."}],
+      "materials": [
+        {"kind": "github", "url": "https://github.com/gitMarcH/HEPSANET/tree/3801cdbf6e850f6decdada9a8572b709a09c461a", "access": "open", "license_status": "verified_open"},
+        {"kind": "article_source_data", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9810658/", "access": "open", "license_status": "article_terms"}
+      ],
+      "usable_for": ["analysis", "ipd_workflow"],
+      "reproduction_ceiling": "controlled_ipd_analysis", "priority": "high",
+      "promotion_gaps": ["Individual-patient data require author or network access.", "Confirm which published figures can be regenerated from source data alone."]
+    },
+    {
+      "candidate_id": "ag-rdt-living-dta-2021",
+      "title": "Accuracy of novel antigen rapid diagnostics for SARS-CoV-2: a living systematic review and meta-analysis",
+      "publication": {"doi": "10.1371/journal.pmed.1003735", "year": 2021, "venue": "PLOS Medicine", "pmcid": "PMC8389849", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8389849/"},
+      "venue_band": "general_medical", "review_type": "living_diagnostic",
+      "temporal_boundaries": [{"kind": "update_cutoff", "value": "2021-04-30", "precision": "day", "source_note": "Living-review search cutoff for this publication version."}],
+      "materials": [{"kind": "zenodo", "url": "https://zenodo.org/records/4924035", "access": "open", "license_status": "verified_open"}],
+      "usable_for": ["extraction", "appraisal", "analysis", "living_update"],
+      "reproduction_ceiling": "living_update", "priority": "high",
+      "promotion_gaps": ["Archive the exact deposited extraction workbook and later update separately.", "Verify whether title/abstract and full-text exclusions are deposited."]
+    },
+    {
+      "candidate_id": "ag-rdt-dta-update-2022",
+      "title": "Accuracy of rapid point-of-care antigen-based diagnostics for SARS-CoV-2: an updated systematic review and meta-analysis with meta-regression analyzing influencing factors",
+      "publication": {"doi": "10.1371/journal.pmed.1004011", "year": 2022, "venue": "PLOS Medicine", "pmcid": "PMC9187092", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9187092/"},
+      "venue_band": "general_medical", "review_type": "diagnostic",
+      "temporal_boundaries": [{"kind": "update_cutoff", "value": "2021-08-31", "precision": "day", "source_note": "Updated living-search cutoff reported in the abstract and Methods."}],
+      "materials": [{"kind": "dataverse", "url": "https://doi.org/10.11588/data/T3MIB0", "access": "open", "license_status": "repository_review_required"}],
+      "usable_for": ["extraction", "appraisal", "analysis", "living_update"],
+      "reproduction_ceiling": "living_update", "priority": "high",
+      "promotion_gaps": ["Verify repository license and immutable version identifier.", "Build a first-iteration to update delta without exposing the update during baseline runs."]
+    },
+    {
+      "candidate_id": "sci-exercise-meta-regression",
+      "title": "Exercise and aerobic capacity in individuals with spinal cord injury: a systematic review with meta-analysis and meta-regression",
+      "publication": {"doi": "10.1371/journal.pmed.1004082", "year": 2023, "venue": "PLOS Medicine", "pmcid": "PMC10712898", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10712898/"},
+      "venue_band": "general_medical", "review_type": "meta_regression",
+      "temporal_boundaries": [{"kind": "search_cutoff", "value": "2023-03", "precision": "month", "source_note": "Article reports searches from inception to March 2023 without a day."}],
+      "materials": [{"kind": "github", "url": "https://github.com/jutzca/Exercise-and-fitness-in-SCI/tree/58f690c0847d5d099fef98141d706fc5c24d94ed", "access": "open", "license_status": "verified_open"}],
+      "usable_for": ["extraction", "analysis"],
+      "reproduction_ceiling": "extraction_to_analysis", "priority": "high",
+      "promotion_gaps": ["Resolve whether the reported month-level cutoff can be pinned to an exact execution date.", "Locate screening labels or restrict use to extraction and analysis."]
+    },
+    {
+      "candidate_id": "carbon-pricing-screening-meta",
+      "title": "Systematic review and meta-analysis of ex-post evaluations on the effectiveness of carbon pricing",
+      "publication": {"doi": "10.1038/s41467-024-48512-w", "year": 2024, "venue": "Nature Communications", "pmcid": "PMC11099057", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11099057/"},
+      "venue_band": "multidisciplinary", "review_type": "meta_regression",
+      "temporal_boundaries": [],
+      "materials": [
+        {"kind": "github", "url": "https://github.com/doebbeling/carbon_pricing_effectiveness/tree/75b82e530f199884856967245fad6ad3a1572132", "access": "open", "license_status": "repository_review_required"},
+        {"kind": "osf", "url": "https://osf.io/854vp/", "access": "open", "license_status": "repository_review_required"}
+      ],
+      "usable_for": ["screening", "extraction", "appraisal", "analysis"],
+      "reproduction_ceiling": "screening_to_analysis", "priority": "high",
+      "promotion_gaps": ["Verify exact search cutoff and artifact licenses.", "Audit whether screening_data.csv contains all records and final labels."]
+    },
+    {
+      "candidate_id": "long-covid-vaccination-natcom",
+      "title": "A systematic review and meta-analysis of the impact of vaccination on prevention of long COVID",
+      "publication": {"doi": "10.1038/s41467-025-65302-0", "year": 2025, "venue": "Nature Communications", "pmcid": "PMC12644529", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12644529/"},
+      "venue_band": "multidisciplinary", "review_type": "pairwise",
+      "temporal_boundaries": [],
+      "materials": [{"kind": "github", "url": "https://github.com/Maverex-Market-Access/Long-covid-vaccination-meta-analysis/tree/3ad8ae164af75e583665b81b5b1e0f68100d5d5d", "access": "open", "license_status": "repository_review_required"}],
+      "usable_for": ["analysis"],
+      "reproduction_ceiling": "analysis_only", "priority": "watch",
+      "promotion_gaps": ["Repository currently exposes analysis code but little source data.", "Verify search cutoff, extraction data, and license before broader use."]
+    },
+    {
+      "candidate_id": "pulse-oximetry-pigmentation",
+      "title": "The accuracy of pulse oximetry in measuring oxygen saturation by levels of skin pigmentation: a systematic review and meta-analysis",
+      "publication": {"doi": "10.1186/s12916-022-02452-8", "year": 2022, "venue": "BMC Medicine", "pmcid": "PMC9377806", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9377806/"},
+      "venue_band": "high_transparency_medical", "review_type": "diagnostic",
+      "temporal_boundaries": [{"kind": "search_cutoff", "value": "2021-12", "precision": "month", "source_note": "Article reports searches up to December 2021 without a day."}],
+      "materials": [{"kind": "osf", "url": "https://osf.io/gm7ty/", "access": "open", "license_status": "repository_review_required"}],
+      "usable_for": ["extraction", "appraisal", "analysis"],
+      "reproduction_ceiling": "extraction_to_analysis", "priority": "medium",
+      "promotion_gaps": ["Pin the exact December 2021 search date.", "Audit OSF files and licenses before packaging."]
+    },
+    {
+      "candidate_id": "cholera-positivity-bayesian",
+      "title": "Estimating the proportion of clinically suspected cholera cases that are true Vibrio cholerae infections: a systematic review and meta-analysis",
+      "publication": {"doi": "10.1371/journal.pmed.1004286", "year": 2023, "venue": "PLOS Medicine", "pmcid": "PMC10538743", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10538743/"},
+      "venue_band": "general_medical", "review_type": "meta_regression",
+      "temporal_boundaries": [
+        {"kind": "search_cutoff", "value": "2021-10-16", "precision": "day", "source_note": "Initial multi-source search date."},
+        {"kind": "update_cutoff", "value": "2023-04-19", "precision": "day", "source_note": "Updated PubMed, Embase, and Scopus search date."}
+      ],
+      "materials": [{"kind": "github", "url": "https://github.com/HopkinsIDD/cholera_positivity/tree/1c8b500b7c9796063ac49fa0c301489d0a7a99d8", "access": "open", "license_status": "verified_open"}],
+      "usable_for": ["extraction", "analysis", "living_update"],
+      "reproduction_ceiling": "extraction_to_analysis", "priority": "high",
+      "promotion_gaps": ["Confirm whether screened records and exclusion reasons are present.", "Separate the initial and updated searches for living-style evaluation."]
+    },
+    {
+      "candidate_id": "maternal-education-child-growth",
+      "title": "Maternal education and its influence on child growth and nutritional status during the first two years of life: a systematic review and meta-analysis",
+      "publication": {"doi": "10.1016/j.eclinm.2024.102574", "year": 2024, "venue": "eClinicalMedicine", "pmcid": "PMC11001623", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11001623/"},
+      "venue_band": "high_transparency_medical", "review_type": "meta_regression",
+      "temporal_boundaries": [{"kind": "search_cutoff", "value": "2024-01-30", "precision": "day", "source_note": "Final database-search date stated in Methods."}],
+      "materials": [{"kind": "github", "url": "https://github.com/GolnazRezaei80/Maternal-Education-Child-Growth/tree/c11478ee35a2b7ecc3756678ef37a14053326cd1", "access": "open", "license_status": "repository_review_required"}],
+      "usable_for": ["extraction", "analysis"],
+      "reproduction_ceiling": "extraction_to_analysis", "priority": "medium",
+      "promotion_gaps": ["Clarify repository license.", "Resolve the date-range inconsistency between search prose and displayed query syntax."]
+    },
+    {
+      "candidate_id": "comorbidity-qol-ipd",
+      "title": "Comorbidity and health-related quality of life in people with a chronic medical condition in randomised clinical trials: an individual participant data meta-analysis",
+      "publication": {"doi": "10.1371/journal.pmed.1004154", "year": 2023, "venue": "PLOS Medicine", "pmcid": "PMC9844862", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9844862/"},
+      "venue_band": "general_medical", "review_type": "ipd",
+      "temporal_boundaries": [
+        {"kind": "data_access_cutoff", "value": "2016-11-21", "precision": "day", "source_note": "Initial CSDR IPD-access date, not a bibliographic search date."},
+        {"kind": "data_access_cutoff", "value": "2018-05-18", "precision": "day", "source_note": "Initial YODA IPD-access date, not a bibliographic search date."}
+      ],
+      "materials": [
+        {"kind": "github", "url": "https://github.com/ChronicDiseaseEpi/como_qol_public/tree/561c9c7a888207e57d03977653d3383c3b29ee50", "access": "open", "license_status": "repository_review_required"},
+        {"kind": "controlled_repository", "url": "https://www.clinicalstudydatarequest.com/", "access": "controlled", "license_status": "controlled_terms"}
+      ],
+      "usable_for": ["lineage", "analysis", "ipd_workflow"],
+      "reproduction_ceiling": "controlled_ipd_analysis", "priority": "high",
+      "promotion_gaps": ["Original IPD require CSDR/YODA approvals.", "Clarify public repository license and define an aggregate-data benchmark subset."]
+    },
+    {
+      "candidate_id": "primaquine-methaemoglobin-ipd",
+      "title": "Methaemoglobin as a surrogate marker of primaquine antihypnozoite activity in Plasmodium vivax malaria: a systematic review and individual patient data meta-analysis",
+      "publication": {"doi": "10.1371/journal.pmed.1004411", "year": 2024, "venue": "PLOS Medicine", "pmcid": "PMC11469483", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11469483/"},
+      "venue_band": "general_medical", "review_type": "ipd",
+      "temporal_boundaries": [
+        {"kind": "search_cutoff", "value": "2022-09-29", "precision": "day", "source_note": "Cutoff for studies incorporated into the IPD analysis."},
+        {"kind": "update_cutoff", "value": "2024-07-26", "precision": "day", "source_note": "Later search identified two studies that were not incorporated into the IPD synthesis."}
+      ],
+      "materials": [
+        {"kind": "github", "url": "https://github.com/ihsanfadil/methb7/tree/546a7432cd86098cd30f1d55150a4a4acba2f19c", "access": "open", "license_status": "repository_review_required"},
+        {"kind": "controlled_repository", "url": "https://www.wwarn.org/working-together/sharing-accessing-data/accessing-data", "access": "controlled", "license_status": "controlled_terms"}
+      ],
+      "usable_for": ["analysis", "living_update", "ipd_workflow"],
+      "reproduction_ceiling": "controlled_ipd_analysis", "priority": "high",
+      "promotion_gaps": ["IPD require WWARN data-access approval.", "The 2024 search found later studies not incorporated into the IPD synthesis; encode this as an explicit time-truncation case.", "Clarify code license."]
+    },
+    {
+      "candidate_id": "palliative-care-active-components",
+      "title": "Benefits of specialist palliative care by identifying active ingredients of service composition, structure, and delivery model: a systematic review with meta-analysis and meta-regression",
+      "publication": {"doi": "10.1371/journal.pmed.1004436", "year": 2024, "venue": "PLOS Medicine", "pmcid": "PMC11329153", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11329153/"},
+      "venue_band": "general_medical", "review_type": "meta_regression",
+      "temporal_boundaries": [],
+      "materials": [{"kind": "osf", "url": "https://osf.io/h8pmz/", "access": "open", "license_status": "repository_review_required"}],
+      "usable_for": ["extraction", "analysis"],
+      "reproduction_ceiling": "extraction_to_analysis", "priority": "high",
+      "promotion_gaps": ["Verify exact search cutoff, OSF registration version, and artifact license.", "Assess whether component coding can support extraction-level gold cases."]
+    },
+    {
+      "candidate_id": "amyloid-immunotherapy-meta",
+      "title": "Efficacy and safety of passive immunotherapies targeting amyloid beta in Alzheimer's disease: a systematic review and meta-analysis",
+      "publication": {"doi": "10.1371/journal.pmed.1004568", "year": 2025, "venue": "PLOS Medicine", "pmcid": "PMC12002640", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12002640/"},
+      "venue_band": "general_medical", "review_type": "pairwise",
+      "temporal_boundaries": [],
+      "materials": [{"kind": "github", "url": "https://github.com/ChengF-Lab/Meta_ADAb/tree/c7b8e14397324648cf27f71740fb18516ac59e8d", "access": "open", "license_status": "repository_review_required"}],
+      "usable_for": ["screening", "extraction", "analysis"],
+      "reproduction_ceiling": "screening_to_analysis", "priority": "high",
+      "promotion_gaps": ["Audit the semantics and completeness of meta_ab_antibody_search_results.xlsx.", "Verify exact search cutoff and repository license."]
+    },
+    {
+      "candidate_id": "decide-tb-child-diagnostic-ipd",
+      "title": "Diagnostic accuracy of the WHO tuberculosis treatment decision algorithms for children with presumptive tuberculosis: an individual participant data meta-analysis",
+      "publication": {"doi": "10.1371/journal.pmed.1004610", "year": 2025, "venue": "PLOS Medicine", "pmcid": "PMC12626314", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12626314/"},
+      "venue_band": "general_medical", "review_type": "ipd",
+      "temporal_boundaries": [],
+      "materials": [{"kind": "github", "url": "https://github.com/llarsson3/Decide-TB/tree/b10e257b3498fff0de8b12c2c0500750f1bc036b", "access": "mixed", "license_status": "verified_open"}],
+      "usable_for": ["analysis", "ipd_workflow"],
+      "reproduction_ceiling": "controlled_ipd_analysis", "priority": "medium",
+      "promotion_gaps": ["Determine which analysis inputs are public versus controlled.", "Verify exact search/data contribution cutoff and construct public test fixtures."]
+    },
+    {
+      "candidate_id": "bmj-review-data-sharing-meta-research",
+      "title": "Changing patterns in reporting and sharing of review data in systematic reviews with meta-analysis of the effects of interventions: cross sectional meta-research study",
+      "publication": {"doi": "10.1136/bmj-2022-072428", "year": 2022, "venue": "BMJ", "pmcid": "PMC9679891", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9679891/"},
+      "venue_band": "methods_meta_research", "review_type": "meta_research",
+      "temporal_boundaries": [],
+      "materials": [{"kind": "osf", "url": "https://osf.io/jsp9t/", "access": "open", "license_status": "repository_review_required"}],
+      "usable_for": ["extraction", "analysis", "reporting_audit"],
+      "reproduction_ceiling": "extraction_to_analysis", "priority": "medium",
+      "promotion_gaps": ["Verify OSF artifact licenses and freeze the analyzed review sample.", "Use for reporting/data-sharing audit, not clinical effect synthesis."]
+    }
+  ]
+}

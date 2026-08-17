@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/topic_proposal_batch.schema.json",
+  "title": "MetaWingman evidence-grounded topic proposal batch",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "batch_id",
+    "landscape_id",
+    "landscape_sha256",
+    "status",
+    "generation_policy",
+    "model_provenance",
+    "proposals",
+    "reason_codes",
+    "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "batch_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "landscape_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "landscape_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "status": {"enum": ["proposals_generated", "abstain"]},
+    "generation_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maximum_proposals",
+        "supplied_evidence_only",
+        "external_retrieval_allowed",
+        "numeric_signal_scores_allowed",
+        "independent_signal_audit_required",
+        "model_memory_boundary"
+      ],
+      "properties": {
+        "maximum_proposals": {"type": "integer", "minimum": 1, "maximum": 20},
+        "supplied_evidence_only": {"const": true},
+        "external_retrieval_allowed": {"const": false},
+        "numeric_signal_scores_allowed": {"const": false},
+        "independent_signal_audit_required": {"const": true},
+        "model_memory_boundary": {
+          "enum": ["not_a_discovery_claim", "unquantifiable", "prospective_reference_not_yet_exists"]
+        }
+      }
+    },
+    "model_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "model",
+        "credential_source",
+        "call_count",
+        "repair_attempted",
+        "attempts",
+        "prompt_tokens",
+        "completion_tokens",
+        "total_tokens"
+      ],
+      "properties": {
+        "provider": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "credential_source": {"type": "string", "minLength": 1},
+        "call_count": {"type": "integer", "minimum": 1, "maximum": 2},
+        "repair_attempted": {"type": "boolean"},
+        "attempts": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "purpose",
+              "model",
+              "prompt_sha256",
+              "response_sha256",
+              "finish_reason",
+              "prompt_tokens",
+              "completion_tokens",
+              "total_tokens"
+            ],
+            "properties": {
+              "purpose": {"enum": ["initial_generation", "schema_repair"]},
+              "model": {"type": "string", "minLength": 1},
+              "prompt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "response_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "finish_reason": {"type": "string", "minLength": 1},
+              "prompt_tokens": {"type": ["integer", "null"], "minimum": 0},
+              "completion_tokens": {"type": ["integer", "null"], "minimum": 0},
+              "total_tokens": {"type": ["integer", "null"], "minimum": 0}
+            }
+          }
+        },
+        "prompt_tokens": {"type": ["integer", "null"], "minimum": 0},
+        "completion_tokens": {"type": ["integer", "null"], "minimum": 0},
+        "total_tokens": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "proposals": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {"$ref": "#/$defs/proposal"}
+    },
+    "reason_codes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "term_set": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "proposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_id",
+        "generation_method",
+        "question_framework",
+        "concept_node_ids",
+        "evidence_node_ids",
+        "evidence_interpretations",
+        "disconfirmation_queries",
+        "status"
+      ],
+      "properties": {
+        "proposal_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "generation_method": {
+          "enum": [
+            "graph_path",
+            "gap_map",
+            "update_signal",
+            "priority_alignment",
+            "cross_domain_bridge",
+            "model_proposal"
+          ]
+        },
+        "question_framework": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "population",
+            "intervention_or_exposure",
+            "comparator",
+            "outcome",
+            "study_design",
+            "synthesis_route"
+          ],
+          "properties": {
+            "population": {"$ref": "#/$defs/term_set"},
+            "intervention_or_exposure": {"$ref": "#/$defs/term_set"},
+            "comparator": {"$ref": "#/$defs/term_set"},
+            "outcome": {"$ref": "#/$defs/term_set"},
+            "study_design": {"$ref": "#/$defs/term_set"},
+            "synthesis_route": {"type": "string", "minLength": 1}
+          }
+        },
+        "concept_node_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+        },
+        "evidence_node_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+        },
+        "evidence_interpretations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["node_id", "role", "interpretation"],
+            "properties": {
+              "node_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+              "role": {
+                "enum": [
+                  "decision_need",
+                  "uncertainty",
+                  "feasibility",
+                  "novelty",
+                  "update_need",
+                  "equity",
+                  "cross_domain"
+                ]
+              },
+              "interpretation": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "disconfirmation_queries": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["check_type", "query"],
+            "properties": {
+              "check_type": {
+                "enum": [
+                  "existing_review_overlap",
+                  "active_protocol_overlap",
+                  "primary_study_count",
+                  "source_coverage",
+                  "full_text_access",
+                  "extractability",
+                  "decision_priority",
+                  "temporal_leakage",
+                  "model_memory",
+                  "other"
+                ]
+              },
+              "query": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "status": {"const": "requires_independent_signal_audit"}
+      }
+    }
+  }
+}

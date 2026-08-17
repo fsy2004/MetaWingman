@@ -1,0 +1,94 @@
+{
+  "id": "meta_seq_ris",
+  "title": "所需信息量 / RIS",
+  "title_en": "Required information size",
+  "category": "meta",
+  "family": "序贯与效能 Sequential & Power",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_sequential.R",
+  "workdir": "adapters/meta",
+  "description": "所需信息量(Required Information Size, RIS / 又称 optimal information size, OIS):在给定 α、功效与最小临床相关值下,一项累积 meta 分析要得到可靠结论所需的样本总量。对比研究已累积信息量(AIS)与固定效应 RIS 及按异质性(τ²、多样性 D²、不一致性 I²)校正后的 RIS,判断证据是否充分。输出 RIS 汇总表与对数横轴 lollipop 图。基于 RTSA 包。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "二分类结局 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/sequential.csv",
+      "spec": "每行一个随机对照试验,需列 eI,nI,eC,nC(处理组事件数/总样本、对照组事件数/总样本)+ 可选研究名列(默认 study)。与 TSA 共用同一份数据。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "outcome": {
+        "type": "string",
+        "title": "效应量",
+        "default": "RR",
+        "enum": [
+          "RR",
+          "OR",
+          "RD"
+        ]
+      },
+      "mc": {
+        "type": "number",
+        "title": "最小临床相关值(RR/OR 为比值如 0.8,RD 为差值)",
+        "default": 0.8
+      },
+      "side": {
+        "type": "integer",
+        "title": "检验侧数(1 单侧 / 2 双侧)",
+        "default": 2,
+        "enum": [
+          1,
+          2
+        ]
+      },
+      "alpha": {
+        "type": "number",
+        "title": "I 类错误 α",
+        "default": 0.05
+      },
+      "beta": {
+        "type": "number",
+        "title": "II 类错误 β(功效 = 1−β)",
+        "default": 0.1
+      }
+    }
+  },
+  "param_flags": {
+    "outcome": "--outcome",
+    "mc": "--mc",
+    "side": "--side",
+    "alpha": "--alpha",
+    "beta": "--beta"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "Meta 分析为研究级汇总数据(通常几十行),内存开销极小,基本恒为绿灯。"
+  },
+  "group": "sequential",
+  "item_order": 20,
+  "analysis": "ris"
+}

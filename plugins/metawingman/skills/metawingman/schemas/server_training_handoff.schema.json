@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/server_training_handoff.schema.json",
+  "title": "MetaWingman metadata-only server training handoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "handoff_id", "created_at_utc", "status", "members", "member_hashes", "component_job_ids", "scientific_blockers", "server_only_pending", "storage_estimate_gib", "commands", "content_policy"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "handoff_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "status": {"const": "local_ready_pending_server_preflight"},
+    "members": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "member_hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+    "component_job_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "scientific_blockers": {"type": "array", "maxItems": 0},
+    "server_only_pending": {"type": "array", "items": {"enum": ["server_hardware_unverified", "cuda_runtime_unverified", "python_packages_unverified"]}, "minItems": 1, "uniqueItems": true},
+    "storage_estimate_gib": {"type": "integer", "minimum": 1},
+    "commands": {
+      "type": "object", "additionalProperties": false,
+      "required": ["download", "freeze_base", "freeze", "audit", "export", "preflight", "train", "benchmark"],
+      "properties": {
+        "download": {"$ref": "#/$defs/argv"},
+        "freeze_base": {"$ref": "#/$defs/argv"},
+        "freeze": {"$ref": "#/$defs/argv"},
+        "audit": {"$ref": "#/$defs/argv"},
+        "export": {"$ref": "#/$defs/argv"},
+        "preflight": {"$ref": "#/$defs/argv"},
+        "train": {"$ref": "#/$defs/argv"},
+        "benchmark": {"$ref": "#/$defs/argv"}
+      }
+    },
+    "content_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["metadata_only", "raw_full_text_included", "secret_scan_status", "checkpoints_included", "absolute_author_paths_included"],
+      "properties": {
+        "metadata_only": {"const": true},
+        "raw_full_text_included": {"const": false},
+        "secret_scan_status": {"const": "passed_bounded_patterns_not_proof_of_absence"},
+        "checkpoints_included": {"const": false},
+        "absolute_author_paths_included": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "argv": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1}
+  }
+}

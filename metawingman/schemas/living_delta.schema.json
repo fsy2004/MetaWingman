@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/living_delta.schema.json",
+  "title": "MetaWingman living-review snapshot delta and impact plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "delta_id", "project_id", "source_id", "previous_snapshot_id",
+    "current_snapshot_id", "changes", "impact", "required_actions", "status",
+    "human_review", "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "delta_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "project_id": {"type": "string", "minLength": 1},
+    "source_id": {"type": "string", "minLength": 1},
+    "previous_snapshot_id": {"type": "string", "minLength": 1},
+    "current_snapshot_id": {"type": "string", "minLength": 1},
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["canonical_id", "change_type", "previous_record", "current_record", "reason_codes"],
+        "properties": {
+          "canonical_id": {"type": "string", "minLength": 1},
+          "change_type": {"enum": ["new", "metadata_changed", "status_changed", "removed", "restored"]},
+          "previous_record": {"type": ["object", "null"]},
+          "current_record": {"type": ["object", "null"]},
+          "reason_codes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+        }
+      }
+    },
+    "impact": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["canonical_id", "source_node", "affected_nodes", "impact_status", "notes"],
+        "properties": {
+          "canonical_id": {"type": "string", "minLength": 1},
+          "source_node": {"type": ["object", "null"]},
+          "affected_nodes": {"type": "array", "items": {"type": "object"}},
+          "impact_status": {"enum": ["not_in_graph", "no_downstream_nodes", "downstream_nodes_found", "graph_unavailable"]},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "required_actions": {
+      "type": "array",
+      "items": {"enum": ["screen_new_records", "recheck_report_identity", "rerun_lineage", "rerun_extraction", "rerun_appraisal", "rerun_analysis", "reassess_certainty", "recompile_claims", "human_triage"]},
+      "uniqueItems": true
+    },
+    "status": {"enum": ["no_change", "candidate_update", "ready_for_human", "accepted", "superseded"]},
+    "human_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reviewed_by", "reviewed_at_utc", "decision", "notes"],
+      "properties": {
+        "status": {"enum": ["not_required", "pending", "completed"]},
+        "reviewed_by": {"type": "string"},
+        "reviewed_at_utc": {"type": ["string", "null"], "format": "date-time"},
+        "decision": {"type": ["string", "null"]},
+        "notes": {"type": "string"}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

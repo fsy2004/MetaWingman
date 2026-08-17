@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/pipeline_spec.schema.json",
+  "title": "MetaWingman versioned pipeline specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "pipeline_id", "pipeline_version", "task_type", "modules",
+    "split_policy", "loss_weights", "release_gates", "compiler", "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "pipeline_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "pipeline_version": {"type": "string", "minLength": 1},
+    "task_type": {"type": "string", "minLength": 1},
+    "modules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "module_id", "version", "compiler_version", "prompt_path",
+          "prompt_sha256", "config_path", "config_sha256", "input_schema",
+          "output_schema", "model_capability", "optimization_family_ids"
+        ],
+        "properties": {
+          "module_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "version": {"type": "string", "minLength": 1},
+          "compiler_version": {"type": "string", "minLength": 1},
+          "prompt_path": {"type": "string", "minLength": 1},
+          "prompt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "config_path": {"type": ["string", "null"]},
+          "config_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+          "input_schema": {"type": "string", "minLength": 1},
+          "output_schema": {"type": "string", "minLength": 1},
+          "model_capability": {"type": "string", "minLength": 1},
+          "optimization_family_ids": {
+            "type": "array",
+            "items": {"type": "string", "minLength": 1},
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "split_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit", "train_family_ids", "dev_family_ids", "test_family_ids"],
+      "properties": {
+        "unit": {"const": "review_family_id"},
+        "train_family_ids": {
+          "type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+        },
+        "dev_family_ids": {
+          "type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+        },
+        "test_family_ids": {
+          "type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+        }
+      }
+    },
+    "loss_weights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "false_exclusion", "false_inclusion", "unsupported_value", "incorrect_value",
+        "unanchored_claim", "unauthorized_action", "missed_required_abstention",
+        "unnecessary_abstention"
+      ],
+      "properties": {
+        "false_exclusion": {"type": "number", "minimum": 0},
+        "false_inclusion": {"type": "number", "minimum": 0},
+        "unsupported_value": {"type": "number", "minimum": 0},
+        "incorrect_value": {"type": "number", "minimum": 0},
+        "unanchored_claim": {"type": "number", "minimum": 0},
+        "unauthorized_action": {"type": "number", "minimum": 0},
+        "missed_required_abstention": {"type": "number", "minimum": 0},
+        "unnecessary_abstention": {"type": "number", "minimum": 0}
+      }
+    },
+    "release_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_mean_loss", "max_critical_error_rate", "repeat_k", "min_pass_power_k",
+        "max_position_gap", "max_judge_order_disagreement"
+      ],
+      "properties": {
+        "max_mean_loss": {"type": "number", "minimum": 0},
+        "max_critical_error_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "repeat_k": {"type": "integer", "minimum": 1, "maximum": 100},
+        "min_pass_power_k": {"type": "number", "minimum": 0, "maximum": 1},
+        "max_position_gap": {"type": "number", "minimum": 0, "maximum": 1},
+        "max_judge_order_disagreement": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "compiler": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "candidate_sha256"],
+      "properties": {
+        "name": {"const": "metawingman-pipeline-compiler"},
+        "version": {"type": "string", "minLength": 1},
+        "candidate_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

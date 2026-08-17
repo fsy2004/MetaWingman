@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "provider_id": "deepseek-development",
+  "adapter": "deepseek",
+  "display_name": "DeepSeek",
+  "base_url": "https://api.deepseek.com",
+  "model": "deepseek-v4-flash",
+  "api_key_required": true,
+  "api_key_env": "DEEPSEEK_API_KEY",
+  "credential_target": "MetaWingman/DeepSeek",
+  "allow_local_http": false,
+  "features": {
+    "json_output": true,
+    "reasoning_effort": true,
+    "deepseek_thinking": true
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/screening_assessment.schema.json",
+  "title": "MetaWingman criterion-level screening assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "assessment_id", "record_id", "report_id", "stage",
+    "protocol_version", "criterion_decisions", "proposal", "opposition",
+    "policy_decision", "status", "human_adjudication", "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "assessment_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "record_id": {"type": "string", "minLength": 1},
+    "report_id": {"type": ["string", "null"]},
+    "stage": {"enum": ["title_abstract", "full_text"]},
+    "protocol_version": {"type": "string", "minLength": 1},
+    "criterion_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "criterion_id", "decision", "observed_value", "anchor_ids", "rationale",
+          "confidence", "requires_full_text"
+        ],
+        "properties": {
+          "criterion_id": {"type": "string", "minLength": 1},
+          "decision": {"enum": ["met", "not_met", "unclear", "not_reported"]},
+          "observed_value": {},
+          "anchor_ids": {
+            "type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+          },
+          "rationale": {"type": "string", "minLength": 1},
+          "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+          "requires_full_text": {"type": "boolean"}
+        }
+      }
+    },
+    "proposal": {"$ref": "#/$defs/decision"},
+    "opposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verdict", "reason_codes", "counter_anchor_ids"],
+      "properties": {
+        "verdict": {"enum": ["uphold", "challenge", "abstain"]},
+        "reason_codes": {
+          "type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+        },
+        "counter_anchor_ids": {
+          "type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+        }
+      }
+    },
+    "policy_decision": {"$ref": "#/$defs/decision"},
+    "status": {"enum": ["candidate", "ready_for_human", "final", "superseded"]},
+    "human_adjudication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "decision", "adjudicated_by", "adjudicated_at_utc", "notes"],
+      "properties": {
+        "status": {"enum": ["not_started", "pending", "accepted", "overridden"]},
+        "decision": {"type": ["string", "null"]},
+        "adjudicated_by": {"type": "string"},
+        "adjudicated_at_utc": {"type": ["string", "null"], "format": "date-time"},
+        "notes": {"type": "string"}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "final"}}},
+      "then": {
+        "properties": {
+          "human_adjudication": {
+            "properties": {
+              "status": {"enum": ["accepted", "overridden"]},
+              "decision": {"type": "string", "minLength": 1},
+              "adjudicated_by": {"type": "string", "minLength": 1},
+              "adjudicated_at_utc": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recommendation", "primary_reason_code", "anchor_ids", "confidence", "reason_codes"],
+      "properties": {
+        "recommendation": {"enum": ["include", "exclude", "abstain"]},
+        "primary_reason_code": {"type": ["string", "null"]},
+        "anchor_ids": {
+          "type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+        },
+        "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "reason_codes": {
+          "type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+        }
+      }
+    }
+  }
+}

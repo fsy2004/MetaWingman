@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/protocol_counterfactual_case.schema.json",
+  "title": "MetaWingman counterfactual protocol stress-test case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "review_id",
+    "review_family_id",
+    "split",
+    "protocol",
+    "intervention",
+    "boundary",
+    "expected_node_deltas",
+    "observed_node_deltas",
+    "event_trace",
+    "replay_interventions",
+    "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "case_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "review_id": {"type": "string", "minLength": 1},
+    "review_family_id": {"type": "string", "minLength": 1},
+    "split": {"enum": ["train", "dev", "test"]},
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["base_version", "counterfactual_version", "base_sha256", "counterfactual_sha256"],
+      "properties": {
+        "base_version": {"type": "string", "minLength": 1},
+        "counterfactual_version": {"type": "string", "minLength": 1},
+        "base_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "counterfactual_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "intervention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intervention_id",
+        "target_type",
+        "target_id",
+        "json_pointer",
+        "operation",
+        "base_value",
+        "counterfactual_value",
+        "single_change_verified",
+        "rationale"
+      ],
+      "properties": {
+        "intervention_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "target_type": {
+          "enum": [
+            "eligibility_criterion",
+            "estimand",
+            "outcome_hierarchy",
+            "temporal_boundary",
+            "decision_threshold"
+          ]
+        },
+        "target_id": {"type": "string", "minLength": 1},
+        "json_pointer": {"type": "string", "pattern": "^/"},
+        "operation": {"enum": ["add", "remove", "replace"]},
+        "base_value": {},
+        "counterfactual_value": {},
+        "single_change_verified": {"type": "boolean"},
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_context",
+        "source_corpus_sha256",
+        "source_corpus_frozen",
+        "answers_sealed",
+        "post_cutoff_evidence_sealed",
+        "protocol_variants_frozen_before_run",
+        "leakage_audit",
+        "notes"
+      ],
+      "properties": {
+        "run_context": {"enum": ["historical_reconstruction", "prospective", "synthetic_fixture"]},
+        "source_corpus_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "source_corpus_frozen": {"type": "boolean"},
+        "answers_sealed": {"type": "boolean"},
+        "post_cutoff_evidence_sealed": {"type": "boolean"},
+        "protocol_variants_frozen_before_run": {"type": "boolean"},
+        "leakage_audit": {"enum": ["passed", "failed", "not_applicable"]},
+        "notes": {"type": "string"}
+      }
+    },
+    "expected_node_deltas": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/expectedNodeDelta"}
+    },
+    "observed_node_deltas": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/observedNodeDelta"}
+    },
+    "event_trace": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/traceEvent"}
+    },
+    "replay_interventions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/replayIntervention"}
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "expectedNodeDelta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node_id", "node_type", "expected_status", "gold_basis", "anchor_ids"],
+      "properties": {
+        "node_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
+        "node_type": {
+          "enum": ["protocol", "record", "report", "study", "result", "appraisal", "analysis", "certainty", "claim"]
+        },
+        "expected_status": {"enum": ["changed", "unchanged", "added", "removed", "abstained"]},
+        "gold_basis": {"enum": ["dual_adjudicated", "author_verified", "synthetic_fixture"]},
+        "anchor_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "observedNodeDelta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node_id",
+        "base_artifact_sha256",
+        "counterfactual_artifact_sha256",
+        "abstained",
+        "abstention_reason"
+      ],
+      "properties": {
+        "node_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
+        "base_artifact_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "counterfactual_artifact_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "abstained": {"type": "boolean"},
+        "abstention_reason": {"type": ["string", "null"]}
+      }
+    },
+    "traceEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "sequence",
+        "stage",
+        "verification_status",
+        "affected_node_ids",
+        "predecessor_event_ids",
+        "output_sha256"
+      ],
+      "properties": {
+        "event_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
+        "sequence": {"type": "integer", "minimum": 1},
+        "stage": {"type": "integer", "minimum": 0, "maximum": 9},
+        "verification_status": {"enum": ["passed", "failed", "abstained", "not_run"]},
+        "affected_node_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"}
+        },
+        "predecessor_event_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"}
+        },
+        "output_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "replayIntervention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "replay_id",
+        "event_id",
+        "event_order_variant",
+        "replacement_source",
+        "replacement_verified",
+        "replacement_output_sha256",
+        "downstream_replay_complete",
+        "resulting_node_deltas"
+      ],
+      "properties": {
+        "replay_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
+        "event_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
+        "event_order_variant": {"type": "string", "minLength": 1},
+        "replacement_source": {"enum": ["gold", "adjudicated", "verified_tool"]},
+        "replacement_verified": {"type": "boolean"},
+        "replacement_output_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "downstream_replay_complete": {"type": "boolean"},
+        "resulting_node_deltas": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/observedNodeDelta"}
+        }
+      }
+    }
+  }
+}

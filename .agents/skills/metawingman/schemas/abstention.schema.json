@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/abstention.schema.json",
+  "title": "MetaWingman abstention record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "abstention_id", "timestamp_utc", "stage", "affected_decision", "reason_code", "risk_signals", "required_human_role", "status", "resolution"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "abstention_id": {"type": "string", "minLength": 1},
+    "timestamp_utc": {"type": "string", "format": "date-time"},
+    "stage": {"type": "integer", "minimum": 0, "maximum": 9},
+    "affected_decision": {"type": "string", "minLength": 1},
+    "reason_code": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]*$"},
+    "risk_signals": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "required_human_role": {"type": "string", "minLength": 1},
+    "status": {"enum": ["open", "resolved", "accepted"]},
+    "resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "resolved_by", "resolved_at_utc", "rationale"],
+      "properties": {
+        "decision": {"type": "string"},
+        "resolved_by": {"type": "string"},
+        "resolved_at_utc": {"type": "string"},
+        "rationale": {"type": "string"}
+      }
+    }
+  }
+}

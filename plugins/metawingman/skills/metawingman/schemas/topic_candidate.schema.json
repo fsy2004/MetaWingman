@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/topic_candidate.schema.json",
+  "title": "MetaWingman evidence-grounded review topic candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "candidate_id", "landscape_id", "generation_method", "question_framework",
+    "concept_node_ids", "evidence_node_ids", "source_family_ids", "signals", "feasibility_evidence",
+    "overlap_evidence", "leakage_checks", "operationalization", "created_at_utc"
+  ],
+  "$defs": {
+    "term_set": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "calibration_status", "basis", "evidence_node_ids"],
+      "properties": {
+        "value": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "calibration_status": {"enum": ["calibrated", "heuristic", "unavailable"]},
+        "basis": {"type": "string", "minLength": 1},
+        "evidence_node_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+        }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "candidate_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "landscape_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "generation_method": {
+      "enum": ["graph_path", "gap_map", "update_signal", "priority_alignment", "cross_domain_bridge", "model_proposal"]
+    },
+    "question_framework": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["population", "intervention_or_exposure", "comparator", "outcome", "study_design", "synthesis_route"],
+      "properties": {
+        "population": {"$ref": "#/$defs/term_set"},
+        "intervention_or_exposure": {"$ref": "#/$defs/term_set"},
+        "comparator": {"$ref": "#/$defs/term_set"},
+        "outcome": {"$ref": "#/$defs/term_set"},
+        "study_design": {"$ref": "#/$defs/term_set"},
+        "synthesis_route": {"type": "string", "minLength": 1}
+      }
+    },
+    "concept_node_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+    },
+    "evidence_node_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+    },
+    "source_family_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "signals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_relevance", "unresolved_uncertainty", "feasibility", "evidence_maturity",
+        "nonduplication", "update_need", "equity_priority", "cross_domain_value",
+        "contamination_risk", "ambiguity_risk"
+      ],
+      "properties": {
+        "decision_relevance": {"$ref": "#/$defs/signal"},
+        "unresolved_uncertainty": {"$ref": "#/$defs/signal"},
+        "feasibility": {"$ref": "#/$defs/signal"},
+        "evidence_maturity": {"$ref": "#/$defs/signal"},
+        "nonduplication": {"$ref": "#/$defs/signal"},
+        "update_need": {"$ref": "#/$defs/signal"},
+        "equity_priority": {"$ref": "#/$defs/signal"},
+        "cross_domain_value": {"$ref": "#/$defs/signal"},
+        "contamination_risk": {"$ref": "#/$defs/signal"},
+        "ambiguity_risk": {"$ref": "#/$defs/signal"}
+      }
+    },
+    "feasibility_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary_study_count", "independent_source_families", "known_item_recall", "full_text_access_fraction", "extractable_result_fraction"],
+      "properties": {
+        "primary_study_count": {"type": "integer", "minimum": 0},
+        "independent_source_families": {"type": "integer", "minimum": 0},
+        "known_item_recall": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "full_text_access_fraction": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "extractable_result_fraction": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+      }
+    },
+    "overlap_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maximum_existing_review_overlap", "active_protocol_overlap", "update_justification"],
+      "properties": {
+        "maximum_existing_review_overlap": {"type": "number", "minimum": 0, "maximum": 1},
+        "active_protocol_overlap": {"type": "boolean"},
+        "update_justification": {"type": "string"}
+      }
+    },
+    "leakage_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["audit_status", "target_title_seen", "target_authors_seen", "target_identifier_seen", "target_descendant_seen", "post_cutoff_source_seen"],
+      "properties": {
+        "audit_status": {"enum": ["not_applicable", "passed", "not_run", "failed"]},
+        "target_title_seen": {"type": "boolean"},
+        "target_authors_seen": {"type": "boolean"},
+        "target_identifier_seen": {"type": "boolean"},
+        "target_descendant_seen": {"type": "boolean"},
+        "post_cutoff_source_seen": {"type": "boolean"}
+      }
+    },
+    "operationalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "missing_fields", "rationale"],
+      "properties": {
+        "status": {"enum": ["complete", "incomplete", "conflicted"]},
+        "missing_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

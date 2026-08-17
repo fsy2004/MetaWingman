@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "positive": [
+    {
+      "case_id": "topic-feasibility",
+      "prompt": "Use MetaWingman to assess whether this clinical question is suitable for a new systematic review and plan the evidence map.",
+      "expected": "Trigger MetaWingman, identify the review profile and decision need, search current reviews and registrations, and stop before protocol freeze."
+    },
+    {
+      "case_id": "protocol",
+      "prompt": "Build a PICO protocol with outcome hierarchy, estimands, thresholds, search sources, and amendment rules for this intervention review.",
+      "expected": "Trigger MetaWingman and produce typed draft protocol artifacts with unresolved items and human freeze gate."
+    },
+    {
+      "case_id": "screening",
+      "prompt": "Screen this RIS export against the frozen criteria, preserve criterion evidence, and abstain when the abstract is insufficient.",
+      "expected": "Trigger MetaWingman, retain source order and anchors, do not finalize exclusions without the selected mode's human process."
+    },
+    {
+      "case_id": "extraction",
+      "prompt": "Extract outcome data from these reports and supplements, resolve report-study-result lineage, and recompute risk ratios.",
+      "expected": "Trigger MetaWingman, ingest lawful documents, emit anchored candidates, resolve lineage, and verify effects with deterministic code."
+    },
+    {
+      "case_id": "living-update",
+      "prompt": "Update this living review from the previous search snapshot and show which analyses and claims need rerunning.",
+      "expected": "Trigger MetaWingman, compare like-for-like source snapshots, propagate graph impact, and require human triage."
+    }
+  ],
+  "negative": [
+    {
+      "case_id": "generic-statistics",
+      "prompt": "Explain the difference between a mean and a median.",
+      "expected": "Do not invoke the full MetaWingman workflow."
+    },
+    {
+      "case_id": "single-paper-summary",
+      "prompt": "Summarize this one paper in three bullets.",
+      "expected": "Do not imply a systematic review or Meta-analysis unless the user asks for evidence synthesis."
+    },
+    {
+      "case_id": "forest-plot-only",
+      "prompt": "Make a forest plot from this already validated table.",
+      "expected": "Use an appropriate plotting or statistics workflow; do not restart the full review unless provenance or review-stage work is requested."
+    }
+  ]
+}

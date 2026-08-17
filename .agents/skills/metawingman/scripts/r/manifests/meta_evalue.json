@@ -1,0 +1,85 @@
+{
+  "id": "meta_evalue",
+  "title": "E 值敏感性分析(未测量混杂)",
+  "title_en": "E-value sensitivity analysis",
+  "category": "meta",
+  "family": "证据确信度与偏倚敏感 Certainty & Bias Sensitivity",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_evalue.R",
+  "workdir": "adapters/meta",
+  "description": "对合并效应(RR/OR/HR 及其 95% 置信区间)计算 E 值:一个未测量混杂因素若要把观察到的关联完全解释掉,需与暴露、与结局同时达到的最小关联强度(RR 尺度)。输出点估计与置信限的 E 值表,以及偏倚因子联合曲线图(VanderWeele & Ding 2017)。基于 EValue 包。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "合并效应 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/evalue.csv",
+      "spec": "每行一个合并效应,需列 est(点估计,比值尺度)、lo/hi(95% 置信下/上限)+ 可选研究/亚组名列(默认 study)。measure 决定 est 的解读(RR/OR/HR);OR、HR 罕见结局可开启 rare 近似。可放多行(如多个亚组),表中逐行给出 E 值,偏倚图取首行。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "measure": {
+        "type": "string",
+        "title": "效应量尺度",
+        "default": "RR",
+        "enum": [
+          "RR",
+          "OR",
+          "HR"
+        ]
+      },
+      "rare": {
+        "type": "boolean",
+        "title": "罕见结局近似(OR/HR)",
+        "default": false
+      },
+      "true": {
+        "type": "number",
+        "title": "无效值(真值)",
+        "default": 1
+      },
+      "slab": {
+        "type": "string",
+        "title": "研究/亚组名列名",
+        "default": "study"
+      }
+    }
+  },
+  "param_flags": {
+    "measure": "--measure",
+    "rare": "--rare",
+    "true": "--true",
+    "slab": "--slab"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "Meta 分析为研究级汇总数据(通常几十行),内存开销极小,基本恒为绿灯。"
+  },
+  "group": "certainty",
+  "item_order": 10,
+  "analysis": "evalue",
+  "shape": "evalue"
+}

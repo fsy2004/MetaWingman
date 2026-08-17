@@ -1,0 +1,74 @@
+{
+  "id": "meta_complex_dose_spline",
+  "title": "剂量反应 · 三次样条(非线性)",
+  "title_en": "Dose-response — cubic spline",
+  "category": "meta",
+  "family": "复杂数据结构 Complex Data Structures",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_complex.R",
+  "workdir": "adapters/meta",
+  "description": "剂量-反应元分析(受限三次样条 dosresmeta + rms::rcs):在暴露分位数处设结点拟合灵活的非线性暴露-反应关系,给出偏离线性的 Wald 检验。输出带 95% CI 带的非线性剂量-反应曲线与代表性剂量的相对风险预测表。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "剂量-反应 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/complex_dose.csv",
+      "spec": "每研究多行(每个暴露水平一行),需列 id(研究)、type(cc/ir/ci 研究类型)、dose(暴露量)、cases、n、logrr(相对参照的对数RR)、se(其标准误,参照行留空)。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "method": {
+        "type": "string",
+        "title": "二阶段合并方法",
+        "default": "REML",
+        "enum": [
+          "REML",
+          "ML",
+          "FIXED"
+        ]
+      },
+      "knots": {
+        "type": "integer",
+        "title": "样条结点数(≥3)",
+        "default": 3,
+        "minimum": 3,
+        "maximum": 5
+      }
+    }
+  },
+  "param_flags": {
+    "method": "--method",
+    "knots": "--knots"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "Meta 分析为研究级汇总数据(通常几十行),内存开销极小,基本恒为绿灯。"
+  },
+  "group": "complex",
+  "item_order": 40,
+  "analysis": "dose_spline"
+}

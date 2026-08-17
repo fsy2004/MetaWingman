@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/protocol_criteria.schema.json",
+  "title": "MetaWingman compiled protocol criteria",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "protocol_version", "status", "criteria"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "protocol_version": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "frozen", "amended"]},
+    "criteria": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["criterion_id", "domain", "label", "predicate", "missing_policy", "full_text_required", "status", "source_section"],
+        "properties": {
+          "criterion_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "domain": {"enum": ["population", "intervention", "exposure", "comparator", "outcome", "design", "setting", "timepoint", "report", "other"]},
+          "label": {"type": "string", "minLength": 1},
+          "predicate": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["field", "operator", "value", "unit", "normalization"],
+            "properties": {
+              "field": {"type": "string", "minLength": 1},
+              "operator": {"enum": ["equals", "not_equals", "in", "not_in", "contains", "exists", "gte", "gt", "lte", "lt", "between"]},
+              "value": {},
+              "unit": {"type": ["string", "null"]},
+              "normalization": {"type": "string"}
+            }
+          },
+          "missing_policy": {"enum": ["unclear", "not_reported", "exclude", "include"]},
+          "full_text_required": {"type": "boolean"},
+          "status": {"enum": ["operational", "needs_human_definition"]},
+          "source_section": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

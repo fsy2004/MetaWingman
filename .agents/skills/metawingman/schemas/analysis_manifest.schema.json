@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/analysis_manifest.schema.json",
+  "title": "MetaWingman executable analysis manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "analysis_id", "synthesis_id", "protocol", "estimand_id",
+    "effect_measure", "inputs", "dependency_policy", "missing_data_policy", "model",
+    "software", "seed", "planned_analyses", "status", "outputs", "verification",
+    "created_at_utc", "executed_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "analysis_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "synthesis_id": {"type": "string", "minLength": 1},
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "sha256", "freeze_id"],
+      "properties": {
+        "version": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "freeze_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "estimand_id": {"type": "string", "minLength": 1},
+    "effect_measure": {"type": "string", "minLength": 1},
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_path", "sha256", "schema_or_columns", "freeze_id"],
+        "properties": {
+          "artifact_path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "schema_or_columns": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "freeze_id": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "dependency_policy": {"type": "string", "minLength": 1},
+    "missing_data_policy": {"type": "string", "minLength": 1},
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "estimator", "variance", "heterogeneity", "confidence_level", "prediction_interval", "options"],
+      "properties": {
+        "family": {"type": "string", "minLength": 1},
+        "estimator": {"type": "string", "minLength": 1},
+        "variance": {"type": "string", "minLength": 1},
+        "heterogeneity": {"type": "string", "minLength": 1},
+        "confidence_level": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1},
+        "prediction_interval": {"type": "boolean"},
+        "options": {"type": "object"}
+      }
+    },
+    "software": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "version", "source"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "version": {"type": "string", "minLength": 1},
+          "source": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "seed": {"type": ["integer", "null"]},
+    "planned_analyses": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["analysis_step_id", "type", "prespecified", "parameters", "output_ids"],
+        "properties": {
+          "analysis_step_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "type": {"enum": ["primary", "subgroup", "sensitivity", "meta_regression", "influence", "reporting_bias", "certainty_input", "other"]},
+          "prespecified": {"type": "boolean"},
+          "parameters": {"type": "object"},
+          "output_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+        }
+      }
+    },
+    "status": {"enum": ["draft", "frozen", "executed", "verified", "failed", "superseded"]},
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["output_id", "artifact_path", "sha256", "media_type"],
+        "properties": {
+          "output_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "artifact_path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "media_type": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "clean_run", "numeric_checks", "verified_by", "verified_at_utc"],
+      "properties": {
+        "status": {"enum": ["not_started", "pending", "passed", "failed"]},
+        "clean_run": {"type": "boolean"},
+        "numeric_checks": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "verified_by": {"type": "string"},
+        "verified_at_utc": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "executed_at_utc": {"type": ["string", "null"], "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"enum": ["frozen", "executed", "verified"]}}},
+      "then": {"properties": {"inputs": {"minItems": 1}}}
+    },
+    {
+      "if": {"properties": {"status": {"enum": ["executed", "verified"]}}},
+      "then": {
+        "properties": {
+          "outputs": {"minItems": 1},
+          "executed_at_utc": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "verified"}}},
+      "then": {
+        "properties": {
+          "verification": {
+            "properties": {
+              "status": {"const": "passed"},
+              "clean_run": {"const": true},
+              "numeric_checks": {"minItems": 1},
+              "verified_by": {"type": "string", "minLength": 1},
+              "verified_at_utc": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    }
+  ]
+}

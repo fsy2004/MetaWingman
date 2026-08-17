@@ -1,0 +1,57 @@
+{
+  "category": "meta",
+  "family": "数据准备",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T2",
+  "entry": "adapters/meta/run_convert.R",
+  "workdir": "adapters/meta",
+  "outputs": [
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 2,
+    "calibrated": true
+  },
+  "group": "data",
+  "id": "meta_conv_p",
+  "title": "换算:点估计 + p 值 → 标准误",
+  "title_en": "Convert: estimate + p-value → SE",
+  "description": "换算:点估计 + p 值 → 标准误。把原始数据换算成标准 yi(效应量)/ sei(标准误),输出的 converted.csv 可直接喂「通用倒方差森林」等分析。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "原始数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/convert_p.csv",
+      "spec": "点估计 + 双侧 p:est,p。比值型自动取 log。输出 yi/sei。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "ratio": {
+        "type": "boolean",
+        "title": "比值型(OR/RR/HR,取 log)",
+        "default": true
+      }
+    }
+  },
+  "param_flags": {
+    "ratio": "--ratio"
+  },
+  "item_order": 60,
+  "shape": "est_p",
+  "analysis": "p_to_se"
+}

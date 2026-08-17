@@ -1,0 +1,20 @@
+{
+  "name": "metawingman-local",
+  "interface": {
+    "displayName": "Metawingman Local"
+  },
+  "plugins": [
+    {
+      "name": "metawingman",
+      "source": {
+        "source": "local",
+        "path": "./plugins/metawingman"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Research"
+    }
+  ]
+}

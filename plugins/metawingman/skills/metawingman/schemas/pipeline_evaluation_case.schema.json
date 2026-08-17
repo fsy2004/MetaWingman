@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/pipeline_evaluation_case.schema.json",
+  "title": "MetaWingman source-grounded pipeline evaluation case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "case_id", "review_id", "review_family_id", "split",
+    "task_type", "reference", "prediction", "verifier"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "case_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "review_id": {"type": "string", "minLength": 1},
+    "review_family_id": {"type": "string", "minLength": 1},
+    "split": {"enum": ["train", "dev", "test"]},
+    "task_type": {"enum": ["screening", "extraction", "lineage", "claim", "action"]},
+    "reference": {"$ref": "#/$defs/reference"},
+    "prediction": {"$ref": "#/$defs/prediction"},
+    "verifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "source_grounded", "status", "notes"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "source_grounded": {"type": "boolean"},
+        "status": {"enum": ["passed", "failed", "not_run"]},
+        "notes": {"type": "string"}
+      }
+    }
+  },
+  "$defs": {
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "value", "tolerance", "anchor_ids"],
+      "properties": {
+        "field": {"type": "string", "minLength": 1},
+        "value": {},
+        "tolerance": {"type": ["number", "null"], "minimum": 0},
+        "anchor_ids": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "fields", "anchor_ids", "abstention_required", "adjudication_status"],
+      "properties": {
+        "decision": {"type": ["string", "null"]},
+        "fields": {"type": "array", "items": {"$ref": "#/$defs/field"}},
+        "anchor_ids": {
+          "type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+        },
+        "abstention_required": {"type": "boolean"},
+        "adjudication_status": {"enum": ["dual_adjudicated", "author_verified", "synthetic_fixture"]}
+      }
+    },
+    "prediction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "fields", "anchor_ids", "abstained"],
+      "properties": {
+        "decision": {"type": ["string", "null"]},
+        "fields": {"type": "array", "items": {"$ref": "#/$defs/field"}},
+        "anchor_ids": {
+          "type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+        },
+        "abstained": {"type": "boolean"}
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+"field","subkey","value"
+"n_identified","PubMed",520
+"n_identified","Embase",610
+"n_identified","WoS",430
+"n_duplicates","",380
+"n_screened","",1180
+"n_excluded_screen","",980
+"n_fulltext_sought","",200
+"n_fulltext_notretrieved","",12
+"n_fulltext_assessed","",188
+"n_fulltext_excluded","Wrong population",60
+"n_fulltext_excluded","No usable data",48
+"n_fulltext_excluded","Duplicate cohort",15
+"n_included_studies","",65
+"n_included_reports","",68

@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/claim.schema.json",
+  "title": "MetaWingman evidence-bounded claim",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "claim_id", "claim_type", "text", "scope", "certainty",
+    "allowed_verbs", "evidence_node_ids", "assertion_ids", "analysis_output_ids",
+    "counterevidence_node_ids", "status", "created_by", "verification",
+    "human_responsibility", "created_at_utc", "updated_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "claim_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "claim_type": {"enum": ["observation", "interpretation", "implication"]},
+    "text": {"type": "string", "minLength": 1},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["synthesis_id", "population", "contrast", "outcome", "time_window", "applicability_limits"],
+      "properties": {
+        "synthesis_id": {"type": ["string", "null"]},
+        "population": {"type": "string", "minLength": 1},
+        "contrast": {"type": "string", "minLength": 1},
+        "outcome": {"type": "string", "minLength": 1},
+        "time_window": {"type": "string", "minLength": 1},
+        "applicability_limits": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      }
+    },
+    "certainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["framework", "judgment", "dossier_id"],
+      "properties": {
+        "framework": {"type": "string", "minLength": 1},
+        "judgment": {"type": "string", "minLength": 1},
+        "dossier_id": {"type": ["string", "null"]}
+      }
+    },
+    "allowed_verbs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "evidence_node_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "assertion_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "analysis_output_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "counterevidence_node_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "status": {"enum": ["candidate", "accepted", "final", "rejected", "superseded"]},
+    "created_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "version"],
+      "properties": {
+        "type": {"enum": ["human", "model", "tool"]},
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string"}
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "support_check", "numeric_check", "scope_check", "verified_by", "verified_at_utc", "notes"],
+      "properties": {
+        "status": {"enum": ["not_started", "pending", "passed", "failed"]},
+        "support_check": {"type": "boolean"},
+        "numeric_check": {"type": "boolean"},
+        "scope_check": {"type": "boolean"},
+        "verified_by": {"type": "string"},
+        "verified_at_utc": {"type": ["string", "null"], "format": "date-time"},
+        "notes": {"type": "string"}
+      }
+    },
+    "human_responsibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "responsible_by", "accepted_at_utc"],
+      "properties": {
+        "status": {"enum": ["pending", "accepted", "rejected"]},
+        "responsible_by": {"type": "string"},
+        "accepted_at_utc": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "updated_at_utc": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"enum": ["accepted", "final"]}}},
+      "then": {
+        "properties": {
+          "evidence_node_ids": {"minItems": 1},
+          "verification": {
+            "properties": {
+              "status": {"const": "passed"},
+              "support_check": {"const": true},
+              "scope_check": {"const": true},
+              "verified_by": {"type": "string", "minLength": 1},
+              "verified_at_utc": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "final"}}},
+      "then": {
+        "properties": {
+          "human_responsibility": {
+            "properties": {
+              "status": {"const": "accepted"},
+              "responsible_by": {"type": "string", "minLength": 1},
+              "accepted_at_utc": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    }
+  ]
+}

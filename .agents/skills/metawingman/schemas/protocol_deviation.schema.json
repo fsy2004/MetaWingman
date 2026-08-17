@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/protocol_deviation.schema.json",
+  "title": "MetaWingman protocol deviation or amendment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "deviation_id", "protocol_version_before", "protocol_version_after",
+    "change_type", "timing", "stage", "description", "rationale", "trigger",
+    "affected_artifact_ids", "impact", "required_reruns", "approval", "status",
+    "discovered_at_utc", "resolved_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "deviation_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "protocol_version_before": {"type": "string", "minLength": 1},
+    "protocol_version_after": {"type": ["string", "null"]},
+    "change_type": {"enum": ["amendment", "departure", "correction", "clarification"]},
+    "timing": {"enum": ["prospective", "post_hoc"]},
+    "stage": {"type": "integer", "minimum": 0, "maximum": 9},
+    "description": {"type": "string", "minLength": 1},
+    "rationale": {"type": "string", "minLength": 1},
+    "trigger": {"type": "string", "minLength": 1},
+    "affected_artifact_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "impact": {"enum": ["none", "minor", "major", "conclusion_changing", "unknown"]},
+    "required_reruns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_or_stage", "status", "evidence_ref"],
+        "properties": {
+          "artifact_or_stage": {"type": "string", "minLength": 1},
+          "status": {"enum": ["required", "in_progress", "complete", "not_applicable"]},
+          "evidence_ref": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "approved_by", "approved_at_utc"],
+      "properties": {
+        "status": {"enum": ["pending", "approved", "rejected"]},
+        "approved_by": {"type": "string"},
+        "approved_at_utc": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "status": {"enum": ["open", "approved", "rejected", "resolved"]},
+    "discovered_at_utc": {"type": "string", "format": "date-time"},
+    "resolved_at_utc": {"type": ["string", "null"], "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"enum": ["approved", "resolved"]}}},
+      "then": {
+        "properties": {
+          "protocol_version_after": {"type": "string", "minLength": 1},
+          "approval": {
+            "properties": {
+              "status": {"const": "approved"},
+              "approved_by": {"type": "string", "minLength": 1},
+              "approved_at_utc": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "resolved"}}},
+      "then": {"properties": {"resolved_at_utc": {"type": "string", "format": "date-time"}}}
+    },
+    {
+      "if": {"properties": {"impact": {"enum": ["major", "conclusion_changing"]}}},
+      "then": {"properties": {"required_reruns": {"minItems": 1}}}
+    }
+  ]
+}

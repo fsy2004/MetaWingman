@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/family_audit_report.schema.json",
+  "title": "MetaWingman review-family audit report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at_utc",
+    "decisions",
+    "summary",
+    "families",
+    "held_out_candidates"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "decisions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total", "confirmed", "rejected", "pending_edges"],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "confirmed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rejected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pending_edges": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["families", "confirmed_families", "held_out_candidates"],
+      "properties": {
+        "families": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "confirmed_families": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "held_out_candidates": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "families": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "family_id",
+          "record_ids",
+          "status",
+          "suggested_split",
+          "held_out_candidate"
+        ],
+        "properties": {
+          "family_id": {
+            "type": "string",
+            "pattern": "^family:[a-f0-9]{16}$"
+          },
+          "record_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^epmc:"
+            }
+          },
+          "status": {
+            "enum": [
+              "provisional_singleton",
+              "unconfirmed_candidate",
+              "confirmed",
+              "blocked_integrity",
+              "excluded_non_reference"
+            ]
+          },
+          "suggested_split": {
+            "enum": ["train", "development", "test"]
+          },
+          "held_out_candidate": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "held_out_candidates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^family:[a-f0-9]{16}$"
+      }
+    }
+  }
+}

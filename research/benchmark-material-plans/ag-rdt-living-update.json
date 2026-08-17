@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "pack_id": "ag-rdt-living-update",
+  "candidate_ids": ["ag-rdt-living-dta-2021", "ag-rdt-dta-update-2022"],
+  "review_family_id": "covid19-antigen-dta-living",
+  "supported_scopes": ["extraction", "appraisal", "analysis", "living_update"],
+  "reproduction_ceiling": "living_update",
+  "status": "reference_only",
+  "historical_boundaries": [
+    {"kind": "update_cutoff", "value": "2021-04-30", "precision": "day", "source_note": "First publication version cutoff."},
+    {"kind": "update_cutoff", "value": "2021-08-31", "precision": "day", "source_note": "Updated publication cutoff."}
+  ],
+  "license_assessment": {
+    "pack_redistributable": true,
+    "reviewed_at_utc": "2026-08-13T10:00:00Z",
+    "notes": "Zenodo record 4924035 identifies version 2 of the deposited workbook as CC BY 4.0. The later heiDATA artifact still needs an immutable file inventory and license review."
+  },
+  "artifacts": [
+    {
+      "artifact_id": "agrdt-2021-extraction-v2", "role": "sealed_reference", "artifact_type": "extraction_reference",
+      "source_url": "https://zenodo.org/api/records/4924035/files/Covid%20Ag%20SR_MA%20Update%20V2.xlsx/content",
+      "immutable_revision": "zenodo-record-4924035-revision-7", "destination": "ag-rdt-living-update/sealed-reference/Covid Ag SR_MA Update V2.xlsx",
+      "expected_sha256": "8c2dfe6f4a1512994890c8346b7e2a52598d90fe84f1aed1fe5ebac3c9fb6955", "expected_bytes": 531709,
+      "license": {"status": "verified_open", "identifier": "CC-BY-4.0", "redistributable": true, "evidence_url": "https://zenodo.org/records/4924035"},
+      "temporal_relation": "at_or_before_cutoff", "contains_answer": true, "retrieval_policy": "requires_run_lock",
+      "notes": "Complete deposited workbook. It is a reference artifact, never an operational input."
+    }
+  ],
+  "blockers": ["Inventory and hash the immutable 2022 heiDATA files.", "Verify the later repository license.", "Construct a pre-update operational corpus that excludes later evidence."]
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "pack_id": "hepsanet-controlled-ipd",
+  "candidate_ids": ["hepsanet-fibrosis-ipd"],
+  "review_family_id": "hepsanet-fibrosis-ipd",
+  "supported_scopes": ["analysis", "ipd_workflow"],
+  "reproduction_ceiling": "controlled_ipd_workflow",
+  "status": "development_ready",
+  "historical_boundaries": [
+    {"kind": "search_cutoff", "value": "2022-07-12", "precision": "day", "source_note": "Final bibliographic search date reported in Methods."}
+  ],
+  "license_assessment": {
+    "pack_redistributable": true,
+    "reviewed_at_utc": "2026-08-13T10:00:00Z",
+    "notes": "The pinned code is MIT licensed. Individual participant data are not in the repository and remain controlled; this pack tests access and workflow guards, not result reproduction."
+  },
+  "artifacts": [
+    {
+      "artifact_id": "hepsanet-license", "role": "documentation", "artifact_type": "license",
+      "source_url": "https://raw.githubusercontent.com/gitMarcH/HEPSANET/3801cdbf6e850f6decdada9a8572b709a09c461a/LICENSE",
+      "immutable_revision": "3801cdbf6e850f6decdada9a8572b709a09c461a", "destination": "hepsanet-controlled-ipd/documentation/LICENSE",
+      "expected_sha256": "02ed90328dc54b580fa0e60ba1b52f5cc7729e7cebae3727a0d7cf18b6a4142e", "expected_bytes": 1069,
+      "license": {"status": "verified_open", "identifier": "MIT", "redistributable": true, "evidence_url": "https://github.com/gitMarcH/HEPSANET/blob/3801cdbf6e850f6decdada9a8572b709a09c461a/LICENSE"},
+      "temporal_relation": "not_time_bound", "contains_answer": false, "retrieval_policy": "fetch_by_default", "notes": "License evidence."
+    },
+    {
+      "artifact_id": "hepsanet-jags-model", "role": "operational_input", "artifact_type": "model_code",
+      "source_url": "https://raw.githubusercontent.com/gitMarcH/HEPSANET/3801cdbf6e850f6decdada9a8572b709a09c461a/jagsModel4_IndivAndStudyCovariatesNoBetweenStudyEffects_withAlcSexFemaleBmiCat_noTestReason.jags",
+      "immutable_revision": "3801cdbf6e850f6decdada9a8572b709a09c461a", "destination": "hepsanet-controlled-ipd/operational/model4-no-test-reason.jags",
+      "expected_sha256": "a2035e9e055685a456dde2b5b83f5031bcee0af129eda003548dbde4bf96f08a", "expected_bytes": 2250,
+      "license": {"status": "verified_open", "identifier": "MIT", "redistributable": true, "evidence_url": "https://github.com/gitMarcH/HEPSANET/blob/3801cdbf6e850f6decdada9a8572b709a09c461a/LICENSE"},
+      "temporal_relation": "not_time_bound", "contains_answer": false, "retrieval_policy": "fetch_by_default", "notes": "Model syntax for deterministic interface and controlled-data guard tests."
+    }
+  ],
+  "blockers": ["Individual participant data require controlled access and are not redistributed.", "Published numerical results cannot be regenerated from the public code alone."]
+}

@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/reviewer_assignment.schema.json",
+  "title": "MetaWingman reviewer assignment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "assignment_id", "task_type", "artifact_ids", "round", "actor",
+    "role", "independence_group", "independent_human_required",
+    "counts_toward_independent_human_requirement", "ai_exposure", "conflict_of_interest",
+    "status", "assigned_at_utc", "completed_at_utc", "decision_ref"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "assignment_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "task_type": {
+      "enum": [
+        "title_abstract_screening", "full_text_eligibility", "outcome_data_extraction",
+        "risk_of_bias", "certainty", "poolability", "final_conclusion"
+      ]
+    },
+    "artifact_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "round": {"type": "integer", "minimum": 1},
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "version"],
+      "properties": {
+        "type": {"enum": ["human", "model", "tool"]},
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string"}
+      }
+    },
+    "role": {"enum": ["reviewer", "extractor", "verifier", "opposition", "judge", "adjudicator", "human_lead"]},
+    "independence_group": {"type": "string", "minLength": 1},
+    "independent_human_required": {"type": "boolean"},
+    "counts_toward_independent_human_requirement": {"type": "boolean"},
+    "ai_exposure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["order", "exposed_to_ai_output_ids", "recorded_at_utc"],
+      "properties": {
+        "order": {"enum": ["not_exposed", "blinded_before_ai", "ai_first", "concurrent", "after_initial_decision", "not_applicable"]},
+        "exposed_to_ai_output_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "recorded_at_utc": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "conflict_of_interest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "details", "managed_by"],
+      "properties": {
+        "status": {"enum": ["none_declared", "present_managed", "present_unmanaged", "unknown"]},
+        "details": {"type": "string"},
+        "managed_by": {"type": "string"}
+      }
+    },
+    "status": {"enum": ["assigned", "in_progress", "completed", "withdrawn"]},
+    "assigned_at_utc": {"type": "string", "format": "date-time"},
+    "completed_at_utc": {"type": ["string", "null"], "format": "date-time"},
+    "decision_ref": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"counts_toward_independent_human_requirement": {"const": true}}},
+      "then": {"properties": {"actor": {"properties": {"type": {"const": "human"}}}}}
+    },
+    {
+      "if": {"properties": {"status": {"const": "completed"}}},
+      "then": {
+        "properties": {
+          "completed_at_utc": {"type": "string", "format": "date-time"},
+          "decision_ref": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ai_exposure": {
+            "properties": {
+              "order": {"enum": ["ai_first", "concurrent", "after_initial_decision"]}
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "ai_exposure": {
+            "properties": {
+              "exposed_to_ai_output_ids": {"minItems": 1},
+              "recorded_at_utc": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    }
+  ]
+}

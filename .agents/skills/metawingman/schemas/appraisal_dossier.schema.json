@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/appraisal_dossier.schema.json",
+  "title": "MetaWingman appraisal and judgment dossier",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "dossier_id", "dossier_type", "target", "framework", "evidence_node_ids", "domains",
+    "overall_proposal", "opposition", "judge_recommendation", "missing_information",
+    "status", "final_judgment", "human_signature", "created_at_utc", "updated_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "dossier_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "dossier_type": {"enum": ["risk_of_bias", "missing_evidence", "certainty", "poolability"]},
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "study_id", "result_id", "synthesis_id"],
+      "properties": {
+        "type": {"enum": ["study", "result", "synthesis"]},
+        "id": {"type": "string", "minLength": 1},
+        "study_id": {"type": ["string", "null"]},
+        "result_id": {"type": ["string", "null"]},
+        "synthesis_id": {"type": ["string", "null"]}
+      }
+    },
+    "framework": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "organization", "source_url", "verified_at_utc", "adapter_version"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "organization": {"type": "string", "minLength": 1},
+        "source_url": {"type": "string", "format": "uri"},
+        "verified_at_utc": {"type": "string", "format": "date-time"},
+        "adapter_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "evidence_node_ids": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["domain_id", "label", "signaling_questions", "supporting_anchor_ids", "counterevidence_anchor_ids", "proposal", "rationale"],
+        "properties": {
+          "domain_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "label": {"type": "string", "minLength": 1},
+          "signaling_questions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["question_id", "question", "answer", "anchor_ids", "rationale"],
+              "properties": {
+                "question_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+                "question": {"type": "string", "minLength": 1},
+                "answer": {"enum": ["yes", "probably_yes", "probably_no", "no", "no_information", "not_applicable"]},
+                "anchor_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+                "rationale": {"type": "string", "minLength": 1}
+              }
+            }
+          },
+          "supporting_anchor_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "counterevidence_anchor_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "proposal": {"type": "string", "minLength": 1},
+          "rationale": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "overall_proposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_id", "judgment", "rationale"],
+      "properties": {
+        "actor_id": {"type": "string"},
+        "judgment": {"type": "string"},
+        "rationale": {"type": "string"}
+      }
+    },
+    "opposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_id", "counter_judgment", "anchor_ids", "rationale"],
+      "properties": {
+        "actor_id": {"type": "string"},
+        "counter_judgment": {"type": "string"},
+        "anchor_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "rationale": {"type": "string"}
+      }
+    },
+    "judge_recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_id", "judgment", "reason_codes", "confidence", "abstained"],
+      "properties": {
+        "actor_id": {"type": "string"},
+        "judgment": {"type": "string"},
+        "reason_codes": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "abstained": {"type": "boolean"}
+      }
+    },
+    "missing_information": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "status": {"enum": ["draft", "ready_for_adjudication", "final", "superseded"]},
+    "final_judgment": {"type": ["string", "null"]},
+    "human_signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "signed_by", "signed_at_utc", "notes"],
+      "properties": {
+        "status": {"enum": ["pending", "approved", "rejected"]},
+        "signed_by": {"type": "string"},
+        "signed_at_utc": {"type": ["string", "null"], "format": "date-time"},
+        "notes": {"type": "string"}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "updated_at_utc": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"enum": ["ready_for_adjudication", "final"]}}},
+      "then": {
+        "properties": {
+          "domains": {"minItems": 1},
+          "evidence_node_ids": {"minItems": 1},
+          "overall_proposal": {
+            "properties": {
+              "actor_id": {"type": "string", "minLength": 1},
+              "judgment": {"type": "string", "minLength": 1},
+              "rationale": {"type": "string", "minLength": 1}
+            }
+          },
+          "opposition": {
+            "properties": {
+              "actor_id": {"type": "string", "minLength": 1},
+              "counter_judgment": {"type": "string", "minLength": 1},
+              "rationale": {"type": "string", "minLength": 1}
+            }
+          },
+          "judge_recommendation": {
+            "properties": {
+              "actor_id": {"type": "string", "minLength": 1},
+              "judgment": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "final"}}},
+      "then": {
+        "properties": {
+          "final_judgment": {"type": "string", "minLength": 1},
+          "human_signature": {
+            "properties": {
+              "status": {"const": "approved"},
+              "signed_by": {"type": "string", "minLength": 1},
+              "signed_at_utc": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    }
+  ]
+}
