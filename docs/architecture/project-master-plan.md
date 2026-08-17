@@ -92,6 +92,7 @@ metadata intake（4,098 篇顶刊优先语料）
 - **训练**：`microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext`（revision `e1354b7a…`，MIT），section-role 用 `AutoModelForSequenceClassification`+Trainer，检索用 tied encoder + in-batch negatives + cosine；accelerate/datasets/torch/transformers 锁定，seed `20260815`。
 - **外接 Agent**：provider-neutral contract（OpenAI 兼容），无密钥配置、schema 门控、单次修复弃权、内容无关遥测；DeepSeek 仅为第一个 adapter。
 - **可复现**：哈希链事件账本、逐文件/聚合哈希 bundle、依赖锁、SPDX SBOM + in-toto provenance（未签名声明）。
+- **方法学锚定**：每一步对应的 AI 顶会/顶刊论文与 GitHub 实现见 `methods-bibliography.md`（DPR/SBERT/BiomedBERT/Zhang&Stratos/LLM-as-Judge/HELM/TGAT/TGN/test-time compute 等）。
 
 ## 6. 算力选型（对应你的预算 GPU 需求）
 
