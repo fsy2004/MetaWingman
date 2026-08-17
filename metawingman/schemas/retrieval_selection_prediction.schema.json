@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/retrieval_selection_prediction.schema.json",
+  "title": "AI-only pilot retrieval candidate selection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["selected_index"],
+  "properties": {
+    "selected_index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    }
+  }
+}

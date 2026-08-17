@@ -14,6 +14,7 @@ sys.path.insert(0, str(ROOT / "metawingman/scripts"))
 
 import build_server_training_handoff  # noqa: E402
 import prepare_independent_validation_sample  # noqa: E402
+import run_ai_only_pilot  # noqa: E402
 import run_component_training  # noqa: E402
 from metawingman_core.schema_guard import validate_document  # noqa: E402
 from metawingman_core.server_handoff import (  # noqa: E402
@@ -273,6 +274,79 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         self.assertIn(example["instruction"], query)
         without_title = retrieval_example(1, "train", "family:0000000000000001", "epmc:0000000000000001")
         self.assertEqual(_retrieval_query(without_title), without_title["instruction"])
+
+    def _pilot_fixture(self):
+        examples = [
+            retrieval_example(i, "development", f"family:{i:08x}", f"epmc:{i:08x}")
+            for i in range(30)
+        ]
+        for index, example in enumerate(examples):
+            example["review_title"] = f"Review title {index}"
+        section_role = [dict(example, task="section_role_classification") for example in examples[:10]]
+        all_examples = examples + section_role
+        pairs = [
+            {
+                "pair_id": f"p-pos-{example['example_id']}",
+                "query_example_id": example["example_id"],
+                "query_split": "development",
+                "label": 1,
+                "query_text": _retrieval_query(example),
+                "document_text": example["input_text"],
+                "document_example_id": example["example_id"],
+            }
+            for example in examples
+        ]
+        return all_examples, pairs
+
+    def test_pilot_task_building_is_deterministic(self) -> None:
+        all_examples, pairs = self._pilot_fixture()
+        first = run_ai_only_pilot.build_pilot_tasks(all_examples, pairs, "C0", sample_size=20, seed=7)
+        second = run_ai_only_pilot.build_pilot_tasks(all_examples, pairs, "C0", sample_size=20, seed=7)
+        self.assertEqual([task["task_id"] for task in first], [task["task_id"] for task in second])
+        section_role = [task for task in first if task["task_id"].startswith("sr-")]
+        retrieval = [task for task in first if task["task_id"].startswith("rt-")]
+        self.assertEqual(len(section_role), 10)
+        self.assertEqual(len(retrieval), 20)
+        with_verifier = run_ai_only_pilot.build_pilot_tasks(
+            all_examples, pairs, "C3", sample_size=5, seed=7,
+            verifier_predictions={example["example_id"]: {"section_role": "search"} for example in all_examples},
+        )
+        for task in with_verifier:
+            field = "verifier_prediction" if task["task_id"].startswith("sr-") else "verifier_ranking"
+            self.assertIn(field, task["input_document"])
+
+    def test_pilot_scoring_assigns_perfect_scores_to_perfect_runs(self) -> None:
+        all_examples, pairs = self._pilot_fixture()
+        tasks = run_ai_only_pilot.build_pilot_tasks(all_examples, pairs, "C0", sample_size=10, seed=7)
+        section_role_by_id = {
+            example["example_id"]: example
+            for example in all_examples
+            if example["task"] == "section_role_classification"
+        }
+        runs = []
+        for task in tasks:
+            if task["task_id"].startswith("sr-"):
+                example_id = "example:" + task["task_id"].rsplit("-", 1)[-1]
+                runs.append({
+                    "task_id": task["task_id"],
+                    "status": "candidate_generated",
+                    "candidate": {"section_role": section_role_by_id[example_id]["target"]["section_role"]},
+                    "attempts": 1,
+                    "usage_totals": {"total_tokens": 10},
+                })
+            else:
+                runs.append({
+                    "task_id": task["task_id"],
+                    "status": "candidate_generated",
+                    "candidate": {"selected_index": 0},
+                    "attempts": 1,
+                    "usage_totals": {"total_tokens": 10},
+                })
+        scoring = run_ai_only_pilot.score_pilot_tasks(runs, all_examples, pairs)
+        self.assertEqual(scoring["section_role"]["macro_f1"], 1.0)
+        self.assertEqual(scoring["retrieval"]["mrr"], 1.0)
+        self.assertEqual(scoring["retrieval"]["precision_at_1"], 1.0)
+        self.assertEqual(scoring["cost"]["provider_calls"], len(tasks))
 
     def test_validation_sample_is_stratified_blind_and_deterministic(self) -> None:
         total = 240
