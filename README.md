@@ -9,20 +9,20 @@
 [![Analysis manifests](https://img.shields.io/badge/manifests-61-0A7BBC)](metawingman/scripts/r/manifests)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-## 项目现状（如实）
+## 项目现状（三级证据，如实）
 
-- **十阶段全流程可执行**：选题→协议→检索→纳排→提取→RoB→Meta→GRADE→审稿→
-  living update，全部由 skill 编排 + 确定性 R 工具完成；每一阶段留输入、
-  决策者、时间戳、证据锚点、版本与校验结果。
-- **两个领域组件已训练**（训练门第一阶段，见下）：section-role 分类与
-  证据检索，作为 skill 的领域专家插件。
-- **AI-only 基准已起步**：预注册四配置 pilot 完成，训练组件以零 API 成本
-  超过托管模型（开发集弱标签一致性，非科学有效性声明）。
+| 级别 | 内容 |
+|---|---|
+| **① 已执行** | 可审计检索与逐篇许可/撤稿核验全文下载；确定性效应量重算；26 模块 R 统计综合；两个 110M BiomedBERT 组件训练（section-role 分类、证据检索）；预注册四配置 AI-only pilot |
+| **② 组件级评估** | dev 集上训练组件与弱标签的规则一致性（非金标准）：section-role macro-F1 0.983（剥离标题行 0.670）；检索候选集 MRR 0.954；pilot 中零 API 成本超过托管模型 |
+| **③ 设计级（类型化契约 + fixtures，未端到端验证）** | 筛选、提取谱系、RoB、GRADE、审稿、living update 的 schema、hard gate 与测试就绪，端到端执行证据待时间切分重建评估产出 |
+
 - **语料与数据**：27,046 条 OA 元数据语料、12,000 条训练计划、109,028 条
   弱监督样本（12k 重训在服务器自动推进中）。
 - 所有实测数字、receipt 哈希、缺陷修复与对抗审查见
-  `docs/architecture/training-run-report-2026-08-17.md` 与
-  `docs/architecture/adversarial-review-2026-08-17.md`。
+  `docs/architecture/training-run-report-2026-08-17.md`、
+  `docs/architecture/adversarial-review-2026-08-17.md` 与
+  `docs/architecture/reviewer-panel-2026-08-17.md`。
 
 ## 两个交付物：skill 面向多数用户，agent 面向纵深
 
