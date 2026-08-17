@@ -26,7 +26,12 @@ $Repo = 'fsy2004/MetaWingman'
 
 function Invoke-Step([string]$Name, [scriptblock]$Body) {
     Write-Host "== $Name" -ForegroundColor Cyan
+    # Native stderr (Gitee banner, git progress) must not terminate the step,
+    # regardless of PowerShell version semantics.
+    $PSNativeCommandUseErrorActionPreference = $false
+    $ErrorActionPreference = 'Continue'
     & $Body
+    $ErrorActionPreference = 'Stop'
     if ($LASTEXITCODE -ne 0) { throw "step failed: $Name (exit $LASTEXITCODE)" }
 }
 
