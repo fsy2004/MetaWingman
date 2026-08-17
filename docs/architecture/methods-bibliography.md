@@ -5,6 +5,9 @@
 > re-checked online; entries marked (repo doc) are already anchored in the
 > project's own architecture docs. New steps must extend this file before
 > implementation.
+> Second-scan additions (PRM verifiers, Cochrane RCT classifier, hybrid
+> retrieval, conformal abstention, research ideation, verification
+> granularity) live in `top-venue-methods-scan-2026-08-17.md`.
 
 ## 1. Independent human validation arm (轨道 A)
 
