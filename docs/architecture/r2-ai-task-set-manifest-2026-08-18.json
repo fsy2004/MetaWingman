@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "task_set_id": "independent-validation-blind-sample-200",
+  "round": "R2-AI",
+  "created_at_utc": "2026-08-18T00:00:00Z",
+  "interpretation": {
+    "what_200_blind_tasks_means": "The preregistered Part-A independent-validation sample (docs/architecture/label-and-heldout-validation-protocol.md): 200 development records drawn deterministically across strata (seed 20260817), each with up to 6 source-anchored passages, materialized as a blind annotation file plus a sealed weak-label key.",
+    "benchmark_materials_correction": "The task brief described the task set as 'sampled from benchmark materials, compared against published_expert_reference'. In this repo, validation-output/benchmark-materials/ holds the VAL-3 published-review reconstruction materials (5 review families: ag-rdt-living-update, bmj-covid-therapies-methods, carbon-pricing-screening, hepsanet-controlled-ipd, sci-exercise-analysis) and contains only operational_input + documentation + fetch receipts; its sealed published answers (published_expert_reference) are NOT present locally or on the server and VAL-3 is explicitly unfrozen. The 200 blind tasks therefore come from the training-corpus development split, and the reference is the deterministic weak-label key (weak_label_status: deterministic_weak_candidate), NOT published_expert_reference.",
+    "reference_nature": "Deterministic source-anchored weak labels (not human gold, not truth). All R2 numbers are agreement with frozen weak labels.",
+    "sealing": "The weak-label key is never read on the server during prediction; scoring runs locally only after every provider call is locked."
+  },
+  "construction": {
+    "script": "metawingman/scripts/prepare_independent_validation_sample.py",
+    "target_records": 200,
+    "minimum_strata": 20,
+    "seed": 20260817,
+    "max_passages_per_record": 6,
+    "max_characters_per_record": 24000,
+    "stratum_proportional": true,
+    "strata_covered": 47,
+    "selected_records": 200,
+    "passages_total": 999,
+    "passages_per_record_min": 2,
+    "passages_per_record_max": 6,
+    "passages_per_record_mean": 4.995,
+    "section_role_labels_in_key": 822,
+    "section_role_label_distribution": {
+      "synthesis": 212, "search": 155, "extraction": 155, "selection": 127,
+      "appraisal": 109, "eligibility": 29, "certainty": 20, "protocol": 15
+    }
+  },
+  "source_files": [
+    {
+      "role": "blind_task_set",
+      "path": "validation-output/server-download/independent-validation/blind-tasks.jsonl",
+      "sha256": "38c65be79575a8e1c68e5abcf57ece30a46ed55f4bacebe65cdaa5c28f2bf4ff",
+      "bytes": 1700094,
+      "server_path": "/root/autodl-tmp/mw/validation-output/independent-validation/blind-tasks.jsonl",
+      "server_sha256": "38c65be79575a8e1c68e5abcf57ece30a46ed55f4bacebe65cdaa5c28f2bf4ff"
+    },
+    {
+      "role": "sealed_reference_key",
+      "path": "validation-output/server-download/independent-validation/weak-label-key.json",
+      "sha256": "904fc501ccb6e3cdf559623572b6cb7c8b555886ee651d9b4ef85366cd691b41",
+      "bytes": 304902,
+      "server_path": "/root/autodl-tmp/mw/validation-output/independent-validation/weak-label-key.json",
+      "server_sha256": "904fc501ccb6e3cdf559623572b6cb7c8b555886ee651d9b4ef85366cd691b41"
+    },
+    {
+      "role": "fulltext_bundle_for_annotator",
+      "path": "validation-output/server-download/independent-validation/fulltext.tar.gz",
+      "bytes": 6531311
+    }
+  ],
+  "benchmark_materials_provenance": [
+    {"family": "ag-rdt-living-update", "path": "validation-output/benchmark-materials/ag-rdt-living-update/fetch-receipt.json", "note": "operational/documentation only; no sealed reference present"},
+    {"family": "bmj-covid-therapies-methods", "path": "validation-output/benchmark-materials/bmj-covid-therapies-methods/fetch-receipt.json", "note": "operational/documentation only; no sealed reference present"},
+    {"family": "carbon-pricing-screening", "path": "validation-output/benchmark-materials/carbon-pricing-screening/fetch-receipt.json", "note": "operational/documentation only; no sealed reference present"},
+    {"family": "hepsanet-controlled-ipd", "path": "validation-output/benchmark-materials/hepsanet-controlled-ipd/fetch-receipt.json", "note": "operational/documentation only; no sealed reference present"},
+    {"family": "sci-exercise-analysis", "path": "validation-output/benchmark-materials/sci-exercise-analysis/fetch-receipt.json", "note": "operational/documentation only; no sealed reference present"}
+  ],
+  "r2_configuration": {
+    "config": "C3",
+    "hosted_model": "deepseek-v4-flash (api.deepseek.com)",
+    "verifiers": [
+      {"component": "section_role_classification", "model": "BertForSequenceClassification (BiomedBERT 110M, 8 roles)", "path": "/root/autodl-tmp/mw/validation-output/training-runs/section-role/final"},
+      {"component": "evidence_retrieval", "model": "BertModel bi-encoder (BiomedBERT 110M)", "path": "/root/autodl-tmp/mw/validation-output/training-runs/evidence-retrieval/final"}
+    ],
+    "prompt_deviation": "C3 prompt text is byte-identical to the frozen pilot C3 prompts (same sha256). The `biomedical_context` input_document field is omitted for both tasks: the C3 prompt does not reference it, and for the blind section-role tasks including it would leak the reference stratum (blindness)."
+  }
+}
