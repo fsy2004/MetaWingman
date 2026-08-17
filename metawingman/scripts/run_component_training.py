@@ -78,6 +78,7 @@ def _run_section_role(job: dict[str, Any], root: Path, output: Path) -> dict[str
         per_device_eval_batch_size=job["optimization"]["batch_size"],
         learning_rate=job["optimization"]["learning_rate"], weight_decay=job["optimization"]["weight_decay"],
         warmup_steps=warmup_steps, eval_strategy="steps", save_strategy="steps",
+        eval_steps=job["output"]["checkpoint_every_steps"],
         save_steps=job["output"]["checkpoint_every_steps"], save_total_limit=job["output"]["maximum_checkpoints"],
         load_best_model_at_end=True, metric_for_best_model="macro_f1", seed=job["seed"], data_seed=job["seed"],
         fp16=precision == "fp16", bf16=precision == "bf16", report_to=[],
