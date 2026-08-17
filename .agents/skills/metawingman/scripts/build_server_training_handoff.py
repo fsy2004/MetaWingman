@@ -12,6 +12,13 @@ from metawingman_core.server_handoff import build_server_commands, materialize_s
 from metawingman_core.schema_guard import validate_document
 from metawingman_core.training_corpus import TrainingCorpusError
 
+# Canonical runtime locks the data pipeline and training runner need on the
+# server: jsonschema-based schema guard (core) and PyMuPDF PDF metrics (pdf).
+SERVER_RUNTIME_LOCKS = [
+    "metawingman/references/dependencies/python-core.lock.txt",
+    "metawingman/references/dependencies/python-pdf.lock.txt",
+]
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -28,6 +35,7 @@ def main() -> int:
     try:
         root = args.source_root.resolve()
         members = [args.plan, args.lock, *args.job, *args.preflight]
+        members.extend(SERVER_RUNTIME_LOCKS)
         members.extend([
             "metawingman/schemas/training_corpus_plan.schema.json",
             "metawingman/schemas/training_pair.schema.json",

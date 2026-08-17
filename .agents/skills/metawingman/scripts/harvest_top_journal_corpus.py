@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import urllib.parse
 import urllib.request
 from collections import Counter
@@ -157,43 +158,53 @@ def harvest(
     per_journal_limit: int = 0,
     requester: Callable[[str], dict[str, Any]] = _request_json,
     journal_strata: dict[str, list[str]] | None = None,
+    broad_queries: list[tuple[str, str]] | None = None,
+    broad_query_limit: int = 0,
 ) -> dict[str, Any]:
     strata = journal_strata or DEFAULT_JOURNAL_STRATA
+    broad_queries = broad_queries or []
     records_by_key: dict[str, dict[str, Any]] = {}
     api_version = "unknown"
     reported_hits = 0
     query_count = 0
+
+    def _drain(query: str, stratum: str, limit: int = 0) -> None:
+        nonlocal reported_hits, query_count, api_version
+        query_count += 1
+        cursor = "*"
+        retrieved = 0
+        while True:
+            params = {
+                "query": query, "format": "json", "resultType": "core",
+                "pageSize": 1000, "cursorMark": cursor,
+            }
+            data = requester(BASE_URL + "?" + urllib.parse.urlencode(params))
+            api_version = str(data.get("version", api_version))
+            if cursor == "*":
+                reported_hits += int(data.get("hitCount", 0) or 0)
+            items = data.get("resultList", {}).get("result", [])
+            for item in items:
+                if limit and retrieved >= limit:
+                    break
+                retrieved += 1
+                record = _record(item, stratum)
+                if record is None:
+                    continue
+                key = record["doi"] or record["pmid"] or record["record_id"]
+                records_by_key.setdefault(key, record)
+            if (limit and retrieved >= limit) or retrieved >= int(data.get("hitCount", 0) or 0):
+                break
+            next_cursor = str(data.get("nextCursorMark", ""))
+            if not next_cursor or next_cursor == cursor:
+                break
+            cursor = next_cursor
+
     for stratum, journals in strata.items():
         for journal in journals:
-            query_count += 1
             query = f'JOURNAL:"{journal}" AND {REVIEW_CLAUSE} AND FIRST_PDATE:[{year_start}-01-01 TO {year_end}-12-31]'
-            cursor = "*"
-            retrieved = 0
-            while True:
-                params = {
-                    "query": query, "format": "json", "resultType": "core",
-                    "pageSize": 1000, "cursorMark": cursor,
-                }
-                data = requester(BASE_URL + "?" + urllib.parse.urlencode(params))
-                api_version = str(data.get("version", api_version))
-                if cursor == "*":
-                    reported_hits += int(data.get("hitCount", 0) or 0)
-                items = data.get("resultList", {}).get("result", [])
-                for item in items:
-                    if per_journal_limit and retrieved >= per_journal_limit:
-                        break
-                    retrieved += 1
-                    record = _record(item, stratum)
-                    if record is None:
-                        continue
-                    key = record["doi"] or record["pmid"] or record["record_id"]
-                    records_by_key.setdefault(key, record)
-                if (per_journal_limit and retrieved >= per_journal_limit) or retrieved >= int(data.get("hitCount", 0) or 0):
-                    break
-                next_cursor = str(data.get("nextCursorMark", ""))
-                if not next_cursor or next_cursor == cursor:
-                    break
-                cursor = next_cursor
+            _drain(query, stratum, per_journal_limit)
+    for stratum, query in broad_queries:
+        _drain(query, stratum, broad_query_limit)
     records = sorted(records_by_key.values(), key=lambda row: (row["journal_stratum"], row["journal"].casefold(), -row["year"], row["record_id"]))
     status_counts = Counter(record["admission_status"] for record in records)
     stratum_counts = Counter(record["journal_stratum"] for record in records)
@@ -207,6 +218,9 @@ def harvest(
             "journal_is_stratum_not_oracle": True,
             "abstracts_excluded": True,
             "journal_strata": [{"stratum": key, "journals": value} for key, value in strata.items()],
+            "broad_queries": [
+                {"stratum": stratum, "query": query} for stratum, query in broad_queries
+            ],
         },
         "reference_policy": {
             "published_expert_outputs_are_reference": True,
@@ -239,10 +253,23 @@ def main() -> int:
     parser.add_argument("--year-start", type=int, default=2018)
     parser.add_argument("--year-end", type=int, default=datetime.now(timezone.utc).year)
     parser.add_argument("--per-journal-limit", type=int, default=0, help="0 retrieves every matching record")
+    parser.add_argument("--broad-query", action="append", default=[], metavar="STRATUM|QUERY")
+    parser.add_argument("--broad-query-limit", type=int, default=0)
     args = parser.parse_args()
     if args.year_start > args.year_end:
         raise SystemExit("year-start must not exceed year-end")
-    corpus = harvest(args.year_start, args.year_end, args.per_journal_limit)
+    broad_queries: list[tuple[str, str]] = []
+    for item in args.broad_query:
+        if "|" not in item:
+            raise SystemExit("--broad-query must be STRATUM|QUERY")
+        stratum, query = item.split("|", 1)
+        if not re.fullmatch(r"[a-z0-9_-]+", stratum):
+            raise SystemExit("broad-query stratum must match ^[a-z0-9_-]+$")
+        broad_queries.append((stratum, query))
+    corpus = harvest(
+        args.year_start, args.year_end, args.per_journal_limit,
+        broad_queries=broad_queries, broad_query_limit=args.broad_query_limit,
+    )
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(corpus, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps(corpus["summary"], ensure_ascii=False))

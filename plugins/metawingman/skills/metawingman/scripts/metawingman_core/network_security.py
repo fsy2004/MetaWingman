@@ -52,3 +52,22 @@ class PublicHTTPSRedirectHandler(urllib.request.HTTPRedirectHandler):
 
 def public_https_opener() -> urllib.request.OpenerDirector:
     return urllib.request.build_opener(PublicHTTPSRedirectHandler())
+
+
+_original_getaddrinfo = socket.getaddrinfo
+
+
+def force_ipv4_resolution() -> None:
+    """Restrict all future resolution to IPv4 (AF_INET).
+
+    Containers without IPv6 routes can blackhole IPv6 connection attempts;
+    this forces the IPv4 path for environments where that matters.
+    """
+
+    def ipv4_only(host, port, family=0, type=0, proto=0, flags=0):  # type: ignore[no-untyped-def]
+        return [
+            entry for entry in _original_getaddrinfo(host, port, family, type, proto, flags)
+            if entry[0] == socket.AF_INET
+        ]
+
+    socket.getaddrinfo = ipv4_only  # type: ignore[assignment]

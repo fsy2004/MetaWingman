@@ -221,3 +221,113 @@ def build_review_family_registry(
     }
     validate_document(registry, "review_family_registry")
     return registry
+
+
+def audit_review_families(
+    registry: dict[str, Any],
+    corpus: dict[str, Any],
+    decisions: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Recompute family components from human-confirmed edges.
+
+    Emits an audit report without rewriting the registry: registry schema 1.0
+    hard-codes held_out_ready_families=0, so confirmed families and held-out
+    candidates live in this report until the registry schema evolves.
+    """
+    records = corpus.get("records")
+    if not isinstance(records, list):
+        raise ReviewFamilyError("corpus records must be an array")
+    admission = {str(record.get("record_id", "")): str(record.get("admission_status", "")) for record in records}
+    if not all(admission) or len(admission) != len(records):
+        raise ReviewFamilyError("corpus record IDs must be non-empty and unique")
+    edges = {edge["edge_id"]: edge for edge in registry.get("candidate_edges", [])}
+    if len(edges) != len(registry.get("candidate_edges", [])):
+        raise ReviewFamilyError("registry candidate edge IDs must be unique")
+    confirmed_edges: list[tuple[str, str]] = []
+    seen: set[str] = set()
+    rejected = 0
+    for decision in decisions:
+        edge_id = decision.get("edge_id")
+        verdict = decision.get("decision")
+        if verdict not in {"confirm", "reject"}:
+            raise ReviewFamilyError(f"decision must be confirm or reject: {edge_id}")
+        if edge_id not in edges:
+            raise ReviewFamilyError(f"decision references unknown edge: {edge_id}")
+        if edge_id in seen:
+            raise ReviewFamilyError(f"duplicate decision for edge: {edge_id}")
+        seen.add(edge_id)
+        if verdict == "confirm":
+            edge = edges[edge_id]
+            confirmed_edges.append((edge["left_record_id"], edge["right_record_id"]))
+        else:
+            rejected += 1
+    components = _UnionFind(sorted(admission))
+    for left, right in confirmed_edges:
+        if left not in admission or right not in admission:
+            raise ReviewFamilyError("confirmed edge references a record outside the corpus")
+        components.union(left, right)
+    grouped: dict[str, list[str]] = defaultdict(list)
+    for record_id in sorted(admission):
+        grouped[components.find(record_id)].append(record_id)
+    registry_membership: dict[str, set[str]] = defaultdict(set)
+    for family in registry.get("families", []):
+        registry_membership[family["family_id"]] = set(family["record_ids"])
+    pending_edges = set(edges) - seen
+    families: list[dict[str, Any]] = []
+    held_out_candidates: list[str] = []
+    confirmed_families = 0
+    for members in sorted(grouped.values(), key=lambda values: values[0]):
+        family_id = _identifier("family", members)
+        integrity_blocked = any(
+            admission[identifier] in {"hold_integrity_review", "exclude_retracted"}
+            for identifier in members
+        )
+        has_reference = any(
+            admission[identifier] == "development_candidate" for identifier in members
+        )
+        if integrity_blocked:
+            status = "blocked_integrity"
+        elif not has_reference:
+            status = "excluded_non_reference"
+        elif len(members) == 1:
+            status = "provisional_singleton"
+        elif any(
+            {edges[edge_id]["left_record_id"], edges[edge_id]["right_record_id"]} <= set(members)
+            for edge_id in pending_edges
+        ):
+            status = "unconfirmed_candidate"
+        else:
+            status = "confirmed"
+        bucket = int(hashlib.sha256(family_id.encode("utf-8")).hexdigest()[:8], 16) % 100
+        suggested = "train" if bucket < 80 else ("development" if bucket < 90 else "test")
+        held_out = status == "confirmed" and len(members) >= 2 and suggested == "test"
+        if held_out:
+            held_out_candidates.append(family_id)
+        if status == "confirmed":
+            confirmed_families += 1
+        families.append({
+            "family_id": family_id,
+            "record_ids": members,
+            "status": status,
+            "suggested_split": suggested,
+            "held_out_candidate": held_out,
+        })
+    report = {
+        "schema_version": "1.0",
+        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+        "decisions": {
+            "total": len(decisions),
+            "confirmed": len(confirmed_edges),
+            "rejected": rejected,
+            "pending_edges": len(pending_edges),
+        },
+        "summary": {
+            "families": len(families),
+            "confirmed_families": confirmed_families,
+            "held_out_candidates": len(held_out_candidates),
+        },
+        "families": families,
+        "held_out_candidates": held_out_candidates,
+    }
+    validate_document(report, "family_audit_report")
+    return report
