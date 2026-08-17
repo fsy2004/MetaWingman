@@ -243,6 +243,26 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         self.assertEqual(run_component_training._warmup_steps(10, 16, 1, 0.0), 0)
         self.assertEqual(run_component_training._warmup_steps(100, 16, 2, 0.1), 1)
 
+    def test_rank_metrics_masks_same_family_and_ranks_own_document(self) -> None:
+        similarities = [
+            [1.0, 0.5, 0.9],
+            [0.4, 1.0, 0.3],
+            [0.2, 0.1, 1.0],
+        ]
+        families = ["family:a", "family:b", "family:a"]
+        result = run_component_training._rank_metrics(similarities, families)
+        self.assertEqual(result["precision_at_1"], 1.0)
+        self.assertEqual(result["recall_at_10"], 1.0)
+        self.assertAlmostEqual(result["mrr"], 1.0)
+
+    def test_rank_metrics_penalizes_missed_top_rank(self) -> None:
+        similarities = [[0.5, 1.0], [1.0, 0.5]]
+        families = ["family:a", "family:b"]
+        result = run_component_training._rank_metrics(similarities, families)
+        self.assertAlmostEqual(result["mrr"], 0.5)
+        self.assertEqual(result["precision_at_1"], 0.0)
+        self.assertEqual(result["recall_at_10"], 1.0)
+
     def test_handoff_hash_index_must_exactly_match_members(self) -> None:
         result = build_server_handoff({
             "handoff_id": "hash-index-handoff", "created_at_utc": TIMESTAMP,

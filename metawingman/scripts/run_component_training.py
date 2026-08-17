@@ -28,6 +28,35 @@ def _warmup_steps(train_count: int, batch_size: int, epochs: int, warmup_ratio: 
     return max(0, int(round(steps_per_epoch * epochs * warmup_ratio)))
 
 
+def _rank_metrics(similarities: list[list[float]], families: list[str]) -> dict[str, float]:
+    """Full-corpus dev ranking metrics; each query's positive is its own document.
+
+    Documents from the same review family as the query are masked before
+    ranking (family isolation). Returns recall@10, MRR, and precision@1.
+    """
+    queries = len(similarities)
+    if queries == 0:
+        return {"recall_at_10": 0.0, "mrr": 0.0, "precision_at_1": 0.0}
+    recall = 0.0
+    mrr = 0.0
+    precision_at_1 = 0
+    for index, row in enumerate(similarities):
+        masked = [
+            -float("inf") if j != index and families[j] == families[index] else score
+            for j, score in enumerate(row)
+        ]
+        ranked = sorted(range(queries), key=lambda j: masked[j], reverse=True)
+        position = ranked.index(index) + 1
+        mrr += 1.0 / position
+        recall += 1.0 if position <= 10 else 0.0
+        precision_at_1 += 1 if position == 1 else 0
+    return {
+        "recall_at_10": recall / queries,
+        "mrr": mrr / queries,
+        "precision_at_1": precision_at_1 / queries,
+    }
+
+
 def validate_training_job(job: dict[str, Any], root: Path) -> dict[str, Any]:
     """Validation-only boundary that never imports Torch or Transformers."""
     return preflight_component_training(job, root, inspect_server=False)
@@ -99,8 +128,8 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
     import torch.nn.functional as functional
     from torch.utils.data import DataLoader
     from transformers import AutoModel, AutoTokenizer
-
     pairs = _load_jsonl((root / job["dataset"]["pairs_path"]).resolve())
+    examples = _load_jsonl((root / job["dataset"]["examples_path"]).resolve())
     tokenizer = AutoTokenizer.from_pretrained(job["model"]["repository_id"], revision=job["model"]["tokenizer_revision"])
     model = AutoModel.from_pretrained(job["model"]["repository_id"], revision=job["model"]["revision"])
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -122,18 +151,51 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
             optimizer.zero_grad(); loss.backward(); optimizer.step()
             losses.append(float(loss.detach().cpu()))
     model.eval()
+
+    def _encode(texts: list[str], max_length: int) -> torch.Tensor:
+        vectors = []
+        for start in range(0, len(texts), 32):
+            batch = tokenizer(texts[start:start + 32], padding=True, truncation=True, max_length=max_length, return_tensors="pt").to(device)
+            with torch.no_grad():
+                vectors.append(functional.normalize(model(**batch).last_hidden_state[:, 0], dim=-1))
+        return torch.cat(vectors)
+
+    # (a) hard-negative candidate-set ranking (positive vs its own negatives)
     grouped: dict[str, list[tuple[float, int]]] = {}
     with torch.no_grad():
         for item in (item for item in pairs if item["query_split"] == "development"):
-            query = tokenizer([item["query_text"]], padding=True, truncation=True, max_length=256, return_tensors="pt").to(device)
-            document = tokenizer([item["document_text"]], padding=True, truncation=True, max_length=512, return_tensors="pt").to(device)
-            query_vector = functional.normalize(model(**query).last_hidden_state[:, 0], dim=-1)
-            document_vector = functional.normalize(model(**document).last_hidden_state[:, 0], dim=-1)
+            query_vector = _encode([item["query_text"]], 256)
+            document_vector = _encode([item["document_text"]], 512)
             grouped.setdefault(item["query_example_id"], []).append((float((query_vector * document_vector).sum().cpu()), item["label"]))
-    recall = sum(any(label == 1 for _, label in sorted(items, reverse=True)[:10]) for items in grouped.values()) / max(1, len(grouped))
+    candidate_mrr = 0.0
+    candidate_p1 = 0
+    for items in grouped.values():
+        ordered = sorted(items, key=lambda pair: pair[0], reverse=True)
+        rank = next(index + 1 for index, (_, label) in enumerate(ordered) if label == 1)
+        candidate_mrr += 1.0 / rank
+        candidate_p1 += 1 if rank == 1 else 0
+    candidate_mrr /= max(1, len(grouped))
+    candidate_p1 /= max(1, len(grouped))
+
+    # (b) full development-corpus ranking: each query's positive is its own document
+    dev_examples = [item for item in examples if item["task"] == "evidence_retrieval" and item["split"] == "development"]
+    query_vectors = _encode([item["instruction"] for item in dev_examples], 256)
+    document_vectors = _encode([item["input_text"] for item in dev_examples], 512)
+    with torch.no_grad():
+        similarities = (query_vectors @ document_vectors.T).cpu().tolist()
+    families = [item["family_id"] for item in dev_examples]
+    corpus_metrics = _rank_metrics(similarities, families)
     final = output / "final"; final.mkdir(parents=True, exist_ok=True)
     model.save_pretrained(final, safe_serialization=True); tokenizer.save_pretrained(final)
-    return {"train_mean_loss": sum(losses) / len(losses), "development_recall_at_10": recall}
+    return {
+        "train_mean_loss": sum(losses) / len(losses),
+        "development_recall_at_10": corpus_metrics["recall_at_10"],
+        "development_mrr": corpus_metrics["mrr"],
+        "development_precision_at_1": corpus_metrics["precision_at_1"],
+        "development_queries": len(dev_examples),
+        "hard_negative_mrr": candidate_mrr,
+        "hard_negative_precision_at_1": candidate_p1,
+    }
 
 
 def main() -> int:
