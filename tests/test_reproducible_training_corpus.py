@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "metawingman/scripts"))
 
 import build_server_training_handoff  # noqa: E402
+import run_component_training  # noqa: E402
 from metawingman_core.schema_guard import validate_document  # noqa: E402
 from metawingman_core.server_handoff import (  # noqa: E402
     build_server_commands,
@@ -236,6 +237,11 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         ).read_text(encoding="utf-8")
         self.assertIn("jsonschema", core)
         self.assertIn("PyMuPDF", pdf)
+
+    def test_warmup_ratio_materializes_as_warmup_steps(self) -> None:
+        self.assertEqual(run_component_training._warmup_steps(5984, 16, 3, 0.1), 112)
+        self.assertEqual(run_component_training._warmup_steps(10, 16, 1, 0.0), 0)
+        self.assertEqual(run_component_training._warmup_steps(100, 16, 2, 0.1), 1)
 
     def test_handoff_hash_index_must_exactly_match_members(self) -> None:
         result = build_server_handoff({

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import random
 import time
@@ -14,6 +15,17 @@ from typing import Any
 
 from metawingman_core.state_store import atomic_write_json
 from metawingman_core.training_corpus import TrainingCorpusError, preflight_component_training
+
+
+def _warmup_steps(train_count: int, batch_size: int, epochs: int, warmup_ratio: float) -> int:
+    """Materialize a frozen warmup ratio into explicit steps.
+
+    transformers >= 5 dropped TrainingArguments.warmup_ratio; computing the
+    equivalent warmup_steps keeps the frozen optimization semantics across
+    runtime versions.
+    """
+    steps_per_epoch = math.ceil(train_count / batch_size)
+    return max(0, int(round(steps_per_epoch * epochs * warmup_ratio)))
 
 
 def validate_training_job(job: dict[str, Any], root: Path) -> dict[str, Any]:
@@ -54,12 +66,18 @@ def _run_section_role(job: dict[str, Any], root: Path, output: Path) -> dict[str
         dataset = Dataset.from_list(records)
         datasets[split] = dataset.map(lambda batch: tokenizer(batch["text"], truncation=True, max_length=512), batched=True)
     precision = job["optimization"]["precision"]
+    warmup_steps = _warmup_steps(
+        len(datasets["train"]),
+        job["optimization"]["batch_size"],
+        job["optimization"]["epochs"],
+        job["optimization"]["warmup_ratio"],
+    )
     arguments = TrainingArguments(
         output_dir=str(output), num_train_epochs=job["optimization"]["epochs"],
         per_device_train_batch_size=job["optimization"]["batch_size"],
         per_device_eval_batch_size=job["optimization"]["batch_size"],
         learning_rate=job["optimization"]["learning_rate"], weight_decay=job["optimization"]["weight_decay"],
-        warmup_ratio=job["optimization"]["warmup_ratio"], eval_strategy="steps", save_strategy="steps",
+        warmup_steps=warmup_steps, eval_strategy="steps", save_strategy="steps",
         save_steps=job["output"]["checkpoint_every_steps"], save_total_limit=job["output"]["maximum_checkpoints"],
         load_best_model_at_end=True, metric_for_best_model="macro_f1", seed=job["seed"], data_seed=job["seed"],
         fp16=precision == "fp16", bf16=precision == "bf16", report_to=[],
