@@ -66,8 +66,14 @@ first, then extraction fields.
 
 1. **Export within-bucket vectorization** — the 109k-example export ran 60+
    min because the general-medicine neighborhood bucket is huge and the
-   within-bucket overlap loop is still O(bucket²) per query. Replace the
-   per-pair set intersection with batched numpy/ANNOY token-overlap ranking.
+   within-bucket overlap loop is still O(bucket²) per query. **Done (core)**:
+   token-overlap lookup now uses a scipy sparse matrix-vector product (int32
+   accumulation; pure-Python fallback), verified identical to the reference
+   formula on real data (3,000×3,000, 0 mismatches; the differential test
+   caught and fixed an int8 overflow). **Remaining**: the per-query filter
+   loop (split/family/record/source checks + top-3) is still O(bucket) per
+   query — batch it (precomputed bucket overlap matrix + vectorized filters)
+   to reach the <10-min target at 109k.
 2. **F1 title-robustness augmentation** — add title-stripped examples to
    section-role training (0.670 → target ≥0.9 without title).
 3. **F8 verifier weighting** — the hosted model overrides the trained
