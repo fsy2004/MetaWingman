@@ -49,6 +49,7 @@
       "properties": {
         "epochs": {"type": "integer", "minimum": 1},
         "batch_size": {"type": "integer", "minimum": 1},
+        "gradient_accumulation_steps": {"type": "integer", "minimum": 1, "default": 1},
         "learning_rate": {"type": "number", "exclusiveMinimum": 0},
         "weight_decay": {"type": "number", "minimum": 0},
         "warmup_ratio": {"type": "number", "minimum": 0, "maximum": 1},

@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "6d5a1b0c4fa60bdf90ef85e7446e214d14939f8409d552e8a2fa33948e4bbd0d",
+  "source_tree_sha256": "1af4905921bce17775c585210015602ff2b313a8858dabc2c71e361f21b53321",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -267,8 +267,8 @@
     },
     {
       "path": "schemas/component_training_job.schema.json",
-      "sha256": "29e83090bd9785133e099bab47456c4bcc873d9d92ca289b29eb5fcb6cd98213",
-      "bytes": 5140
+      "sha256": "20fefe18716ea08a5e116fcb9ab0b518d76ddea1368d86021585b745c25578b7",
+      "bytes": 5228
     },
     {
       "path": "schemas/credential_capabilities.schema.json",
@@ -1612,8 +1612,8 @@
     },
     {
       "path": "scripts/run_component_training.py",
-      "sha256": "b8b21a4d89f85242bcea6a4711f7e93e5f9676788b831f4a2d48551295660eee",
-      "bytes": 15186
+      "sha256": "428af06185784098424895e9dbe4e563d8be8714385a50cbf3cca24189c5c5e7",
+      "bytes": 18048
     },
     {
       "path": "scripts/screen_record.py",
