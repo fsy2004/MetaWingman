@@ -126,7 +126,6 @@ def _run_section_role(job: dict[str, Any], root: Path, output: Path) -> dict[str
 def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, Any]:
     import torch
     import torch.nn.functional as functional
-    from torch.utils.data import DataLoader
     from transformers import AutoModel, AutoTokenizer
     pairs = _load_jsonl((root / job["dataset"]["pairs_path"]).resolve())
     examples = _load_jsonl((root / job["dataset"]["examples_path"]).resolve())
@@ -134,19 +133,38 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
     model = AutoModel.from_pretrained(job["model"]["repository_id"], revision=job["model"]["revision"])
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
-    train_pairs = [item for item in pairs if item["query_split"] == "train" and item["label"] == 1]
-    loader = DataLoader(train_pairs, batch_size=job["optimization"]["batch_size"], shuffle=True, generator=torch.Generator().manual_seed(job["seed"]), collate_fn=lambda items: items)
+    positives_by_query = {
+        item["query_example_id"]: item
+        for item in pairs
+        if item["query_split"] == "train" and item["label"] == 1
+    }
+    negatives_by_query: dict[str, list[dict]] = {}
+    for item in pairs:
+        if item["query_split"] == "train" and item["label"] == 0:
+            negatives_by_query.setdefault(item["query_example_id"], []).append(item)
+    batch_size = job["optimization"]["batch_size"]
+    query_ids = sorted(positives_by_query)
+    batches = [query_ids[i:i + batch_size] for i in range(0, len(query_ids), batch_size)]
     optimizer = torch.optim.AdamW(model.parameters(), lr=job["optimization"]["learning_rate"], weight_decay=job["optimization"]["weight_decay"])
     model.train()
     losses = []
     for _ in range(job["optimization"]["epochs"]):
-        for batch in loader:
-            queries = tokenizer([item["query_text"] for item in batch], padding=True, truncation=True, max_length=256, return_tensors="pt").to(device)
-            documents = tokenizer([item["document_text"] for item in batch], padding=True, truncation=True, max_length=512, return_tensors="pt").to(device)
+        for query_batch in batches:
+            positives = [positives_by_query[query_id] for query_id in query_batch]
+            hard_negatives: list[dict] = []
+            for query_id in query_batch:
+                hard_negatives.extend(
+                    sorted(negatives_by_query.get(query_id, []), key=lambda item: item["pair_id"])[:3]
+                )
+            queries = tokenizer([item["query_text"] for item in positives], padding=True, truncation=True, max_length=256, return_tensors="pt").to(device)
+            documents = tokenizer(
+                [item["document_text"] for item in positives] + [item["document_text"] for item in hard_negatives],
+                padding=True, truncation=True, max_length=512, return_tensors="pt",
+            ).to(device)
             query_vectors = functional.normalize(model(**queries).last_hidden_state[:, 0], dim=-1)
             document_vectors = functional.normalize(model(**documents).last_hidden_state[:, 0], dim=-1)
             logits = query_vectors @ document_vectors.T
-            labels = torch.arange(logits.shape[0], device=device)
+            labels = torch.arange(len(positives), device=device)
             loss = functional.cross_entropy(logits, labels)
             optimizer.zero_grad(); loss.backward(); optimizer.step()
             losses.append(float(loss.detach().cpu()))
