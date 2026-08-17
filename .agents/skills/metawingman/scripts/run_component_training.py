@@ -38,6 +38,48 @@ def _pad_id_lists(id_lists: list[list[int]], pad_id: int) -> tuple[list[list[int
     return padded, masks
 
 
+def _accumulation_steps(job: dict[str, Any]) -> int:
+    """Read the optional gradient-accumulation step count, defaulting to 1.
+
+    ``optimization.gradient_accumulation_steps`` is optional in the job schema and
+    defaults to 1, which reproduces the historical per-micro-batch update exactly.
+    """
+    steps = int(job["optimization"].get("gradient_accumulation_steps", 1))
+    if steps < 1:
+        raise ValueError("optimization.gradient_accumulation_steps must be >= 1")
+    return steps
+
+
+def _accumulation_windows(batch_count: int, accumulation_steps: int) -> list[tuple[int, int]]:
+    """Split one epoch's micro-batches into gradient-accumulation windows.
+
+    Returns ``(start, length)`` slices: each window is one optimizer step and one
+    effective batch. Full windows hold ``accumulation_steps`` micro-batches and a
+    trailing partial window keeps its remainder so no gradient is dropped. With
+    ``accumulation_steps == 1`` every window is a single micro-batch and the
+    original per-batch update is reproduced exactly.
+    """
+    return [
+        (start, min(accumulation_steps, batch_count - start))
+        for start in range(0, batch_count, accumulation_steps)
+    ]
+
+
+def _accumulate_losses(step_losses: list[float], accumulation_steps: int) -> list[float]:
+    """Reduce per-micro-batch losses into per-effective-batch means.
+
+    ``step_losses[i]`` is the unscaled cross-entropy of micro-batch ``i`` (the value
+    divided by the window size before backward). The result has one entry per
+    optimizer step: the mean of the micro-batch losses in that accumulation window,
+    i.e. the cross-entropy of the effective batch. This preserves the reporting
+    scale of the non-accumulated run (per-optimizer-step mean cross-entropy).
+    """
+    return [
+        sum(step_losses[start:start + length]) / length
+        for start, length in _accumulation_windows(len(step_losses), accumulation_steps)
+    ]
+
+
 def _rank_metrics(similarities: list[list[float]], families: list[str]) -> dict[str, float]:
     """Full-corpus dev ranking metrics; each query's positive is its own document.
 
@@ -153,6 +195,7 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
         if item["query_split"] == "train" and item["label"] == 0:
             negatives_by_query.setdefault(item["query_example_id"], []).append(item)
     batch_size = job["optimization"]["batch_size"]
+    accumulation_steps = _accumulation_steps(job)
     query_ids = sorted(positives_by_query)
     batches = [query_ids[i:i + batch_size] for i in range(0, len(query_ids), batch_size)]
     pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else 0
@@ -183,35 +226,46 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
     model.train()
     losses = []
     for _ in range(job["optimization"]["epochs"]):
-        for query_batch in batches:
-            positives = [positives_by_query[query_id] for query_id in query_batch]
-            hard_negatives: list[dict] = []
-            for query_id in query_batch:
-                hard_negatives.extend(
-                    sorted(negatives_by_query.get(query_id, []), key=lambda item: item["pair_id"])[:3]
+        step_losses: list[float] = []
+        for window_start, window_size in _accumulation_windows(len(batches), accumulation_steps):
+            for query_batch in batches[window_start:window_start + window_size]:
+                positives = [positives_by_query[query_id] for query_id in query_batch]
+                hard_negatives: list[dict] = []
+                for query_id in query_batch:
+                    hard_negatives.extend(
+                        sorted(negatives_by_query.get(query_id, []), key=lambda item: item["pair_id"])[:3]
+                    )
+                query_id_lists = [query_cache[query_id] for query_id in query_batch]
+                document_id_lists = (
+                    [document_cache[item["document_example_id"]] for item in positives]
+                    + [document_cache[item["document_example_id"]] for item in hard_negatives]
                 )
-            query_id_lists = [query_cache[query_id] for query_id in query_batch]
-            document_id_lists = (
-                [document_cache[item["document_example_id"]] for item in positives]
-                + [document_cache[item["document_example_id"]] for item in hard_negatives]
-            )
-            padded_queries, query_masks = _pad_id_lists(query_id_lists, pad_id)
-            padded_documents, document_masks = _pad_id_lists(document_id_lists, pad_id)
-            query_tensors = {
-                "input_ids": torch.tensor(padded_queries, device=device),
-                "attention_mask": torch.tensor(query_masks, device=device),
-            }
-            document_tensors = {
-                "input_ids": torch.tensor(padded_documents, device=device),
-                "attention_mask": torch.tensor(document_masks, device=device),
-            }
-            query_vectors = functional.normalize(model(**query_tensors).last_hidden_state[:, 0], dim=-1)
-            document_vectors = functional.normalize(model(**document_tensors).last_hidden_state[:, 0], dim=-1)
-            logits = query_vectors @ document_vectors.T
-            labels = torch.arange(len(positives), device=device)
-            loss = functional.cross_entropy(logits, labels)
-            optimizer.zero_grad(); loss.backward(); optimizer.step()
-            losses.append(float(loss.detach().cpu()))
+                padded_queries, query_masks = _pad_id_lists(query_id_lists, pad_id)
+                padded_documents, document_masks = _pad_id_lists(document_id_lists, pad_id)
+                query_tensors = {
+                    "input_ids": torch.tensor(padded_queries, device=device),
+                    "attention_mask": torch.tensor(query_masks, device=device),
+                }
+                document_tensors = {
+                    "input_ids": torch.tensor(padded_documents, device=device),
+                    "attention_mask": torch.tensor(document_masks, device=device),
+                }
+                query_vectors = functional.normalize(model(**query_tensors).last_hidden_state[:, 0], dim=-1)
+                document_vectors = functional.normalize(model(**document_tensors).last_hidden_state[:, 0], dim=-1)
+                logits = query_vectors @ document_vectors.T
+                labels = torch.arange(len(positives), device=device)
+                loss = functional.cross_entropy(logits, labels)
+                # Average the gradient over the effective batch: divide this
+                # micro-batch loss by the window size before backward so the summed
+                # grads equal the gradient of the window's mean cross-entropy.
+                (loss / window_size).backward()
+                step_losses.append(float(loss.detach().cpu()))
+            optimizer.step()
+            optimizer.zero_grad()
+        # Report one value per optimizer step: the mean of the window's micro-batch
+        # cross-entropies (the effective-batch cross-entropy), keeping
+        # train_mean_loss on the same scale as a non-accumulated run.
+        losses.extend(_accumulate_losses(step_losses, accumulation_steps))
     model.eval()
 
     def _encode(texts: list[str], max_length: int) -> torch.Tensor:

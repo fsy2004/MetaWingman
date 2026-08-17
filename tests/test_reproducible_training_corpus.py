@@ -16,7 +16,7 @@ import build_server_training_handoff  # noqa: E402
 import prepare_independent_validation_sample  # noqa: E402
 import run_ai_only_pilot  # noqa: E402
 import run_component_training  # noqa: E402
-from metawingman_core.schema_guard import validate_document  # noqa: E402
+from metawingman_core.schema_guard import SchemaValidationError, validate_document  # noqa: E402
 from metawingman_core.server_handoff import (  # noqa: E402
     build_server_commands,
     build_server_handoff,
@@ -271,6 +271,48 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         self.assertEqual(padded, [[1, 2], [3, 0], [0, 0]])
         self.assertEqual(masks, [[1, 1], [1, 0], [0, 0]])
         self.assertEqual(run_component_training._pad_id_lists([], 0), ([], []))
+
+    def test_accumulation_steps_defaults_to_one_when_field_absent(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            job = component_job_fixture(root)
+            self.assertNotIn("gradient_accumulation_steps", job["optimization"])
+            self.assertEqual(run_component_training._accumulation_steps(job), 1)
+            job["optimization"]["gradient_accumulation_steps"] = 2
+            self.assertEqual(run_component_training._accumulation_steps(job), 2)
+
+    def test_accumulation_windows_partition_batches_and_keep_partial_tail(self) -> None:
+        self.assertEqual(
+            run_component_training._accumulation_windows(6, 1),
+            [(0, 1), (1, 1), (2, 1), (3, 1), (4, 1), (5, 1)],
+        )
+        self.assertEqual(
+            run_component_training._accumulation_windows(6, 2),
+            [(0, 2), (2, 2), (4, 2)],
+        )
+        self.assertEqual(
+            run_component_training._accumulation_windows(5, 2),
+            [(0, 2), (2, 2), (4, 1)],
+        )
+
+    def test_accumulation_averages_synthetic_micro_batch_losses(self) -> None:
+        step_losses = [2.0, 4.0, 3.0, 1.0, 5.0]
+        self.assertEqual(run_component_training._accumulate_losses(step_losses, 1), step_losses)
+        self.assertEqual(
+            run_component_training._accumulate_losses(step_losses, 2),
+            [3.0, 2.0, 5.0],
+        )
+
+    def test_job_schema_accepts_gradient_accumulation_steps(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            job = component_job_fixture(root)
+            validate_document(job, "component_training_job")
+            job["optimization"]["gradient_accumulation_steps"] = 2
+            validate_document(job, "component_training_job")
+            job["optimization"]["gradient_accumulation_steps"] = 0
+            with self.assertRaises(SchemaValidationError):
+                validate_document(job, "component_training_job")
 
     def test_request_bytes_enforces_wall_clock_deadline_on_slow_drip(self) -> None:
         from metawingman_core import training_corpus as corpus_module
