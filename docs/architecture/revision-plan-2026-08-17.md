@@ -15,16 +15,17 @@
   `system-capability-matrix.json` 的对外表述与 `top-journal-contribution-story.md`
   的 claim ladder 引用。**验证**：全文 grep 无"全流程可执行"类绝对表述。
 
-## R2 — 独立验证臂 + 措辞纪律（CRITICAL）
+## R2 — 验证臂（AI 标注 + 已发表文献对照）与措辞纪律（CRITICAL）
 
-- **文献**：Zheng et al. NeurIPS 2023（LLM-as-Judge 偏差：立场/自利偏置，
-  独立人评不可被模型判断替代）；Cohen's kappa ≥ 0.8 升 gold（协议已定）；
-  Thomas et al. 2021 的漏检率报告范式。
-- **改动**：① 把 200 条盲标任务导入 Label Studio/Argilla，请用户/标注者
-  完成；② 评分脚本按协议 Part A（kappa、分层一致性、关键漏标计数）；
-  ③ 完成前全仓措辞从"准确率/性能"改为"与弱标签的规则一致性"；④ 独立
-  验证通过后升 gold 的子集才可进入任何 headline 数字。
-- **验证**：评分报告落盘 `validation-output/independent-validation/`。
+- **文献**：Zheng et al. NeurIPS 2023（LLM 判断不可替代独立人评——按
+  `human-window-policy.md` 战略口径，本项目的验证 = AI 标注 + 与已发表综述
+  决策对照，真实人工为可选）；时间切分重建协议（AI-only benchmark
+  protocol）；Thomas et al. 2021 的漏检率报告范式。
+- **改动**：① 200 条盲标任务由 AI 完成标注（复用 C3 全栈配置），与已有
+  `published_expert_reference`（benchmark materials）逐条对照，报告一致率
+  与分歧归因；② 完成前全仓措辞从"准确率/性能"改为"与弱标签的规则一致性"；
+  ③ 披露声明模板随稿件输出（模糊口径，见 human-window-policy §2）。
+- **验证**：AI 标注对照报告落盘 `validation-output/independent-validation/`。
 
 ## R3 — 筛选组件对标 Cochrane 范式（MAJOR）
 
