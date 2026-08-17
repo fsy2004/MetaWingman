@@ -1,0 +1,95 @@
+{
+  "id": "meta_het_stats",
+  "title": "异质性统计量(I²/τ²/H²/Q)",
+  "title_en": "Heterogeneity statistics panel",
+  "category": "meta",
+  "family": "异质性与调节 Heterogeneity & Moderators",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_heterogeneity.R",
+  "workdir": "adapters/meta",
+  "description": "量化研究间异质性:随机效应基线模型(REML + Knapp-Hartung)输出 I²、τ²、τ、H² 及其轮廓似然置信区间,并给出 Cochran's Q、自由度与 p 值。基于 metafor,由 meta-analysis-toolkit 驱动。",
+  "analysis": "stats",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "研究数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/heterogeneity.csv",
+      "spec": "二分类 2×2:每行一个研究,需列 ai,bi,ci,di(处理组事件/非事件、对照组事件/非事件)+ 研究名列(默认 study)。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "measure": {
+        "type": "string",
+        "title": "效应量",
+        "default": "OR",
+        "enum": [
+          "OR",
+          "RR",
+          "RD",
+          "PETO"
+        ]
+      },
+      "method": {
+        "type": "string",
+        "title": "τ² 估计方法",
+        "default": "REML",
+        "enum": [
+          "REML",
+          "DL",
+          "PM",
+          "SJ",
+          "EB",
+          "ML",
+          "HE"
+        ]
+      },
+      "knha": {
+        "type": "boolean",
+        "title": "Knapp-Hartung 校正(推荐)",
+        "default": true
+      },
+      "slab": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      }
+    }
+  },
+  "param_flags": {
+    "measure": "--measure",
+    "method": "--method",
+    "knha": "--knha",
+    "slab": "--slab"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "heterogeneity",
+  "item_order": 10,
+  "shape": "binary2x2"
+}

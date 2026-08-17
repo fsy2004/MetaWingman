@@ -1,0 +1,66 @@
+{
+  "id": "meta_complex_dose_linear",
+  "title": "剂量反应 · 线性趋势",
+  "title_en": "Dose-response — linear",
+  "category": "meta",
+  "family": "复杂数据结构 Complex Data Structures",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_complex.R",
+  "workdir": "adapters/meta",
+  "description": "剂量-反应元分析(线性/对数线性趋势, dosresmeta 两阶段法, Greenland-Longnecker 协方差重建):跨有序暴露水平合并一条对数线性趋势,输出带 95% CI 带的剂量-反应曲线与代表性剂量的相对风险预测表。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "剂量-反应 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/complex_dose.csv",
+      "spec": "每研究多行(每个暴露水平一行),需列 id(研究)、type(cc/ir/ci 研究类型)、dose(暴露量)、cases、n、logrr(相对参照的对数RR)、se(其标准误,参照行留空)。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "method": {
+        "type": "string",
+        "title": "二阶段合并方法",
+        "default": "REML",
+        "enum": [
+          "REML",
+          "ML",
+          "FIXED"
+        ]
+      }
+    }
+  },
+  "param_flags": {
+    "method": "--method"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "Meta 分析为研究级汇总数据(通常几十行),内存开销极小,基本恒为绿灯。"
+  },
+  "group": "complex",
+  "item_order": 30,
+  "analysis": "dose_linear"
+}

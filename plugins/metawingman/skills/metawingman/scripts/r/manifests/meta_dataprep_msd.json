@@ -1,0 +1,61 @@
+{
+  "id": "meta_dataprep_msd",
+  "title": "数据准备:中位数/四分位 → 均值±标准差",
+  "title_en": "Median/IQR to mean & SD",
+  "category": "dataprep",
+  "family": "① 数据准备",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_dataprep_msd.R",
+  "workdir": "adapters/meta",
+  "description": "很多研究只报告中位数 + 四分位间距(Q1,Q3)或极差(min,max)。做 SMD/MD 的 meta 分析需要均值±标准差。本工具用 estmeansd(Cai 2021 / McGrath 2020 等已发表方法)从可得的分位数 + 样本量估算均值与标准差,输出可直接用于配对 meta 的表格。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "分组统计量 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/dataprep_msd.csv",
+      "spec": "每行一个研究/组。列:study(研究名), n(样本量), 以及 min,q1,median,q3,max(有几个填几个,留空即可)。estmeansd 自动选场景:min+median+max+n、或 q1+median+q3+n、或五者齐全。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "method": {
+        "type": "string",
+        "title": "估算方法",
+        "default": "qe",
+        "enum": [
+          "qe",
+          "bc"
+        ]
+      }
+    }
+  },
+  "param_flags": {
+    "method": "--method"
+  },
+  "outputs": [
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 2,
+    "calibrated": true,
+    "note": "逐行估算,内存极小,恒绿。"
+  },
+  "group": "data",
+  "item_order": 10,
+  "analysis": "msd"
+}

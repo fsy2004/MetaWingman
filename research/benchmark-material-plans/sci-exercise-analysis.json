@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "pack_id": "sci-exercise-analysis",
+  "candidate_ids": ["sci-exercise-meta-regression"],
+  "review_family_id": "spinal-cord-exercise",
+  "supported_scopes": ["extraction", "analysis"],
+  "reproduction_ceiling": "extraction_to_analysis",
+  "status": "development_ready",
+  "historical_boundaries": [
+    {"kind": "search_cutoff", "value": "2023-03", "precision": "month", "source_note": "The article reports March 2023 without a day; precision must not be inflated."}
+  ],
+  "license_assessment": {
+    "pack_redistributable": true,
+    "reviewed_at_utc": "2026-08-13T10:00:00Z",
+    "notes": "The pinned repository carries the BSD 3-Clause license. Analysis data are answer-bearing and remain sealed for blind reconstruction."
+  },
+  "artifacts": [
+    {
+      "artifact_id": "sci-license", "role": "documentation", "artifact_type": "license",
+      "source_url": "https://raw.githubusercontent.com/jutzca/Exercise-and-fitness-in-SCI/58f690c0847d5d099fef98141d706fc5c24d94ed/LICENSE",
+      "immutable_revision": "58f690c0847d5d099fef98141d706fc5c24d94ed", "destination": "sci-exercise-analysis/documentation/LICENSE",
+      "expected_sha256": "16773e9446c56b518a0c3b3a286f846dbe460b0e7cd5125d53e1f45a79dfa5a0", "expected_bytes": 1526,
+      "license": {"status": "verified_open", "identifier": "BSD-3-Clause", "redistributable": true, "evidence_url": "https://github.com/jutzca/Exercise-and-fitness-in-SCI/blob/58f690c0847d5d099fef98141d706fc5c24d94ed/LICENSE"},
+      "temporal_relation": "not_time_bound", "contains_answer": false, "retrieval_policy": "fetch_by_default", "notes": "License evidence."
+    },
+    {
+      "artifact_id": "sci-rvo2-rct-code", "role": "operational_input", "artifact_type": "analysis_code",
+      "source_url": "https://raw.githubusercontent.com/jutzca/Exercise-and-fitness-in-SCI/58f690c0847d5d099fef98141d706fc5c24d94ed/Scripts/%28S4%29%20Primary%20meta-analysis%20RCTs/RVO2_RCT.R",
+      "immutable_revision": "58f690c0847d5d099fef98141d706fc5c24d94ed", "destination": "sci-exercise-analysis/operational/RVO2_RCT.R",
+      "expected_sha256": "e10b9f733fb398784dafbba03036e8b55f4501ebecd26785af8af2872835f15f", "expected_bytes": 2436,
+      "license": {"status": "verified_open", "identifier": "BSD-3-Clause", "redistributable": true, "evidence_url": "https://github.com/jutzca/Exercise-and-fitness-in-SCI/blob/58f690c0847d5d099fef98141d706fc5c24d94ed/LICENSE"},
+      "temporal_relation": "not_time_bound", "contains_answer": false, "retrieval_policy": "fetch_by_default", "notes": "One prespecified deterministic reproduction slice."
+    },
+    {
+      "artifact_id": "sci-rct-analysis-input", "role": "sealed_reference", "artifact_type": "analysis_input",
+      "source_url": "https://raw.githubusercontent.com/jutzca/Exercise-and-fitness-in-SCI/58f690c0847d5d099fef98141d706fc5c24d94ed/Data/RCTS_DATA.xlsx",
+      "immutable_revision": "58f690c0847d5d099fef98141d706fc5c24d94ed", "destination": "sci-exercise-analysis/sealed-reference/RCTS_DATA.xlsx",
+      "expected_sha256": "a3d237bf50c7682383456723e6f84b7e34994441cd0cc2efb4627011edd2d21d", "expected_bytes": 12452,
+      "license": {"status": "verified_open", "identifier": "BSD-3-Clause", "redistributable": true, "evidence_url": "https://github.com/jutzca/Exercise-and-fitness-in-SCI/blob/58f690c0847d5d099fef98141d706fc5c24d94ed/LICENSE"},
+      "temporal_relation": "at_or_before_cutoff", "contains_answer": true, "retrieval_policy": "requires_run_lock", "notes": "Published analysis input, sealed until run lock."
+    }
+  ],
+  "blockers": ["Month-only cutoff prevents day-level search reconstruction.", "No screening labels are present; do not claim screening coverage."]
+}

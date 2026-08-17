@@ -1,0 +1,98 @@
+{
+  "id": "meta_pw_begg",
+  "title": "Begg 秩相关检验",
+  "title_en": "Begg rank test",
+  "category": "meta",
+  "family": "Meta 分析",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_pairwise.R",
+  "workdir": "adapters/meta",
+  "description": "Begg & Mazumdar 秩相关检验(Kendall's τ)评估漏斗图不对称。基于 metafor::ranktest。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "研究数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/bcg.csv",
+      "spec": "二分类 2×2:每行一个研究,需列 ai,bi,ci,di(处理组事件/非事件、对照组事件/非事件)+ 研究名列(默认 study)。连续型改选 SMD/MD 并提供 m1i,sd1i,n1i,m2i,sd2i,n2i;相关型 ZCOR 提供 ri,ni。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "measure": {
+        "type": "string",
+        "title": "效应量",
+        "default": "OR",
+        "enum": [
+          "OR",
+          "RR",
+          "RD",
+          "SMD",
+          "MD",
+          "ROM",
+          "ZCOR"
+        ]
+      },
+      "method": {
+        "type": "string",
+        "title": "τ² 估计方法",
+        "default": "REML",
+        "enum": [
+          "REML",
+          "DL",
+          "PM",
+          "SJ",
+          "EB",
+          "ML",
+          "HE"
+        ]
+      },
+      "knha": {
+        "type": "boolean",
+        "title": "Knapp-Hartung 校正(推荐)",
+        "default": true
+      },
+      "slab": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      }
+    }
+  },
+  "param_flags": {
+    "measure": "--measure",
+    "method": "--method",
+    "knha": "--knha",
+    "slab": "--slab"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "Meta 分析为研究级汇总数据(通常几十行),内存开销极小,基本恒为绿灯。"
+  },
+  "group": "bias",
+  "item_order": 30,
+  "analysis": "begg",
+  "shape": "binary2x2"
+}

@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/training_export_manifest.schema.json",
+  "title": "MetaWingman model-neutral training export manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "export_id", "created_at_utc", "source_examples", "policy", "summary", "exports"],
+  "properties": {
+    "schema_version": {"enum": ["1.0", "1.1"]},
+    "export_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "source_examples": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "records"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "records": {"type": "integer", "minimum": 1}
+      }
+    },
+    "source_training_plan": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "records"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "records": {"type": "integer", "minimum": 1}
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider_neutral", "journal_feature_forbidden", "weak_labels_only", "retrieval_export_contains_positive_pairs_only", "training_requires_model_and_license_review"],
+      "properties": {
+        "provider_neutral": {"const": true},
+        "journal_feature_forbidden": {"const": true},
+        "weak_labels_only": {"const": true},
+        "retrieval_export_contains_positive_pairs_only": {"type": "boolean"},
+        "training_requires_model_and_license_review": {"const": true}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exports", "records", "families", "train_records", "development_records", "held_out_records"],
+      "properties": {
+        "exports": {"type": "integer", "minimum": 1},
+        "records": {"type": "integer", "minimum": 1},
+        "families": {"type": "integer", "minimum": 1},
+        "train_records": {"type": "integer", "minimum": 0},
+        "development_records": {"type": "integer", "minimum": 0},
+        "held_out_records": {"const": 0},
+        "pairs": {"type": "integer", "minimum": 1},
+        "negative_pairs": {"type": "integer", "minimum": 1}
+      }
+    },
+    "exports": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["split", "task", "format", "relative_path", "sha256", "records", "families", "readiness"],
+        "properties": {
+          "split": {"enum": ["train", "development", "mixed_train_development"]},
+          "task": {"enum": ["section_role_classification", "evidence_retrieval"]},
+          "format": {"enum": ["chat_sft_jsonl", "contrastive_positive_jsonl", "contrastive_pair_jsonl"]},
+          "relative_path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "records": {"type": "integer", "minimum": 1},
+          "families": {"type": "integer", "minimum": 1},
+          "readiness": {"enum": ["candidate_sft_requires_review", "positive_pairs_require_negative_mining", "candidate_pairs_require_review"]}
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"schema_version": {"const": "1.1"}}, "required": ["schema_version"]},
+      "then": {
+        "required": ["source_training_plan"],
+        "properties": {
+          "policy": {"properties": {"retrieval_export_contains_positive_pairs_only": {"const": false}}},
+          "summary": {"required": ["pairs", "negative_pairs"]}
+        }
+      },
+      "else": {"properties": {"policy": {"properties": {"retrieval_export_contains_positive_pairs_only": {"const": true}}}}}
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "id": "meta_inf_gosh",
+  "title": "GOSH 图(子集异质性云图)",
+  "title_en": "GOSH plot",
+  "category": "meta",
+  "family": "Meta 分析",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_influence.R",
+  "workdir": "adapters/meta",
+  "description": "GOSH 图(Graphical display Of Study Heterogeneity):枚举所有可能的研究子集分别合并,以合并估计 vs I² 的散点云展示异质性是否由某个离群簇驱动——多峰/分叉即提示存在异质亚群(Olkin, Dahabreh & Trikalinos 2012, Res Synth Methods)。因需拟合 2^k-1 个模型,仅在研究数 k≤20 时可行(k 较大时计算耗时明显)。基于 metafor::gosh,由 meta-analysis-toolkit 驱动。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "研究数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/influence.csv",
+      "spec": "二分类 2×2:每行一个研究,需列 ai,bi,ci,di(处理组事件/非事件、对照组事件/非事件)+ 研究名列(默认 study)。研究数需 k≤20。连续型改选 SMD/MD 并提供 m1i,sd1i,n1i,m2i,sd2i,n2i;相关型 ZCOR 提供 ri,ni。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "measure": {
+        "type": "string",
+        "title": "效应量",
+        "default": "OR",
+        "enum": [
+          "OR",
+          "RR",
+          "RD",
+          "PETO",
+          "SMD",
+          "MD",
+          "ROM",
+          "ZCOR"
+        ]
+      },
+      "method": {
+        "type": "string",
+        "title": "τ² 估计方法",
+        "default": "REML",
+        "enum": [
+          "REML",
+          "DL",
+          "PM",
+          "SJ",
+          "EB",
+          "ML",
+          "HE"
+        ]
+      },
+      "knha": {
+        "type": "boolean",
+        "title": "Knapp-Hartung 校正(推荐)",
+        "default": true
+      },
+      "slab": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      }
+    }
+  },
+  "param_flags": {
+    "measure": "--measure",
+    "method": "--method",
+    "knha": "--knha",
+    "slab": "--slab"
+  },
+  "analysis": "gosh",
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "GOSH 枚举 2^k-1 子集, k≤20 时耗时可控, 内存仍小"
+  },
+  "group": "robustness",
+  "item_order": 40,
+  "shape": "binary2x2"
+}

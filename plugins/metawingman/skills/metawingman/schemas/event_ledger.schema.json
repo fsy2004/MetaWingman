@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/event_ledger.schema.json",
+  "title": "MetaWingman append-only event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "idempotency_key",
+    "timestamp_utc",
+    "action_type",
+    "actor",
+    "status",
+    "input",
+    "output",
+    "execution",
+    "evidence_anchor_ids",
+    "previous_event_hash",
+    "event_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "event_id": {"type": "string", "minLength": 1},
+    "idempotency_key": {"type": "string", "minLength": 1},
+    "timestamp_utc": {"type": "string", "format": "date-time"},
+    "action_type": {"type": "string", "pattern": "^[a-z][a-z0-9_.:-]*$"},
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "version"],
+      "properties": {
+        "type": {"enum": ["human", "model", "tool", "system"]},
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string"}
+      }
+    },
+    "status": {"enum": ["completed", "failed", "blocked", "abstained"]},
+    "input": {"$ref": "#/$defs/artifact"},
+    "output": {"$ref": "#/$defs/outputArtifact"},
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prompt_sha256", "retry_count", "retry_budget", "latency_ms", "cost_usd"],
+      "properties": {
+        "prompt_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "retry_count": {"type": "integer", "minimum": 0},
+        "retry_budget": {"type": "integer", "minimum": 0},
+        "latency_ms": {"type": "integer", "minimum": 0},
+        "cost_usd": {"type": "number", "minimum": 0}
+      }
+    },
+    "evidence_anchor_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "reason_codes": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "previous_event_hash": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "event_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "completed"}}},
+      "then": {"properties": {"output": {"properties": {"sha256": {"type": "string"}}}}}
+    }
+  ],
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256", "media_type", "reference"],
+      "properties": {
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "media_type": {"type": "string", "minLength": 1},
+        "reference": {"type": "string"}
+      }
+    },
+    "outputArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256", "media_type", "reference"],
+      "properties": {
+        "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "media_type": {"type": "string", "minLength": 1},
+        "reference": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/training_annotation_candidate.schema.json",
+  "title": "MetaWingman model-proposed training annotation candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "document_id", "source_text_sha256", "annotations", "abstentions", "label_status", "gold_label"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "document_id": {"type": "string", "pattern": "^training-document:"},
+    "source_text_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "annotations": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "value", "section_path", "evidence_excerpt"],
+        "properties": {
+          "field": {"enum": ["information_sources", "search_dates", "eligibility", "selection_process", "extraction_process", "risk_of_bias", "synthesis_method", "certainty_method", "protocol_registration"]},
+          "value": {"type": "string", "minLength": 1, "maxLength": 1200},
+          "section_path": {"type": "string", "minLength": 1},
+          "evidence_excerpt": {"type": "string", "minLength": 12, "maxLength": 800}
+        }
+      }
+    },
+    "abstentions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1, "maxLength": 200}
+    },
+    "label_status": {"const": "model_candidate_requires_exact_anchor_and_independent_validation"},
+    "gold_label": {"const": false}
+  }
+}

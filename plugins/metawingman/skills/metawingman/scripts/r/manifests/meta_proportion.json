@@ -1,0 +1,74 @@
+{
+  "id": "meta_proportion",
+  "title": "单臂比例 · logit(PLOGIT)",
+  "title_en": "Proportion — logit",
+  "category": "meta",
+  "family": "核心合并 Core Synthesis",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T1",
+  "entry": "adapters/meta/run_proportion.R",
+  "workdir": "adapters/meta",
+  "description": "单臂(单组)比例/患病率 meta 分析,logit 变换(PLOGIT):两步倒方差随机效应 REML + 95% 预测区间。研究规模差异大时比 Freeman-Tukey 更稳,是 Schwarzer 2019 推荐的默认变换。输出发表级比例森林图 + 合并汇总表(合并比例 + 95%CI + 预测区间 + I²/Q 异质性,均已反变换回自然比例尺度)。基于 meta 包 metaprop(sm=\"PLOGIT\")。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "研究数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/proportion.csv",
+      "spec": "单臂比例:每行一个研究,需列 xi(事件/阳性数)、ni(该组样本量)、study(研究名列)。事件数不得超过样本量。列名可通过 --event/--n/--studlab 覆盖。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "event": {
+        "type": "string",
+        "title": "事件数列名",
+        "default": "xi"
+      },
+      "n": {
+        "type": "string",
+        "title": "样本量列名",
+        "default": "ni"
+      },
+      "studlab": {
+        "type": "string",
+        "title": "研究名列名",
+        "default": "study"
+      }
+    }
+  },
+  "param_flags": {
+    "event": "--event",
+    "n": "--n",
+    "studlab": "--studlab"
+  },
+  "outputs": [
+    {
+      "glob": "*.png",
+      "display": "image"
+    },
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 3,
+    "calibrated": true,
+    "note": "meta 汇总数据内存极小, 恒绿"
+  },
+  "group": "synthesis",
+  "item_order": 90,
+  "analysis": "logit",
+  "shape": "proportion"
+}

@@ -1,0 +1,36 @@
+{
+  "note": "版本门槛与依赖清单的单一权威来源:env_check.py 与安装脚本都从这里读,改门槛只改这一处。python_import_names 给 pip 发行名→import 名的映射(env_check 用 import 名检测)。",
+  "python_min": "3.9",
+  "r_min": "4.0",
+  "python_packages": [
+    "psutil",
+    "Pillow",
+    "python-docx",
+    "tksheet",
+    "sv-ttk"
+  ],
+  "python_import_names": {
+    "Pillow": "PIL",
+    "python-docx": "docx",
+    "sv-ttk": "sv_ttk"
+  },
+  "r_packages": [
+    "metafor",
+    "meta",
+    "netmeta",
+    "mada",
+    "bayesmeta",
+    "robvis",
+    "metasens",
+    "estmeansd",
+    "pdftools",
+    "gridExtra",
+    "ggplot2",
+    "dosresmeta",
+    "rms",
+    "RTSA",
+    "EValue",
+    "robumeta",
+    "clubSandwich"
+  ]
+}

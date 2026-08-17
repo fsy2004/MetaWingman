@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/benchmark_candidate_registry.schema.json",
+  "title": "MetaWingman published-review benchmark candidate registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "verified_at_utc", "selection_policy", "candidates"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "verified_at_utc": {"type": "string", "format": "date-time"},
+    "selection_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference_is_not_oracle", "published_expert_reference", "no_de_novo_human_adjudication", "verified_corrections_only", "unresolved_integrity_blocks_held_out", "family_split_required", "answer_sealing_required", "license_review_required"],
+      "properties": {
+        "reference_is_not_oracle": {"const": true},
+        "published_expert_reference": {"const": true},
+        "no_de_novo_human_adjudication": {"const": true},
+        "verified_corrections_only": {"const": true},
+        "unresolved_integrity_blocks_held_out": {"const": true},
+        "family_split_required": {"const": true},
+        "answer_sealing_required": {"const": true},
+        "license_review_required": {"const": true}
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id", "title", "review_family_id", "publication", "repository",
+          "historical_cutoffs", "supported_scopes", "material_coverage", "license_status",
+          "verification_sources", "contamination_controls", "eligibility", "blockers"
+        ],
+        "properties": {
+          "candidate_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "title": {"type": "string", "minLength": 1},
+          "review_family_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "publication": {
+            "type": "object", "additionalProperties": false,
+            "required": ["identity_status", "doi", "year", "venue", "url"],
+            "properties": {
+              "identity_status": {"enum": ["verified_primary", "provisional", "unresolved"]},
+              "doi": {"type": ["string", "null"]},
+              "year": {"type": ["integer", "null"]},
+              "venue": {"type": ["string", "null"]},
+              "url": {"type": ["string", "null"], "format": "uri"}
+            }
+          },
+          "repository": {
+            "type": "object", "additionalProperties": false,
+            "required": ["url", "commit_sha", "commit_date_utc"],
+            "properties": {
+              "url": {"type": "string", "format": "uri"},
+              "commit_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+              "commit_date_utc": {"type": "string", "format": "date-time"}
+            }
+          },
+          "historical_cutoffs": {
+            "type": "array", "items": {"type": "string", "format": "date"}, "uniqueItems": true
+          },
+          "supported_scopes": {
+            "type": "array", "minItems": 1, "uniqueItems": true,
+            "items": {"enum": ["search", "screening", "lineage", "extraction", "appraisal", "analysis", "living_update", "end_to_end"]}
+          },
+          "material_coverage": {
+            "type": "object", "additionalProperties": false,
+            "required": ["protocol", "search_strategy", "search_export", "screening_labels", "extraction", "appraisal", "analysis_code", "source_reports"],
+            "properties": {
+              "protocol": {"enum": ["present", "linked", "absent", "unverified"]},
+              "search_strategy": {"enum": ["present", "linked", "absent", "unverified"]},
+              "search_export": {"enum": ["present", "linked", "absent", "unverified"]},
+              "screening_labels": {"enum": ["present", "partial", "absent", "unverified"]},
+              "extraction": {"enum": ["present", "partial", "absent", "unverified"]},
+              "appraisal": {"enum": ["present", "linked", "partial", "absent", "unverified"]},
+              "analysis_code": {"enum": ["present", "partial", "absent", "unverified"]},
+              "source_reports": {"enum": ["lawful_routes_only", "partial", "absent", "unverified"]}
+            }
+          },
+          "license_status": {"enum": ["redistributable_verified", "metadata_only", "review_required", "not_redistributable"]},
+          "verification_sources": {
+            "type": "array", "minItems": 2,
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["source_type", "url", "supports"],
+              "properties": {
+                "source_type": {"enum": ["primary_publication", "protocol", "repository", "archive", "license"]},
+                "url": {"type": "string", "format": "uri"},
+                "supports": {"type": "string", "minLength": 1}
+              }
+            }
+          },
+          "contamination_controls": {
+            "type": "object", "additionalProperties": false,
+            "required": ["seal_published_answers", "seal_post_cutoff_evidence", "pin_repository_commit"],
+            "properties": {
+              "seal_published_answers": {"const": true},
+              "seal_post_cutoff_evidence": {"const": true},
+              "pin_repository_commit": {"const": true}
+            }
+          },
+          "eligibility": {"enum": ["priority_pilot", "component_candidate", "hold", "reject"]},
+          "blockers": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+        }
+      }
+    }
+  }
+}

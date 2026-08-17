@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/top_journal_training_corpus.schema.json",
+  "title": "MetaWingman top-journal published-review training intake",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at_utc", "source", "sampling_policy", "reference_policy", "summary", "records"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "generated_at_utc": {"type": "string", "format": "date-time"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "api_version", "base_url"],
+      "properties": {
+        "name": {"const": "Europe PMC"},
+        "api_version": {"type": "string", "minLength": 1},
+        "base_url": {"type": "string", "format": "uri"}
+      }
+    },
+    "sampling_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["year_start", "year_end", "journal_is_stratum_not_oracle", "abstracts_excluded", "journal_strata"],
+      "properties": {
+        "year_start": {"type": "integer", "minimum": 1990},
+        "year_end": {"type": "integer", "minimum": 1990},
+        "journal_is_stratum_not_oracle": {"const": true},
+        "abstracts_excluded": {"const": true},
+        "journal_strata": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["stratum", "journals"],
+            "properties": {
+              "stratum": {"type": "string", "pattern": "^[a-z0-9_-]+$"},
+              "journals": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+            }
+          }
+        }
+      }
+    },
+    "reference_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "published_expert_outputs_are_reference",
+        "reference_is_not_oracle",
+        "corrected_current_version_only",
+        "unresolved_integrity_blocks_held_out",
+        "no_de_novo_human_adjudication",
+        "family_split_before_evaluation"
+      ],
+      "properties": {
+        "published_expert_outputs_are_reference": {"const": true},
+        "reference_is_not_oracle": {"const": true},
+        "corrected_current_version_only": {"const": true},
+        "unresolved_integrity_blocks_held_out": {"const": true},
+        "no_de_novo_human_adjudication": {"const": true},
+        "family_split_before_evaluation": {"const": true}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["queries", "reported_hits", "unique_records", "development_candidates", "held_for_integrity", "excluded_retracted", "excluded_non_reference", "open_access_records", "by_stratum"],
+      "properties": {
+        "queries": {"type": "integer", "minimum": 1},
+        "reported_hits": {"type": "integer", "minimum": 0},
+        "unique_records": {"type": "integer", "minimum": 0},
+        "development_candidates": {"type": "integer", "minimum": 0},
+        "held_for_integrity": {"type": "integer", "minimum": 0},
+        "excluded_retracted": {"type": "integer", "minimum": 0},
+        "excluded_non_reference": {"type": "integer", "minimum": 0},
+        "open_access_records": {"type": "integer", "minimum": 0},
+        "by_stratum": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}}
+      }
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "record_id", "source_id", "title", "authors", "year", "journal", "journal_stratum",
+          "doi", "pmid", "pmcid", "publication_types", "is_open_access", "license",
+          "cited_by_count", "source_url", "reference_status", "integrity_status",
+          "status_update_types", "admission_status", "family_assignment_status", "split_status"
+        ],
+        "properties": {
+          "record_id": {"type": "string", "pattern": "^epmc:"},
+          "source_id": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 1},
+          "authors": {"type": "string"},
+          "year": {"type": "integer", "minimum": 1990},
+          "journal": {"type": "string", "minLength": 1},
+          "journal_stratum": {"type": "string", "pattern": "^[a-z0-9_-]+$"},
+          "doi": {"type": "string"},
+          "pmid": {"type": "string"},
+          "pmcid": {"type": "string"},
+          "publication_types": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "is_open_access": {"type": "boolean"},
+          "license": {"type": "string"},
+          "cited_by_count": {"type": "integer", "minimum": 0},
+          "source_url": {"type": "string", "format": "uri"},
+          "reference_status": {"const": "published_expert_reference"},
+          "integrity_status": {"enum": ["no_status_update_in_epmc_record", "status_update_requires_audit", "retracted"]},
+          "status_update_types": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "admission_status": {"enum": ["development_candidate", "hold_integrity_review", "exclude_retracted", "exclude_non_reference"]},
+          "family_assignment_status": {"const": "pending_review_family_clustering"},
+          "split_status": {"const": "unassigned_pending_family_audit"}
+        }
+      }
+    }
+  }
+}

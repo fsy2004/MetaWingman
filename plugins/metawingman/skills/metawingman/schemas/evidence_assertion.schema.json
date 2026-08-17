@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/evidence_assertion.schema.json",
+  "title": "MetaWingman source-grounded evidence assertion",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "assertion_id", "report_id", "subject_id", "predicate",
+    "object", "assertion_type", "anchor_ids", "status", "created_by", "verification",
+    "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "assertion_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "report_id": {"type": "string", "minLength": 1},
+    "subject_id": {"type": "string", "minLength": 1},
+    "predicate": {"type": "string", "minLength": 1},
+    "object": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "normalized_value", "unit", "data_type"],
+      "properties": {
+        "value": {},
+        "normalized_value": {},
+        "unit": {"type": ["string", "null"]},
+        "data_type": {"enum": ["string", "number", "integer", "boolean", "date", "code", "entity", "null"]}
+      }
+    },
+    "assertion_type": {"enum": ["supports", "contradicts", "qualifies", "context"]},
+    "anchor_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "status": {"enum": ["candidate", "accepted", "rejected", "superseded"]},
+    "created_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "version"],
+      "properties": {
+        "type": {"enum": ["human", "model", "tool"]},
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string"}
+      }
+    },
+    "verification": {"$ref": "#/$defs/verification"},
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "accepted"}}},
+      "then": {
+        "properties": {
+          "verification": {
+            "properties": {
+              "status": {"const": "passed"},
+              "verified_by": {"type": "string", "minLength": 1},
+              "verified_at_utc": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "status", "verified_by", "verified_at_utc", "notes"],
+      "properties": {
+        "method": {"enum": ["none", "schema", "source_recheck", "independent_extraction", "deterministic_tool", "human_adjudication"]},
+        "status": {"enum": ["not_started", "pending", "passed", "failed"]},
+        "verified_by": {"type": "string"},
+        "verified_at_utc": {"type": ["string", "null"], "format": "date-time"},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

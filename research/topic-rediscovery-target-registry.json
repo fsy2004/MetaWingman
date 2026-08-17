@@ -1,0 +1,625 @@
+{
+  "schema_version": "1.0",
+  "verified_at_utc": "2026-08-13T11:01:07Z",
+  "purpose": "Broad, multi-domain intake of consequential published review questions for development and later time-sealed topic-rediscovery evaluation. This registry does not by itself create a blind test case.",
+  "admission_policy": {
+    "broad_development_intake": true,
+    "strict_blind_test_is_separate": true,
+    "venue_is_stratum_not_oracle": true,
+    "target_identity_masking_required": true,
+    "model_memory_audit_required": true,
+    "family_and_time_split_required": true
+  },
+  "targets": [
+    {
+      "target_id": "nm-heat-maternal-fetal-neonatal",
+      "title": "A systematic review and meta-analysis of heat exposure impacts on maternal, fetal and neonatal health",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1038/s41591-024-03395-8",
+        "year": 2024,
+        "venue": "Nature Medicine",
+        "url": "https://www.nature.com/articles/s41591-024-03395-8"
+      },
+      "domain_ids": ["climate-health", "obstetrics", "public-health"],
+      "review_family_id": "heat-pregnancy-outcomes",
+      "review_type": "pairwise",
+      "venue_stratum": "general_medical",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "pending_primary_method_audit",
+        "reported_value": null,
+        "precision": "unknown",
+        "source_url": "https://www.nature.com/articles/s41591-024-03395-8",
+        "notes": "Identity and question are verified; normalize every source-specific search date before constructing a historical corpus."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "identity_intake_only",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://www.nature.com/articles/s41591-024-03395-8",
+          "supports": "Publisher article identity, review question, review type, and journal publication."
+        }
+      ],
+      "promotion_gaps": [
+        "Audit all database search dates and define one defensible historical cutoff.",
+        "Construct and leak-audit the pre-cutoff multidisciplinary evidence landscape.",
+        "Freeze the question framework and run model-memory probes before testing."
+      ]
+    },
+    {
+      "target_id": "nm-obesity-pharmacotherapy-nma",
+      "title": "A systematic review and meta-analysis of the efficacy and safety of pharmacological treatments for obesity in adults",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1038/s41591-025-03978-z",
+        "year": 2025,
+        "venue": "Nature Medicine",
+        "url": "https://www.nature.com/articles/s41591-025-03978-z"
+      },
+      "domain_ids": ["endocrinology", "obesity", "pharmacotherapy"],
+      "review_family_id": "adult-obesity-pharmacotherapy",
+      "review_type": "network",
+      "venue_stratum": "general_medical",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "pending_primary_method_audit",
+        "reported_value": null,
+        "precision": "unknown",
+        "source_url": "https://www.nature.com/articles/s41591-025-03978-z",
+        "notes": "The formal identity and network meta-analysis target are verified; source-specific cutoffs remain to be normalized."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "identity_intake_only",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://www.nature.com/articles/s41591-025-03978-z",
+          "supports": "Publisher article identity, adult obesity pharmacotherapy question, and network synthesis route."
+        }
+      ],
+      "promotion_gaps": [
+        "Verify the last search date and any living or update relationship.",
+        "Separate drug-class concept evidence from target-review identity during corpus construction.",
+        "Freeze a network-node framework and memorization probe set."
+      ]
+    },
+    {
+      "target_id": "nm-car-t-nonrelapse-mortality",
+      "title": "A systematic review and meta-analysis of nonrelapse mortality after CAR T cell therapy",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1038/s41591-024-03084-6",
+        "year": 2024,
+        "venue": "Nature Medicine",
+        "url": "https://www.nature.com/articles/s41591-024-03084-6"
+      },
+      "domain_ids": ["cell-therapy", "hematology", "oncology", "safety"],
+      "review_family_id": "car-t-nonrelapse-mortality",
+      "review_type": "pairwise",
+      "venue_stratum": "general_medical",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "pending_primary_method_audit",
+        "reported_value": null,
+        "precision": "unknown",
+        "source_url": "https://www.nature.com/articles/s41591-024-03084-6",
+        "notes": "Identity and adverse-outcome question are verified; exact search and registry cutoffs are pending."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "identity_intake_only",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://www.nature.com/articles/s41591-024-03084-6",
+          "supports": "Publisher identity and review question on nonrelapse mortality after CAR T-cell therapy."
+        }
+      ],
+      "promotion_gaps": [
+        "Verify the historical search boundary and eligible treatment/product taxonomy.",
+        "Construct hard negatives for relapse mortality, adverse events, and efficacy-only topics.",
+        "Run identity and title-completion memorization probes."
+      ]
+    },
+    {
+      "target_id": "nee-drought-experiment-observation-biomass",
+      "title": "Field experiments underestimate aboveground biomass response to drought",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1038/s41559-022-01685-3",
+        "year": 2022,
+        "venue": "Nature Ecology & Evolution",
+        "url": "https://www.nature.com/articles/s41559-022-01685-3"
+      },
+      "domain_ids": ["climate", "ecology", "plant-biomass"],
+      "review_family_id": "drought-biomass-method-comparison",
+      "review_type": "mixed_quantitative",
+      "venue_stratum": "topical_nature_portfolio",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "pending_primary_method_audit",
+        "reported_value": null,
+        "precision": "unknown",
+        "source_url": "https://www.nature.com/articles/s41559-022-01685-3",
+        "notes": "The publisher verifies the experimental-versus-observational meta-analysis; the literature-search boundary needs method-level audit."
+      },
+      "publication_integrity": {
+        "status": "publisher_correction",
+        "checked_at_utc": "2026-08-13T11:01:07Z",
+        "related_notices": [
+          {
+            "notice_type": "publisher_correction",
+            "doi": "10.1038/s41559-022-01767-2",
+            "url": "https://www.nature.com/articles/s41559-022-01767-2",
+            "impact": "Corrected Figure 2a-b y-axis labels from 0, 1, 2 to 0, -1, -2; HTML and PDF were corrected."
+          }
+        ],
+        "benchmark_action": "use_corrected_version_only"
+      },
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "identity_intake_only",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://www.nature.com/articles/s41559-022-01685-3",
+          "supports": "Publisher identity, ecological question, compared evidence designs, and quantitative synthesis."
+        }
+      ],
+      "promotion_gaps": [
+        "Audit search construction and the date at which observational and experimental datasets were frozen.",
+        "Represent evidence-design contrast explicitly in the target framework.",
+        "Create method-comparison hard negatives that share drought and biomass terms."
+      ]
+    },
+    {
+      "target_id": "nature-energy-household-behaviour",
+      "title": "A multi-country meta-analysis on the role of behavioural change in reducing energy consumption and CO2 emissions in residential buildings",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1038/s41560-021-00866-x",
+        "year": 2021,
+        "venue": "Nature Energy",
+        "url": "https://www.nature.com/articles/s41560-021-00866-x"
+      },
+      "domain_ids": ["behaviour", "climate-mitigation", "energy", "public-policy"],
+      "review_family_id": "residential-energy-behaviour",
+      "review_type": "meta_regression",
+      "venue_stratum": "topical_nature_portfolio",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "pending_primary_method_audit",
+        "reported_value": null,
+        "precision": "unknown",
+        "source_url": "https://www.nature.com/articles/s41560-021-00866-x",
+        "notes": "The publisher verifies a machine-learning-assisted systematic review and meta-analysis; exact source cutoffs remain to be normalized."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "identity_intake_only",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://www.nature.com/articles/s41560-021-00866-x",
+          "supports": "Publisher identity, household intervention question, multi-country scope, and meta-regression setting."
+        }
+      ],
+      "promotion_gaps": [
+        "Verify database and grey-literature search dates.",
+        "Separate monetary, feedback, and combined intervention nodes in the question representation.",
+        "Audit whether machine-assisted screening artifacts are available without exposing the target."
+      ]
+    },
+    {
+      "target_id": "nhb-psychological-wellbeing-interventions",
+      "title": "A systematic review and meta-analysis of psychological interventions to improve mental wellbeing",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1038/s41562-021-01093-w",
+        "year": 2021,
+        "venue": "Nature Human Behaviour",
+        "url": "https://www.nature.com/articles/s41562-021-01093-w"
+      },
+      "domain_ids": ["mental-health", "psychology", "wellbeing"],
+      "review_family_id": "psychological-interventions-wellbeing",
+      "review_type": "meta_regression",
+      "venue_stratum": "field_social_science",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "pending_primary_method_audit",
+        "reported_value": null,
+        "precision": "unknown",
+        "source_url": "https://www.nature.com/articles/s41562-021-01093-w",
+        "notes": "Publisher identity, intervention classes, clinical/non-clinical populations, and moderator aim are verified."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "identity_intake_only",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://www.nature.com/articles/s41562-021-01093-w",
+          "supports": "Publisher identity, unified psychological-intervention question, and meta-analysis scope."
+        }
+      ],
+      "promotion_gaps": [
+        "Verify source-specific last-search dates.",
+        "Define legitimate alternative scope controls for clinical and non-clinical populations.",
+        "Separate this target family from the later cross-disciplinary well-being network review."
+      ]
+    },
+    {
+      "target_id": "nhb-wellbeing-interventions-nma",
+      "title": "A systematic review and network meta-analysis of randomized controlled trials of well-being-focused interventions",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1038/s41562-025-02369-1",
+        "year": 2026,
+        "venue": "Nature Human Behaviour",
+        "url": "https://www.nature.com/articles/s41562-025-02369-1"
+      },
+      "domain_ids": ["exercise", "mental-health", "psychology", "wellbeing"],
+      "review_family_id": "wellbeing-focused-interventions-network",
+      "review_type": "network",
+      "venue_stratum": "field_social_science",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "publisher_methods_verified",
+        "reported_value": "2023-03",
+        "precision": "month",
+        "source_url": "https://www.nature.com/articles/s41562-025-02369-1",
+        "notes": "The publisher Methods report searches of MEDLINE, PsycINFO, CENTRAL, and Scopus to March 2023."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "boundary_ready",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://www.nature.com/articles/s41562-025-02369-1",
+          "supports": "Publisher identity, 2026 volume year, registered network-review question, and March 2023 search boundary."
+        }
+      ],
+      "promotion_gaps": [
+        "Normalize the month-level cutoff without importing March 2023 records published after the actual searches.",
+        "Construct a pre-cutoff cross-disciplinary evidence graph and target-descendant denylist.",
+        "Complete question-framework adjudication and memorization probes."
+      ]
+    },
+    {
+      "target_id": "natcom-carbon-pricing-effectiveness",
+      "title": "Systematic review and meta-analysis of ex-post evaluations on the effectiveness of carbon pricing",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1038/s41467-024-48512-w",
+        "year": 2024,
+        "venue": "Nature Communications",
+        "url": "https://www.nature.com/articles/s41467-024-48512-w"
+      },
+      "domain_ids": ["climate-mitigation", "economics", "public-policy"],
+      "review_family_id": "carbon-pricing-effectiveness",
+      "review_type": "meta_regression",
+      "venue_stratum": "multidisciplinary",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "pending_primary_method_audit",
+        "reported_value": null,
+        "precision": "unknown",
+        "source_url": "https://www.nature.com/articles/s41467-024-48512-w",
+        "notes": "Identity, ex-post evaluation target, and linked open analysis artifacts are verified elsewhere; exact search cutoff is still unresolved."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "identity_intake_only",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://www.nature.com/articles/s41467-024-48512-w",
+          "supports": "Publisher identity, policy-effectiveness question, and meta-analysis design."
+        }
+      ],
+      "promotion_gaps": [
+        "Resolve the exact historical search boundary from the article and repositories.",
+        "Mask related carbon-pricing support and policy-mix reviews as near-target controls.",
+        "Use the open screening artifacts only for development or sealed post-run evaluation."
+      ]
+    },
+    {
+      "target_id": "npjca-carbon-pricing-public-support",
+      "title": "Public support for carbon pricing policies and revenue recycling options: a systematic review and meta-analysis of the survey literature",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1038/s44168-024-00153-x",
+        "year": 2024,
+        "venue": "npj Climate Action",
+        "url": "https://www.nature.com/articles/s44168-024-00153-x"
+      },
+      "domain_ids": ["behaviour", "climate-policy", "economics", "public-opinion"],
+      "review_family_id": "carbon-pricing-public-support",
+      "review_type": "meta_regression",
+      "venue_stratum": "topical_nature_portfolio",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "reported_but_not_normalized",
+        "reported_value": "2022",
+        "precision": "year",
+        "source_url": "https://www.nature.com/articles/s44168-024-00153-x",
+        "notes": "The primary paper reports surveys conducted through 2022, but the bibliographic search execution date still needs separate verification."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "identity_intake_only",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://www.nature.com/articles/s44168-024-00153-x",
+          "supports": "Publisher identity, survey-literature question, revenue-recycling comparison, and meta-regression design."
+        }
+      ],
+      "promotion_gaps": [
+        "Distinguish the last survey year from the actual database-search cutoff.",
+        "Create hard negatives around policy effectiveness, acceptability, and willingness to pay.",
+        "Audit language, region, and publication-status boundaries before corpus freezing."
+      ]
+    },
+    {
+      "target_id": "jama-pediatrics-screen-device-sleep",
+      "title": "Association Between Portable Screen-Based Media Device Access or Use and Sleep Outcomes: A Systematic Review and Meta-analysis",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1001/jamapediatrics.2016.2341",
+        "year": 2016,
+        "venue": "JAMA Pediatrics",
+        "url": "https://jamanetwork.com/journals/jamapediatrics/fullarticle/2571467"
+      },
+      "domain_ids": ["child-health", "digital-media", "sleep"],
+      "review_family_id": "portable-screen-sleep-children",
+      "review_type": "pairwise",
+      "venue_stratum": "field_medical",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "pending_primary_method_audit",
+        "reported_value": null,
+        "precision": "unknown",
+        "source_url": "https://jamanetwork.com/journals/jamapediatrics/fullarticle/2571467",
+        "notes": "JAMA verifies the identity, pediatric population, exposure, and sleep outcomes; the supplemental search date needs audit."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "identity_intake_only",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://jamanetwork.com/journals/jamapediatrics/fullarticle/2571467",
+          "supports": "Publisher citation, DOI, systematic-review identity, and question framework."
+        }
+      ],
+      "promotion_gaps": [
+        "Extract the exact last-search date from the primary article supplement.",
+        "Construct device-access versus device-use and sleep-outcome hard negatives.",
+        "Exclude later screen-media reviews and guideline descendants from the historical corpus."
+      ]
+    },
+    {
+      "target_id": "jama-pediatrics-social-media-internalizing",
+      "title": "Social Media Use and Internalizing Symptoms in Clinical and Community Adolescent Samples: A Systematic Review and Meta-Analysis",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1001/jamapediatrics.2024.2078",
+        "year": 2024,
+        "venue": "JAMA Pediatrics",
+        "url": "https://jamanetwork.com/journals/jamapediatrics/fullarticle/2819781"
+      },
+      "domain_ids": ["adolescent-health", "digital-media", "mental-health"],
+      "review_family_id": "adolescent-social-media-internalizing",
+      "review_type": "meta_regression",
+      "venue_stratum": "field_medical",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "pending_primary_method_audit",
+        "reported_value": null,
+        "precision": "unknown",
+        "source_url": "https://jamanetwork.com/journals/jamapediatrics/fullarticle/2819781",
+        "notes": "Formal DOI, venue, and review question are verified through the publisher; search dates require full Methods audit."
+      },
+      "publication_integrity": {
+        "status": "publisher_correction",
+        "checked_at_utc": "2026-08-13T11:01:07Z",
+        "related_notices": [
+          {
+            "notice_type": "publisher_correction",
+            "doi": "10.1001/jamapediatrics.2026.0629",
+            "url": "https://jamanetwork.com/journals/jamapediatrics/fullarticle/2851365",
+            "impact": "One extracted Snapchat-depression correlation in the clinical subsample was corrected; decimal values and an influence diagnostic changed, while the publisher reports unchanged conclusions."
+          }
+        ],
+        "benchmark_action": "use_corrected_version_only"
+      },
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "identity_intake_only",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://jamanetwork.com/journals/jamapediatrics/fullarticle/2819781",
+          "supports": "Publisher identity and clinical-versus-community adolescent question."
+        }
+      ],
+      "promotion_gaps": [
+        "Verify the complete source list and exact last-search dates.",
+        "Define internalizing symptom ontology and clinical/community strata before evaluation.",
+        "Mask adjacent screen-time, cyberbullying, and general well-being reviews.",
+        "Rebuild any quantitative reference from the publisher-corrected article and notice DOI 10.1001/jamapediatrics.2026.0629."
+      ]
+    },
+    {
+      "target_id": "jno-meal-timing-metabolic-outcomes",
+      "title": "Meal Timing and Anthropometric and Metabolic Outcomes: A Systematic Review and Meta-Analysis",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1001/jamanetworkopen.2024.42163",
+        "year": 2024,
+        "venue": "JAMA Network Open",
+        "url": "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2825747"
+      },
+      "domain_ids": ["metabolism", "nutrition", "obesity"],
+      "review_family_id": "meal-timing-anthropometric-metabolic",
+      "review_type": "pairwise",
+      "venue_stratum": "field_medical",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "publisher_methods_verified",
+        "reported_value": "2023-10-17",
+        "precision": "day",
+        "source_url": "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2825747",
+        "notes": "The publisher Methods report searches of MEDLINE, Embase, CINAHL, and CENTRAL on 17 October 2023."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "boundary_ready",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2825747",
+          "supports": "Publisher citation, eligibility framework, outcomes, and exact database-search date."
+        }
+      ],
+      "promotion_gaps": [
+        "Construct a cutoff-bounded corpus without importing target-linked accelerator outputs.",
+        "Represent time-restricted eating, meal frequency, and calorie distribution as related but distinct nodes.",
+        "Adjudicate legitimate narrower and broader candidate questions before scoring."
+      ]
+    },
+    {
+      "target_id": "jno-digital-hypertension-disparities",
+      "title": "Digital Health Interventions for Hypertension Management in US Populations Experiencing Health Disparities: A Systematic Review and Meta-Analysis",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1001/jamanetworkopen.2023.56070",
+        "year": 2024,
+        "venue": "JAMA Network Open",
+        "url": "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2815070"
+      },
+      "domain_ids": ["digital-health", "equity", "hypertension", "public-health"],
+      "review_family_id": "digital-hypertension-disparities-us",
+      "review_type": "pairwise",
+      "venue_stratum": "field_medical",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "pending_primary_method_audit",
+        "reported_value": null,
+        "precision": "unknown",
+        "source_url": "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2815070",
+        "notes": "The publisher verifies the US equity-focused digital-health question and 2024 volume year; exact search dates remain to be extracted."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "identity_intake_only",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2815070",
+          "supports": "Publisher identity, target population, intervention family, and blood-pressure synthesis."
+        }
+      ],
+      "promotion_gaps": [
+        "Extract every database search date and language/geography restriction.",
+        "Operationalize the health-disparity population attribute independently of intervention type.",
+        "Build controls for general-population hypertension and non-digital disparity interventions."
+      ]
+    },
+    {
+      "target_id": "natcom-coral-reef-futures",
+      "title": "Systematic review of the uncertainty of coral reef futures under climate change",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1038/s41467-024-46255-2",
+        "year": 2024,
+        "venue": "Nature Communications",
+        "url": "https://www.nature.com/articles/s41467-024-46255-2"
+      },
+      "domain_ids": ["climate", "coral-reefs", "ecology", "forecasting"],
+      "review_family_id": "coral-reef-futures-uncertainty",
+      "review_type": "systematic_review",
+      "venue_stratum": "multidisciplinary",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "pending_primary_method_audit",
+        "reported_value": null,
+        "precision": "unknown",
+        "source_url": "https://www.nature.com/articles/s41467-024-46255-2",
+        "notes": "The systematic-review identity and uncertainty-focused question are verified; source and model-scenario cutoffs need audit."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "identity_intake_only",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://www.nature.com/articles/s41467-024-46255-2",
+          "supports": "Publisher identity and systematic-review question about uncertainty in coral-reef futures."
+        }
+      ],
+      "promotion_gaps": [
+        "Verify bibliographic and scenario-data boundaries separately.",
+        "Define an evaluation route for a systematic synthesis without forcing a pooled effect.",
+        "Construct controls around coral cover, bleaching, adaptation, and projection uncertainty."
+      ]
+    },
+    {
+      "target_id": "npj-learning-ai-its-k12",
+      "title": "A systematic review of AI-driven intelligent tutoring systems (ITS) in K-12 education",
+      "publication": {
+        "identity_status": "verified_primary",
+        "doi": "10.1038/s41539-025-00320-7",
+        "year": 2025,
+        "venue": "npj Science of Learning",
+        "url": "https://www.nature.com/articles/s41539-025-00320-7"
+      },
+      "domain_ids": ["artificial-intelligence", "education", "k12", "learning-science"],
+      "review_family_id": "ai-intelligent-tutoring-k12",
+      "review_type": "systematic_review",
+      "venue_stratum": "field_social_science",
+      "target_scope": "topic_only",
+      "reference_question_status": "publisher_abstract_verified",
+      "historical_boundary": {
+        "status": "publisher_methods_verified",
+        "reported_value": "2025-01-14",
+        "precision": "day",
+        "source_url": "https://www.nature.com/articles/s41539-025-00320-7",
+        "notes": "The publisher Methods report inclusion of peer-reviewed empirical work through 14 January 2025."
+      },
+      "publication_integrity": {"status": "no_notice_found", "checked_at_utc": "2026-08-13T11:01:07Z", "related_notices": [], "benchmark_action": "use_current_version"},
+      "model_memory_boundary": {"status": "unquantifiable", "memorization_probe_required": true},
+      "strict_test_status": "boundary_ready",
+      "verification_sources": [
+        {
+          "source_type": "primary_publication",
+          "url": "https://www.nature.com/articles/s41539-025-00320-7",
+          "supports": "Publisher identity, K-12 ITS question, study-design objective, and 14 January 2025 cutoff."
+        }
+      ],
+      "promotion_gaps": [
+        "Separate the scoping web search, ERIC/Scopus search, and snowballing boundaries in the corpus manifest.",
+        "Define whether qualitative effectiveness claims are framework matches or require a quantitative route.",
+        "Mask later generative-AI tutoring studies and target descendants."
+      ]
+    }
+  ]
+}

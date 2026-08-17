@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "pack_id": "bmj-covid-therapies-methods",
+  "candidate_ids": ["bmj-covid-therapies-living-nma"],
+  "review_family_id": "covid19-living-nma",
+  "supported_scopes": ["analysis", "living_update"],
+  "reproduction_ceiling": "method_code_only",
+  "status": "development_ready",
+  "historical_boundaries": [
+    {"kind": "search_cutoff", "value": "2021-02-20", "precision": "day", "source_note": "Chinese literature search cutoff."},
+    {"kind": "search_cutoff", "value": "2021-07-21", "precision": "day", "source_note": "WHO COVID-19 information-source cutoff."}
+  ],
+  "license_assessment": {
+    "pack_redistributable": true,
+    "reviewed_at_utc": "2026-08-13T10:00:00Z",
+    "notes": "The pinned repository carries an MIT license. The public tree contains reusable analysis code but no analysis dataset for this article version."
+  },
+  "artifacts": [
+    {
+      "artifact_id": "bmj-readme", "role": "documentation", "artifact_type": "readme",
+      "source_url": "https://raw.githubusercontent.com/covid19lnma/covid19_lnma/59f0716b482a05107787585bcb0023bfcf02933c/README.md",
+      "immutable_revision": "59f0716b482a05107787585bcb0023bfcf02933c", "destination": "bmj-covid-therapies-methods/documentation/README.md",
+      "expected_sha256": "0bbe0d6c0f7c26fa505c897d916533555874a1c1d8aea50031fbb0f608937afd", "expected_bytes": 1163,
+      "license": {"status": "verified_open", "identifier": "MIT", "redistributable": true, "evidence_url": "https://github.com/covid19lnma/covid19_lnma/blob/59f0716b482a05107787585bcb0023bfcf02933c/LICENSE"},
+      "temporal_relation": "not_time_bound", "contains_answer": false, "retrieval_policy": "fetch_by_default",
+      "notes": "Repository scope and execution documentation."
+    },
+    {
+      "artifact_id": "bmj-license", "role": "documentation", "artifact_type": "license",
+      "source_url": "https://raw.githubusercontent.com/covid19lnma/covid19_lnma/59f0716b482a05107787585bcb0023bfcf02933c/LICENSE",
+      "immutable_revision": "59f0716b482a05107787585bcb0023bfcf02933c", "destination": "bmj-covid-therapies-methods/documentation/LICENSE",
+      "expected_sha256": "fca01003673eb128df60a5f2097849bda15f388d3162241aff4b364b17fc1c63", "expected_bytes": 1069,
+      "license": {"status": "verified_open", "identifier": "MIT", "redistributable": true, "evidence_url": "https://github.com/covid19lnma/covid19_lnma/blob/59f0716b482a05107787585bcb0023bfcf02933c/LICENSE"},
+      "temporal_relation": "not_time_bound", "contains_answer": false, "retrieval_policy": "fetch_by_default", "notes": "License evidence."
+    },
+    {
+      "artifact_id": "bmj-nma-functions", "role": "operational_input", "artifact_type": "analysis_code",
+      "source_url": "https://raw.githubusercontent.com/covid19lnma/covid19_lnma/59f0716b482a05107787585bcb0023bfcf02933c/NMA/functions_NMA.R",
+      "immutable_revision": "59f0716b482a05107787585bcb0023bfcf02933c", "destination": "bmj-covid-therapies-methods/operational/NMA/functions_NMA.R",
+      "expected_sha256": "b2d6fd6befd87516507e13fc0597929df1e2db540e8e425f02c7665d4c64e726", "expected_bytes": 50574,
+      "license": {"status": "verified_open", "identifier": "MIT", "redistributable": true, "evidence_url": "https://github.com/covid19lnma/covid19_lnma/blob/59f0716b482a05107787585bcb0023bfcf02933c/LICENSE"},
+      "temporal_relation": "not_time_bound", "contains_answer": false, "retrieval_policy": "fetch_by_default", "notes": "Reusable NMA functions; not a complete reproduction without data."
+    },
+    {
+      "artifact_id": "bmj-nma-entry", "role": "operational_input", "artifact_type": "analysis_code",
+      "source_url": "https://raw.githubusercontent.com/covid19lnma/covid19_lnma/59f0716b482a05107787585bcb0023bfcf02933c/NMA/Bayesian%20NMA.R",
+      "immutable_revision": "59f0716b482a05107787585bcb0023bfcf02933c", "destination": "bmj-covid-therapies-methods/operational/NMA/Bayesian NMA.R",
+      "expected_sha256": "a020121246d3418130d327cfaeba8b00a9cbceb94451c6ac79e077502639b8ec", "expected_bytes": 929,
+      "license": {"status": "verified_open", "identifier": "MIT", "redistributable": true, "evidence_url": "https://github.com/covid19lnma/covid19_lnma/blob/59f0716b482a05107787585bcb0023bfcf02933c/LICENSE"},
+      "temporal_relation": "not_time_bound", "contains_answer": false, "retrieval_policy": "fetch_by_default", "notes": "NMA entry script."
+    }
+  ],
+  "blockers": ["The pinned public repository does not contain the article-specific analysis dataset.", "Complete screening exports have not been verified."]
+}

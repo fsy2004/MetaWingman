@@ -1,0 +1,63 @@
+{
+  "category": "meta",
+  "family": "数据准备",
+  "language": "R",
+  "library": "launcher",
+  "interp": "Rscript",
+  "status": "turnkey",
+  "tier": "T2",
+  "entry": "adapters/meta/run_convert.R",
+  "workdir": "adapters/meta",
+  "outputs": [
+    {
+      "glob": "*.csv",
+      "display": "table"
+    }
+  ],
+  "mem_hint": {
+    "model": "linear",
+    "killer_dim": "研究数",
+    "matrix_copies": 2,
+    "calibrated": true
+  },
+  "group": "data",
+  "id": "meta_conv_2x2",
+  "title": "换算:2×2 → 效应量(OR/RR/RD)",
+  "title_en": "Convert: 2×2 → effect size",
+  "description": "换算:2×2 → 效应量(OR/RR/RD)。把原始数据换算成标准 yi(效应量)/ sei(标准误),输出的 converted.csv 可直接喂「通用倒方差森林」等分析。",
+  "inputs": [
+    {
+      "name": "input",
+      "flag": "--input",
+      "label": "原始数据 CSV",
+      "format": "csv",
+      "required": true,
+      "primary": true,
+      "mem_axis": "n_rows",
+      "example": "example_data/bcg.csv",
+      "spec": "二分类 2×2:ai,bi,ci,di(+研究名)。输出 yi/sei。"
+    }
+  ],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "measure": {
+        "type": "string",
+        "title": "效应量",
+        "default": "OR",
+        "enum": [
+          "OR",
+          "RR",
+          "RD",
+          "PETO"
+        ]
+      }
+    }
+  },
+  "param_flags": {
+    "measure": "--measure"
+  },
+  "item_order": 20,
+  "shape": "binary2x2",
+  "analysis": "es_2x2"
+}

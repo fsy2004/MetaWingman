@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/evidence_anchor.schema.json",
+  "title": "MetaWingman evidence anchor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "anchor_id", "report_id", "source_sha256", "source_type", "location", "parser", "confidence", "created_at_utc"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "anchor_id": {"type": "string", "minLength": 1},
+    "report_id": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_type": {"enum": ["pdf", "xml", "html", "registry", "supplement", "table", "user_file"]},
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page", "block_id", "table_id", "cell", "figure_id", "bbox", "quote", "crop_reference"],
+      "properties": {
+        "page": {"type": ["integer", "null"], "minimum": 1},
+        "block_id": {"type": ["string", "null"]},
+        "table_id": {"type": ["string", "null"]},
+        "cell": {"type": ["string", "null"]},
+        "figure_id": {"type": ["string", "null"]},
+        "bbox": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}, {"type": "number"}, {"type": "number"}], "minItems": 4, "maxItems": 4}
+          ]
+        },
+        "quote": {"type": ["string", "null"]},
+        "crop_reference": {"type": ["string", "null"]}
+      },
+      "anyOf": [
+        {"properties": {"quote": {"type": "string", "minLength": 1}}},
+        {"properties": {"crop_reference": {"type": "string", "minLength": 1}}},
+        {"properties": {"table_id": {"type": "string", "minLength": 1}}},
+        {"properties": {"figure_id": {"type": "string", "minLength": 1}}}
+      ]
+    },
+    "parser": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "channel"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string"},
+        "channel": {"enum": ["native_text", "ocr", "layout", "vision", "manual", "api"]}
+      }
+    },
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

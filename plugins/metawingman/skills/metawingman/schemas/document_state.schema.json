@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/document_state.schema.json",
+  "title": "MetaWingman global multimodal document state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "document_id", "report_id", "parent_document_id", "source",
+    "representations", "parse_status", "active_parse_id", "created_at_utc", "updated_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "document_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "report_id": {"type": "string", "minLength": 1},
+    "parent_document_id": {"type": ["string", "null"]},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_path", "sha256", "media_type", "source_type", "origin_url",
+        "access_route", "license", "retrieved_at_utc"
+      ],
+      "properties": {
+        "artifact_path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "media_type": {"type": "string", "minLength": 1},
+        "source_type": {"enum": ["article", "supplement", "registry", "appendix", "correction", "other"]},
+        "origin_url": {"type": ["string", "null"], "format": "uri"},
+        "access_route": {"enum": ["open_access", "user_provided", "licensed_user_export", "public_api", "credentialed_browser_handoff", "other"]},
+        "license": {"type": "string", "minLength": 1},
+        "retrieved_at_utc": {"type": "string", "format": "date-time"}
+      }
+    },
+    "representations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "representation_id", "type", "artifact_path", "sha256", "parser",
+          "derived_from", "pages", "status", "quality"
+        ],
+        "properties": {
+          "representation_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "type": {"enum": ["native_text", "ocr_text", "page_image", "layout", "table", "figure", "equation", "footnote", "reference_list", "metadata"]},
+          "artifact_path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "parser": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "version", "configuration_sha256"],
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "version": {"type": "string", "minLength": 1},
+              "configuration_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}
+            }
+          },
+          "derived_from": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "pages": {
+            "oneOf": [
+              {"type": "null"},
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["first", "last"],
+                "properties": {
+                  "first": {"type": "integer", "minimum": 1},
+                  "last": {"type": "integer", "minimum": 1}
+                }
+              }
+            ]
+          },
+          "status": {"enum": ["candidate", "active", "rejected", "superseded"]},
+          "quality": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["score", "warnings"],
+            "properties": {
+              "score": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+              "warnings": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+            }
+          }
+        }
+      }
+    },
+    "parse_status": {"enum": ["not_started", "partial", "ready", "failed", "needs_human"]},
+    "active_parse_id": {"type": ["string", "null"]},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "updated_at_utc": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"parse_status": {"const": "ready"}}},
+      "then": {
+        "properties": {
+          "representations": {"minItems": 1},
+          "active_parse_id": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  ]
+}

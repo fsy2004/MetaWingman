@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "plan_id": "replace-before-freeze",
+  "plan_version": "0.1-draft",
+  "status": "draft",
+  "benchmark_version": "replace-before-freeze",
+  "design": "ai_only_repeated_runs",
+  "target_tasks": ["screening", "lineage", "extraction", "analysis", "end_to_end"],
+  "configurations": [
+    {
+      "configuration_id": "general-model-baseline",
+      "description": "General model without biomedical schemas, terminology, routing, or MetaWingman verification components.",
+      "model_registry_refs": ["replace-model-ref"],
+      "pipeline_version": "replace-pipeline-version",
+      "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "tool_versions": ["metawingman@replace-version"],
+      "ablations": ["biomedical_schema", "biomedical_terminology", "biomedical_retrieval", "domain_routing", "evidence_graph", "document_state", "external_verifiers", "test_time_scaling", "abstention"],
+      "max_model_calls": 1,
+      "retry_budget": 0
+    },
+    {
+      "configuration_id": "biomedical-schema",
+      "description": "General model with biomedical prompts and schemas but without terminology-aware retrieval or domain routing.",
+      "model_registry_refs": ["replace-model-ref"],
+      "pipeline_version": "replace-pipeline-version",
+      "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "tool_versions": ["metawingman@replace-version"],
+      "ablations": ["biomedical_terminology", "biomedical_retrieval", "domain_routing", "evidence_graph", "document_state", "external_verifiers", "test_time_scaling", "abstention"],
+      "max_model_calls": 1,
+      "retry_budget": 0
+    },
+    {
+      "configuration_id": "biomedical-routing",
+      "description": "Biomedical schemas, terminology, retrieval, and deterministic domain routing without the full verification stack.",
+      "model_registry_refs": ["replace-model-ref"],
+      "pipeline_version": "replace-pipeline-version",
+      "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "tool_versions": ["metawingman@replace-version"],
+      "ablations": ["evidence_graph", "document_state", "external_verifiers", "test_time_scaling", "abstention"],
+      "max_model_calls": 1,
+      "retry_budget": 0
+    },
+    {
+      "configuration_id": "full-biomedical-stack",
+      "description": "Full biomedical stack with evidence graph, document state, external verifiers, test-time scaling, and abstention.",
+      "model_registry_refs": ["replace-model-ref"],
+      "pipeline_version": "replace-pipeline-version",
+      "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "tool_versions": ["metawingman@replace-version"],
+      "ablations": [],
+      "max_model_calls": 1,
+      "retry_budget": 0
+    }
+  ],
+  "repetitions_per_case": 3,
+  "reference_standard": {
+    "source": "published_expert_reference",
+    "correction_policy": "verified_corrected_version_only",
+    "integrity_policy": "unresolved_cases_excluded_from_held_out_scoring",
+    "de_novo_human_adjudication": false,
+    "answers_sealed_until_all_runs_locked": true
+  },
+  "metrics": {
+    "primary": ["critical_error_rate", "false_exclusion_rate", "unsupported_value_rate", "end_to_end_result_accuracy"],
+    "secondary": ["coverage", "abstention_rate", "precision", "recall", "numerical_equivalence", "run_to_run_reliability", "position_sensitivity", "judge_order_sensitivity", "anchor_accuracy", "lineage_precision", "lineage_recall", "exact_recomputation_rate", "selective_coverage", "abstention_quality", "wall_clock_seconds", "model_calls", "input_tokens", "output_tokens", "api_cost", "compute_cost"],
+    "aggregation_unit": "review_family",
+    "uncertainty_method": "paired_bootstrap_by_review_family"
+  },
+  "critical_error_weights": {
+    "false_exclusion": 10,
+    "unsupported_value": 10,
+    "unanchored_claim": 10,
+    "unauthorized_action": 20,
+    "missed_required_abstention": 10
+  },
+  "release_thresholds": {
+    "max_critical_error_rate": 0,
+    "min_coverage": 0,
+    "min_run_to_run_reliability": 0
+  },
+  "inference_limits": {
+    "human_comparison_absent": true,
+    "may_claim_human_superiority": false,
+    "may_claim_labor_savings": false,
+    "allowed_claim": "AI agreement with published expert references, reliability, risk-coverage, latency, and cost"
+  },
+  "frozen_at_utc": null
+}

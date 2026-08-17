@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/external_agent_batch_task.schema.json",
+  "title": "MetaWingman external-agent batch task",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "task_id", "instruction", "input_document",
+    "output_schema", "max_tokens", "thinking"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "task_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instruction": {"type": "string", "minLength": 1},
+    "input_document": {"type": "object"},
+    "output_schema": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "max_tokens": {"type": "integer", "minimum": 1, "maximum": 8192},
+    "thinking": {"type": "boolean"}
+  }
+}

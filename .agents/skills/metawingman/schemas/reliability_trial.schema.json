@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/reliability_trial.schema.json",
+  "title": "MetaWingman repeated-run reliability trial",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "trial_id", "case_id", "task_type", "replicate",
+    "position", "judge_order", "decision", "passed", "critical_error",
+    "output_sha256", "model_versions", "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "trial_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "case_id": {"type": "string", "minLength": 1},
+    "task_type": {"type": "string", "minLength": 1},
+    "replicate": {"type": "integer", "minimum": 1},
+    "position": {"enum": ["not_applicable", "start", "middle", "end"]},
+    "judge_order": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "decision": {"type": "string"},
+    "passed": {"type": "boolean"},
+    "critical_error": {"type": "boolean"},
+    "output_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "model_versions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"critical_error": {"const": true}}},
+      "then": {"properties": {"passed": {"const": false}}}
+    }
+  ]
+}

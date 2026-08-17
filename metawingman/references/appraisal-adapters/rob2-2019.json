@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "adapter_id": "rob2-2019",
+  "adapter_version": "1.0.0",
+  "framework": {
+    "name": "RoB 2",
+    "version": "22 August 2019",
+    "organization": "Cochrane Bias Methods Group",
+    "source_url": "https://www.riskofbias.info/welcome/rob-2-0-tool",
+    "verified_at_utc": "2026-08-12T00:00:00Z"
+  },
+  "supported_review_families": ["intervention", "network"],
+  "target_granularity": "result",
+  "domains": [
+    {
+      "domain_id": "randomization-process",
+      "label": "Bias arising from the randomization process",
+      "signaling_question_ids": ["d1-sq1", "d1-sq2", "d1-sq3"],
+      "notes": "Use the official RoB 2 form for exact signaling-question wording and algorithms."
+    },
+    {
+      "domain_id": "deviations-intended-interventions",
+      "label": "Bias due to deviations from intended interventions",
+      "signaling_question_ids": ["d2-sq1", "d2-sq2", "d2-sq3", "d2-sq4", "d2-sq5", "d2-sq6", "d2-sq7"],
+      "notes": "Select the official effect-of-assignment or effect-of-adhering variant prospectively."
+    },
+    {
+      "domain_id": "missing-outcome-data",
+      "label": "Bias due to missing outcome data",
+      "signaling_question_ids": ["d3-sq1", "d3-sq2", "d3-sq3", "d3-sq4"],
+      "notes": "Assess the target result, not a generic study score."
+    },
+    {
+      "domain_id": "measurement-outcome",
+      "label": "Bias in measurement of the outcome",
+      "signaling_question_ids": ["d4-sq1", "d4-sq2", "d4-sq3", "d4-sq4", "d4-sq5"],
+      "notes": "Preserve outcome-specific evidence anchors."
+    },
+    {
+      "domain_id": "selection-reported-result",
+      "label": "Bias in selection of the reported result",
+      "signaling_question_ids": ["d5-sq1", "d5-sq2", "d5-sq3"],
+      "notes": "Compare protocols, registrations, analysis plans, and reports where available."
+    }
+  ],
+  "allowed_answers": ["yes", "probably_yes", "probably_no", "no", "no_information", "not_applicable"],
+  "final_human_signature_required": true,
+  "status": "verified"
+}

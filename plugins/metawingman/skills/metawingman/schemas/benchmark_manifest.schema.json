@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/benchmark_manifest.schema.json",
+  "title": "MetaWingman blind reconstruction benchmark manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "benchmark_id", "benchmark_version", "visibility", "review",
+    "reconstruction", "split", "artifacts", "reference_standard", "evaluation_design",
+    "data_policy", "package_sha256", "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0"},
+    "benchmark_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "benchmark_version": {"type": "string", "minLength": 1},
+    "visibility": {"enum": ["private", "public"]},
+    "review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["review_id", "title", "doi", "publication_date", "review_family", "review_family_id"],
+      "properties": {
+        "review_id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "doi": {"type": ["string", "null"]},
+        "publication_date": {"type": "string", "format": "date"},
+        "review_family": {"type": "string", "minLength": 1},
+        "review_family_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "reconstruction": {
+      "type": "object", "additionalProperties": false,
+      "required": ["search_cutoff_date", "knowledge_cutoff_policy", "blinding_policy", "post_cutoff_policy"],
+      "properties": {
+        "search_cutoff_date": {"type": "string", "format": "date"},
+        "knowledge_cutoff_policy": {"const": "operational_inputs_available_on_or_before_search_cutoff"},
+        "blinding_policy": {"const": "published_review_and_reference_answers_sealed_until_run_lock"},
+        "post_cutoff_policy": {"const": "exclude_and_seal_post_cutoff_evidence"}
+      }
+    },
+    "split": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "unit", "assignment_basis"],
+      "properties": {
+        "name": {"enum": ["train", "dev", "test"]},
+        "unit": {"const": "review_family_id"},
+        "assignment_basis": {"type": "string", "minLength": 1}
+      }
+    },
+    "artifacts": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": [
+          "artifact_id", "role", "artifact_type", "package_path", "sha256", "bytes",
+          "source", "license", "redistributable", "available_at_cutoff", "contains_answer",
+          "sealed", "notes"
+        ],
+        "properties": {
+          "artifact_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "role": {"enum": ["operational_input", "sealed_reference", "sealed_post_cutoff", "documentation"]},
+          "artifact_type": {"enum": ["protocol", "search_strategy", "search_export", "source_report", "published_review", "included_study_list", "screening_reference", "extraction_reference", "analysis_code", "analysis_output", "appraisal_reference", "certainty_reference", "other"]},
+          "package_path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "bytes": {"type": "integer", "minimum": 0},
+          "source": {"type": "string", "minLength": 1},
+          "license": {"type": "string", "minLength": 1},
+          "redistributable": {"type": "boolean"},
+          "available_at_cutoff": {"type": "boolean"},
+          "contains_answer": {"type": "boolean"},
+          "sealed": {"type": "boolean"},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "reference_standard": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source", "correction_policy", "integrity_policy", "discordance_policy", "error_classes", "published_review_not_infallible"],
+      "properties": {
+        "source": {"const": "published_expert_reference"},
+        "correction_policy": {"const": "verified_corrected_version_only"},
+        "integrity_policy": {"const": "unresolved_cases_excluded_from_held_out_scoring"},
+        "discordance_policy": {"const": "classify_without_de_novo_human_adjudication"},
+        "error_classes": {
+          "type": "array", "minItems": 4,
+          "items": {"enum": ["ai_reference_disagreement", "published_review_error", "reference_ambiguity", "protocol_disagreement", "post_cutoff_knowledge", "tool_failure"]},
+          "uniqueItems": true
+        },
+        "published_review_not_infallible": {"const": true}
+      }
+    },
+    "evaluation_design": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "design", "configuration_ids", "repetitions_per_configuration",
+        "human_execution_arms_prohibited", "reference_policy",
+        "inference_scope", "no_human_superiority_claim", "no_labor_savings_claim"
+      ],
+      "properties": {
+        "design": {"const": "ai_only_repeated_runs"},
+        "configuration_ids": {
+          "type": "array", "minItems": 1,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "uniqueItems": true
+        },
+        "repetitions_per_configuration": {"type": "integer", "minimum": 2},
+        "human_execution_arms_prohibited": {"const": true},
+        "reference_policy": {"const": "published_expert_reference_no_de_novo_adjudication"},
+        "inference_scope": {"const": "ai_agreement_with_published_expert_reference_only"},
+        "no_human_superiority_claim": {"const": true},
+        "no_labor_savings_claim": {"const": true}
+      }
+    },
+    "data_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["no_secrets", "no_unlicensed_public_redistribution", "no_training_on_test", "run_lock_required_before_unsealing"],
+      "properties": {
+        "no_secrets": {"const": true},
+        "no_unlicensed_public_redistribution": {"const": true},
+        "no_training_on_test": {"const": true},
+        "run_lock_required_before_unsealing": {"const": true}
+      }
+    },
+    "package_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

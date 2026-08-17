@@ -1,0 +1,4 @@
+interface:
+  display_name: "MetaWingman"
+  short_description: "Auditable systematic review and meta-analysis"
+  default_prompt: "Use $metawingman to design and execute an auditable systematic review and meta-analysis from topic selection through peer-review readiness."

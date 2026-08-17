@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/evidence_acquisition_decision.schema.json",
+  "title": "MetaWingman conclusion-directed evidence acquisition decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision_id",
+    "state_id",
+    "state_sha256",
+    "policy_version",
+    "status",
+    "stop_allowed",
+    "selected_actions",
+    "blocked_action_ids",
+    "high_impact_criterion_ids",
+    "uncalibrated_criterion_ids",
+    "reason_codes",
+    "human_review",
+    "created_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "decision_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "state_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "state_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "policy_version": {"const": "1.0"},
+    "status": {"enum": ["continue", "stop_candidate", "abstain"]},
+    "stop_allowed": {"type": "boolean"},
+    "selected_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action_id", "utility_score", "reason_codes"],
+        "properties": {
+          "action_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "utility_score": {"type": "number", "minimum": 0},
+          "reason_codes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "blocked_action_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+    },
+    "high_impact_criterion_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+    },
+    "uncalibrated_criterion_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+    },
+    "reason_codes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "human_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "status", "trigger"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "status": {"enum": ["not_required", "pending"]},
+        "trigger": {"type": "string"}
+      }
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/missing_evidence_matrix.schema.json",
+  "title": "MetaWingman study-by-synthesis missing evidence matrix",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "matrix_id", "synthesis_id", "framework", "expected_results",
+    "study_level_flags", "proposal", "opposition", "judge_recommendation",
+    "status", "final_judgment", "human_signature", "created_at_utc", "updated_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "matrix_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "synthesis_id": {"type": "string", "minLength": 1},
+    "framework": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "source_url", "verified_at_utc"],
+      "properties": {
+        "name": {"enum": ["ROB-ME", "ROB-MEN", "project_availability_audit"]},
+        "version": {"type": "string", "minLength": 1},
+        "source_url": {"type": "string", "format": "uri"},
+        "verified_at_utc": {"type": "string", "format": "date-time"}
+      }
+    },
+    "expected_results": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "study_id", "result_key", "outcome", "timepoint", "contrast", "planned_source_ids",
+          "availability", "identified_result_ids", "included_result_ids", "anchor_ids", "reason",
+          "selective_nonreporting_signal"
+        ],
+        "properties": {
+          "study_id": {"type": "string", "minLength": 1},
+          "result_key": {"type": "string", "minLength": 1},
+          "outcome": {"type": "string", "minLength": 1},
+          "timepoint": {"type": "string", "minLength": 1},
+          "contrast": {"type": "string", "minLength": 1},
+          "planned_source_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "availability": {"enum": ["available", "partial", "registry_only", "unavailable", "not_identified", "not_applicable"]},
+          "identified_result_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "included_result_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "anchor_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "reason": {"type": "string", "minLength": 1},
+          "selective_nonreporting_signal": {"enum": ["none", "possible", "strong", "unclear"]}
+        }
+      }
+    },
+    "study_level_flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["study_id", "whole_study_missing", "reason_codes", "evidence_node_ids"],
+        "properties": {
+          "study_id": {"type": "string", "minLength": 1},
+          "whole_study_missing": {"type": "boolean"},
+          "reason_codes": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "evidence_node_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+        }
+      }
+    },
+    "proposal": {"$ref": "#/$defs/judgment"},
+    "opposition": {"$ref": "#/$defs/judgment"},
+    "judge_recommendation": {"$ref": "#/$defs/judgment"},
+    "status": {"enum": ["draft", "ready_for_adjudication", "final", "superseded"]},
+    "final_judgment": {"type": ["string", "null"]},
+    "human_signature": {"$ref": "#/$defs/signature"},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "updated_at_utc": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "final"}}},
+      "then": {
+        "properties": {
+          "final_judgment": {"type": "string", "minLength": 1},
+          "human_signature": {
+            "properties": {
+              "status": {"const": "approved"},
+              "signed_by": {"type": "string", "minLength": 1},
+              "signed_at_utc": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "judgment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["actor_id", "judgment", "reason_codes", "anchor_ids", "rationale", "abstained"],
+      "properties": {
+        "actor_id": {"type": "string"}, "judgment": {"type": "string"},
+        "reason_codes": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "anchor_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "rationale": {"type": "string"}, "abstained": {"type": "boolean"}
+      }
+    },
+    "signature": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "signed_by", "signed_at_utc", "notes"],
+      "properties": {
+        "status": {"enum": ["pending", "approved", "rejected"]},
+        "signed_by": {"type": "string"},
+        "signed_at_utc": {"type": ["string", "null"], "format": "date-time"},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

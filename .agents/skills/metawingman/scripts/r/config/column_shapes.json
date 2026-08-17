@@ -1,0 +1,86 @@
+{
+  "note": "每种输入数据的列规格(角色/中英名/类型/必需/别名)。manifest 用 shape 键引用;列映射UI、加载校验、数据录入表格三处共用。role 即适配器 col_of 的键=CLI 标志 --<role>。",
+  "shapes": {
+    "binary2x2": {
+      "label_zh": "二分类 2×2 表", "label_en": "Binary 2×2 table",
+      "columns": [
+        {"role": "ai", "zh": "处理组·事件数", "en": "Treatment events", "type": "int", "required": true, "aliases": ["ai", "e1", "event1", "events1", "tp", "treat_event", "d1"]},
+        {"role": "bi", "zh": "处理组·非事件数", "en": "Treatment non-events", "type": "int", "required": true, "aliases": ["bi", "ne1", "noevent1", "n1_ne", "treat_noevent"]},
+        {"role": "ci", "zh": "对照组·事件数", "en": "Control events", "type": "int", "required": true, "aliases": ["ci", "e2", "event2", "events2", "control_event", "d2"]},
+        {"role": "di", "zh": "对照组·非事件数", "en": "Control non-events", "type": "int", "required": true, "aliases": ["di", "ne2", "noevent2", "control_noevent"]},
+        {"role": "slab", "zh": "研究标签", "en": "Study label", "type": "text", "required": false, "aliases": ["study", "trial", "author", "label", "id", "name"]}
+      ]
+    },
+    "continuous": {
+      "label_zh": "连续型(两组均值±SD)", "label_en": "Continuous (means ± SD)",
+      "columns": [
+        {"role": "n1i", "zh": "处理组·样本量", "en": "Treatment n", "type": "int", "required": true, "aliases": ["n1i", "n1", "nt", "n_treat"]},
+        {"role": "m1i", "zh": "处理组·均值", "en": "Treatment mean", "type": "num", "required": true, "aliases": ["m1i", "mean1", "m1", "mt"]},
+        {"role": "sd1i", "zh": "处理组·标准差", "en": "Treatment SD", "type": "num", "required": true, "aliases": ["sd1i", "sd1", "s1"]},
+        {"role": "n2i", "zh": "对照组·样本量", "en": "Control n", "type": "int", "required": true, "aliases": ["n2i", "n2", "nc", "n_control"]},
+        {"role": "m2i", "zh": "对照组·均值", "en": "Control mean", "type": "num", "required": true, "aliases": ["m2i", "mean2", "m2", "mc"]},
+        {"role": "sd2i", "zh": "对照组·标准差", "en": "Control SD", "type": "num", "required": true, "aliases": ["sd2i", "sd2", "s2"]},
+        {"role": "slab", "zh": "研究标签", "en": "Study label", "type": "text", "required": false, "aliases": ["study", "trial", "author", "label"]}
+      ]
+    },
+    "generic": {
+      "label_zh": "通用(效应量 + 标准误)", "label_en": "Generic (effect + SE)",
+      "columns": [
+        {"role": "te", "zh": "效应量(如 log OR/HR、SMD)", "en": "Effect size (e.g. log OR/HR, SMD)", "type": "num", "required": true, "aliases": ["te", "yi", "effect", "es", "logor", "loghr", "smd", "estimate"]},
+        {"role": "seTE", "zh": "效应量标准误", "en": "Standard error", "type": "num", "required": true, "aliases": ["sete", "se", "sei", "std_err", "stderr"]},
+        {"role": "slab", "zh": "研究标签", "en": "Study label", "type": "text", "required": false, "aliases": ["study", "trial", "author", "label"]}
+      ]
+    },
+    "correlation": {
+      "label_zh": "相关系数", "label_en": "Correlation",
+      "columns": [
+        {"role": "cor", "zh": "相关系数 r", "en": "Correlation r", "type": "num", "required": true, "aliases": ["cor", "r", "ri", "corr"]},
+        {"role": "n", "zh": "样本量", "en": "Sample size", "type": "int", "required": true, "aliases": ["n", "ni", "size"]},
+        {"role": "slab", "zh": "研究标签", "en": "Study label", "type": "text", "required": false, "aliases": ["study", "trial", "author", "label"]}
+      ]
+    },
+    "proportion": {
+      "label_zh": "单臂比例(事件/总数)", "label_en": "Single-arm proportion",
+      "columns": [
+        {"role": "event", "zh": "事件数", "en": "Events", "type": "int", "required": true, "aliases": ["events", "event", "cases", "x", "xi", "r", "n_event"]},
+        {"role": "n", "zh": "总样本量", "en": "Total n", "type": "int", "required": true, "aliases": ["n", "ni", "total", "size"]},
+        {"role": "studlab", "zh": "研究标签", "en": "Study label", "type": "text", "required": false, "aliases": ["study", "studlab", "trial", "author", "label"]}
+      ]
+    },
+    "diagnostic": {
+      "label_zh": "诊断 2×2(TP/FP/FN/TN)", "label_en": "Diagnostic 2×2",
+      "columns": [
+        {"role": "TP", "zh": "真阳性 TP", "en": "True positive", "type": "int", "required": true, "aliases": ["tp", "truepos"]},
+        {"role": "FP", "zh": "假阳性 FP", "en": "False positive", "type": "int", "required": true, "aliases": ["fp", "falsepos"]},
+        {"role": "FN", "zh": "假阴性 FN", "en": "False negative", "type": "int", "required": true, "aliases": ["fn", "falseneg"]},
+        {"role": "TN", "zh": "真阴性 TN", "en": "True negative", "type": "int", "required": true, "aliases": ["tn", "trueneg"]},
+        {"role": "slab", "zh": "研究标签", "en": "Study label", "type": "text", "required": false, "aliases": ["study", "trial", "author", "label"]}
+      ]
+    },
+    "network_contrast": {
+      "label_zh": "网络(对比级:两臂 + 效应)", "label_en": "Network (contrast-level)",
+      "columns": [
+        {"role": "treat1", "zh": "处理 1", "en": "Treatment 1", "type": "text", "required": true, "aliases": ["treat1", "t1", "arm1", "trt1"]},
+        {"role": "treat2", "zh": "处理 2", "en": "Treatment 2", "type": "text", "required": true, "aliases": ["treat2", "t2", "arm2", "trt2"]},
+        {"role": "TE", "zh": "效应量(处理1 vs 2)", "en": "Effect (t1 vs t2)", "type": "num", "required": true, "aliases": ["te", "yi", "effect", "logor"]},
+        {"role": "seTE", "zh": "标准误", "en": "Standard error", "type": "num", "required": true, "aliases": ["sete", "se", "sei"]},
+        {"role": "studlab", "zh": "研究标签", "en": "Study label", "type": "text", "required": false, "aliases": ["study", "studlab", "trial", "id"]}
+      ]
+    },
+    "evalue": {
+      "label_zh": "点估计 + 置信区间", "label_en": "Point estimate + CI",
+      "columns": [
+        {"role": "est", "zh": "效应量(如 RR/OR/HR)", "en": "Estimate (RR/OR/HR)", "type": "num", "required": true, "aliases": ["est", "rr", "or", "hr", "estimate", "effect"]},
+        {"role": "lo", "zh": "置信区间下限", "en": "CI lower", "type": "num", "required": true, "aliases": ["lo", "low", "lower", "ci_low", "lcl"]},
+        {"role": "hi", "zh": "置信区间上限", "en": "CI upper", "type": "num", "required": true, "aliases": ["hi", "high", "upper", "ci_high", "ucl"]}
+      ]
+    },
+    "est_p": {
+      "label_zh": "点估计 + p 值", "label_en": "Point estimate + p-value",
+      "columns": [
+        {"role": "est", "zh": "效应量(如 RR/OR/HR)", "en": "Estimate (RR/OR/HR)", "type": "num", "required": true, "aliases": ["est", "rr", "or", "hr", "estimate", "effect"]},
+        {"role": "p", "zh": "双侧 p 值", "en": "Two-sided p-value", "type": "num", "required": true, "aliases": ["p", "pval", "p_value", "pvalue"]}
+      ]
+    }
+  }
+}
