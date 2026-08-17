@@ -20,6 +20,8 @@ param(
     [int]$PollTimeoutSeconds = 600
 )
 $ErrorActionPreference = 'Stop'
+# Native stderr (e.g. Gitee's banner, git progress) must not abort the script.
+$PSNativeCommandUseErrorActionPreference = $false
 $Repo = 'fsy2004/MetaWingman'
 
 function Invoke-Step([string]$Name, [scriptblock]$Body) {
