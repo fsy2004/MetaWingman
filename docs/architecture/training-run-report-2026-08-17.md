@@ -231,6 +231,31 @@ absolute-accuracy claim is made.
 - Next action: retrain evidence-retrieval with accumulation + re-evaluate;
   keep the batch-8 run receipt for provenance.
 
+## 13. 12k retrain V3: accumulation retrain + metric semantics clarification
+
+- Gradient accumulation shipped (`3a0d078`/`a87e826`): batch 8 × acc 2 =
+  effective batch 16; 239/239 tests green; CI green.
+- V3 receipt (batch 8, acc 2, 3 epochs, ~1.8 h, 13.4 GiB peak, no OOM):
+  train_mean_loss **2.445**; hard-negative MRR **0.962** / P@1 **0.933**;
+  full-corpus dev MRR 0.00452 / R@10 0.0060 / P@1 0.00055.
+- **Metric semantics clarified** (see §6 known limitation #1): the numbers
+  historically quoted as "retrieval MRR" (2,048-record scale: 0.954 in the
+  AI-only pilot comparison; §4 table: 0.824) are **candidate-set
+  (hard-negative) MRR** — each query ranks only its own positive + ≤3 hard
+  negatives. The full-corpus `development_mrr` was degenerate by construction
+  at that scale and has never had a baseline. The 12k V3 run is the first
+  honest full-corpus measurement (10,882 dev queries × 10,882 documents,
+  same-family masked): **MRR 0.00452** — no comparable baseline exists yet;
+  an honest TF-IDF full-corpus baseline remains to be computed.
+- Candidate-set comparison: V3 (0.962/0.933) > batch-8 run (0.933/0.892) and
+  > 2,048-record run (0.954/0.919) — accumulation helped; the trained model's
+  candidate discrimination is the strongest recorded.
+- Remaining honest gap: full-corpus retrieval quality of the 110M model is
+  unproven (low absolute MRR on 10k documents). Options for later work:
+  in-batch negatives drawn from the full corpus, more epochs, or an explicit
+  two-stage retrieve-then-rank design. No over-claiming: all numbers are
+  dev weak-label metrics.
+
 
 
 
