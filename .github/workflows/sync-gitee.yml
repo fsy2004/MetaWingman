@@ -5,14 +5,15 @@ name: sync-from-gitee
 # pushes to github.com are blocked/reset from the working network, while
 # api.github.com and gitee.com are reachable. Gitee is the source of truth;
 # any GitHub-side direct edits on main/codex/github-beta will be overwritten.
+# Push auth uses a PAT stored in the GH_SYNC_TOKEN repo secret (GITHUB_TOKEN
+# is not allowed to update workflow files).
 on:
   workflow_dispatch:
   schedule:
     - cron: '*/30 * * * *'
 
 permissions:
-  contents: write
-  workflows: write
+  contents: read
 
 jobs:
   sync:
@@ -32,6 +33,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Switch push auth to the PAT (GITHUB_TOKEN cannot touch workflow files).
+          printf '%s' "x-access-token:${GH_SYNC_TOKEN}" | base64 -w0 > /tmp/gh_b64
+          git config http.https://github.com/.extraheader "AUTHORIZATION: basic $(cat /tmp/gh_b64)"
+          rm -f /tmp/gh_b64
           for b in main codex/github-beta; do
             if git rev-parse --verify -q "refs/remotes/gitee/$b"; then
               git push origin "refs/remotes/gitee/$b:refs/heads/$b" --force
@@ -40,3 +45,5 @@ jobs:
               echo "skip $b (not on gitee)"
             fi
           done
+        env:
+          GH_SYNC_TOKEN: ${{ secrets.GH_SYNC_TOKEN }}
