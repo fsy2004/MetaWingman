@@ -104,3 +104,57 @@ The exact sequence is `mw-setup.sh` → `mw-download.sh` → `mw-freeze.sh` →
 `~/.agents/tools/mw-server/` (run via `mws.py`), with the handoff-verified
 repo, the frozen v2 plan, and the environment of §1. All hashes are pinned in
 the run-plan, job manifests, and receipts.
+
+## 8. Second-phase results (2026-08-17, revisions 17a/17b)
+
+Two method revisions were made after measuring the first run (recorded in
+`training-freeze-decisions.md` §13), plus an adversarial-motivated ablation.
+
+- **17a — retrieval query representation**: the field-only instruction made
+  the full-corpus task ill-posed (queries collapse to ≤8 field variants; dev
+  recall@10 was 0.049). Query now includes the review title
+  (`_retrieval_query`), matching information available downstream.
+
+| dev metric (1,584 queries) | TF-IDF | trained, rev a (positives-only) | trained, rev b (+ hard negatives) |
+|---|---|---|---|
+| full-corpus recall@10 | 0.506 | **0.590** | 0.339 |
+| full-corpus MRR | 0.375 | 0.440 | 0.200 |
+| full-corpus P@1 | 0.307 | 0.360 | 0.133 |
+| candidate-set MRR | 0.712 | 0.919 | **0.954** |
+| candidate-set P@1 | 0.549 | 0.855 | **0.919** |
+
+- **17b — hard negatives in training**: exported hard negatives (up to 3 per
+  positive) are now explicit in-batch negatives (diagonal InfoNCE unchanged).
+  Effect: candidate-set precision up, open-corpus recall down — consistent
+  with [Zhang & Stratos 2021](https://arxiv.org/abs/2104.06245). Selection:
+  **rev b for the in-review candidate-ranking use case** (the downstream
+  MetaWingman retrieval), rev a kept for any open-corpus use.
+- **Title-strip ablation**: section-role dev macro-F1 0.983 with the title
+  line, **0.670** without it (majority baseline 0.046). The classifier leans
+  on the title; the honest range is 0.670–0.983, and JATS sections carry
+  titles in production use.
+- Independent-validation arm prepared: 200 dev records, 47 strata, blind
+  tasks + sealed key + full texts archived under
+  `validation-output/server-download/independent-validation/`.
+- Review-family audit tooling smoke-tested on the real registry/corpus
+  (`audit_review_families.py`; 0 confirmed families with empty decisions).
+- See `adversarial-review-2026-08-17.md` for the seven-lens audit (F1–F7).
+
+## 9. Method references (used to design and interpret this run)
+
+- Bi-encoder + in-batch negatives + hard negatives: Karpukhin et al., *Dense
+  Passage Retrieval for Open-Domain Question Answering*, EMNLP 2020,
+  [arXiv:2004.04906](https://arxiv.org/abs/2004.04906); code
+  [facebookresearch/DPR](https://github.com/facebookresearch/DPR).
+- Siamese bi-encoder with cosine similarity and hard-negative mining: Reimers
+  & Gurevych, *Sentence-BERT*, EMNLP 2019,
+  [arXiv:1908.10084](https://arxiv.org/abs/1908.10084); code
+  [UKPLab/sentence-transformers](https://github.com/UKPLab/sentence-transformers).
+- Base model: Gu et al., *Domain-Specific Language Model Pretraining for
+  Biomedical Natural Language Processing*, ACM Trans. Comput. Healthcare 3(1),
+  2021, [doi:10.1145/3458754](https://doi.org/10.1145/3458754) (BiomedBERT /
+  PubMedBERT family; model card verified MIT at the pinned revision).
+- Hard-negative trade-off interpretation: Zhang & Stratos, *Understanding Hard
+  Negatives in Noise Contrastive Estimation*, NAACL 2021,
+  [arXiv:2104.06245](https://arxiv.org/abs/2104.06245).
+
