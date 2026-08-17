@@ -156,3 +156,22 @@ The rented server's measured reality, recorded before any training:
 - pip uses the AutoDL aliyun mirror. `pip freeze` after install is saved as
   `server-lock.txt` (the runbook's server/CUDA-specific transitive lock).
 
+## 13. Method revisions recorded from the first real run
+
+Both revisions were discovered by measuring the frozen pipeline on real data;
+each changes frozen semantics and is recorded here as a dated revision.
+
+- **Rev 2026-08-17a — retrieval query representation.** The frozen query was
+  the field-only instruction; measured full-corpus dev recall@10 was 0.049
+  because hundreds of passages from different reviews support the same field.
+  The query now appends the review title (`_retrieval_query(example)` =
+  instruction + `Review: {title}`), information available downstream in real
+  use. Measured effect: trained-model recall@10 0.049 → 0.590, MRR 0.027 →
+  0.440.
+- **Rev 2026-08-17b — hard negatives in training.** The runner originally
+  trained on positives only (in-batch negatives were random positives). The
+  exported hard negatives (up to 3 per positive, same split, family-isolated)
+  are now appended to each training batch as explicit negatives; the diagonal
+  InfoNCE label is unchanged. This uses data the export stage always produced
+  for training.
+
