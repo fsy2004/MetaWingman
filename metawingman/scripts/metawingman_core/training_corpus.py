@@ -712,12 +712,20 @@ def build_retrieval_pairs(
     """Build source positives and family-isolated medical-neighborhood negatives."""
     retrieval = [item for item in examples if item.get("task") == "evidence_retrieval"]
     pairs: list[dict[str, Any]] = []
+    query_token_sets = {
+        item["example_id"]: _tokens(item["instruction"] + " " + item["input_text"])
+        for item in retrieval
+    }
+    document_token_sets = {
+        item["example_id"]: _tokens(item["input_text"])
+        for item in retrieval
+    }
     for query in sorted(retrieval, key=lambda item: item["example_id"]):
         query_stratum = strata_by_record.get(query["record_id"])
         if not query_stratum:
             raise TrainingCorpusError(f"missing biomedical stratum for record: {query['record_id']}")
         candidates: list[tuple[int, str, dict[str, Any], list[str]]] = []
-        query_tokens = _tokens(query["instruction"] + " " + query["input_text"])
+        query_tokens = query_token_sets[query["example_id"]]
         for candidate in retrieval:
             if candidate["split"] != query["split"]:
                 continue
@@ -737,7 +745,7 @@ def build_retrieval_pairs(
                 neighborhood_keys.append("question_type")
             if not neighborhood_keys:
                 continue
-            overlap = len(query_tokens & _tokens(candidate["input_text"]))
+            overlap = len(query_tokens & document_token_sets[candidate["example_id"]])
             tie = hashlib.sha256(f"{seed}:{query['example_id']}:{candidate['example_id']}".encode()).hexdigest()
             candidates.append((-overlap, tie, candidate, neighborhood_keys))
         selected = [(query, 1, ["self_anchored_positive"])]
