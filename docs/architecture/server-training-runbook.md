@@ -61,6 +61,18 @@ Use the argv arrays in the handoff manifest from the verified repository root. E
 - Re-run hashes after interruption. Rebuild the job rather than editing a frozen manifest in place.
 - Retrieve only metrics, receipts, code-safe metadata, and explicitly approved checkpoints. Do not copy raw full text into Git.
 
+### Interrupted-download recovery (sharded fetches)
+
+When sharded fetchers are interrupted before writing their final manifests,
+recover progress from disk instead of re-downloading: scan each shard's
+existing XML files against its shard plan, build a valid
+`training_document_manifest` per shard (provenance: file sha256/bytes,
+plan-derived license/split/family, `verified_not_retracted`), then restart the
+fetchers — the reuse path hash-verifies recovered artifacts and downloads only
+the missing records. On this run the recovery manifests restored 533–548 of
+1,500 records per shard and eliminated the overwrite loop. Operational tool:
+`~/.agents/tools/mw-server/mw-recover.py`.
+
 ## Monitoring
 
 Record GPU memory, utilization, temperature, host RAM, free NVMe, network transfer, examples/second, wall time, and failed records. Stop on hash drift, license/retraction changes, non-finite loss, output-path escape, repeated OOM, or development-family contamination.
