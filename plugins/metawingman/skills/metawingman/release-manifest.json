@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "75826bd67d2332ed99129cf06f7340ff390767ad61cd8e690d487f7a99f66263",
+  "source_tree_sha256": "a1ead0c354ec0da5e1886cf311e9292fabcb58ea20011793c54cd06877aef4d0",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -342,6 +342,11 @@
       "bytes": 3705
     },
     {
+      "path": "schemas/family_audit_report.schema.json",
+      "sha256": "3649e3aaf66a1fcb305c3e16898bb0de36bd1c28688acd70b0ff7aaf402642be",
+      "bytes": 2799
+    },
+    {
       "path": "schemas/lineage_edge.schema.json",
       "sha256": "6488b4b8577cf723f2beac2fa7cfc1c4936250677189ad8c43c187fa33499b10",
       "bytes": 3180
@@ -417,6 +422,11 @@
       "bytes": 1510
     },
     {
+      "path": "schemas/retrieval_selection_prediction.schema.json",
+      "sha256": "49dd2d158c89d53898a401ba6821d2c809f03789b4d3de17a3203aef7925a52b",
+      "bytes": 415
+    },
+    {
       "path": "schemas/review_family_registry.schema.json",
       "sha256": "d84764ee05f6ff32f856b54f21fd136899225612037e06e8681421f2c4ed266c",
       "bytes": 4545
@@ -447,6 +457,11 @@
       "bytes": 4178
     },
     {
+      "path": "schemas/section_role_prediction.schema.json",
+      "sha256": "cf25748a403950c910d818200781617718521b6cae671af43c5f41c208a2ac76",
+      "bytes": 452
+    },
+    {
       "path": "schemas/server_training_handoff.schema.json",
       "sha256": "323573e9b808475eb679681b66125f844296dcad46287bc8462c07cfe37771ab",
       "bytes": 2685
@@ -468,8 +483,8 @@
     },
     {
       "path": "schemas/top_journal_training_corpus.schema.json",
-      "sha256": "29c7848c98e6f0ee9b87875a6755194f7eab8ae392e4d647c2568285bb58e1d2",
-      "bytes": 5513
+      "sha256": "3e87b07aebbf6ba6a0d14d23bc5c14ea9336829a6b08705b2ffd2f1b29ec7b24",
+      "bytes": 5903
     },
     {
       "path": "schemas/topic_candidate.schema.json",
@@ -518,8 +533,8 @@
     },
     {
       "path": "schemas/training_example.schema.json",
-      "sha256": "1274bbcdc0c7edf2150f6900770723b90ed0924f3ae47ab3c9a3c3be7789ee35",
-      "bytes": 2104
+      "sha256": "f8cca22ed2574e9e8105bc28471a5e34f34eb30da09c7eb92f48b7994090dc17",
+      "bytes": 2144
     },
     {
       "path": "schemas/training_export_manifest.schema.json",
@@ -539,6 +554,11 @@
     {
       "path": "scripts/audit_biomedical_coverage.py",
       "sha256": "9ae1c82aefef32c4f84d7cb8e79bf2d4a506d96ba22f70b494fe8654687bd866",
+      "bytes": 1465
+    },
+    {
+      "path": "scripts/audit_review_families.py",
+      "sha256": "0a21b10282fb4dcff0885cfca7d17661d1f4cc895360e8dee2bd1c5d2770f9b9",
       "bytes": 1465
     },
     {
@@ -563,8 +583,8 @@
     },
     {
       "path": "scripts/build_server_training_handoff.py",
-      "sha256": "a3b7f75c4ccbbe1f0f401641ba23441aa128ae62a4c59941687ed0465e542588",
-      "bytes": 3962
+      "sha256": "9f6ff5109e79bea121cd5e166d22a6ff3a0986a75a1db0c256ce664d8c6ad116",
+      "bytes": 4316
     },
     {
       "path": "scripts/build_tool_catalog.py",
@@ -648,8 +668,8 @@
     },
     {
       "path": "scripts/fetch_training_corpus.py",
-      "sha256": "e71cd7e1f642e9a06c9df611d207d0cc0fe85d2f9150784e37f24ecf783211fa",
-      "bytes": 1847
+      "sha256": "f66028dfec56bfff444a9bcdb2d34a42f173a45bddb9ceafad37feb23bc3ea7c",
+      "bytes": 2492
     },
     {
       "path": "scripts/freeze_training_dataset.py",
@@ -663,8 +683,8 @@
     },
     {
       "path": "scripts/harvest_top_journal_corpus.py",
-      "sha256": "d9cc916307430bfc9df37a121783a227c07321ba3d1f4314affa38d413ff3dad",
-      "bytes": 11209
+      "sha256": "96b42a3f93e5c51393546af35f7442e0b75f07fa7b6e98c744790d6d04e94aa6",
+      "bytes": 12247
     },
     {
       "path": "scripts/ingest_document.py",
@@ -768,8 +788,8 @@
     },
     {
       "path": "scripts/metawingman_core/network_security.py",
-      "sha256": "73de3181df9ea75d7896a62de451a069314e6993f27c812488d22567d6a531e6",
-      "bytes": 2132
+      "sha256": "7f6f912467f3bc4f95bbaa4a7e3b4e1cd479189c6ccd7b69dce60d36beee53fd",
+      "bytes": 2750
     },
     {
       "path": "scripts/metawingman_core/pipeline_compiler.py",
@@ -803,8 +823,8 @@
     },
     {
       "path": "scripts/metawingman_core/review_family.py",
-      "sha256": "d3c84a3afba2df17b7bdcec032dbcb012d3251b7bab1e138afb124be2babac65",
-      "bytes": 9030
+      "sha256": "1a04b5df2443c89cba7e07c108cad761ff660f6210ffd7bc2b094a4983c5959a",
+      "bytes": 13847
     },
     {
       "path": "scripts/metawingman_core/schema_guard.py",
@@ -838,8 +858,8 @@
     },
     {
       "path": "scripts/metawingman_core/training_corpus.py",
-      "sha256": "1fa38c14404cca897c8cfe2293c56e08fa9b7c3a52e4331a6f9f266562097854",
-      "bytes": 55356
+      "sha256": "6f9077aa9003d981075bb875283b04c321895ef2e5aeb20fcf7730d1261cb6da",
+      "bytes": 60451
     },
     {
       "path": "scripts/migrate_biomedical_context.py",
@@ -870,6 +890,11 @@
       "path": "scripts/prepare_component_training.py",
       "sha256": "2cf929d0f70c1340e5eb538f50b1e7b444b54b55c034503fc654fdd6d399ea50",
       "bytes": 4633
+    },
+    {
+      "path": "scripts/prepare_independent_validation_sample.py",
+      "sha256": "22e7b0b298b1b2696cf2ade6bcd23b0f11519d6dc8779c12f16bc6d94a96274c",
+      "bytes": 6523
     },
     {
       "path": "scripts/prepare_training_annotation_tasks.py",
@@ -1582,9 +1607,14 @@
       "bytes": 192
     },
     {
+      "path": "scripts/run_ai_only_pilot.py",
+      "sha256": "a6bc04ef32b61fb64b396b5debec2dd1281d74f4eb954347a7a6c69ea8339637",
+      "bytes": 13532
+    },
+    {
       "path": "scripts/run_component_training.py",
-      "sha256": "18e76ad7af5c933977e259d911a3ab7520e5cc566b1a491f182b3bd89f5d818c",
-      "bytes": 9051
+      "sha256": "b8b21a4d89f85242bcea6a4711f7e93e5f9676788b831f4a2d48551295660eee",
+      "bytes": 15186
     },
     {
       "path": "scripts/screen_record.py",

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/section_role_prediction.schema.json",
+  "title": "AI-only pilot section-role prediction",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["section_role"],
+  "properties": {
+    "section_role": {
+      "enum": ["search", "eligibility", "selection", "extraction", "appraisal", "synthesis", "certainty", "protocol"]
+    }
+  }
+}
