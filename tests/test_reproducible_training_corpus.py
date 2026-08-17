@@ -705,6 +705,32 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
             }
             self.assertEqual(lookup(query_tokens, candidate_ids), expected)
 
+    def test_vectorized_pair_selection_matches_python_fallback(self) -> None:
+        from unittest.mock import patch
+
+        from metawingman_core import training_corpus as corpus_module
+
+        examples = []
+        for index in range(16):
+            example = retrieval_example(index, "train", f"family:{index // 2:08x}", f"epmc:{index:08x}")
+            # Shared passages force token-overlap ties so the sha256 tie-break is
+            # exercised, and families are shared to exercise the family filter.
+            example["input_text"] = f"Section title: S{index}\n\nshared passage token {index % 3}"
+            example["evidence_anchor"]["source_text_sha256"] = hashlib.sha256(f"src{index}".encode()).hexdigest()
+            examples.append(example)
+        strata = {
+            f"epmc:{index:08x}": {
+                "primary_specialty": "oncology" if index < 8 else "neurology",
+                "question_type": "intervention" if index % 2 == 0 else "diagnostic",
+            }
+            for index in range(16)
+        }
+        vectorized = build_retrieval_pairs(examples, strata, seed=11)
+        with patch.object(corpus_module, "_build_token_matrix", return_value=None):
+            fallback = build_retrieval_pairs(examples, strata, seed=11)
+        self.assertEqual(vectorized, fallback)
+        self.assertEqual([pair["pair_id"] for pair in vectorized], [pair["pair_id"] for pair in fallback])
+
     def test_examples_and_run_plan_remain_weak_supervision(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
