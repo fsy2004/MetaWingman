@@ -683,7 +683,8 @@ def build_training_examples(
                     "schema_version": "1.0", "example_id": example_id,
                     "document_id": document["document_id"], "record_id": document["record_id"],
                     "family_id": document["family_id"], "split": document["split"], "task": task,
-                    "instruction": instruction, "input_text": f"Section title: {title}\n\n{text}",
+                    "instruction": instruction, "review_title": document.get("title", ""),
+                    "input_text": f"Section title: {title}\n\n{text}",
                     "target": {"section_role": role, "section_title": title},
                     "evidence_anchor": {
                         "artifact_sha256": xml_artifact["sha256"], "section_path": f"//body//sec[{index}]",
@@ -702,6 +703,20 @@ def build_training_examples(
 
 def _tokens(value: str) -> set[str]:
     return set(re.findall(r"[a-z0-9]+", value.casefold()))
+
+
+def _retrieval_query(example: dict[str, Any]) -> str:
+    """Query text for the evidence-retrieval task.
+
+    Includes the review title so the query identifies which review is being
+    asked about; the field-only instruction alone is not a well-posed
+    full-corpus query (many passages from different reviews support the same
+    field).
+    """
+    title = example.get("review_title") or ""
+    if title:
+        return f"{example['instruction']} Review: {title}"
+    return example["instruction"]
 
 
 def build_retrieval_pairs(
@@ -759,7 +774,7 @@ def build_retrieval_pairs(
                 "query_record_id": query["record_id"],
                 "query_family_id": query["family_id"],
                 "query_split": query["split"],
-                "query_text": query["instruction"],
+                "query_text": _retrieval_query(query),
                 "document_example_id": document["example_id"],
                 "document_record_id": document["record_id"],
                 "document_family_id": document["family_id"],

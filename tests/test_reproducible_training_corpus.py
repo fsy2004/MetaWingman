@@ -31,6 +31,7 @@ from metawingman_core.training_corpus import (  # noqa: E402
     build_training_plan,
     build_training_run_plan,
     classify_biomedical_stratum,
+    _retrieval_query,
     fetch_training_plan,
     preflight_component_training,
 )
@@ -263,6 +264,15 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         self.assertAlmostEqual(result["mrr"], 0.5)
         self.assertEqual(result["precision_at_1"], 0.0)
         self.assertEqual(result["recall_at_10"], 1.0)
+
+    def test_retrieval_query_includes_review_title_when_available(self) -> None:
+        example = retrieval_example(1, "train", "family:0000000000000001", "epmc:0000000000000001")
+        example["review_title"] = "Antibiotics for chronic wounds: a meta-analysis"
+        query = _retrieval_query(example)
+        self.assertIn("Antibiotics for chronic wounds", query)
+        self.assertIn(example["instruction"], query)
+        without_title = retrieval_example(1, "train", "family:0000000000000001", "epmc:0000000000000001")
+        self.assertEqual(_retrieval_query(without_title), without_title["instruction"])
 
     def test_validation_sample_is_stratified_blind_and_deterministic(self) -> None:
         total = 240

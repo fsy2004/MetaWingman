@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from metawingman_core.state_store import atomic_write_json
-from metawingman_core.training_corpus import TrainingCorpusError, preflight_component_training
+from metawingman_core.training_corpus import TrainingCorpusError, preflight_component_training, _retrieval_query
 
 
 def _warmup_steps(train_count: int, batch_size: int, epochs: int, warmup_ratio: float) -> int:
@@ -179,7 +179,7 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
 
     # (b) full development-corpus ranking: each query's positive is its own document
     dev_examples = [item for item in examples if item["task"] == "evidence_retrieval" and item["split"] == "development"]
-    query_vectors = _encode([item["instruction"] for item in dev_examples], 256)
+    query_vectors = _encode([_retrieval_query(item) for item in dev_examples], 256)
     document_vectors = _encode([item["input_text"] for item in dev_examples], 512)
     with torch.no_grad():
         similarities = (query_vectors @ document_vectors.T).cpu().tolist()
