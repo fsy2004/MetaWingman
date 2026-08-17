@@ -736,6 +736,41 @@ def _retrieval_query(example: dict[str, Any]) -> str:
     return example["instruction"]
 
 
+def _build_token_matrix(
+    retrieval: list[dict[str, Any]],
+    document_token_sets: dict[str, set[str]],
+) -> tuple[Any, dict[str, int], dict[str, int]] | None:
+    """Build the sparse document-token binary matrix used for vectorized overlap.
+
+    Row ``i`` corresponds to ``retrieval[i]`` and holds a 1 in every column
+    whose token is present in that document's token set. Returns ``None`` when
+    numpy/scipy are unavailable so callers can fall back to pure Python. The
+    matrix data is accumulated in int32 (never int8) so overlap counts, which
+    are bounded by the token-set sizes, cannot overflow.
+    """
+    try:
+        import numpy as np
+        from scipy import sparse
+    except ImportError:
+        return None
+
+    positions = {item["example_id"]: index for index, item in enumerate(retrieval)}
+    vocabulary: dict[str, int] = {}
+    rows: list[int] = []
+    columns: list[int] = []
+    for row, item in enumerate(retrieval):
+        for token in document_token_sets[item["example_id"]]:
+            column = vocabulary.setdefault(token, len(vocabulary))
+            rows.append(row)
+            columns.append(column)
+    matrix = sparse.csr_matrix(
+        (np.ones(len(rows), dtype=np.int32), (rows, columns)),
+        shape=(len(retrieval), len(vocabulary)),
+    )
+    token_columns = {token: column for token, column in vocabulary.items()}
+    return matrix, token_columns, positions
+
+
 def _build_overlap_lookup(
     retrieval: list[dict[str, Any]],
     document_token_sets: dict[str, set[str]],
@@ -754,28 +789,13 @@ def _build_overlap_lookup(
 
     try:
         import numpy as np
-        from scipy import sparse
     except ImportError:
         return python_lookup
 
-    positions = {
-        item["example_id"]: index for index, item in enumerate(retrieval)
-    }
-    vocabulary: dict[str, int] = {}
-    rows: list[int] = []
-    columns: list[int] = []
-    for row, item in enumerate(retrieval):
-        for token in document_token_sets[item["example_id"]]:
-            column = vocabulary.setdefault(token, len(vocabulary))
-            rows.append(row)
-            columns.append(column)
-    matrix = sparse.csr_matrix(
-        (np.ones(len(rows), dtype=np.int32), (rows, columns)),
-        shape=(len(retrieval), len(vocabulary)),
-    )
-    token_columns = {
-        token: column for token, column in vocabulary.items()
-    }
+    built = _build_token_matrix(retrieval, document_token_sets)
+    if built is None:
+        return python_lookup
+    matrix, token_columns, positions = built
 
     def sparse_lookup(query_tokens: set[str], candidate_ids: list[str]) -> dict[str, int]:
         indices = np.asarray([positions[identifier] for identifier in candidate_ids], dtype=np.int64)
@@ -786,7 +806,7 @@ def _build_overlap_lookup(
         if query_columns.size == 0:
             overlaps = np.zeros(len(candidate_ids), dtype=np.int64)
         else:
-            query_vector = np.zeros(len(vocabulary), dtype=np.int32)
+            query_vector = np.zeros(len(token_columns), dtype=np.int32)
             query_vector[query_columns] = 1
             overlaps = np.asarray(matrix[indices] @ query_vector, dtype=np.int64).ravel()
         return {
@@ -797,22 +817,18 @@ def _build_overlap_lookup(
     return sparse_lookup
 
 
-def build_retrieval_pairs(
-    examples: list[dict[str, Any]],
+def _pair_tie(seed: int, query_id: str, candidate_id: str) -> str:
+    return hashlib.sha256(f"{seed}:{query_id}:{candidate_id}".encode()).hexdigest()
+
+
+def _python_negative_selector(
+    retrieval: list[dict[str, Any]],
     strata_by_record: dict[str, dict[str, Any]],
     seed: int,
-) -> list[dict[str, Any]]:
-    """Build source positives and family-isolated medical-neighborhood negatives."""
-    retrieval = [item for item in examples if item.get("task") == "evidence_retrieval"]
-    pairs: list[dict[str, Any]] = []
-    query_token_sets = {
-        item["example_id"]: _tokens(item["instruction"] + " " + item["input_text"])
-        for item in retrieval
-    }
-    document_token_sets = {
-        item["example_id"]: _tokens(item["input_text"])
-        for item in retrieval
-    }
+    query_token_sets: dict[str, set[str]],
+    document_token_sets: dict[str, set[str]],
+) -> Callable[[dict[str, Any]], list[tuple[dict[str, Any], int, list[str]]]]:
+    """Original per-query Python selection, kept as the no-scipy fallback."""
     by_specialty: dict[str, list[dict[str, Any]]] = defaultdict(list)
     by_question: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for item in retrieval:
@@ -822,11 +838,9 @@ def build_retrieval_pairs(
         by_specialty[stratum.get("primary_specialty")].append(item)
         by_question[stratum.get("question_type")].append(item)
     overlap_lookup = _build_overlap_lookup(retrieval, document_token_sets)
-    for query in sorted(retrieval, key=lambda item: item["example_id"]):
+
+    def select(query: dict[str, Any]) -> list[tuple[dict[str, Any], int, list[str]]]:
         query_stratum = strata_by_record.get(query["record_id"])
-        if not query_stratum:
-            raise TrainingCorpusError(f"missing biomedical stratum for record: {query['record_id']}")
-        candidates: list[tuple[int, str, dict[str, Any], list[str]]] = []
         query_tokens = query_token_sets[query["example_id"]]
         neighborhood: dict[str, dict[str, Any]] = {}
         for candidate in by_specialty.get(query_stratum.get("primary_specialty"), []):
@@ -834,6 +848,7 @@ def build_retrieval_pairs(
         for candidate in by_question.get(query_stratum.get("question_type"), []):
             neighborhood[candidate["example_id"]] = candidate
         overlap_map = overlap_lookup(query_tokens, list(neighborhood))
+        candidates: list[tuple[int, str, dict[str, Any], list[str]]] = []
         for candidate in neighborhood.values():
             if candidate["split"] != query["split"]:
                 continue
@@ -852,10 +867,188 @@ def build_retrieval_pairs(
             if candidate_stratum["question_type"] == query_stratum["question_type"]:
                 neighborhood_keys.append("question_type")
             overlap = overlap_map[candidate["example_id"]]
-            tie = hashlib.sha256(f"{seed}:{query['example_id']}:{candidate['example_id']}".encode()).hexdigest()
+            tie = _pair_tie(seed, query["example_id"], candidate["example_id"])
             candidates.append((-overlap, tie, candidate, neighborhood_keys))
+        return [(item[2], 0, item[3]) for item in sorted(candidates)[:3]]
+
+    return select
+
+
+def _vectorized_negative_selector(
+    retrieval: list[dict[str, Any]],
+    strata_by_record: dict[str, dict[str, Any]],
+    seed: int,
+    query_token_sets: dict[str, set[str]],
+    matrix: Any,
+    token_columns: dict[str, int],
+) -> Callable[[dict[str, Any]], list[tuple[dict[str, Any], int, list[str]]]]:
+    """Batch per-query candidate filtering with numpy/scipy.
+
+    Replaces the per-query Python loop over the medical neighborhood with a
+    boolean-mask filter over precomputed code arrays, then ranks the passing
+    candidates by token overlap. Overlaps are computed with a sparse
+    matrix-vector product per query: the document-token matrix is sliced once
+    per (specialty, question) neighborhood and the query vector is reused
+    across queries, avoiding per-candidate Python work and per-query sparse
+    fancy indexing. The sha256 tie-break is only computed for candidates tied
+    at the third-ranked overlap (the selection boundary), which is the one
+    place the tie affects which three negatives are chosen; this keeps output
+    byte-identical while avoiding a sha256 per passing candidate.
+    """
+    import numpy as np
+
+    n = len(retrieval)
+    example_ids = [item["example_id"] for item in retrieval]
+
+    split = np.empty(n, dtype=np.int64)
+    rec = np.empty(n, dtype=np.int64)
+    fam = np.empty(n, dtype=np.int64)
+    intext = np.empty(n, dtype=np.int64)
+    srcsha = np.empty(n, dtype=np.int64)
+    spec = np.empty(n, dtype=np.int64)
+    qtype = np.empty(n, dtype=np.int64)
+    has_stratum = np.zeros(n, dtype=bool)
+
+    split_codes: dict[str, int] = {}
+    rec_codes: dict[str, int] = {}
+    fam_codes: dict[str, int] = {}
+    intext_codes: dict[str, int] = {}
+    srcsha_codes: dict[str, int] = {}
+    spec_codes: dict[str, int] = {}
+    qtype_codes: dict[str, int] = {}
+
+    for i, item in enumerate(retrieval):
+        split[i] = split_codes.setdefault(item["split"], len(split_codes))
+        rec[i] = rec_codes.setdefault(item["record_id"], len(rec_codes))
+        fam[i] = fam_codes.setdefault(item["family_id"], len(fam_codes))
+        intext[i] = intext_codes.setdefault(item["input_text"], len(intext_codes))
+        srcsha[i] = srcsha_codes.setdefault(
+            item["evidence_anchor"]["source_text_sha256"], len(srcsha_codes)
+        )
+        stratum = strata_by_record.get(item["record_id"])
+        if stratum:
+            spec[i] = spec_codes.setdefault(stratum.get("primary_specialty"), len(spec_codes))
+            qtype[i] = qtype_codes.setdefault(stratum.get("question_type"), len(qtype_codes))
+            has_stratum[i] = True
+        else:
+            spec[i] = -1
+            qtype[i] = -1
+
+    # Neighborhood membership (primary_specialty OR question_type) is fixed per
+    # (specialty, question) pair, so group queries and slice the sparse matrix
+    # once per group instead of per query.
+    matrix = matrix.astype(np.float32)  # 0/1 dot products are exact in float32
+    query_columns_by_id: dict[str, np.ndarray] = {
+        example_ids[i]: np.asarray(
+            [token_columns[token] for token in query_token_sets[example_ids[i]] if token in token_columns],
+            dtype=np.int64,
+        )
+        for i in range(n)
+    }
+
+    group_queries: dict[tuple[int, int], list[int]] = {}
+    for i in range(n):
+        if has_stratum[i]:
+            group_queries.setdefault((int(spec[i]), int(qtype[i])), []).append(i)
+
+    negatives_by_query: dict[str, list[tuple[dict[str, Any], int, list[str]]]] = {}
+    qvec = np.zeros(matrix.shape[1], dtype=np.float32)
+    previous_columns = np.empty(0, dtype=np.int64)
+
+    for (g_spec, g_qtype), query_indices in group_queries.items():
+        nbr = np.flatnonzero(has_stratum & ((spec == g_spec) | (qtype == g_qtype)))
+        sub = matrix[nbr]
+        for qi in query_indices:
+            q_id = example_ids[qi]
+            q_split = int(split[qi])
+            q_rec = int(rec[qi])
+            q_fam = int(fam[qi])
+            q_intext = int(intext[qi])
+            q_srcsha = int(srcsha[qi])
+            mask = (
+                (split[nbr] == q_split)
+                & (rec[nbr] != q_rec)
+                & (fam[nbr] != q_fam)
+                & (intext[nbr] != q_intext)
+                & (srcsha[nbr] != q_srcsha)
+            )
+            pass_pos = np.flatnonzero(mask)
+            if pass_pos.size == 0:
+                negatives_by_query[q_id] = []
+                continue
+
+            query_columns = query_columns_by_id[q_id]
+            if previous_columns.size:
+                qvec[previous_columns] = 0.0
+            qvec[query_columns] = 1.0
+            previous_columns = query_columns
+            overlaps_all = sub @ qvec
+            overlaps = overlaps_all[pass_pos]
+
+            if pass_pos.size <= 3:
+                chosen_global = nbr[pass_pos]
+            else:
+                threshold = int(np.partition(overlaps, -3)[-3])
+                above_pos = pass_pos[overlaps > threshold]
+                tied_pos = pass_pos[overlaps == threshold]
+                above_global = nbr[above_pos]
+                tied_global = nbr[tied_pos]
+                need = 3 - above_pos.size
+                order = sorted(
+                    range(tied_global.size),
+                    key=lambda k: _pair_tie(seed, q_id, example_ids[int(tied_global[k])]),
+                )
+                chosen_global = np.concatenate([above_global, tied_global[order[:need]]])
+
+            negatives: list[tuple[dict[str, Any], int, list[str]]] = []
+            for i in chosen_global:
+                i = int(i)
+                keys = []
+                if spec[i] == g_spec:
+                    keys.append("primary_specialty")
+                if qtype[i] == g_qtype:
+                    keys.append("question_type")
+                negatives.append((retrieval[i], 0, keys))
+            negatives_by_query[q_id] = negatives
+
+    def select(query: dict[str, Any]) -> list[tuple[dict[str, Any], int, list[str]]]:
+        return negatives_by_query[query["example_id"]]
+
+    return select
+
+
+def build_retrieval_pairs(
+    examples: list[dict[str, Any]],
+    strata_by_record: dict[str, dict[str, Any]],
+    seed: int,
+) -> list[dict[str, Any]]:
+    """Build source positives and family-isolated medical-neighborhood negatives."""
+    retrieval = [item for item in examples if item.get("task") == "evidence_retrieval"]
+    pairs: list[dict[str, Any]] = []
+    query_token_sets = {
+        item["example_id"]: _tokens(item["instruction"] + " " + item["input_text"])
+        for item in retrieval
+    }
+    document_token_sets = {
+        item["example_id"]: _tokens(item["input_text"])
+        for item in retrieval
+    }
+    built = _build_token_matrix(retrieval, document_token_sets)
+    if built is None:
+        select_negatives = _python_negative_selector(
+            retrieval, strata_by_record, seed, query_token_sets, document_token_sets
+        )
+    else:
+        matrix, token_columns, _positions = built
+        select_negatives = _vectorized_negative_selector(
+            retrieval, strata_by_record, seed, query_token_sets, matrix, token_columns
+        )
+    for query in sorted(retrieval, key=lambda item: item["example_id"]):
+        query_stratum = strata_by_record.get(query["record_id"])
+        if not query_stratum:
+            raise TrainingCorpusError(f"missing biomedical stratum for record: {query['record_id']}")
         selected = [(query, 1, ["self_anchored_positive"])]
-        selected.extend((item[2], 0, item[3]) for item in sorted(candidates)[:3])
+        selected.extend(select_negatives(query))
         for document, label, neighborhood_keys in selected:
             identity = f"{seed}:{query['example_id']}:{document['example_id']}:{label}"
             pair = {
