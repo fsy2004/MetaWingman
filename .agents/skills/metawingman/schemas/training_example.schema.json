@@ -14,6 +14,7 @@
     "split": {"enum": ["train", "development"]},
     "task": {"enum": ["section_role_classification", "evidence_retrieval"]},
     "instruction": {"type": "string", "minLength": 1},
+    "review_title": {"type": "string"},
     "input_text": {"type": "string", "minLength": 1},
     "target": {
       "type": "object",

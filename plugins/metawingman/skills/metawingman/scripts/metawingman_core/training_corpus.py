@@ -18,7 +18,7 @@ import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
-from typing import Any, Iterable
+from typing import Any, Callable, Iterable
 
 from .network_security import PublicNetworkError, public_https_opener, validate_public_https_url
 from .schema_guard import validate_document
@@ -330,7 +330,9 @@ def _safe_destination(root: Path, relative: str) -> Path:
     return destination
 
 
-def _request_bytes(url: str, *, max_bytes: int, attempts: int = 3) -> tuple[bytes, str]:
+def _request_bytes(
+    url: str, *, max_bytes: int, attempts: int = 3, deadline_seconds: float = 120.0,
+) -> tuple[bytes, str]:
     try:
         safe_url = validate_public_https_url(url)
     except PublicNetworkError as exc:
@@ -343,7 +345,12 @@ def _request_bytes(url: str, *, max_bytes: int, attempts: int = 3) -> tuple[byte
                 final_url = validate_public_https_url(response.geturl())
                 chunks: list[bytes] = []
                 total = 0
+                deadline = time.monotonic() + deadline_seconds
                 while True:
+                    if time.monotonic() > deadline:
+                        raise TrainingCorpusError(
+                            f"download exceeded wall-clock deadline: {deadline_seconds}s"
+                        )
                     chunk = response.read(min(1024 * 1024, max_bytes + 1 - total))
                     if not chunk:
                         break
@@ -359,8 +366,8 @@ def _request_bytes(url: str, *, max_bytes: int, attempts: int = 3) -> tuple[byte
     raise TrainingCorpusError(f"training source retrieval failed: {last_error}")
 
 
-def _json_api(url: str, max_bytes: int = 5 * 1024 * 1024) -> dict[str, Any]:
-    body, _ = _request_bytes(url, max_bytes=max_bytes)
+def _json_api(url: str, max_bytes: int = 5 * 1024 * 1024, deadline_seconds: float = 120.0) -> dict[str, Any]:
+    body, _ = _request_bytes(url, max_bytes=max_bytes, deadline_seconds=deadline_seconds)
     try:
         value = json.loads(body.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
@@ -370,9 +377,9 @@ def _json_api(url: str, max_bytes: int = 5 * 1024 * 1024) -> dict[str, Any]:
     return value
 
 
-def _oa_license(pmcid: str) -> tuple[str | None, str]:
+def _oa_license(pmcid: str, deadline_seconds: float = 120.0) -> tuple[str | None, str]:
     url = "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=" + urllib.parse.quote(pmcid)
-    body, _ = _request_bytes(url, max_bytes=2 * 1024 * 1024)
+    body, _ = _request_bytes(url, max_bytes=2 * 1024 * 1024, deadline_seconds=deadline_seconds)
     try:
         root = ET.fromstring(body)
     except ET.ParseError as exc:
@@ -385,12 +392,12 @@ def _oa_license(pmcid: str) -> tuple[str | None, str]:
     return record.attrib.get("license"), "verified_not_retracted"
 
 
-def _full_text_urls(record: dict[str, Any]) -> tuple[str | None, str]:
+def _full_text_urls(record: dict[str, Any], deadline_seconds: float = 120.0) -> tuple[str | None, str]:
     query = f"EXT_ID:{record['pmid']} AND SRC:MED" if record.get("pmid") else f"PMC_ID:{record['pmcid']}"
     url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?" + urllib.parse.urlencode({
         "query": query, "format": "json", "resultType": "core", "pageSize": 1,
     })
-    payload = _json_api(url)
+    payload = _json_api(url, deadline_seconds=deadline_seconds)
     results = payload.get("resultList", {}).get("result", [])
     if not results:
         raise TrainingCorpusError("Europe PMC core record was not found")
@@ -509,6 +516,7 @@ def fetch_training_plan(
     maximum_records: int | None = None, max_file_bytes: int = 40 * 1024 * 1024,
     max_total_bytes: int = 500 * 1024 * 1024, delay_seconds: float = 0.2,
     created_at_utc: str | None = None, reuse_existing: bool = True,
+    skip_pdf: bool = False, request_deadline_seconds: float = 120.0,
 ) -> dict[str, Any]:
     validate_document(plan, "training_corpus_plan")
     output_root = output_root.resolve()
@@ -536,20 +544,23 @@ def fetch_training_plan(
         xml_url: str | None = None
         base = f"{record['split']}/{record['family_id'].replace(':', '-')}/{record['pmcid']}"
         try:
-            api_license, integrity_status = _oa_license(record["pmcid"])
+            api_license, integrity_status = _oa_license(record["pmcid"], deadline_seconds=request_deadline_seconds)
             if api_license:
                 retrieved_license = _normalise_license(api_license)
             if integrity_status == "rejected_retracted":
                 raise TrainingCorpusError("PMC OA service marks the article as retracted")
             if retrieved_license not in allowed:
                 raise TrainingCorpusError(f"article license is outside the frozen allowlist: {retrieved_license}")
-            pdf_url, xml_url = _full_text_urls(record)
+            if skip_pdf:
+                xml_url = f"https://www.ebi.ac.uk/europepmc/webservices/rest/{record['pmcid']}/fullTextXML"
+            else:
+                pdf_url, xml_url = _full_text_urls(record, deadline_seconds=request_deadline_seconds)
         except TrainingCorpusError as exc:
             failures.append(str(exc))
 
-        if not failures and pdf_url:
+        if not skip_pdf and not failures and pdf_url:
             try:
-                body, final_url = _request_bytes(pdf_url, max_bytes=max_file_bytes)
+                body, final_url = _request_bytes(pdf_url, max_bytes=max_file_bytes, deadline_seconds=request_deadline_seconds)
                 if not body.startswith(b"%PDF"):
                     failures.append("pdf_endpoint_did_not_return_pdf")
                 else:
@@ -561,12 +572,12 @@ def fetch_training_plan(
                     total_bytes += len(body)
             except TrainingCorpusError as exc:
                 failures.append(f"pdf_retrieval_failed: {exc}")
-        elif not failures:
+        elif not skip_pdf and not failures:
             failures.append("no_open_access_pdf_url")
 
         if xml_url is not None and integrity_status == "verified_not_retracted" and retrieved_license in allowed:
             try:
-                body, final_url = _request_bytes(xml_url, max_bytes=max_file_bytes)
+                body, final_url = _request_bytes(xml_url, max_bytes=max_file_bytes, deadline_seconds=request_deadline_seconds)
                 try:
                     ET.fromstring(body)
                 except ET.ParseError as exc:
@@ -585,7 +596,13 @@ def fetch_training_plan(
         except TrainingCorpusError as exc:
             failures.append(f"parser_failed: {exc}")
             metrics = _parser_metrics(None, None)
-        status = "complete" if {item["kind"] for item in artifacts} == {"pdf", "jats_xml"} and not failures else ("partial" if artifacts else "failed")
+        if skip_pdf:
+            status = (
+                "complete" if xml_path is not None and not failures
+                else ("partial" if xml_path is not None else "failed")
+            )
+        else:
+            status = "complete" if {item["kind"] for item in artifacts} == {"pdf", "jats_xml"} and not failures else ("partial" if artifacts else "failed")
         documents.append({
             "document_id": f"training-document:{record['pmcid']}",
             "record_id": record["record_id"], "family_id": record["family_id"],
@@ -683,7 +700,8 @@ def build_training_examples(
                     "schema_version": "1.0", "example_id": example_id,
                     "document_id": document["document_id"], "record_id": document["record_id"],
                     "family_id": document["family_id"], "split": document["split"], "task": task,
-                    "instruction": instruction, "input_text": f"Section title: {title}\n\n{text}",
+                    "instruction": instruction, "review_title": document.get("title", ""),
+                    "input_text": f"Section title: {title}\n\n{text}",
                     "target": {"section_role": role, "section_title": title},
                     "evidence_anchor": {
                         "artifact_sha256": xml_artifact["sha256"], "section_path": f"//body//sec[{index}]",
@@ -704,6 +722,81 @@ def _tokens(value: str) -> set[str]:
     return set(re.findall(r"[a-z0-9]+", value.casefold()))
 
 
+def _retrieval_query(example: dict[str, Any]) -> str:
+    """Query text for the evidence-retrieval task.
+
+    Includes the review title so the query identifies which review is being
+    asked about; the field-only instruction alone is not a well-posed
+    full-corpus query (many passages from different reviews support the same
+    field).
+    """
+    title = example.get("review_title") or ""
+    if title:
+        return f"{example['instruction']} Review: {title}"
+    return example["instruction"]
+
+
+def _build_overlap_lookup(
+    retrieval: list[dict[str, Any]],
+    document_token_sets: dict[str, set[str]],
+) -> Callable[[set[str], list[str]], dict[str, int]]:
+    """Token-overlap lookup: batched sparse matrix-vector when scipy is available.
+
+    The vectorized path computes identical overlap values (binary token set
+    intersection sizes) and falls back to the pure-Python loop otherwise.
+    """
+
+    def python_lookup(query_tokens: set[str], candidate_ids: list[str]) -> dict[str, int]:
+        return {
+            identifier: len(query_tokens & document_token_sets[identifier])
+            for identifier in candidate_ids
+        }
+
+    try:
+        import numpy as np
+        from scipy import sparse
+    except ImportError:
+        return python_lookup
+
+    positions = {
+        item["example_id"]: index for index, item in enumerate(retrieval)
+    }
+    vocabulary: dict[str, int] = {}
+    rows: list[int] = []
+    columns: list[int] = []
+    for row, item in enumerate(retrieval):
+        for token in document_token_sets[item["example_id"]]:
+            column = vocabulary.setdefault(token, len(vocabulary))
+            rows.append(row)
+            columns.append(column)
+    matrix = sparse.csr_matrix(
+        (np.ones(len(rows), dtype=np.int32), (rows, columns)),
+        shape=(len(retrieval), len(vocabulary)),
+    )
+    token_columns = {
+        token: column for token, column in vocabulary.items()
+    }
+
+    def sparse_lookup(query_tokens: set[str], candidate_ids: list[str]) -> dict[str, int]:
+        indices = np.asarray([positions[identifier] for identifier in candidate_ids], dtype=np.int64)
+        query_columns = np.asarray(
+            [token_columns[token] for token in query_tokens if token in token_columns],
+            dtype=np.int64,
+        )
+        if query_columns.size == 0:
+            overlaps = np.zeros(len(candidate_ids), dtype=np.int64)
+        else:
+            query_vector = np.zeros(len(vocabulary), dtype=np.int32)
+            query_vector[query_columns] = 1
+            overlaps = np.asarray(matrix[indices] @ query_vector, dtype=np.int64).ravel()
+        return {
+            identifier: int(value)
+            for identifier, value in zip(candidate_ids, overlaps.tolist())
+        }
+
+    return sparse_lookup
+
+
 def build_retrieval_pairs(
     examples: list[dict[str, Any]],
     strata_by_record: dict[str, dict[str, Any]],
@@ -712,13 +805,36 @@ def build_retrieval_pairs(
     """Build source positives and family-isolated medical-neighborhood negatives."""
     retrieval = [item for item in examples if item.get("task") == "evidence_retrieval"]
     pairs: list[dict[str, Any]] = []
+    query_token_sets = {
+        item["example_id"]: _tokens(item["instruction"] + " " + item["input_text"])
+        for item in retrieval
+    }
+    document_token_sets = {
+        item["example_id"]: _tokens(item["input_text"])
+        for item in retrieval
+    }
+    by_specialty: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    by_question: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for item in retrieval:
+        stratum = strata_by_record.get(item["record_id"])
+        if not stratum:
+            continue
+        by_specialty[stratum.get("primary_specialty")].append(item)
+        by_question[stratum.get("question_type")].append(item)
+    overlap_lookup = _build_overlap_lookup(retrieval, document_token_sets)
     for query in sorted(retrieval, key=lambda item: item["example_id"]):
         query_stratum = strata_by_record.get(query["record_id"])
         if not query_stratum:
             raise TrainingCorpusError(f"missing biomedical stratum for record: {query['record_id']}")
         candidates: list[tuple[int, str, dict[str, Any], list[str]]] = []
-        query_tokens = _tokens(query["instruction"] + " " + query["input_text"])
-        for candidate in retrieval:
+        query_tokens = query_token_sets[query["example_id"]]
+        neighborhood: dict[str, dict[str, Any]] = {}
+        for candidate in by_specialty.get(query_stratum.get("primary_specialty"), []):
+            neighborhood[candidate["example_id"]] = candidate
+        for candidate in by_question.get(query_stratum.get("question_type"), []):
+            neighborhood[candidate["example_id"]] = candidate
+        overlap_map = overlap_lookup(query_tokens, list(neighborhood))
+        for candidate in neighborhood.values():
             if candidate["split"] != query["split"]:
                 continue
             if candidate["record_id"] == query["record_id"] or candidate["family_id"] == query["family_id"]:
@@ -735,9 +851,7 @@ def build_retrieval_pairs(
                 neighborhood_keys.append("primary_specialty")
             if candidate_stratum["question_type"] == query_stratum["question_type"]:
                 neighborhood_keys.append("question_type")
-            if not neighborhood_keys:
-                continue
-            overlap = len(query_tokens & _tokens(candidate["input_text"]))
+            overlap = overlap_map[candidate["example_id"]]
             tie = hashlib.sha256(f"{seed}:{query['example_id']}:{candidate['example_id']}".encode()).hexdigest()
             candidates.append((-overlap, tie, candidate, neighborhood_keys))
         selected = [(query, 1, ["self_anchored_positive"])]
@@ -751,7 +865,7 @@ def build_retrieval_pairs(
                 "query_record_id": query["record_id"],
                 "query_family_id": query["family_id"],
                 "query_split": query["split"],
-                "query_text": query["instruction"],
+                "query_text": _retrieval_query(query),
                 "document_example_id": document["example_id"],
                 "document_record_id": document["record_id"],
                 "document_family_id": document["family_id"],
