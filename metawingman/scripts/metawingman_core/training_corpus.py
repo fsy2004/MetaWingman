@@ -330,7 +330,9 @@ def _safe_destination(root: Path, relative: str) -> Path:
     return destination
 
 
-def _request_bytes(url: str, *, max_bytes: int, attempts: int = 3) -> tuple[bytes, str]:
+def _request_bytes(
+    url: str, *, max_bytes: int, attempts: int = 3, deadline_seconds: float = 120.0,
+) -> tuple[bytes, str]:
     try:
         safe_url = validate_public_https_url(url)
     except PublicNetworkError as exc:
@@ -343,7 +345,12 @@ def _request_bytes(url: str, *, max_bytes: int, attempts: int = 3) -> tuple[byte
                 final_url = validate_public_https_url(response.geturl())
                 chunks: list[bytes] = []
                 total = 0
+                deadline = time.monotonic() + deadline_seconds
                 while True:
+                    if time.monotonic() > deadline:
+                        raise TrainingCorpusError(
+                            f"download exceeded wall-clock deadline: {deadline_seconds}s"
+                        )
                     chunk = response.read(min(1024 * 1024, max_bytes + 1 - total))
                     if not chunk:
                         break
@@ -359,8 +366,8 @@ def _request_bytes(url: str, *, max_bytes: int, attempts: int = 3) -> tuple[byte
     raise TrainingCorpusError(f"training source retrieval failed: {last_error}")
 
 
-def _json_api(url: str, max_bytes: int = 5 * 1024 * 1024) -> dict[str, Any]:
-    body, _ = _request_bytes(url, max_bytes=max_bytes)
+def _json_api(url: str, max_bytes: int = 5 * 1024 * 1024, deadline_seconds: float = 120.0) -> dict[str, Any]:
+    body, _ = _request_bytes(url, max_bytes=max_bytes, deadline_seconds=deadline_seconds)
     try:
         value = json.loads(body.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
@@ -370,9 +377,9 @@ def _json_api(url: str, max_bytes: int = 5 * 1024 * 1024) -> dict[str, Any]:
     return value
 
 
-def _oa_license(pmcid: str) -> tuple[str | None, str]:
+def _oa_license(pmcid: str, deadline_seconds: float = 120.0) -> tuple[str | None, str]:
     url = "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=" + urllib.parse.quote(pmcid)
-    body, _ = _request_bytes(url, max_bytes=2 * 1024 * 1024)
+    body, _ = _request_bytes(url, max_bytes=2 * 1024 * 1024, deadline_seconds=deadline_seconds)
     try:
         root = ET.fromstring(body)
     except ET.ParseError as exc:
@@ -385,12 +392,12 @@ def _oa_license(pmcid: str) -> tuple[str | None, str]:
     return record.attrib.get("license"), "verified_not_retracted"
 
 
-def _full_text_urls(record: dict[str, Any]) -> tuple[str | None, str]:
+def _full_text_urls(record: dict[str, Any], deadline_seconds: float = 120.0) -> tuple[str | None, str]:
     query = f"EXT_ID:{record['pmid']} AND SRC:MED" if record.get("pmid") else f"PMC_ID:{record['pmcid']}"
     url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?" + urllib.parse.urlencode({
         "query": query, "format": "json", "resultType": "core", "pageSize": 1,
     })
-    payload = _json_api(url)
+    payload = _json_api(url, deadline_seconds=deadline_seconds)
     results = payload.get("resultList", {}).get("result", [])
     if not results:
         raise TrainingCorpusError("Europe PMC core record was not found")
@@ -509,7 +516,7 @@ def fetch_training_plan(
     maximum_records: int | None = None, max_file_bytes: int = 40 * 1024 * 1024,
     max_total_bytes: int = 500 * 1024 * 1024, delay_seconds: float = 0.2,
     created_at_utc: str | None = None, reuse_existing: bool = True,
-    skip_pdf: bool = False,
+    skip_pdf: bool = False, request_deadline_seconds: float = 120.0,
 ) -> dict[str, Any]:
     validate_document(plan, "training_corpus_plan")
     output_root = output_root.resolve()
@@ -537,7 +544,7 @@ def fetch_training_plan(
         xml_url: str | None = None
         base = f"{record['split']}/{record['family_id'].replace(':', '-')}/{record['pmcid']}"
         try:
-            api_license, integrity_status = _oa_license(record["pmcid"])
+            api_license, integrity_status = _oa_license(record["pmcid"], deadline_seconds=request_deadline_seconds)
             if api_license:
                 retrieved_license = _normalise_license(api_license)
             if integrity_status == "rejected_retracted":
@@ -547,13 +554,13 @@ def fetch_training_plan(
             if skip_pdf:
                 xml_url = f"https://www.ebi.ac.uk/europepmc/webservices/rest/{record['pmcid']}/fullTextXML"
             else:
-                pdf_url, xml_url = _full_text_urls(record)
+                pdf_url, xml_url = _full_text_urls(record, deadline_seconds=request_deadline_seconds)
         except TrainingCorpusError as exc:
             failures.append(str(exc))
 
         if not skip_pdf and not failures and pdf_url:
             try:
-                body, final_url = _request_bytes(pdf_url, max_bytes=max_file_bytes)
+                body, final_url = _request_bytes(pdf_url, max_bytes=max_file_bytes, deadline_seconds=request_deadline_seconds)
                 if not body.startswith(b"%PDF"):
                     failures.append("pdf_endpoint_did_not_return_pdf")
                 else:
@@ -570,7 +577,7 @@ def fetch_training_plan(
 
         if xml_url is not None and integrity_status == "verified_not_retracted" and retrieved_license in allowed:
             try:
-                body, final_url = _request_bytes(xml_url, max_bytes=max_file_bytes)
+                body, final_url = _request_bytes(xml_url, max_bytes=max_file_bytes, deadline_seconds=request_deadline_seconds)
                 try:
                     ET.fromstring(body)
                 except ET.ParseError as exc:

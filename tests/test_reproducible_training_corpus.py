@@ -272,6 +272,38 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         self.assertEqual(masks, [[1, 1], [1, 0], [0, 0]])
         self.assertEqual(run_component_training._pad_id_lists([], 0), ([], []))
 
+    def test_request_bytes_enforces_wall_clock_deadline_on_slow_drip(self) -> None:
+        from metawingman_core import training_corpus as corpus_module
+
+        class DripResponse:
+            def read(self, size: int) -> bytes:
+                return b"x" * 1024
+
+            def geturl(self) -> str:
+                return "https://example.org/slow"
+
+            def __enter__(self) -> "DripResponse":
+                return self
+
+            def __exit__(self, *_: object) -> bool:
+                return False
+
+        class Opener:
+            def open(self, _request: object, timeout: float) -> DripResponse:
+                return DripResponse()
+
+        clock = {"now": 0.0}
+
+        def advancing_clock() -> float:
+            clock["now"] += 30.0
+            return clock["now"]
+
+        with patch.object(corpus_module, "public_https_opener", return_value=Opener()), \
+            patch.object(corpus_module, "validate_public_https_url", side_effect=lambda value: value), \
+            patch.object(corpus_module.time, "monotonic", side_effect=advancing_clock):
+            with self.assertRaisesRegex(TrainingCorpusError, "wall-clock deadline"):
+                corpus_module._request_bytes("https://example.org/slow", max_bytes=40 * 1024 * 1024)
+
     def test_retrieval_query_includes_review_title_when_available(self) -> None:
         example = retrieval_example(1, "train", "family:0000000000000001", "epmc:0000000000000001")
         example["review_title"] = "Antibiotics for chronic wounds: a meta-analysis"

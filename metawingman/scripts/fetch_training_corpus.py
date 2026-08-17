@@ -22,6 +22,7 @@ def main() -> int:
     parser.add_argument("--created-at-utc")
     parser.add_argument("--refresh", action="store_true", help="Ignore verified local artifacts and recheck remote sources.")
     parser.add_argument("--skip-pdf", action="store_true", help="XML-only acquisition; skip OA PDF downloads (training uses JATS XML).")
+    parser.add_argument("--request-deadline-seconds", type=float, default=120.0, help="Wall-clock deadline per source request; guards slow-drip endpoints.")
     args = parser.parse_args()
     try:
         plan = json.loads(args.plan.read_text(encoding="utf-8"))
@@ -30,6 +31,7 @@ def main() -> int:
             max_file_bytes=args.max_file_bytes, max_total_bytes=args.max_total_bytes,
             delay_seconds=args.delay_seconds, created_at_utc=args.created_at_utc,
             reuse_existing=not args.refresh, skip_pdf=args.skip_pdf,
+            request_deadline_seconds=args.request_deadline_seconds,
         )
     except (OSError, json.JSONDecodeError, TrainingCorpusError, ValueError) as exc:
         print(json.dumps({"ok": False, "error": str(exc)}, indent=2))
