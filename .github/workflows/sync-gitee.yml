@@ -1,0 +1,41 @@
+name: sync-from-gitee
+
+# Server-side bridge: GitHub Actions pulls the public Gitee mirror and
+# force-syncs the canonical branches onto GitHub. Needed because direct
+# pushes to github.com are blocked/reset from the working network, while
+# api.github.com and gitee.com are reachable. Gitee is the source of truth;
+# any GitHub-side direct edits on main/codex/github-beta will be overwritten.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/30 * * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch public Gitee mirror
+        run: |
+          git remote add gitee https://gitee.com/fsy2004/meta-wingman.git || true
+          git fetch gitee --prune
+
+      - name: Force-sync canonical branches
+        shell: bash
+        run: |
+          set -euo pipefail
+          for b in main codex/github-beta; do
+            if git rev-parse --verify -q "refs/remotes/gitee/$b"; then
+              git push origin "refs/remotes/gitee/$b:refs/heads/$b" --force
+              echo "synced $b -> $(git rev-parse refs/remotes/gitee/$b)"
+            else
+              echo "skip $b (not on gitee)"
+            fi
+          done
