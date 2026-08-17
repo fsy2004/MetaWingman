@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "1af4905921bce17775c585210015602ff2b313a8858dabc2c71e361f21b53321",
+  "source_tree_sha256": "933f890b092a2f60eb1b58f4f0eb5dc7eeacdabe3129f30d513b2a284a68f2df",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -1614,6 +1614,16 @@
       "path": "scripts/run_component_training.py",
       "sha256": "428af06185784098424895e9dbe4e563d8be8714385a50cbf3cca24189c5c5e7",
       "bytes": 18048
+    },
+    {
+      "path": "scripts/run_r2_ai_validation.py",
+      "sha256": "d0a8140ab51c66edee9e396ed3cea4691e6fef79f31fb8720a2e697f258aea66",
+      "bytes": 14575
+    },
+    {
+      "path": "scripts/score_r2_ai_validation.py",
+      "sha256": "5b8c10a0b77366d643d936f430aa4ccaffcf1609ec1308463c12da735eaffd36",
+      "bytes": 10102
     },
     {
       "path": "scripts/screen_record.py",
