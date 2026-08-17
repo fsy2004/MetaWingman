@@ -1,17 +1,15 @@
 <#
 .SYNOPSIS
-    MetaWingman: push local -> Gitee -> GitHub via the Actions sync bridge,
-    then verify that GitHub branch SHAs match local.
+    MetaWingman: push local -> Gitee -> GitHub, then verify that the
+    published branch SHAs match local.
 
 .DESCRIPTION
-    Direct pushes to github.com are reset/blocked from this network, while
-    gitee.com (SSH) and api.github.com are reachable. The canonical flow:
-      1. git push gitee main codex/github-beta
-      2. trigger .github/workflows/sync-gitee.yml (GitHub-side pull from the
-         public Gitee mirror, auth via the GH_SYNC_TOKEN repo secret)
-      3. poll the run until completion
-      4. compare GitHub branch SHAs with local
-    A 30-minute cron also runs the same workflow automatically, so GitHub
+    Primary route: direct `git push origin` through the local proxy
+    (git config http.https://github.com/.proxy http://127.0.0.1:7892).
+    Fallback route: when github.com is unreachable even via proxy, push to
+    the public Gitee mirror and trigger .github/workflows/sync-gitee.yml
+    (GitHub-side pull from Gitee, auth via the GH_SYNC_TOKEN repo secret).
+    A 30-minute cron also runs that workflow automatically, so GitHub
     converges even if this script is not used.
 
 .EXAMPLE
@@ -30,9 +28,36 @@ function Invoke-Step([string]$Name, [scriptblock]$Body) {
     if ($LASTEXITCODE -ne 0) { throw "step failed: $Name (exit $LASTEXITCODE)" }
 }
 
+function Verify-Shas([string[]]$Names) {
+    $fail = $false
+    foreach ($b in $Names) {
+        $ghSha = (git rev-parse "origin/$b" 2>$null).Trim()
+        $localSha = (git rev-parse $b).Trim()
+        $ok = ($ghSha -eq $localSha)
+        if (-not $ok) { $fail = $true }
+        $color = if ($ok) { 'Green' } else { 'Red' }
+        Write-Host ("{0}: github={1} local={2} {3}" -f $b, $ghSha, $localSha, $(if ($ok) { 'OK' } else { 'MISMATCH' })) -ForegroundColor $color
+    }
+    return -not $fail
+}
+
 Invoke-Step 'push to gitee' {
     git push gitee @Branches
 }
+
+Write-Host '== push to github (direct via local proxy)' -ForegroundColor Cyan
+git push origin @Branches 2>&1 | ForEach-Object { Write-Host $_ }
+$directOk = ($LASTEXITCODE -eq 0)
+if ($directOk) {
+    Write-Host '== verify (origin remote-tracking refs)' -ForegroundColor Cyan
+    if (Verify-Shas $Branches) {
+        Write-Host "synced (direct): $Repo" -ForegroundColor Green
+        exit 0
+    }
+    Write-Warning 'direct push succeeded but SHA mismatch; falling back to bridge'
+}
+
+Write-Host 'falling back to Actions sync bridge...' -ForegroundColor Yellow
 
 $before = (gh run list --repo $Repo --workflow sync-gitee.yml --limit 1 --json databaseId 2>$null | ConvertFrom-Json)[0].databaseId
 
@@ -53,14 +78,11 @@ while ((Get-Date) -lt $deadline) {
 }
 if (-not $completed) { throw 'sync run did not complete within the timeout' }
 
-$fail = $false
-foreach ($b in $Branches) {
-    $ghSha = (gh api "repos/$Repo/branches/$b" --jq '.commit.sha' 2>$null).Trim()
-    $localSha = (git rev-parse $b).Trim()
-    $ok = ($ghSha -eq $localSha)
-    if (-not $ok) { $fail = $true }
-    $color = if ($ok) { 'Green' } else { 'Red' }
-    Write-Host ("{0}: github={1} local={2} {3}" -f $b, $ghSha, $localSha, $(if ($ok) { 'OK' } else { 'MISMATCH' })) -ForegroundColor $color
+git fetch origin --quiet
+Write-Host '== verify (fetched origin refs)' -ForegroundColor Cyan
+if (Verify-Shas $Branches) {
+    Write-Host "synced (bridge): $Repo" -ForegroundColor Green
+    exit 0
 }
-if ($fail) { Write-Error 'verification failed: GitHub is out of sync with local'; exit 1 }
-Write-Host "synced: $Repo" -ForegroundColor Green
+Write-Error 'verification failed: GitHub is out of sync with local'
+exit 1

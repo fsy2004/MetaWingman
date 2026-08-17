@@ -158,16 +158,22 @@ ClinicalTrials.gov 与 Crossref；开放全文下载需要 `UNPAYWALL_EMAIL`，P
 账号人工登录导出。外接 Agent 的模型凭证只从环境变量、操作系统凭证库或部署
 方密钥服务读取，不写入仓库。
 
-## GitHub 同步（Gitee 桥接）
+## GitHub 同步（直连优先 + Gitee 桥接兜底）
 
-本地网络直连 `github.com` 会被重置/阻断（`api.github.com` 与 `gitee.com`
-可达）。同步走稳定通道：本地 → Gitee（SSH）→ GitHub（服务器端 Actions
+本地直连 `github.com` 默认会被阻断，但本机运行着本地代理
+（`127.0.0.1:7892`，浏览器同款）。git 已配置按域走代理：
+
+```powershell
+git config --global http.https://github.com/.proxy http://127.0.0.1:7892
+```
+
+代理不可用时自动兜底：本地 → Gitee（SSH）→ GitHub（服务器端 Actions
 桥，`.github/workflows/sync-gitee.yml`，每 30 分钟 cron + 手动触发，
 推送认证用仓库 Secret `GH_SYNC_TOKEN`，推送前强制对齐
-`main` 与 `codex/github-beta`）。Gitee 是事实来源，GitHub 侧对这两个分支
-的直接改动会被覆盖。
+`main` 与 `codex/github-beta`）。桥接存在期间 Gitee 是事实来源，
+GitHub 侧对这两个分支的直接改动会被覆盖。
 
-一键同步并校验 SHA：
+一键同步并校验 SHA（直连失败自动转桥接）：
 
 ```powershell
 pwsh tools/github-sync.ps1
