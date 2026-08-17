@@ -317,18 +317,6 @@ Review profile: {args.profile}
                 "notes": "The current API requires an email parameter; this is contact identification, not a secret.",
             },
             {
-                "capability_id": "zotero-local",
-                "provider": "Zotero",
-                "purpose": "Optional local reference-library integration",
-                "access_class": "local_application",
-                "status": "not_required",
-                "required_environment_variables": [],
-                "optional_environment_variables": [],
-                "credential_owner": "",
-                "last_tested_at_utc": None,
-                "notes": "The local API needs no cloud key; private Web API access should use a least-privilege user key later.",
-            },
-            {
                 "capability_id": "licensed-databases",
                 "provider": "Institutional library or database vendor",
                 "purpose": "Embase, CENTRAL, Web of Science, Scopus, and topic-specific databases",

@@ -37,7 +37,6 @@
     ],
     "optional": [
       "PDF page rendering",
-      "Zotero integration",
       "external MetaWingman Agent runtime"
     ],
     "credentialed": [

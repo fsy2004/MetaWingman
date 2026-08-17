@@ -183,7 +183,7 @@ def _stage(root: Path, destination: Path) -> dict[str, Any]:
                 "host-model topic proposal contract", "topic opportunity portfolio", "sealed topic rediscovery",
                 "judgment dossiers", "living deltas", "benchmark packaging",
             ],
-            "optional": ["PDF page rendering", "Zotero integration", "external MetaWingman Agent runtime"],
+            "optional": ["PDF page rendering", "external MetaWingman Agent runtime"],
             "credentialed": ["institutional database user export", "licensed full text"],
         },
         "files": file_entries,
