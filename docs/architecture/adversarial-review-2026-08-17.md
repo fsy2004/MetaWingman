@@ -125,4 +125,22 @@ What survives adversarial review:
 What must NOT be claimed: held-out performance, gold-label agreement, human
 superiority, or end-to-end system validation. The next evidence gate is the
 independent human validation arm (200 records, 47 strata, prepared) and the
+
+## Round-2 additions (phase 3: hosted-model pilot + 12k expansion)
+
+- **F6 partial resolution**: the preregistered four-configuration pilot ran
+  (400 calls per config, ~1M tokens each). The 110M trained components beat
+  every hosted configuration (section-role 0.983 vs best-hosted 0.967 C3;
+  retrieval MRR 0.954 vs best-hosted 0.495 C3) at zero API cost. F6's
+  end-to-end reconstruction gate remains open: this is still not the frozen
+  VAL-3 benchmark.
+- **New finding F8** (`minor`): the hosted model frequently overrides the
+  trained retrieval verifier in C3 (verifier P@1 0.919 but C3 MRR 0.495) —
+  verifier weighting in the full-stack design needs explicit design work.
+- **New finding F9** (`observation`): corpus expansion (6.6×, 27,046 records;
+  12,000-record plan v3) is metadata-complete and downloading; retrained
+  results will be appended when the automatic chain finishes.
+- **Pipeline robustness fixes** (all TDD'd and pushed): wall-clock request
+  deadlines, forced IPv4 resolution, XML-only acquisition mode, bucketed
+  negative mining, pre-tokenized retrieval training.
 preregistered AI-only pilot (C0 pending budget approval).
