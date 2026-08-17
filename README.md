@@ -158,6 +158,21 @@ ClinicalTrials.gov 与 Crossref；开放全文下载需要 `UNPAYWALL_EMAIL`，P
 账号人工登录导出。外接 Agent 的模型凭证只从环境变量、操作系统凭证库或部署
 方密钥服务读取，不写入仓库。
 
+## GitHub 同步（Gitee 桥接）
+
+本地网络直连 `github.com` 会被重置/阻断（`api.github.com` 与 `gitee.com`
+可达）。同步走稳定通道：本地 → Gitee（SSH）→ GitHub（服务器端 Actions
+桥，`.github/workflows/sync-gitee.yml`，每 30 分钟 cron + 手动触发，
+推送认证用仓库 Secret `GH_SYNC_TOKEN`，推送前强制对齐
+`main` 与 `codex/github-beta`）。Gitee 是事实来源，GitHub 侧对这两个分支
+的直接改动会被覆盖。
+
+一键同步并校验 SHA：
+
+```powershell
+pwsh tools/github-sync.ps1
+```
+
 ## 当前研究方向
 
 研发叙事以两项可证伪的方法贡献为主：**结论导向的证据控制**（scientific
