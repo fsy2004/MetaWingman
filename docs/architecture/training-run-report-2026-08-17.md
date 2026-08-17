@@ -186,5 +186,24 @@ P@1 is 0.919 — it frequently overrides the verifier's index, a
 verifier-weighting finding for the C3 design. No human-superiority or
 absolute-accuracy claim is made.
 
+## 11. Corpus expansion to 12,000 records (in progress)
+
+- Harvest v2: broad OA queries (5 strata) expanded the corpus from 4,098 to
+  **27,046 unique records** (25,548 open access); `HAS_PMC` query field is
+  ineffective on Europe PMC and was dropped (pmcid filtering happens at
+  planning time).
+- Family registry v2: 26,775 families (0 held-out-ready, unchanged policy).
+- Plan v3: **12,000 records** (9,590 train / 2,410 dev) from 23,272 eligible.
+- Download: 8 sharded XML-only fetchers (`--skip-pdf`, `--force-ipv4`,
+  45s wall-clock request deadline); JATS XML is what training consumes, PDFs
+  only feed parser metrics (already evidenced at the 2,048-record scale).
+- Pipeline robustness fixes shipped in this phase: `--skip-pdf` acquisition,
+  wall-clock per-request deadline (slow-drip guards), forced IPv4 resolution
+  (containers without IPv6 routes), bucketed negative mining, and
+  pre-tokenized retrieval training batches.
+- Retraining + re-evaluation results will be appended when the automatic
+  phase-3 chain (`mw-phase3-all.sh`) completes.
+
+
 
 
