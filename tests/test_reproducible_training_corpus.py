@@ -682,6 +682,29 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
                 expected.append("question_type")
             self.assertEqual(pair["neighborhood_keys"], expected)
 
+    def test_overlap_lookup_matches_pure_python_formula(self) -> None:
+        from metawingman_core import training_corpus as corpus_module
+
+        retrieval = [
+            retrieval_example(index, "train", f"family:{index:08x}", f"epmc:{index:08x}")
+            for index in range(12)
+        ]
+        for index, example in enumerate(retrieval):
+            example["input_text"] = f"the shared passage token {index} " * 20
+        document_token_sets = {
+            example["example_id"]: corpus_module._tokens(example["input_text"])
+            for example in retrieval
+        }
+        lookup = corpus_module._build_overlap_lookup(retrieval, document_token_sets)
+        candidate_ids = [example["example_id"] for example in retrieval]
+        for example in retrieval:
+            query_tokens = corpus_module._tokens(example["instruction"] + " " + example["input_text"])
+            expected = {
+                identifier: len(query_tokens & document_token_sets[identifier])
+                for identifier in candidate_ids
+            }
+            self.assertEqual(lookup(query_tokens, candidate_ids), expected)
+
     def test_examples_and_run_plan_remain_weak_supervision(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

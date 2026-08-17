@@ -18,7 +18,7 @@ import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
-from typing import Any, Iterable
+from typing import Any, Callable, Iterable
 
 from .network_security import PublicNetworkError, public_https_opener, validate_public_https_url
 from .schema_guard import validate_document
@@ -736,6 +736,67 @@ def _retrieval_query(example: dict[str, Any]) -> str:
     return example["instruction"]
 
 
+def _build_overlap_lookup(
+    retrieval: list[dict[str, Any]],
+    document_token_sets: dict[str, set[str]],
+) -> Callable[[set[str], list[str]], dict[str, int]]:
+    """Token-overlap lookup: batched sparse matrix-vector when scipy is available.
+
+    The vectorized path computes identical overlap values (binary token set
+    intersection sizes) and falls back to the pure-Python loop otherwise.
+    """
+
+    def python_lookup(query_tokens: set[str], candidate_ids: list[str]) -> dict[str, int]:
+        return {
+            identifier: len(query_tokens & document_token_sets[identifier])
+            for identifier in candidate_ids
+        }
+
+    try:
+        import numpy as np
+        from scipy import sparse
+    except ImportError:
+        return python_lookup
+
+    positions = {
+        item["example_id"]: index for index, item in enumerate(retrieval)
+    }
+    vocabulary: dict[str, int] = {}
+    rows: list[int] = []
+    columns: list[int] = []
+    for row, item in enumerate(retrieval):
+        for token in document_token_sets[item["example_id"]]:
+            column = vocabulary.setdefault(token, len(vocabulary))
+            rows.append(row)
+            columns.append(column)
+    matrix = sparse.csr_matrix(
+        (np.ones(len(rows), dtype=np.int32), (rows, columns)),
+        shape=(len(retrieval), len(vocabulary)),
+    )
+    token_columns = {
+        token: column for token, column in vocabulary.items()
+    }
+
+    def sparse_lookup(query_tokens: set[str], candidate_ids: list[str]) -> dict[str, int]:
+        indices = np.asarray([positions[identifier] for identifier in candidate_ids], dtype=np.int64)
+        query_columns = np.asarray(
+            [token_columns[token] for token in query_tokens if token in token_columns],
+            dtype=np.int64,
+        )
+        if query_columns.size == 0:
+            overlaps = np.zeros(len(candidate_ids), dtype=np.int64)
+        else:
+            query_vector = np.zeros(len(vocabulary), dtype=np.int32)
+            query_vector[query_columns] = 1
+            overlaps = np.asarray(matrix[indices] @ query_vector, dtype=np.int64).ravel()
+        return {
+            identifier: int(value)
+            for identifier, value in zip(candidate_ids, overlaps.tolist())
+        }
+
+    return sparse_lookup
+
+
 def build_retrieval_pairs(
     examples: list[dict[str, Any]],
     strata_by_record: dict[str, dict[str, Any]],
@@ -760,6 +821,7 @@ def build_retrieval_pairs(
             continue
         by_specialty[stratum.get("primary_specialty")].append(item)
         by_question[stratum.get("question_type")].append(item)
+    overlap_lookup = _build_overlap_lookup(retrieval, document_token_sets)
     for query in sorted(retrieval, key=lambda item: item["example_id"]):
         query_stratum = strata_by_record.get(query["record_id"])
         if not query_stratum:
@@ -771,6 +833,7 @@ def build_retrieval_pairs(
             neighborhood[candidate["example_id"]] = candidate
         for candidate in by_question.get(query_stratum.get("question_type"), []):
             neighborhood[candidate["example_id"]] = candidate
+        overlap_map = overlap_lookup(query_tokens, list(neighborhood))
         for candidate in neighborhood.values():
             if candidate["split"] != query["split"]:
                 continue
@@ -788,7 +851,7 @@ def build_retrieval_pairs(
                 neighborhood_keys.append("primary_specialty")
             if candidate_stratum["question_type"] == query_stratum["question_type"]:
                 neighborhood_keys.append("question_type")
-            overlap = len(query_tokens & document_token_sets[candidate["example_id"]])
+            overlap = overlap_map[candidate["example_id"]]
             tie = hashlib.sha256(f"{seed}:{query['example_id']}:{candidate['example_id']}".encode()).hexdigest()
             candidates.append((-overlap, tie, candidate, neighborhood_keys))
         selected = [(query, 1, ["self_anchored_positive"])]
