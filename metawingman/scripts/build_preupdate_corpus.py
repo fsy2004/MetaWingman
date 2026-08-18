@@ -97,6 +97,10 @@ def ncbi_search(query: str, max_records: int) -> list[dict]:
         uids = [u for u in summary if u != "uids"]
         for pmid in batch:
             doc = summary.get(pmid, {})
+            doi = ""
+            for aid in doc.get("articleids", []) or []:
+                if isinstance(aid, dict) and aid.get("idtype") == "doi":
+                    doi = aid.get("value") or ""
             records.append({
                 "id": f"pmid:{pmid}",
                 "pmid": pmid,
@@ -104,7 +108,7 @@ def ncbi_search(query: str, max_records: int) -> list[dict]:
                 "abstract": "",  # filled below
                 "first_publication_date": str(doc.get("pubdate") or ""),
                 "source": "MED",
-                "doi": "",
+                "doi": doi,
             })
         efetch_url = EFETCH + "?" + urllib.parse.urlencode({
             "db": "pubmed", "id": ",".join(batch), "rettype": "abstract", "retmode": "xml",

@@ -27,7 +27,8 @@ Extracted 2026-08-18 from PLoS Med 18(8):e1003735 + supplement S2 Text
 | Slice | Engine | Query source | Result |
 |---|---|---|---|
 | bioRxiv+medRxiv | Europe PMC (native EPMC syntax from S2 Text) | `strategy-preprints.json` | ✅ **5,000 records** (cap hit — more available), receipt + hashes |
-| PubMed | Europe PMC (translated query) | `strategy-pubmed-epmc.json` | ⏳ background job `pwsh-4` (page-size 200, retries, max 20,000) |
+| PubMed | NCBI eutils (native PubMed syntax, verbatim strategy) | `strategy-pubmed-ncbi.json` | ✅ **7,500 records** (esearch true count, 244 s; 92.9% with abstract), receipt `records_sha256 bff472a2…` |
+| PubMed (EPMC translated query) | Europe PMC | `strategy-pubmed-epmc.json` | ⏳ background job `pwsh-4` (slow pages/retries; kept for cross-engine reconciliation) |
 | Web of Science Core | not executable locally (no WoS API access) | verbatim TS= string in strategy file | ⛔ recorded limitation |
 | FIND website | manual browsing in the review | n/a | ⛔ not reconstructible from a string (uncertainty[4]) |
 
