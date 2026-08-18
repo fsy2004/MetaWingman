@@ -126,7 +126,7 @@ Reflexion 式**口头反思**（偏差、意外、可改进项）写入阶段记
 | ⑤ 检索/语料组件 | section-role（macro-F1 0.9995）+ evidence-retrieval（候选集 MRR 0.962）+ 开集检索方向实测 | ✅ 两组件训练完成；**开集检索定论：BM25 单阶段（dev MRR 0.2649，实测 2026-08-18）；训练重排器仅限 curated 候选集（开放语料负贡献）** | dev 弱标签；重排器非召回器；~50% 召回天花板为任务语义固有限制 |
 | 复现机制 | VAL-1 晋升 + VAL-2b1 冻结 + VAL-2c 抽检 + 重建案例 harness + 首个案例 | ✅ **首个重建案例评分通过**（PLoS Medicine e1004082，R V̇O2peak 切片：MD 2.865 vs 2.9、I² 92.67% vs 93%、k=16 精确，3 次锁定重复） | 确定性 R 管线复算（同 metafor 引擎）；AI-only 端到端仍未跑 |
 | 评测对标 | MetaSyn（arXiv:2606.17041v6）任务映射 | ✅ 15 项映射（covered 6/partial 7/gap 2） | 黄金语料接入待评估（HF 许可未核实） |
-| 跨模型实证 | GLM glm-5.2 C3 与 DeepSeek C3-R2 同盲集对比 | ✅ **完成**（`glm-cross-provider-results-2026-08-18.md`）：section-role 0.9003 vs 0.9385；检索选择准确率 0.96 vs 0.93；跨 provider kappa **0.872（95% CI 0.848–0.896）**——提示栈的 provider 不变性高但非完美；GLM 仅 C3 执行（范围收缩已记录） | 弱标签一致性；跨 provider 一致≠科学验证 |
+| 跨模型实证 | GLM glm-5.2 C3 与 DeepSeek C3-R2 同盲集对比 | ✅ **完成**（`glm-cross-provider-results-2026-08-18.md`）：section-role 0.8829 vs 0.9385（GLM 5 弃权，72 死信两轮恢复后）；检索选择准确率 0.96 vs 0.93；跨 provider kappa **0.848（95% CI 0.823–0.873）**——提示栈的 provider 不变性高但非完美；GLM 仅 C3 执行（范围收缩已记录） | 弱标签一致性；跨 provider 一致≠科学验证 |
 
 **待办主线**（详见 `next-steps-2026-08-18.md`）：GLM 结果整合 → VAL-2c
 人工评分（kappa 决定规则天花板）→ ag-rdt 第二晋升（heiDATA 清单核实中）→

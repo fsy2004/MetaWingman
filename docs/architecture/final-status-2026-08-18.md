@@ -31,7 +31,7 @@
 ## 4. 评测对标
 
 - MetaSyn（arXiv:2606.17041v6）任务映射 15 项：covered 6 / partial 7 / gap 2；数据集卡许可已核实；适配器设计已冻结（五条前置条件）。
-- 跨 provider：GLM C3 vs DeepSeek C3-R2 同盲集（F1 0.9003 vs 0.9385；检索选择准确率 0.96 vs 0.93；kappa 0.872, 95% CI 0.848–0.896）。
+- 跨 provider：GLM C3 vs DeepSeek C3-R2 同盲集（F1 0.8829 vs 0.9385，GLM 5 弃权经两轮死信恢复；检索选择准确率 0.96 vs 0.93；kappa 0.8483, 95% CI 0.8233–0.8733）。
 
 ## 5. 验证阶梯状态
 
