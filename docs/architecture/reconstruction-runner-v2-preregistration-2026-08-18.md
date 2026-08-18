@@ -71,3 +71,10 @@ R analysis stage:
 screening fixture + rule engine → extraction fixture + engine → runner
 orchestration → acceptance runs → then (and only then) ag-rdt operational-
 corpus work.
+
+**Progress 2026-08-18:** screening engine + fixture ✅ (`run_screening_slice.py`,
+10/18/2 acceptance) → extraction engine + fixture ✅ (`run_extraction_slice.py`,
+no-imputation acceptance) → orchestration ✅ (`run_staged_reconstruction.py`,
+chain receipt links both stage receipts; chain acceptance 10 includes →
+10 extracted). Next: per-case analysis wiring when the ag-rdt operational
+corpus exists.
