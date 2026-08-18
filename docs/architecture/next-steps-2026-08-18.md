@@ -28,6 +28,11 @@
    训练重排器仅限 curated 候选集**。P0 检索项就此定论。
 2. **GLM 双 provider C0-C3 对比**：glm-5.2（已实测可用）跑同配置四组，与 DeepSeek
    历史对比，产出跨模型一致性实证（对应 model-aware skill alignment 方向）。
+   **2026-08-18 已完成（C3-only，范围收缩已记录）**：
+   `glm-cross-provider-results-2026-08-18.md`——C3 同盲集 SR macro-F1 0.8816 vs
+   0.9385、检索选择准确率 0.96 vs 0.93、跨 provider kappa 0.8472（0.8221–0.8722）；
+   GLM 推理 token 吃掉输出预算（max_tokens 64→8192 才清零死信）是持久教训；
+   runner 无 C0/C1/C2 开关，GLM 仅跑 C3。
 
 ## P1 —— 用户指定重点（选题 + 系统评价）
 

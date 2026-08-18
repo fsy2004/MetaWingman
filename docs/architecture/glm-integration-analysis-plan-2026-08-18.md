@@ -54,3 +54,21 @@ D. **Cost-quality view**: tokens per config per provider; no cost-efficiency
    this plan (analyses A-D in order).
 2. Whitepaper §8 row update + audit-log entry (event_type fix/reflection)
    applied with the commit.
+
+## 6. Amendments (recorded per plan §0; executed 2026-08-18/19)
+
+1. **Scope: C3 only.** `run_r2_ai_validation.py` has no C0/C1/C2 switches on
+   the frozen R2 task set; the GLM pilot ran C3 only (999 SR + 200 RT tasks).
+   GLM C0-C2 rows do not exist; the DeepSeek C0-C3 ladder is context-only
+   (different 2k-dev task set).
+2. **max_tokens deviation chain:** 64 → 2048 (initial), then RT 4096 and SR
+   4096 → 8192 after dead-letter diagnosis. GLM-5.2 reasoning tokens exhaust
+   the output budget (empty content, finish=length); all 999 SR + 200 RT
+   tasks recovered (0 abstains final). Prompt text unchanged; prompt sha256
+   identical to DeepSeek C3.
+3. **Correction of intermediate-state numbers:** commits `5785407` (n=927)
+   and `58f4741` (994 scored / 5 abstained) carried pre-recovery numbers; the
+   final checkpoint (999/999, 0 abstains) is authoritative
+   (`validation-output/glm-pilot-2026-08-18/scoring-results.json`).
+4. **kappa scope:** computable only at C3 on the shared task set (999
+   passages); C0-C2 kappa not computable (different task sets).
