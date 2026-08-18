@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "ff741a42d0c05751c2635304452c21540ddb9f532496483ae3b58f80bf96b412",
+  "source_tree_sha256": "5db8a5cdd99884acc62a742f3efe3ca5c31e28cea5ea8e8c5b89f8cc73d63105",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -1669,6 +1669,11 @@
       "path": "scripts/run_ai_only_pilot.py",
       "sha256": "a6bc04ef32b61fb64b396b5debec2dd1281d74f4eb954347a7a6c69ea8339637",
       "bytes": 13532
+    },
+    {
+      "path": "scripts/run_appraisal_step_training.py",
+      "sha256": "f48c1dbb3f336aa47dc9325aa83e53edaf0d2dd91a9e15d5a902a960dd76a3c4",
+      "bytes": 8784
     },
     {
       "path": "scripts/run_component_training.py",
