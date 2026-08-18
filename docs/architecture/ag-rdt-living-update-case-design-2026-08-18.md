@@ -64,6 +64,17 @@ screening arm (VAL-3), not to the deterministic engine; the deterministic
 stage's deliverable is the reduced candidate set + audit trail, and its
 retention rate is reported, not scored against the sealed reference.
 
+### Deterministic-chain rehearsal (2026-08-18, same corpus)
+
+Staged screening→extraction over the 5,244 screened-in records: abstract-level
+field extraction recovered sensitivity from 17.4%, specificity from 14.7%,
+and an n value from 41.5%. Interpretation recorded: these rates are measured
+on the NOISY prefiltered pool (most retained records are not true accuracy
+studies), so they bound abstract-level feasibility of the deterministic
+chain, not the quality of true extraction. The deterministic line is triage +
+audit; field-level extraction for the case requires the full-text stage
+(outside the current pack) or the AI-assisted arm.
+
 ## 3. Scoring design (precommitted BEFORE the reference is sealed)
 
 - **Inclusion delta agreement**: studies entering/leaving the included set
