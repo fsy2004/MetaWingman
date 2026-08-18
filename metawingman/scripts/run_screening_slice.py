@@ -62,6 +62,7 @@ def matches(record: dict, rule: dict) -> bool:
 def screen(records: list[dict], rules: dict) -> dict:
     include_rules = rules.get("include_rules", [])
     exclude_rules = rules.get("exclude_rules", [])
+    by_id = {r["id"]: r for r in include_rules + exclude_rules}
     decisions = []
     counts = {"include": 0, "exclude": 0, "abstain": 0}
     for record in records:
@@ -78,8 +79,14 @@ def screen(records: list[dict], rules: dict) -> dict:
             }
             counts["abstain"] += 1
         else:
-            matched_include = [r["id"] for r in include_rules if matches(record, r)]
-            matched_exclude = [r["id"] for r in exclude_rules if matches(record, r)]
+            # A rule only counts as matched when its `requires` rules also match
+            # (cross-rule AND semantics, e.g. index test AND accuracy AND reference).
+            def rule_matches(rule: dict) -> bool:
+                return matches(record, rule) and all(
+                    rid in by_id and matches(record, by_id[rid]) for rid in rule.get("requires", [])
+                )
+            matched_include = [r["id"] for r in include_rules if rule_matches(r)]
+            matched_exclude = [r["id"] for r in exclude_rules if rule_matches(r)]
             if matched_exclude:
                 decision = {
                     "record_id": rec_id, "decision": "exclude",

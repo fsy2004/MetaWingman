@@ -8,9 +8,10 @@
       "id": "inc-index-agrdt",
       "terms": ["antigen", "rapid diagnostic", "lateral flow", "rdt"],
       "mode": "any",
+      "requires": ["inc-accuracy-eval", "inc-reference-standard"],
       "source_criterion": "inclusion #1 + #7 (commercially available Ag-RDT as index test, POC-developed)",
       "source_locator": "Methods > Inclusion criteria para 1; S1 Text > Index test",
-      "simplification": "commercial/POC availability is not detectable from title/abstract terms; anchor flags Ag-RDT mentions only"
+      "simplification": "commercial/POC availability is not detectable from title/abstract terms; anchor flags Ag-RDT mentions only; v2 requires accuracy + reference-standard co-occurrence (rehearsal lesson: OR-only matching included 55.6% of the corpus vs ~4.5% real inclusion rate)"
     },
     {
       "id": "inc-accuracy-eval",

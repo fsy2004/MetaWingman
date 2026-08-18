@@ -49,6 +49,21 @@ derived artifact with:
 This mapping is reviewed before the living-update case seals; until then the
 anchors are drafts.
 
+### Screening-stage ceiling (measured in rehearsal, 2026-08-18)
+
+Blind rehearsal over the merged corpus (12,498 candidates): OR-only draft
+anchors retained 55.6%; v2 anchors (index requires accuracy + reference
+co-occurrence) retain **41.9%** — still an order of magnitude above the
+review's real inclusion rate (~4.5%: 133/2,990 PubMed at the 2020-12
+snapshot). Conclusion, recorded as a design constraint:
+
+**Title/abstract term anchors are a coarse prefilter (triage), not a
+reproduction of the review's dual-screening decisions.** Decision-level
+screening agreement for this case therefore belongs to the AI-assisted
+screening arm (VAL-3), not to the deterministic engine; the deterministic
+stage's deliverable is the reduced candidate set + audit trail, and its
+retention rate is reported, not scored against the sealed reference.
+
 ## 3. Scoring design (precommitted BEFORE the reference is sealed)
 
 - **Inclusion delta agreement**: studies entering/leaving the included set
