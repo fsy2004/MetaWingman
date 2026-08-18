@@ -70,7 +70,7 @@ plan, not a benchmark.
 ## 6. Reuse
 
 - Runner: `metawingman/scripts/run_reconstruction_case.py` (the living-update
-  slice adds a screening/extraction stage; the runner currently supports the
-  deterministic analysis slice — an extension task is implied and must be
-  preregistered before use).
+  slice adds screening/extraction stages; the extension is **preregistered**
+  in `reconstruction-runner-v2-preregistration-2026-08-18.md` — frozen
+  design, fixture-based acceptance, deterministic-first, no LLM arms).
 - Machinery precedent: `reconstruction-first-case-results-2026-08-18.md`.
