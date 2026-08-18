@@ -85,6 +85,7 @@ def main() -> int:
     parser.add_argument("--provider-config", type=Path, required=True)
     parser.add_argument("--out-dir", type=Path, required=True)
     parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--workers", type=int, default=1)
     args = parser.parse_args()
     try:
         started = time.monotonic()
@@ -100,14 +101,22 @@ def main() -> int:
                 if not line.strip():
                     continue
                 done_ids.add(json.loads(line).get("task_id"))
+        pending = [r for r in records if r["task_id"] not in done_ids]
+
+        results: list[tuple[str, str]] = []
+        if args.workers > 1:
+            from concurrent.futures import ThreadPoolExecutor
+            with ThreadPoolExecutor(max_workers=args.workers) as pool:
+                for record, label in zip(pending, pool.map(lambda r: rate_one(r, provider), pending)):
+                    results.append((record["task_id"], label))
+        else:
+            for record in pending:
+                results.append((record["task_id"], rate_one(record, provider)))
+
         written = 0
         with runs_path.open("a", encoding="utf-8") as fh:
-            for record in records:
-                if record["task_id"] in done_ids:
-                    continue
-                label = rate_one(record, provider)
-                fh.write(json.dumps({"task_id": record["task_id"], "label": label}, ensure_ascii=False) + "\n")
-                fh.flush()
+            for task_id, label in results:
+                fh.write(json.dumps({"task_id": task_id, "label": label}, ensure_ascii=False) + "\n")
                 written += 1
         receipt = {
             "schema_version": "1.0",

@@ -10,3 +10,6 @@ dist/
 .dsh-vision-toolkit/
 .dsh-tmp/
 research/method-literature/
+
+# release artifacts (local distribution builds)
+releases/
