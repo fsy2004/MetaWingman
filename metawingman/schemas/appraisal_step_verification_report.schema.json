@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.dev/schemas/appraisal_step_verification_report.schema.json",
+  "title": "AppraisalStepVerificationReport",
+  "type": "object",
+  "required": ["schema_version", "report_id", "dossier_id", "created_at_utc", "steps", "summary"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "report_id": { "type": "string" },
+    "dossier_id": { "type": "string" },
+    "created_at_utc": { "type": "string", "format": "date-time" },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "check", "passed", "confidence", "detail"],
+        "properties": {
+          "id": { "type": "string" },
+          "check": { "type": "string" },
+          "passed": { "type": "boolean" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "detail": { "type": "string" }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["steps_total", "steps_passed", "confidence", "abstain_required", "human_window_required"],
+      "properties": {
+        "steps_total": { "type": "integer", "minimum": 0 },
+        "steps_passed": { "type": "integer", "minimum": 0 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "abstain_required": { "type": "boolean" },
+        "human_window_required": { "type": "boolean" }
+      }
+    }
+  },
+  "additionalProperties": false
+}
