@@ -15,6 +15,7 @@
 | reproduction ceiling | living_update |
 | cutoffs | 2021-04-30 (first version), 2021-08-31 (update) — both day-precision |
 | frozen reference artifact | 2021 extraction workbook, Zenodo 4924035 revision 7, CC-BY-4.0, sha256 `8c2dfe6f4a1512994890c8346b7e2a52598d90fe84f1aed1fe5ebac3c9fb6955`, 531,709 bytes |
+| 2022 reference artifact (sealed, read-only) | update workbook, heiDATA doi:10.11588/DATA/T3MIB0/FIDTR9, **CC-BY-NC-ND 4.0**, sha256 `b5683efa9fa4577179124663de3d0a3517811cbbbb71e8e53fe3c91e02647085`, 674,749 bytes |
 
 ## 2. Reconstruction task (the "living update" slice)
 
@@ -52,8 +53,8 @@ An AI-only run replays the **update** under the historical boundary:
 
 | # | Blocker (from the material plan) | Status 2026-08-18 | Resolution path |
 |---|---|---|---|
-| 1 | Inventory and hash the immutable 2022 heiDATA files | ⏳ subagent inventory in flight (`research/ag-rdt-heidata-inventory-2026-08-18.md`) | file list + per-file SHA-256 + license → extend the material plan with pinned artifacts (role `sealed_reference`) |
-| 2 | Verify the later repository license | ⏳ same subagent | license field from the heiDATA record page/API; only verified-open licenses promote |
+| 1 | Inventory and hash the immutable 2022 heiDATA files | ✅ **resolved** | one file, 674,749 bytes, file DOI 10.11588/DATA/T3MIB0/FIDTR9; repository MD5 `8541981cc4ec230b2a8c67e885fac4a6` verified on fetch; local SHA-256 `b5683efa9fa4577179124663de3d0a3517811cbbbb71e8e53fe3c91e02647085`; V1.0→V1.1 rename-only (same MD5/storageIdentifier), no V2 |
+| 2 | Verify the later repository license | ✅ **resolved** | **CC BY-NC-ND 4.0** (both versions, termsOfUse field) — NOT CC BY: non-commercial, no derivatives → read-only reference, not redistributable; recorded in the material plan (`controlled_terms`) |
 | 3 | Construct a pre-update operational corpus that excludes later evidence | ⛔ open, no local action possible yet | contract: candidate records with search-date metadata ≤ 2021-08-31; post-cutoff records identified and sealed out; constructed only after blockers 1-2 resolve |
 
 ## 5. Freeze note
