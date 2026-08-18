@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "stage": "appraisal",
+  "title": "Socratic checklist — risk of bias & evidence appraisal (评价)",
+  "rationale": "Step-wise appraisal questions; each signal answer is anchored to source text. Sources are chapter/item-level references.",
+  "items": [
+    {
+      "id": "appraisal-01",
+      "question": "Is the risk-of-bias tool matched to each study design (RoB 2 for RCTs, ROBINS-I for non-randomized, QUADAS-2 for DTA)?",
+      "rationale": "Using the wrong instrument invalidates the domain judgments.",
+      "source": "Cochrane Handbook v6 Ch.8; QUADAS-2 (Ann Intern Med 2011)",
+      "answer_format": "design -> tool mapping per study",
+      "gate": "required"
+    },
+    {
+      "id": "appraisal-02",
+      "question": "Is every domain signal question answered with a source-text anchor (quotation or section) rather than a bare judgment?",
+      "rationale": "Appraisal without anchors cannot be audited or reproduced.",
+      "source": "Cochrane Handbook v6 Ch.8",
+      "answer_format": "signal -> verdict -> anchor",
+      "gate": "required"
+    },
+    {
+      "id": "appraisal-03",
+      "question": "Is the overall risk-of-bias judgment rule (worst-domain vs weighted) pre-specified and applied uniformly?",
+      "rationale": "Ad-hoc aggregation rules let the same domain pattern produce different conclusions.",
+      "source": "RoB 2 guidance (worst-domain default); Cochrane Handbook v6 Ch.8",
+      "answer_format": "stated rule + per-study application trace",
+      "gate": "required"
+    },
+    {
+      "id": "appraisal-04",
+      "question": "Is the treatment of high-risk studies (exclusion vs sensitivity analysis) pre-specified in the protocol?",
+      "rationale": "Post-hoc exclusion of high-risk studies is a classic bias source.",
+      "source": "Cochrane Handbook v6 Ch.7 (sensitivity)",
+      "answer_format": "pre-registered plan + whether followed",
+      "gate": "required"
+    },
+    {
+      "id": "appraisal-05",
+      "question": "Are extraction and appraisal performed by two independent actors with numerical double-checks?",
+      "rationale": "Single-actor extraction and appraisal are the largest sources of data error in reviews.",
+      "source": "Cochrane Handbook v6 Ch.5 (data collection); MECIR C43-46",
+      "answer_format": "actors, disagreement counts, double-check log",
+      "gate": "required"
+    },
+    {
+      "id": "appraisal-06",
+      "question": "Are effect estimates, confidence intervals, and sample sizes re-verified against the primary report?",
+      "rationale": "Transcription errors propagate into synthesis.",
+      "source": "Cochrane Handbook v6 Ch.5",
+      "answer_format": "verification log per study",
+      "gate": "required"
+    },
+    {
+      "id": "appraisal-07",
+      "question": "Are retractions, corrections, and expressions of concern re-checked at appraisal time?",
+      "rationale": "Appraising a retracted or corrected record mixes invalid evidence into the review.",
+      "source": "Cochrane Handbook v6 Ch.5; Crossref/PubMed records",
+      "answer_format": "retraction/correction check log",
+      "gate": "required"
+    },
+    {
+      "id": "appraisal-08",
+      "question": "Are the domain judgments consistent with the downstream GRADE domains (risk of bias -> certainty)?",
+      "rationale": "Appraisal must feed certainty assessment without double-counting.",
+      "source": "GRADE Handbook (domain 1: risk of bias)",
+      "answer_format": "mapping appraisal -> GRADE domain + no-double-count check",
+      "gate": "required"
+    },
+    {
+      "id": "appraisal-09",
+      "question": "Which appraisal judgment has the lowest confidence, and what would change it?",
+      "rationale": "The weakest judgment is where human review effort should concentrate (uncertainty-aware verification).",
+      "source": "RoB 2 guidance on disagreements; uncertainty-aware verification (Ye et al. ICLR-W 2025)",
+      "answer_format": "lowest-confidence judgments + resolution plan",
+      "gate": "optional"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "stage": "screening",
+  "title": "Socratic checklist — screening & eligibility (纳排)",
+  "rationale": "Before screening starts, the agent asks and answers each question; answers are recorded and the gate checks completeness. Sources are chapter/item-level references, not page numbers.",
+  "items": [
+    {
+      "id": "screening-01",
+      "question": "Do the exclusion criteria (language, year, report type, publication status) risk creating a selective gap in the evidence map?",
+      "rationale": "Language and publication bias are well-documented threats; time bounds must match the certificate's time window.",
+      "source": "Cochrane Handbook v6 Ch.4 (searching for and selecting studies); PRISMA 2020 item 7",
+      "answer_format": "yes/no + which criteria could create a gap + mitigation",
+      "gate": "required"
+    },
+    {
+      "id": "screening-02",
+      "question": "Are the eligibility criteria exactly consistent with the certificate's PICOT primitives?",
+      "rationale": "Any drift between the certificate and the protocol criteria invalidates the derivation.",
+      "source": "PRISMA 2020 item 5; Cochrane Handbook v6 Ch.3",
+      "answer_format": "field-by-field mapping certificate -> criteria, or explicit deviation with justification",
+      "gate": "required"
+    },
+    {
+      "id": "screening-03",
+      "question": "Are subgroup eligibility choices consistent with the certificate's hypothesized effect-modification pattern?",
+      "rationale": "Screening decisions that preselect a subgroup define the estimand and must match the hypothesis.",
+      "source": "Cochrane Handbook v6 Ch.3 (defining the review question)",
+      "answer_format": "list subgroup filters and state which hypothesis node they serve",
+      "gate": "required"
+    },
+    {
+      "id": "screening-04",
+      "question": "Is any record excluded on abstract-only grounds where the full report could change the decision?",
+      "rationale": "Abstract-only judgments are a known source of false exclusions.",
+      "source": "Cochrane Handbook v6 Ch.4",
+      "answer_format": "count of abstract-only exclusions + rule for escalation",
+      "gate": "required"
+    },
+    {
+      "id": "screening-05",
+      "question": "Are title/abstract and full-text decisions made by at least two independent actors with recorded conflict arbitration?",
+      "rationale": "Dual independent screening is the high-assurance default.",
+      "source": "Cochrane Handbook v6 Ch.4; MECIR C39-42",
+      "answer_format": "actor identities, independence, disagreement count, arbitration method",
+      "gate": "required"
+    },
+    {
+      "id": "screening-06",
+      "question": "Is every exclusion reason recorded per record so PRISMA flow counts are reproducible?",
+      "rationale": "Flow-diagram counts must trace to per-record decisions.",
+      "source": "PRISMA 2020 items 16a-16b",
+      "answer_format": "exclusion-reason vocabulary + coverage check (excluded = all counted)",
+      "gate": "required"
+    },
+    {
+      "id": "screening-07",
+      "question": "Are companion/duplicate reports merged onto their study per the lineage rules before eligibility counting?",
+      "rationale": "Counting reports instead of studies inflates the flow diagram.",
+      "source": "PRISMA 2020 item 3; Cochrane Handbook v6 Ch.4",
+      "answer_format": "lineage merge log",
+      "gate": "required"
+    },
+    {
+      "id": "screening-08",
+      "question": "Are trial registries and grey sources covered and their coverage recorded?",
+      "rationale": "Unpublished and ongoing studies affect both completeness and publication-bias assessment.",
+      "source": "Cochrane Handbook v6 Ch.4; PRISMA-S",
+      "answer_format": "sources searched for studies + counts",
+      "gate": "required"
+    },
+    {
+      "id": "screening-09",
+      "question": "Is the time boundary consistent with the certificate's novelty gate and living-update window?",
+      "rationale": "The search window must reflect the gap the certificate claims.",
+      "source": "Cochrane Handbook v6 Ch.4 (updating searches)",
+      "answer_format": "start/end dates + living-update cadence",
+      "gate": "required"
+    },
+    {
+      "id": "screening-10",
+      "question": "Which borderline excluded studies would most change the review if included?",
+      "rationale": "A sensitivity list of near-miss exclusions makes the screening boundary auditable.",
+      "source": "Cochrane Handbook v6 Ch.4; PRISMA 2020 item 16b",
+      "answer_format": "near-miss list with reasons",
+      "gate": "optional"
+    }
+  ]
+}
