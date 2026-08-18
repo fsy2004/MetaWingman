@@ -118,7 +118,7 @@ Reflexion 式**口头反思**（偏差、意外、可改进项）写入阶段记
 | ② 十阶段苏格拉底清单 | `references/socratic-checklists/`（10 阶段 × 10 问，9 必答）+ `check_socratic_checklist.py` 全门禁 | ✅ 全十阶段落地，回归通过 | 问题清单为方法学检查，非自动裁决 |
 | ③ 步骤级验证器 | 规则版 `verify_appraisal_steps.py`（10 步，弃权/人工窗口）+ 6 域 RoB 分类组件 V3（BiomedBERT 110M） | ✅ 规则版 + 训练版落地：dev macro-F1 **0.8500**（规则一致性） | 弱标签规则一致性，非独立验证；VAL-2c 抽检集冻结待人类评分 |
 | ④ audit log + meta-update | `record_audit_log.py`（JSONL + 人工窗口应用 + 提交回填） | ✅ 实跑 3 条完整闭环（glm-5.3 教训、权重 bug、重建机制教训） | 提案带出处；应用经窗口记录 |
-| ⑤ 检索/语料组件 | section-role（macro-F1 0.9995）+ evidence-retrieval（候选集 MRR 0.962）+ BM25 开集检索证据 | ✅ 两组件训练完成；开集检索方向 = 词法（BM25 0.294 证据链） | dev 弱标签；重排器非召回器 |
+| ⑤ 检索/语料组件 | section-role（macro-F1 0.9995）+ evidence-retrieval（候选集 MRR 0.962）+ 开集检索方向实测 | ✅ 两组件训练完成；**开集检索定论：BM25 单阶段（dev MRR 0.2649，实测 2026-08-18）；训练重排器仅限 curated 候选集（开放语料负贡献）** | dev 弱标签；重排器非召回器；~50% 召回天花板为任务语义固有限制 |
 | 复现机制 | VAL-1 晋升 + VAL-2b1 冻结 + VAL-2c 抽检 + 重建案例 harness + 首个案例 | ✅ **首个重建案例评分通过**（PLoS Medicine e1004082，R V̇O2peak 切片：MD 2.865 vs 2.9、I² 92.67% vs 93%、k=16 精确，3 次锁定重复） | 确定性 R 管线复算（同 metafor 引擎）；AI-only 端到端仍未跑 |
 | 评测对标 | MetaSyn（arXiv:2606.17041v6）任务映射 | ✅ 15 项映射（covered 6/partial 7/gap 2） | 黄金语料接入待评估（HF 许可未核实） |
 | 跨模型实证 | GLM glm-5.2 C0-C3 对比 | ⏳ 运行中（200 任务 × 4 配置） | 完成后整合 |
