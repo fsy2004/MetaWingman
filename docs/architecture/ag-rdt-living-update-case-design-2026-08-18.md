@@ -32,6 +32,23 @@ An AI-only run replays the **update** under the historical boundary:
    per-study extractions, and updated estimates. Source artifact = the 2022
    heiDATA record (inventory in flight, 2026-08-18) — see §4.
 
+### Criterion-anchor derivation (auditable mapping contract)
+
+The screening engine consumes criterion anchors (terms/regex per rule), not
+free text. The mapping from the review's eligibility text to anchors is a
+**design decision, not an automatic translation**, and must be recorded as a
+derived artifact with:
+
+- one row per anchor: rule id → source criterion (from
+  `research/ag-rdt-eligibility-criteria-2021.json`, with its locator) →
+  terms/regex → rationale for any simplification;
+- a statement of what the anchors do NOT capture (e.g. continuous-outcome
+  nuance, "any setting" clauses that are vacuously true);
+- the anchors file hash-frozen before any screening run.
+
+This mapping is reviewed before the living-update case seals; until then the
+anchors are drafts.
+
 ## 3. Scoring design (precommitted BEFORE the reference is sealed)
 
 - **Inclusion delta agreement**: studies entering/leaving the included set
