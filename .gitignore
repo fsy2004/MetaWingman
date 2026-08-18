@@ -8,3 +8,4 @@ validation-output/
 dist/
 .dsh-filess/
 .dsh-vision-toolkit/
+.dsh-tmp/
