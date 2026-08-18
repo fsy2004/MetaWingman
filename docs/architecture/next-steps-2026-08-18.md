@@ -38,10 +38,11 @@
 ## P2 —— 评测与研究层
 
 5. **VAL-2b 手册冻结** → 时间切分重建（复现能力实证，当前最大卡点）。
-   **2026-08-18 部分推进（VAL-2c，本轮命名纠正）**：100 项人类盲评抽检集已冻结
-   （协议 `appraisal-human-blind-spotcheck-protocol-2026-08-18.md`，SHA-256 见
-   results 文档），**待人类评审窗口评分** → kappa 决定规则天花板。路线图意义的
-   VAL-2b（任务手册/损失权重/发布阈值冻结）仍开放。
+   **2026-08-18 拆分推进**：**VAL-2b1 组件轴冻结完成**（任务手册索引、损失权重、
+   发布阈值、C0-C3 prompt 哈希、停止规则；`val2b-task-manual-freeze-2026-08-18.md`
+   + `research/ai-only-evaluation-plan.val2b1-v1.0-frozen.json`）；**VAL-2b2
+   重建案例手册仍阻塞于 VAL-1**（五家族许可/切分晋升）；VAL-2c 人类盲评抽检集
+   已冻结，待人类评审窗口评分 → kappa 决定规则天花板。
 6. **对标 2606.17041 基准**：评估我们的 AI-only 任务是否覆盖其任务类型。
 7. **Lifelong upgrades 机制化**：skill/预设版本化 + 变更日志（已起步）→ 扩展为
    "新文献线索 → 带出处提案 → 更新文件 → 记录"的循环（对应 ICLR 2026 lifelong
