@@ -1,0 +1,1259 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+
+\section{MetaWingman: a question-first, step-verified, self-improving
+agent for systematic review and
+meta-analysis}\label{metawingman-a-question-first-step-verified-self-improving-agent-for-systematic-review-and-meta-analysis}
+
+\textbf{Manuscript type:} Methods article (draft for journal-style
+adaptation) \textbf{Target style:} Frontiers in Immunology, Methods
+section \textbf{Citation style:} Vancouver (numbered citations, order of
+first appearance) \textbf{Language:} English
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+\textbf{Background.} Systematic reviews and meta-analyses (SR/MAs)
+remain labor-intensive and error-prone despite mature reporting
+standards. Recent AI research agents automate pieces of the pipeline,
+but few bind the review to a derived question, verify work at the level
+of individual methodological steps, and leave an auditable record
+through which the system improves itself.
+
+\textbf{Methods.} We built MetaWingman, a five-component agent: a Review
+Question Certificate that derives a falsifiable question through a
+seven-stage process with hard and soft gates; a ten-stage Socratic
+checklist that gates stage entry; a step-level verifier for appraisal
+dossiers with abstention and a human-review window; a JSONL audit log
+and meta-update loop through which source-carrying proposals are applied
+after review; and retrieval components for section-role classification
+and evidence retrieval. Components were trained on 109,028
+deterministically weak-labeled examples. Validation proceeds through a
+six-level ladder (VAL-1, 2a, 2b1, 2b2, 2c, 3) ending in time-sliced
+reconstruction of published reviews.
+
+\textbf{Results.} Section-role classification reached macro-F1 0.9995
+and evidence retrieval MRR 0.962 (P@1 0.933). Open-set retrieval favored
+BM25 single-stage (MRR 0.2649) over trained rerankers, which hurt
+two-stage performance. A deterministic R pipeline reproduced a published
+random-effects meta-analysis (pooled MD 2.865 vs 2.9; I² 92.67\% vs
+93\%) in three locked runs. A first AI-only screening pilot on 649
+frozen records achieved gold recall 0.765 (114/149), with abstention the
+dominant loss. Cross-provider agreement reached kappa 0.8723.
+
+\textbf{Conclusions.} MetaWingman demonstrates a question-first,
+step-verified architecture with reproducible reconstruction evidence.
+Current component metrics support consistency with weak labels, not
+scientific validity; an AI-only end-to-end review remains unfinished.
+
+\textbf{Keywords:} systematic review; meta-analysis; AI agent; question
+certificate; step-level verification; living systematic review
+
+\subsection{中文摘要}\label{ux4e2dux6587ux6458ux8981}
+
+\textbf{背景。} 系统综述与 meta
+分析虽有成熟的报告标准，仍耗时且易错。近年的科研 AI
+智能体自动化了流程的若干环节，但很少有系统把综述绑定到一个经过推导的问题上、在方法学步骤层面做验证，并留下可审计记录使系统自我改进。
+
+\textbf{方法。} 我们构建了
+MetaWingman，一个五组件智能体：七阶段推导且带硬/软门的综述问题证书；十个阶段的苏格拉底清单门禁；带弃权与人工审核窗口的评价步骤级验证器；带出处的
+JSONL 审计日志与元更新回路；以及 section-role 分类与证据检索组件。组件在
+109,028 条确定性弱标签样本上训练；验证经由六级阶梯（VAL-1 至
+VAL-3），终点是已发表综述的时间切分重建。
+
+\textbf{结果。} section-role 分类 macro-F1 0.9995，证据检索候选集 MRR
+0.962（P@1 0.933）。开集检索以 BM25 单阶段（MRR
+0.2649）为优，训练重排器在两段式配置下为负贡献。确定性 R
+管线以三次锁定运行复现了已发表的随机效应 meta 分析（合并 MD 2.865 对
+2.9；I² 92.67\% 对 93\%）。首个 AI-only 筛选 pilot（649
+条冻结记录）黄金召回 0.765，弃权为主要损失；跨提供方一致性 kappa
+0.8723。
+
+\textbf{结论。} MetaWingman
+展示了提问先行、步骤验证、可审计自改进的架构，并附复现实证。当前组件指标支持的是与弱标签/准则标签的一致性，而非科学有效性；AI-only
+的端到端综述仍未完成。
+
+\textbf{关键词：} 系统综述；meta 分析；AI
+智能体；问题证书；步骤级验证；living systematic review
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Introduction}\label{introduction}
+
+Systematic review and meta-analysis is the backbone of evidence-based
+medicine, yet it is slow, expensive, and sensitive to process errors at
+every stage, from search construction to risk-of-bias judgment {[}1{]}.
+The conduct standards are mature: the Cochrane Handbook for Systematic
+Reviews of Interventions defines the methods {[}1{]}, PRISMA 2020
+governs reporting {[}2{]}, PRISMA-S extends reporting to the search
+{[}3{]}, and living systematic review frameworks specify how a review
+should be updated rather than frozen {[}4{]}. What remains unresolved is
+execution. Each of the ten stages a review passes through, topic,
+protocol, search, screening, extraction, appraisal, analysis, writing,
+reproducibility, and update, is a place where undocumented shortcuts
+enter, and where an AI assistant can either compound or contain the
+damage.
+
+The practical burden is not just volume. A review is a chain of
+judgments in which every downstream decision inherits the assumptions of
+the ones before it. A search that misses a database, a screening rule
+that silently excludes a population, an extraction that transcribes the
+wrong arm, and an appraisal that over-weights a domain all move the
+final estimate, and none of them is visible in the published forest
+plot. The standards documents tell a review team what must be done; they
+do not detect when a step was skipped. This asymmetry, between
+well-specified methods and weakly monitored execution, is the specific
+problem an agent for systematic review must solve, and it shapes the
+design choices in this paper.
+
+The past two years have produced a wave of research agents. The AI
+Scientist drafts and reviews machine-learning papers end to end {[}5{]},
+AI Scientist-v2 adds a multi-module architecture with self-correction
+{[}6{]}, and Google's AI co-scientist frames discovery as a
+generate-debate-evolve loop over hypotheses {[}7{]}. Agent Laboratory
+targets research workflows including systematic review {[}8{]},
+PRefLexOR introduces recursive preference optimization for scientific
+reasoning {[}9{]}, and Reflexion {[}10{]}, process verifiers {[}11{]},
+and later reflection architectures {[}12{]} established the general
+pattern of an agent that inspects its own outputs. MetaSyn explicitly
+targets systematic review and meta-analysis as an agentic pipeline
+{[}13{]}, and FirstResearch contributes a question-certificate mechanism
+that derives and gates review questions before work begins {[}14{]}.
+
+What these systems share is a gap at the level of the review's
+scientific contract. First, the question is usually treated as input,
+not as a derived, gated artifact; a review built on an underexamined
+question cannot be rescued by better execution. Second, verification,
+where present, operates on finished outputs (a manuscript, a hypothesis
+list), not on individual methodological steps such as an appraisal
+judgment; a wrong intermediate step can propagate silently into a
+correct-looking synthesis. Third, self-improvement claims are rarely
+backed by an auditable trail that ties a proposed change to the failure
+that motivated it. Fourth, and most consequential for the methods
+literature, capability claims rest on demos rather than on
+reconstruction: re-running a published review from its own data and
+comparing against the published numbers, which is the closest thing to a
+ground truth that the field has.
+
+We report MetaWingman, an agent built on five components that address
+these gaps directly: a Review Question Certificate migrated from
+FirstResearch {[}14{]}; a ten-stage Socratic checklist that gates stage
+entry; a step-level verifier for appraisal dossiers; a JSONL audit log
+with a meta-update loop; and retrieval components for section-role
+classification and evidence retrieval. We describe the training pipeline
+built on deterministically weak-labeled data, a six-level validation
+ladder, and time-sliced reconstruction of published reviews. We report
+measured results from execution receipts: component metrics, an open-set
+retrieval comparison that argues against trained rerankers, a locked
+three-run reproduction of a published meta-analysis, a first AI-only
+screening pilot, and cross-provider agreement. We do not claim validated
+equivalence with human review; the evidence we present supports
+consistency with rubric-grounded labels and deterministic reproduction
+within a defined engine boundary.
+
+\subsection{2. Methods}\label{methods}
+
+\subsubsection{2.1 System overview}\label{system-overview}
+
+MetaWingman is organized as five components whose outputs are written to
+a project control plane (review state, protocol, event ledger) and
+validated before they may alter scientific artifacts. The five
+components are (1) the Review Question Certificate (RQC), (2) the
+ten-stage Socratic checklist, (3) the step-level verifier, (4) the audit
+log and meta-update loop, and (5) the retrieval components. Table 1
+summarizes each component, the mechanism it implements, and the evidence
+reported in this paper.
+
+The control plane separates three kinds of state that are easy to
+conflate in an agentic pipeline: the review's protocol and derived
+artifacts (what the review claims to do), the event ledger (what the
+system actually did, with input and output hashes), and the human
+responsibility record (which decisions a person signed). A component's
+output enters the review only after the relevant validator accepts it; a
+failed validator produces a blocked or abstained event, never silent
+continuation. This separation is what makes the reconstruction
+experiments in Section 3 possible: because every run is logged with
+hashes and frozen configuration, a reproduction claim can be checked
+against the log rather than trusted from a narrative.
+
+\subsubsection{2.2 Review Question
+Certificate}\label{review-question-certificate}
+
+The RQC is migrated from FirstResearch {[}14{]} and implements the
+question-first principle: the review question is derived, not assumed.
+The generator proceeds through seven stages that move from primitives to
+a falsifiable hypothesis: (i) extraction of primitives (population,
+intervention/exposure, comparator, outcome, setting), (ii) statement of
+first-principle assumptions, (iii) construction of a mechanism model
+linking the question to the evidence landscape, (iv) articulation of the
+underlying tension the review will resolve, (v) derivation of a
+falsifiable hypothesis, (vi) specification of a minimal decisive test,
+and (vii) a novelty gate. The novelty gate is a hard gate backed by a
+Europe PMC novelty search plus a soft gate for answerability and
+decision relevance; the certificate schema carries both gate types and a
+failure-update rule stating what evidence would force revision of the
+question. Generation uses max\_tokens 8192 (evidence:
+\texttt{metawingman/scripts/generate\_review\_question\_certificate.py}).
+To assess the certificate independently of the generator's self-report,
+we ran a double-judge blind evaluation in the LLM-as-a-judge paradigm
+{[}15{]}: two judge models scored certificates with the audit,
+quality-scores, and gate fields stripped, agreement was measured with
+Pearson correlation, and the judges were DeepSeek 4.0 and GLM 4.4 in a
+smoke-test configuration (evidence:
+\texttt{docs/architecture/final-status-2026-08-18.md},
+\texttt{docs/architecture/innovation-whitepaper-2026-08-18.md}).
+
+\subsubsection{2.3 Ten-stage Socratic
+checklist}\label{ten-stage-socratic-checklist}
+
+Ten checklists, one per stage (topic, protocol, search, screening,
+extraction, appraisal, analysis, writing, reproducibility, update), each
+contain ten questions (nine mandatory, one optional). A stage may not
+begin until the mandatory questions are answered and the checklist gate
+passes; the gate is enforced by a deterministic script,
+check\_socratic\_checklist.py, which has passed full regression. The
+checklist content draws on the Cochrane Handbook {[}1{]}, PRISMA 2020
+{[}2{]}, PRISMA-S {[}3{]}, the MECIR conduct standards, the GRADE
+Handbook, the living systematic review methods of Elliott et
+al.~{[}4{]}, and the agreement interpretation bands of Landis and Koch
+{[}16{]} where kappa thresholds are referenced. The purpose of the gate
+is procedural, not epistemic: it forces the human or agent to state,
+before entering a stage, what the stage will decide and what evidence
+would change the decision.
+
+The stage-specific questions are deliberately concrete rather than
+generic. The topic checklist asks about the nearest existing review and
+the coverage gap relative to it, about the time-window volume of
+evidence, and about the falsifiable contribution sentence; the search
+checklist asks for source-specific strategies, exact dates, exports, and
+query text; the appraisal checklist asks whether every synthesized
+result has the required appraisal and whether abstentions were resolved.
+Because the checklists are JSON files with a fixed schema, they are
+versioned like code, and the gate script can be regression-tested, which
+is what allows the project to claim that all ten stages pass the same
+deterministic gate rather than a sample of them.
+
+\subsubsection{2.4 Step-level verifier}\label{step-level-verifier}
+
+Verification in MetaWingman operates at the level of individual
+methodological steps, not only finished artifacts. The appraisal stage
+is guarded by verify\_appraisal\_steps.py, a rule-based verifier
+covering ten appraisal steps; a step that fails a required check, or
+that lacks a pending human signature, triggers abstention or opens the
+human review window, never silent continuation. Appraisal judgments
+themselves are produced by a six-domain risk-of-bias classification
+component (domains: selection, detection, attrition, reporting,
+performance, other), which is described under training below.
+
+The verifier is intentionally rule-based. A learned verifier would
+itself need verification, and the project's evidence standard requires
+that a failed gate be explainable by a deterministic rule, not by a
+model's confidence. The ten steps mirror the appraisal dossier
+structure: each dossier must carry the appraisal tool used, the judgment
+per domain, the supporting anchor (a quote or table location in the
+report), the result-level scope of the judgment, and the reviewer
+signature or its explicit absence. The abstention path matters as much
+as the pass path: a step that cannot be verified is recorded as
+abstained, and the human review window is the only route that turns an
+abstention into a decision. This is the mechanism that produced the
+abstention-heavy profile observed in the VAL-3 pilot (Section 3.6).
+
+\subsubsection{2.5 Audit log and meta-update
+loop}\label{audit-log-and-meta-update-loop}
+
+Every deviation, failure, fix, reflection, question-answer pair, and
+certificate update is recorded as a JSONL event (event types: deviation,
+failure, fix, reflection, question\_answer, certificate\_update) in the
+audit log. Self-improvement is routed through a meta-update loop: a
+proposal for change must carry its source, is applied only after passing
+a human review window, and the applied entry records the commit that
+implemented it. The loop is the mechanism by which the agent's own
+failures become training signal for its configuration; at the time of
+writing this paper, eight audit-log entries had been recorded (Section
+3.8).
+
+Two design rules keep the loop from becoming a rubber stamp. First, a
+proposal without a source is not a proposal: the audit-log schema
+requires an evidence\_source field that names the failing artifact or
+measurement, and entries without one are rejected. Second, the loop
+applies to the system's configuration files and documents, not to the
+review's scientific state; a proposal can change how the next review is
+conducted, but it cannot silently rewrite an already-frozen protocol. In
+practice the recorded closures include model-registry corrections after
+a live API smoke test, a training-weights fix discovered from a crash,
+and the open-retrieval architecture verdict that replaced a provisional
+design note. These are small, honest changes, and the paper reports them
+as such rather than as evidence of general self-improvement.
+
+\subsubsection{2.6 Retrieval components}\label{retrieval-components}
+
+Two retrieval components serve the search and screening stages. The
+section-role classifier assigns a section role to each passage of a
+retrieved document so that screening and extraction can target the parts
+of a report that carry the relevant evidence. The evidence-retrieval
+component selects candidate passages for extraction. Both are trained
+models; their measured performance is reported in Section 3.2, and an
+open-set retrieval comparison that motivated keeping BM25 as the
+open-retrieval baseline is reported in Section 3.3.
+
+The two components answer different questions and are evaluated
+differently. Section-role classification is a closed-set labeling task:
+each passage receives one role, and macro-F1 against the labeled
+evaluation split is the natural metric. Evidence retrieval is a ranking
+task within a candidate set: given a review's field-plus-title query,
+rank the supporting passages, measured by MRR and P@1 on frozen
+hard-negative pairs. The distinction between candidate-set ranking and
+open retrieval is not cosmetic; Section 3.3 shows that the trained
+retrieval model, which ranks well inside a curated candidate set,
+performs at noise level when asked to retrieve from the full corpus. The
+design therefore treats the trained components as refiners of a lexical
+baseline, never as the first-stage retriever.
+
+\subsubsection{2.7 Training pipeline}\label{training-pipeline}
+
+Training data consists of 109,028 examples across two tasks (54,514 per
+task), split into train (87,264) and dev (21,764); all labels are
+deterministic weak labels produced by rules, not by models, which makes
+the labels reproducible by construction (evidence:
+\texttt{docs/architecture/training-run-report-2026-08-17.md}). The
+appraisal six-domain component has three generations. The V3 model is
+trained on rule weak labels and scored on held-out appraisal passages
+(dev macro-F1 0.8500), a measurement of consistency with the rule
+labels, not of correctness against a reference standard. A
+criterion-level evaluation (VAL-2c) scored 100 appraisal criteria
+against the task's guideline and found only slight agreement (kappa
+0.311, 95\% CI 0.191 to 0.431), which we interpreted as a mismatch
+between the judgment rules and the guideline's criteria; the component
+was then re-labeled under criterion supervision, yielding 9,906
+re-labeled records (other 8,443, selection 617, reporting 488,
+performance 145, attrition 112, detection 101). A rubric-based
+generation (rubric V2) reached dev macro-F1 0.3777 and weighted-F1
+0.871, and a generation-2 spot check on 100 items reached agreement 0.80
+with weighted-F1 0.871, with kappa not statistically meaningful because
+98\% of items fell in the majority class (other). Wherever we report
+these numbers, the claim is consistency with the corresponding labels or
+rubric, not external validity.
+
+The decision to use deterministic weak labels rather than
+model-generated labels deserves emphasis. Model-generated labels carry
+the annotator's own biases into the training signal, and a model trained
+on them reproduces those biases with high agreement; the project's data
+policy therefore treats any provider-validated JSON object as a
+candidate label, never as gold. Deterministic rules have the opposite
+property: they are cheap to audit, versionable, and their failure modes
+are legible, which is exactly what the VAL-2c evaluation exploited when
+it found the rules at odds with the guideline. The cost is that
+rule-consistency ceilings bound what the trained models can reach, and
+the rubric V2 macro-F1 of 0.3777 is the visible consequence of
+relabeling against a harder reference: the model now tracks the rubric's
+distinctions, but the majority class still dominates the macro average.
+
+\subsubsection{2.8 Validation ladder}\label{validation-ladder}
+
+Validation is organized as a six-level ladder, each level answering a
+different question:
+
+\begin{itemize}
+\tightlist
+\item
+  VAL-1: select and license-review published-review reconstruction
+  families without contaminating held-out data (first promotion: an
+  analysis-slice case from Hodgkiss et al.~{[}18{]}, BSD-3-Clause
+  materials; remaining families guard-test-only or blocked, recorded per
+  family);
+\item
+  VAL-2a: encode the AI-only repeated-run plan, the
+  published-expert/corrected-reference policy, integrity exclusions, the
+  error taxonomy, the metric set, and inference limits;
+\item
+  VAL-2b1: freeze the component-axis task manual --- scientific loss
+  weights, release thresholds, configuration and prompt hashes, and
+  stopping rules --- before any held-out model run;
+\item
+  VAL-2b2: fill and freeze reconstruction-case task manuals (first case
+  manual sealed for the analysis slice; remaining families open);
+\item
+  VAL-2c: freeze a 100-item appraisal-domain spot-check with a sealed
+  answer key and a SHA-256 manifest, and score the weak-label rules
+  against rubric-grounded judgment (kappa 0.311, Section 3.1);
+\item
+  VAL-3: run the AI-only configuration/ablation pilot (first AI-only
+  screening run reported in Section 3.6; full configuration ladder still
+  open).
+\end{itemize}
+
+Agreement metrics use Cohen's kappa {[}17{]}, interpreted with the
+Landis and Koch bands {[}16{]} introduced in Section 2.3; model-vs-model
+and judge-vs-judge comparisons are reported as Pearson correlations or
+kappa as stated per experiment. The ladder is deliberately ordered so
+that the weakest form of evidence (execution) precedes the strongest
+form currently available (deterministic reconstruction of published
+numbers); no level above VAL-1 is claimed until the lower levels pass.
+
+Two properties of the ladder matter for how its results should be read.
+First, each level measures agreement with a different reference, and the
+references are not interchangeable: agreement with rule labels does not
+imply agreement with the guideline, which is precisely the failure the
+VAL-2c result exposed. Second, the ladder does not contain an
+independent human-reference level for the appraisal component; the
+criterion-supervised relabeling of VAL-2b2 is a re-anchoring to the
+guideline, not an independent human judgment. This is a stated
+limitation of the current evidence, not an oversight, and it is repeated
+in the Discussion.
+
+\subsubsection{2.9 Reconstruction
+mechanism}\label{reconstruction-mechanism}
+
+Reconstruction follows the living systematic review principle of time
+slicing {[}4{]}: the published review's search cutoff is honored, and
+only records available before that cutoff are used. For the first
+reconstruction case, the deterministic analysis pipeline is a locked R
+pipeline (metafor engine) run three times under identical configuration;
+the three runs must agree byte-for-byte on outputs before scoring
+against the published numbers. Scoring uses declared tolerances (pooled
+effect ±0.05, CI bounds ±0.05, I² ±1.0 percentage point, study count
+exact, Egger significance side). For the ag-rdt living-update family,
+the search strategies were extracted verbatim from the published
+supplementary materials, and the later review's workbook was used as a
+read-only reference; the operational corpus is a merged, deduplicated
+slice of PubMed records and preprints assembled under a documented
+protocol (Section 3.5).
+
+Reconstruction is the project's answer to the demo problem identified in
+the Introduction. A capability claim about meta-analysis is hard to
+falsify on a synthetic example, because the correct answer is whatever
+the pipeline produced; a published review with published numbers
+supplies an external anchor. The time-slice rule keeps the exercise
+honest in the other direction: the reconstruction cannot cheat by using
+records that were not available to the original team. The same logic
+extends to the living-update family, where the reference is not a single
+number but a sequence of included-study sets across versions, and where
+the scoring tolerances are frozen before the reference is unsealed.
+
+\subsubsection{2.10 Ethics and reporting}\label{ethics-and-reporting}
+
+This study uses only published open-access literature and previously
+reported data; no human subjects were involved. All experiments were
+preregistered or protocol-frozen where the ladder requires it (VAL-3 in
+particular). Reporting follows the spirit of PRISMA 2020 {[}2{]} and
+PRISMA-S {[}3{]} for the retrieval components, adapted for a methods
+paper.
+
+\subsection{3. Results}\label{results}
+
+All numbers in Section 3 come from machine execution receipts or the
+project's result documents; each number's first occurrence names its
+evidence source. The receipts and result documents are listed in Data
+Availability.
+
+\subsubsection{3.1 Training corpus and component
+generations}\label{training-corpus-and-component-generations}
+
+The frozen training corpus contains 109,028 weakly supervised examples
+(87,264 train, 21,764 dev), all deterministically labeled (evidence:
+\texttt{docs/architecture/training-run-report-2026-08-17.md}). Table 2
+reports the appraisal six-domain component across its three generations.
+The V3 rule-weak-label model reached dev macro-F1 0.8500 (evidence:
+\texttt{docs/architecture/appraisal-step-component-results-2026-08-18.md});
+the rubric V2 generation reached macro-F1 0.3777 and weighted-F1 0.871
+(evidence:
+\texttt{docs/architecture/appraisal-rubric-v2-results-2026-08-18.md});
+the generation-2 spot check on 100 items achieved agreement 0.80 and
+weighted-F1 0.871, with kappa uninformative under the
+98\%-majority-class distribution (evidence:
+\texttt{docs/architecture/appraisal-step-component-results-2026-08-18.md}).
+The criterion-level evaluation (VAL-2c) scored 100 criteria against the
+guideline and produced kappa 0.311 (95\% CI 0.191 to 0.431), interpreted
+as a rule-vs-guideline mismatch (evidence:
+\texttt{docs/architecture/val2c-scoring-result-2026-08-18.md}); the
+resulting criterion-supervised relabeling produced 9,906 records whose
+class distribution (other 8,443, selection 617, reporting 488,
+performance 145, attrition 112, detection 101) is heavily skewed toward
+the majority class, which caps the informativeness of macro-averaged
+metrics (evidence:
+\texttt{docs/architecture/appraisal-rubric-v2-results-2026-08-18.md};
+decision in
+\texttt{docs/architecture/appraisal-task-relabeling-decision-2026-08-18.md}).
+
+Two readings of Table 2 are worth making explicit. The V3 macro-F1 of
+0.8500 is high because the model learns the rules that produced its
+labels, and the rule-labels are internally consistent by construction;
+that number says nothing about whether the rules match the guideline,
+which is the question VAL-2c answered with kappa 0.311. After
+relabeling, the rubric V2 model tracks the harder reference, and its
+weighted-F1 of 0.871 with a macro-F1 of 0.3777 reflects a task in which
+85.2\% of records fall in the other class (8,443 of 9,906); a model can
+be right on the bulk of the data while remaining weak on the rare,
+decision-relevant domains. The generation-2 spot check (agreement 0.80)
+is reported with its caveat: with 98\% of items in the majority class,
+agreement is dominated by the majority, and kappa is not a meaningful
+summary.
+
+\subsubsection{3.2 Retrieval components}\label{retrieval-components-1}
+
+The section-role classifier reached eval macro-F1 0.9995 on its
+evaluation split (evidence:
+\texttt{docs/architecture/training-run-report-2026-08-17.md}). The
+evidence-retrieval component reached candidate-set MRR 0.962 and P@1
+0.933 (evidence:
+\texttt{docs/architecture/training-run-report-2026-08-17.md};
+receipt-verified in
+\texttt{validation-output/server-download/evidence-retrieval-execution-receipt.json}
+for loss and recall). These numbers are candidate-set metrics: they
+describe ranking within a provided candidate set, not open retrieval.
+
+The section-role result at 0.9995 macro-F1 should be read as
+near-ceiling performance on a closed labeling task with a well-specified
+label scheme; it does not mean that document structure is understood in
+any general sense, only that the role of a passage is almost always
+recoverable from its text and position. The evidence-retrieval numbers
+likewise describe a narrow job, ranking the correct supporting passage
+among a small set of hard negatives built for the review's
+field-plus-title query. Both metrics are reported because they are the
+ones the components were designed and trained for; the open-set question
+is handled separately in Section 3.3.
+
+\subsubsection{3.3 Open-set retrieval
+decision}\label{open-set-retrieval-decision}
+
+Because the candidate-set numbers do not transfer to open retrieval, we
+benchmarked single-stage and two-stage retrieval on the full operational
+corpus (evidence:
+\texttt{docs/architecture/bm25-two-stage-results-2026-08-18.md} and
+\texttt{docs/architecture/retrieval-direction-evidence-2026-08-18.md}).
+BM25 single-stage (k1=1.5, b=0.75) reached MRR 0.2649, above TF-IDF
+(0.2199) and far above the trained 110M-parameter model (0.0045), which
+performed at noise level on open queries. The trained reranker was
+negative in the two-stage configuration: two-stage MRR fell
+monotonically with candidate-set size K (0.128 at K=50 to 0.058 at
+K=200). BM25 recall ceilings were 0.4300, 0.4655, and 0.5071 at K=50,
+100, and 200. Two conclusions follow. Open retrieval in MetaWingman uses
+BM25 single-stage as the baseline, and the trained reranker is reserved
+for candidate-set refinement where its MRR 0.962 applies. The 0.507
+recall ceiling at K=200 also quantifies how much evidence is unreachable
+by lexical retrieval alone, a bound the search stage must disclose.
+
+The comparison is deliberately blunt. The trained model's open-retrieval
+MRR of 0.0045 is below random ranking for practical purposes, which
+rules out using it as a first-stage retriever; and the two-stage decline
+with K shows that the reranker's errors accumulate as more distractors
+enter the candidate set, exactly the regime that open retrieval
+produces. The recall ceiling deserves the same bluntness: if lexical
+retrieval cannot surface half of the relevant records even at K=200,
+then a search built on lexical anchors alone is structurally incomplete,
+and the screening stage must either widen the anchor vocabulary or
+accept the bound with a documented rationale. These are design
+constraints measured on one corpus, and the project treats them as
+corpus-level evidence rather than universal laws.
+
+\subsubsection{3.4 First reconstruction case: Hodgkiss et
+al.~2023}\label{first-reconstruction-case-hodgkiss-et-al.-2023}
+
+The first time-sliced reconstruction case is the random-effects
+meta-analysis of peak oxygen uptake (V̇O2peak) from Hodgkiss et
+al.~{[}18{]} (doi:10.1371/journal.pmed.1004082), using the review's
+BSD-3-Clause materials and its time slice. The deterministic R pipeline
+(metafor engine) ran three times under locked configuration; all three
+runs produced identical outputs, and scoring passed every declared
+tolerance (evidence:
+\texttt{validation-output/reconstruction-runs/sci-exercise/rep-1/execution-receipt.json}
+and
+\texttt{docs/architecture/reconstruction-first-case-results-2026-08-18.md}).
+Table 3 reports the comparison. The pooled mean difference was 2.865
+versus the published 2.9 (tolerance ±0.05), the CI was 1.795 to 3.935
+versus 1.8 to 3.9, I² was 92.67\% versus 93\% (±1.0 percentage point),
+the study count matched exactly (k=16), and the Egger test was
+non-significant on the same side as published (0.483 versus 0.54). The
+declared boundary matters: this is a recomputation within the same
+metafor engine family, which demonstrates that our pipeline reproduces
+published analysis mechanics, not that any model performed the analysis.
+
+Why does this case count as evidence at all if it only re-runs a
+published analysis? Because the pipeline that produced it is the same
+pipeline the project uses for the analysis stage, with the same input
+staging, hash verification, locked environment, and scoring code. A
+reproduction that passes all five scored dimensions on a real published
+review, in three byte-identical locked runs, establishes that the
+mechanical core of the analysis stage is sound: the data staging does
+not corrupt values, the effect-size computation matches the published
+engine's conventions, and the tolerance scheme is calibrated to real
+published precision. What it does not establish is any claim about model
+capability, since no model was involved; that is why the case is
+presented as a pipeline-mechanics result and why the AI-only end-to-end
+experiment remains the decisive unfinished test.
+
+\subsubsection{3.5 Living-update family: ag-rdt (Brümmer et
+al.)}\label{living-update-family-ag-rdt-bruxfcmmer-et-al.}
+
+The second reconstruction family covers the living updates of a
+systematic review of SARS-CoV-2 antigen rapid diagnostic test (Ag-RDT)
+accuracy, published by Brümmer et al.~in 2021 {[}19{]} and updated in
+2022 {[}20{]}; the 2021 version was subsequently corrected {[}21{]}. The
+2021 review's search strategies were extracted verbatim from the
+published supplementary (S2 Text) with a date-window correction, and the
+2022 workbook (CC BY-NC-ND 4.0) was used as a read-only comparison
+reference (evidence:
+\texttt{docs/architecture/ag-rdt-living-update-case-design-2026-08-18.md}).
+The operational corpus is a merged slice of 12,498 records: 7,500 PubMed
+records retrieved via NCBI-native endpoints plus 5,000 preprint records,
+deduplicated under a documented protocol (evidence:
+\texttt{validation-output/ag-rdt-corpus/merged/execution-receipt.json}).
+A deterministic screening-chain rehearsal on this corpus showed that
+lexical term anchors retained 42\% of records, which we classify as
+triage-level retention, and abstract-level extraction coverage was
+limited (sensitivity 17.4\%, specificity 14.7\%, n 41.5\%) (evidence:
+\texttt{docs/architecture/ag-rdt-living-update-case-design-2026-08-18.md};
+receipts in
+\texttt{validation-output/ag-rdt-corpus/screened-rehearsal-v2/execution-receipt.json}).
+The low extraction coverage quantifies the ceiling of abstract-only
+processing and motivates full-text retrieval for extraction, a step the
+pipeline documents as required.
+
+The living-update family tests a different property than the first case:
+not whether a single pooled estimate can be reproduced, but whether the
+machinery of versioned evidence, search reuse, and corpus assembly works
+when the reference moves across versions. The corpus numbers are the
+measurable part of that test. The 42\% retention of the lexical anchors
+is an order of magnitude above the review's real inclusion rate, which
+is exactly the property a triage filter should have: it keeps almost
+everything that matters while cutting the pool by more than half. The
+abstract-level extraction coverage (sensitivity 17.4\%) is the
+counterweight: triage at the record level is not extraction at the field
+level, and the deterministic chain is documented as triage-plus-audit,
+with field-level extraction deferred to the full-text stage or the
+AI-assisted arm. The 2022 workbook was used read-only because its CC
+BY-NC-ND 4.0 license forbids redistribution; the comparison reference is
+therefore cited, not copied.
+
+\subsubsection{3.6 VAL-3: first AI-only screening
+pilot}\label{val-3-first-ai-only-screening-pilot}
+
+The first VAL-3 AI-only screening run used 649 frozen records, of which
+149 were gold matches (merged-corpus matches of the 2022 update's
+included studies) and 500 were non-gold (evidence:
+\texttt{docs/architecture/val3-ai-screening-pilot-results-2026-08-18.md}).
+Gold recall was 0.765 (114/149); the dominant loss was abstention (26 of
+149 gold records, 17.4\%), not false exclusion. The pipeline retained
+19.4\% of records, versus the deterministic anchors' 42\% retention, a
+substantially more conservative operating point. The pilot ran with a
+resume-friendly runner over 649 calls with one schema-repair retry
+before abstention. These numbers support feasibility of AI-first
+screening with an abstention-heavy profile; they do not establish
+equivalence with dual independent human screening.
+
+The composition of the recall loss is the pilot's most informative
+finding. Twenty-six of the 149 gold records were abstained rather than
+excluded, which means the loss is recoverable in principle: those
+records can be routed to the human review window without any
+re-screening. False exclusion, the error that cannot be recovered
+without re-running the whole screen, was not the binding constraint. The
+cost of this design is visible in the retention rate: 19.4\% is roughly
+half the deterministic anchors' 42\%, so the AI-first screen keeps a
+larger candidate pool for the human step. Whether that trade is
+acceptable depends on the review's screening volume and the price of
+missing a record; the pilot's numbers make the trade explicit rather
+than hidden in a single accuracy figure. One pilot on 649 records is a
+feasibility result, and the preregistered protocol for a full AI-only
+configuration remains the next step.
+
+\subsubsection{3.7 Cross-provider and judge
+agreement}\label{cross-provider-and-judge-agreement}
+
+A cross-provider comparison ran the same blinded set of 999 paragraphs
+through a GLM model (glm-5.2 C3) and a DeepSeek model (C3-R2) (evidence:
+\texttt{docs/architecture/glm-cross-provider-results-2026-08-18.md}).
+Section-role macro-F1 was 0.9003 for GLM versus 0.9385 for DeepSeek;
+retrieval selection accuracy was 0.96 versus 0.93; and across providers,
+Cohen's kappa on the shared 927 scored passages was 0.8723 (95\% CI
+0.8483 to 0.8964), interpreted as substantial to almost-perfect
+agreement {[}16{]}. These numbers indicate that the two providers
+largely agree on section-role assignment, which supports provider
+diversity for verification roles without claiming that either model is
+correct where both agree. The certificate double-judge smoke test
+(DeepSeek 4.0 and GLM 4.4) ran blind with audit, quality-scores, and
+gate fields stripped and agreement measured by Pearson correlation
+(evidence:
+\texttt{docs/architecture/innovation-whitepaper-2026-08-18.md}).
+
+Provider diversity is a verification strategy, not a truth oracle. If
+two independent providers assign the same section role to the same
+passage, the assignment is more likely to be right than either model
+alone, but two models can share the same systematic error, and the kappa
+of 0.8723 does not measure correctness against any reference. The point
+of the comparison is narrower: the system can run its verification roles
+on two providers and expect them to agree most of the time, which makes
+cross-provider double-checking a usable mechanism rather than a source
+of constant disagreement. The per-metric differences (0.9003 versus
+0.9385 on section-role; 0.96 versus 0.93 on retrieval selection) are
+also a reminder that provider choice moves component performance by a
+few points, which matters when a component sits at a decision boundary.
+
+\subsubsection{3.8 Audit-log closures and system-level
+evidence}\label{audit-log-closures-and-system-level-evidence}
+
+At the time of writing, eight audit-log entries had been recorded, of
+which seven carried an applied commit through the review window
+(evidence: \texttt{validation-output/audit-log.jsonl}, 8 entries; design
+in \texttt{docs/architecture/innovation-whitepaper-2026-08-18.md}). The
+ten-stage checklist gate (check\_socratic\_checklist.py) passed full
+regression across all ten stages (evidence:
+\texttt{docs/architecture/final-status-2026-08-18.md}). Table 1 maps
+each of the five components to its mechanism and its evidence.
+
+The eight entries are a process record, not a performance claim. They
+include corrections to the model registry after a live API smoke test, a
+training-weight fix, the open-retrieval verdict, the VAL-2c pivot, and
+the GLM integration lesson, each logged with its evidence source and,
+where applied, its commit. The honest reading is that the loop works as
+a bookkeeping mechanism: failures are recorded, proposals carry sources,
+and applications are traceable. Whether the loop produces durable
+capability gains is a question that requires longitudinal data the
+project does not yet have, and the paper does not claim it.
+
+\subsubsection{3.9 Comparison with
+MetaSyn}\label{comparison-with-metasyn}
+
+A task-mapping comparison against MetaSyn {[}13{]} covered 15
+review-related tasks: 6 fully covered, 7 partially covered, 2 gaps
+(evidence: \texttt{docs/architecture/final-status-2026-08-18.md}; detail
+in \texttt{docs/architecture/metasyn-adapter-design-2026-08-18.md}). We
+also audited dataset-card licensing for MetaSyn's released assets
+(MIT-annotated labels with upstream third-party terms) against MetaSyn's
+422 reviews and 140,585-record corpus (evidence:
+\texttt{docs/architecture/top-journal-contribution-story.md} for the
+corpus identity;
+\texttt{docs/architecture/metasyn-adapter-design-2026-08-18.md} for the
+license audit); the audit confirmed the license posture is compatible
+with research use but that redistribution of third-party text requires
+upstream terms.
+
+The mapping is a scoping exercise, not a head-to-head benchmark: it
+compares which tasks each system claims to cover, on the basis of
+MetaSyn's documentation and our own component inventory, without running
+either system on the other's data. The two gaps identified are
+informative because they point at machinery MetaSyn does not advertise:
+the gold-corpus evaluation axis and stage attribution of metrics, both
+of which this paper treats as load-bearing for validation. The license
+audit matters for a different reason: MetaSyn's 422-review and
+140,585-record corpus is a natural third-party evaluation axis for
+retrieval and screening components, and the audit establishes that using
+it for research evaluation is compatible with the licenses, while
+redistributing its third-party text is not.
+
+\subsection{4. Discussion}\label{discussion}
+
+MetaWingman's contribution is architectural rather than a single
+performance number: a question-first derivation step, verification at
+the level of individual methodological steps, an auditable
+self-improvement loop, and reconstruction evidence tied to published
+reviews. Each of the five components addresses a failure mode that the
+existing agent literature leaves open. FirstResearch {[}14{]} supplies
+the question-certificate mechanism we migrated; our addition is a
+double-judge blind evaluation of the certificate and its hard/soft gate
+structure. MetaSyn {[}13{]} is the closest system in scope, an agentic
+SR/MA pipeline; the task-mapping comparison (6/15 fully covered, 7/15
+partial, 2/15 gaps) locates the boundary between the two systems, and
+our gap analysis identifies where MetaSyn's coverage is incomplete
+relative to the ten-stage contract. Reflexion {[}10{]} and process
+verifiers {[}11{]} establish the self-inspection pattern that our
+step-level verifier and audit loop instantiate in the appraisal domain;
+our verifier is deterministic and rule-based by design, which trades
+flexibility for auditability.
+
+The comparison with the wider agent literature is deliberately
+conservative. Systems such as the AI Scientist {[}5{]} and AI
+Scientist-v2 {[}6{]} demonstrate what end-to-end automation looks like
+when the output is a paper and the review loop is a peer-review proxy;
+the AI co-scientist {[}7{]} shows a generate-debate-evolve loop over
+hypotheses; Agent Laboratory {[}8{]} and PRefLexOR {[}9{]} extend the
+pattern to broader research workflows. MetaWingman does not compete with
+these systems on coverage. Its claim is narrower and, we argue, more
+falsifiable: that the review's scientific contract can be enforced by
+derivation, step-level verification, and reconstruction, and that each
+of these mechanisms can be measured. Where the existing systems validate
+with demos and self-report, this paper validates with published-number
+reconstruction and execution receipts; where they improve by reflection
+over finished outputs {[}10{]}{[}12{]}, this paper improves by logged
+proposals that must carry a source and survive a review window. The two
+styles are complementary, and a production system would plausibly want
+both.
+
+Three results deserve emphasis because they run against the default
+assumptions of the field. First, the trained 110M reranker was worse
+than BM25 on open retrieval (MRR 0.0045 versus 0.2649) and actively
+harmful in two-stage configuration (0.128 to 0.058 as K grew). Training
+on candidate sets teaches discrimination within a candidate
+distribution, and that does not transfer to open queries; the paper's
+open-retrieval decision (BM25 baseline, trained reranker only in
+candidate sets) is a direct consequence of measured data, not of
+preference. Second, the VAL-2c kappa of 0.311 (95\% CI 0.191 to 0.431)
+between the rule-based appraisal judgments and the guideline's criteria
+is the single most informative negative result in the system: it shows
+that weak-label agreement (macro-F1 0.8500 against rule labels) is not
+evidence of agreement with the guideline, and it drove the
+criterion-supervised relabeling of 9,906 records. Third, the
+reconstruction of Hodgkiss et al.~{[}18{]} within tolerance on all five
+scored dimensions, with three byte-identical locked runs, demonstrates
+that the deterministic analysis chain is reproducible at the level of
+published numbers; the declared boundary (same metafor engine family) is
+what keeps this claim honest.
+
+The limitations are substantial and we state them explicitly. (1) All
+component metrics measure consistency with rule-based or rubric-grounded
+labels; none of them measures scientific validity against an independent
+human reference standard beyond the VAL-3 pilot's gold set. The rubric
+V2 macro-F1 of 0.3777 alongside weighted-F1 0.871, and the
+98\%-majority-class distribution of the relabeled data, both limit what
+macro-averaged scores can tell us. (2) The criterion-level kappa 0.311
+documents a rule-vs-guideline mismatch that was repaired by relabeling
+but not independently re-verified against human judges; the kappa itself
+has a wide confidence interval (0.191 to 0.431) reflecting
+evaluation-process variance on a 100-item sample. (3) The reconstruction
+case is a recomputation within the same statistical engine family; it
+validates pipeline mechanics, not model capability, and generalizes only
+as far as metafor-compatible analyses. (4) The VAL-3 pilot is a single
+AI-only screening run on 649 frozen records with an abstention-heavy
+profile (gold recall 0.765, retention 19.4\%); equivalence with dual
+independent human screening is not established, and the abstention loss
+(17.4\% of gold) is the main barrier to recall. (5) The abstract-level
+extraction coverage (sensitivity 17.4\%) shows that screening and
+extraction cannot rely on abstracts, and the full-text retrieval stage
+required by the pipeline was not part of the numbers reported here. (6)
+An AI-only end-to-end review, from certificate to published-numbers
+reconstruction under one protocol, remains unfinished; what we report is
+a validated assembly of components plus one locked reconstruction slice.
+(7) Cross-provider agreement (kappa 0.8723) is measured on a single
+999-paragraph set with one model per provider; it supports provider
+diversity as a verification mechanism but says nothing about absolute
+correctness. (8) The evaluation processes themselves are not yet
+independently replicated: the VAL-2c kappa, the cross-provider kappa,
+and the judge correlations each rest on one evaluation run, and the
+confidence intervals reported for the kappas quantify sampling variance,
+not replication stability.
+
+Where does the project go next? The immediate target is a complete
+AI-only end-to-end run on a preregistered case, closing the loop from
+certificate through screening, extraction, appraisal, and synthesis to a
+frozen analysis that is scored against the published reference under the
+VAL-3 protocol. The open problems are the abstention policy (26 of 149
+gold records abstained in VAL-3; recall is capped by abstention, not by
+false exclusion), the appraisal criterion gap (the kappa 0.311 class of
+failure), and the lexical recall ceiling (0.507 at K=200), which
+together determine how much of the evidence surface an AI-first pipeline
+can reach. Two further directions follow from the limitations: an
+independent human-reference study for the appraisal component, which
+would give the ladder the level it currently lacks, and a second
+reconstruction case outside the metafor engine family, which would test
+whether the pipeline-mechanics result generalizes beyond one statistical
+engine. Both are preregistration-shaped experiments, and the project's
+protocol discipline applies to them as it does to the runs reported
+here.
+
+\subsection{5. Conclusion}\label{conclusion}
+
+MetaWingman binds an SR/MA pipeline to a derived, gated question;
+verifies appraisal at the level of individual steps; records every
+failure and fix in an auditable log with a source-carrying meta-update
+loop; and validates its components through a six-level ladder that ends
+in time-sliced reconstruction of published reviews. The measured record
+supports three claims: deterministic reproduction of a published
+meta-analysis within tolerance across three locked runs; component-level
+consistency with rule- and rubric-grounded labels; and a first AI-only
+screening pilot with abstention-dominated recall loss. It does not yet
+support a claim of validated equivalence with human review, and the
+end-to-end AI-only review remains the decisive unfinished experiment.
+The design goal of the project is that every number in this paper is
+reproducible from its execution receipt, which we treat as the minimal
+standard for methods claims in this field.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Data Availability}\label{data-availability}
+
+All evidence cited in this paper is machine-generated and stored in the
+project repository under \texttt{validation-output/} (execution
+receipts, JSON) and \texttt{docs/architecture/} (result documents,
+Markdown). Key receipts: the frozen training corpus report
+(\texttt{docs/architecture/training-run-report-2026-08-17.md}),
+including section-role macro-F1 0.9995 and evidence-retrieval
+candidate-set MRR 0.962/P@1 0.933, with server receipts in
+\texttt{validation-output/server-download/section-role-execution-receipt.json}
+and \texttt{evidence-retrieval-execution-receipt.json}; appraisal
+component results
+(\texttt{docs/architecture/appraisal-step-component-results-2026-08-18.md},
+\texttt{appraisal-rubric-v2-results-2026-08-18.md},
+\texttt{val2c-scoring-result-2026-08-18.md},
+\texttt{appraisal-task-relabeling-decision-2026-08-18.md});
+open-retrieval benchmarks
+(\texttt{docs/architecture/bm25-two-stage-results-2026-08-18.md},
+\texttt{retrieval-direction-evidence-2026-08-18.md}); reconstruction
+receipts
+(\texttt{validation-output/reconstruction-runs/sci-exercise/rep-\{1,2,3\}/execution-receipt.json}
+and
+\texttt{docs/architecture/reconstruction-first-case-results-2026-08-18.md});
+the ag-rdt corpus and rehearsal receipts
+(\texttt{validation-output/ag-rdt-corpus/**/execution-receipt.json},
+\texttt{docs/architecture/ag-rdt-living-update-case-design-2026-08-18.md});
+the VAL-3 pilot
+(\texttt{docs/architecture/val3-ai-screening-pilot-results-2026-08-18.md});
+the cross-provider comparison
+(\texttt{docs/architecture/glm-cross-provider-results-2026-08-18.md});
+the certificate double-judge smoke test and the audit-log design
+(\texttt{docs/architecture/innovation-whitepaper-2026-08-18.md},
+\texttt{docs/architecture/final-status-2026-08-18.md}); the audit-log
+closures (\texttt{validation-output/audit-log.jsonl}); and the MetaSyn
+task mapping, corpus identity, and license audit
+(\texttt{docs/architecture/final-status-2026-08-18.md},
+\texttt{docs/architecture/top-journal-contribution-story.md},
+\texttt{docs/architecture/metasyn-adapter-design-2026-08-18.md}).
+Analysis code and the deterministic R reconstruction pipeline are
+versioned in the repository; the reconstruction inputs use the published
+review's BSD-3-Clause materials, and the 2022 ag-rdt workbook is used
+read-only under its CC BY-NC-ND 4.0 license. Raw PDF/XML corpora are
+kept outside Git per the project's data policy.
+
+\subsection{Ethics Declaration}\label{ethics-declaration}
+
+This study did not involve human subjects, patient data, or animal
+experiments. It uses published open-access literature, publicly released
+benchmark materials, and previously reported data. All reuse respects
+the source licenses (BSD-3-Clause for the Hodgkiss materials; CC
+BY-NC-ND 4.0 read-only for the 2022 ag-rdt workbook; MIT annotations
+with upstream third-party terms for the MetaSyn assets).
+
+\subsection{Author Contributions
+(CRediT)}\label{author-contributions-credit}
+
+{[}Placeholder author list; to be completed by the author team.{]}
+Conceptualization: {[}Author A{]}; Methodology: {[}Author A{]},
+{[}Author B{]}; Software: {[}Author A{]}, {[}Author B{]}; Validation:
+{[}Author A{]}, {[}Author B{]}; Formal analysis: {[}Author B{]}; Data
+curation: {[}Author B{]}; Writing (original draft): {[}Author A{]};
+Writing (review and editing): {[}Author A{]}, {[}Author B{]}; Project
+administration: {[}Author A{]}.
+
+\subsection{Competing Interests}\label{competing-interests}
+
+The authors declare no competing interests.
+
+\subsection{Funding}\label{funding}
+
+This work received no specific grant from any funding agency in the
+public, commercial, or not-for-profit sectors.
+
+\subsection{AI-use Statement}\label{ai-use-statement}
+
+This manuscript was drafted with AI assistance and verified against the
+project's evidence dossiers and execution receipts. All reported numbers
+originate from machine execution receipts or versioned result documents
+generated by the MetaWingman pipeline; no number was generated during
+manuscript writing. The draft follows a prespecified evidence dossier,
+and each figure was checked against its cited receipt. The ten-stage
+checklist gate and audit-log discipline of the project were applied to
+the manuscript itself.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Tables}\label{tables}
+
+\textbf{Table 1. The five components of MetaWingman, their mechanisms,
+and the evidence reported in this paper.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Component
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Mechanism
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Evidence reported
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Review Question Certificate & Seven-stage derivation (primitives to
+falsifiable hypothesis), hard novelty gate (Europe PMC) and soft
+answerability gate, failure-update rule; max\_tokens 8192 & Double-judge
+blind evaluation (DeepSeek 4.0, GLM 4.4), Pearson agreement; hard/soft
+gate structure \\
+Ten-stage Socratic checklist & Ten stages × ten questions (9 mandatory +
+1 optional); deterministic gate script & Full regression pass of
+check\_socratic\_checklist.py; sources: Cochrane Handbook, PRISMA 2020,
+PRISMA-S, MECIR, GRADE Handbook, Elliott et al. \\
+Step-level verifier & verify\_appraisal\_steps.py: ten appraisal steps,
+abstention and human-review window & Six-domain RoB classification
+component (Table 2) \\
+Audit log + meta-update loop & JSONL events
+(deviation/failure/fix/reflection/question\_answer/certificate\_update);
+source-carrying proposals applied via review window with commit recorded
+& Eight audit-log entries recorded, seven applied (Section 3.8) \\
+Retrieval components & Section-role classification; evidence retrieval &
+Section-role macro-F1 0.9995; retrieval MRR 0.962, P@1 0.933 \\
+\end{longtable}
+}
+
+\textbf{Table 2. Appraisal six-domain component across generations.} All
+labels are deterministic weak labels unless stated; metrics measure
+consistency with the stated reference, not external validity. Sources:
+\texttt{docs/architecture/appraisal-step-component-results-2026-08-18.md},
+\texttt{appraisal-rubric-v2-results-2026-08-18.md},
+\texttt{val2c-scoring-result-2026-08-18.md}.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Generation / evaluation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reference
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Metric
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Value
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+V3 (rule weak labels) & Rule labels on dev & macro-F1 & 0.8500 \\
+Rubric V2 & Rubric-grounded labels on dev & macro-F1 / weighted-F1 &
+0.3777 / 0.871 \\
+Generation-2 spot check (n=100) & Rubric-grounded labels & agreement /
+weighted-F1 & 0.80 / 0.871 \\
+VAL-2c (n=100 criteria) & Guideline criteria & Cohen's kappa (95\% CI) &
+0.311 (0.191 to 0.431) \\
+Criterion-supervised relabeling & Guideline criteria & Records
+(other/selection/reporting/performance/attrition/detection) & 9,906
+(8,443/617/488/145/112/101) \\
+\end{longtable}
+}
+
+\textbf{Table 3. Reconstruction of Hodgkiss et al.~2023 {[}18{]}:
+deterministic R pipeline versus published values.} Three locked runs
+produced byte-identical outputs (evidence:
+\texttt{validation-output/reconstruction-runs/sci-exercise/rep-1/execution-receipt.json}).
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Dimension
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reconstructed
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Published
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Tolerance
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Verdict
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Pooled MD (mL/kg/min) & 2.865 & 2.9 & ±0.05 & Pass (Δ −0.035) \\
+CI lower & 1.795 & 1.8 & ±0.05 & Pass (Δ −0.005) \\
+CI upper & 3.935 & 3.9 & ±0.05 & Pass \\
+I² & 92.67\% & 93\% & ±1.0 pp & Pass (Δ −0.33) \\
+Studies k & 16 & 16 & Exact & Pass \\
+Egger test p & 0.483 & 0.54 & Significance side & Pass (both
+non-significant) \\
+\end{longtable}
+}
+
+\textbf{Table 4. Cross-provider comparison on the same blinded set of
+999 paragraphs (evidence:
+\texttt{docs/architecture/glm-cross-provider-results-2026-08-18.md}).}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Metric
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+DeepSeek C3-R2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+GLM glm-5.2 C3
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Agreement
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Section-role macro-F1 & 0.9385 & 0.9003 & --- \\
+Retrieval selection accuracy & 0.93 & 0.96 & --- \\
+Cohen's kappa on shared 927 scored passages & --- & --- & 0.8723 (95\%
+CI 0.8483 to 0.8964) \\
+\end{longtable}
+}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Higgins JPT, et al., editors. Cochrane Handbook for Systematic Reviews
+  of Interventions, version 6. Cochrane; 2022.
+\item
+  Page MJ, et al.~PRISMA 2020. BMJ. 2021;372:n71.
+\item
+  Rethlefsen ML, et al.~PRISMA-S. Syst Rev.~2021;10:39.
+\item
+  Elliott JH, et al.~Living systematic reviews. J Clin Epidemiol. 2017.
+\item
+  Lu C, et al.~The AI Scientist. arXiv:2408.06292. 2024.
+  doi:10.48550/arXiv.2408.06292.
+\item
+  Yamada Y, et al.~AI Scientist-v2. arXiv:2504.08066. 2025.
+  doi:10.48550/arXiv.2504.08066.
+\item
+  Gottweis A, et al.~Towards an AI co-scientist. arXiv:2502.18864. 2025.
+  doi:10.48550/arXiv.2502.18864.
+\item
+  Schmidgall S, et al.~Agent Laboratory. arXiv:2501.04227. 2025.
+  doi:10.48550/arXiv.2501.04227.
+\item
+  Buehler MJ. PRefLexOR. npj. 2025. doi:10.1038/s44387-025-00003-z.
+\item
+  Shinn N, et al.~Reflexion. arXiv:2303.11366. 2023.
+  doi:10.48550/arXiv.2303.11366.
+\item
+  Setlur A, et al.~Rewarding Progress: Scaling Automated Process
+  Verifiers. In: International Conference on Learning Representations
+  (ICLR); 2025.
+\item
+  Holub M, et al.~Reflecting in the reflection: integrating a Socratic
+  questioning framework into automated AI-based question generation.
+  arXiv. 2026.
+\item
+  Xie A, Su W, Zhou Y, Liu Y, Zhang M, Ai Q. MetaSyn: a benchmark for
+  LLM agents on meta-analysis articles from Nature Portfolio.
+  arXiv:2606.17041v6. 2026. doi:10.48550/arXiv.2606.17041.
+\item
+  Wang Y. FirstResearch: auditable question formation for LLM scientific
+  discovery agents. arXiv:2607.05682. 2026.
+  doi:10.48550/arXiv.2607.05682.
+\item
+  Zheng L, et al.~Judging LLM-as-a-judge with MT-Bench and chatbot
+  arena. arXiv:2306.05685. 2023. doi:10.48550/arXiv.2306.05685.
+\item
+  Landis JR, Koch GG. The measurement of observer agreement for
+  categorical data. Biometrics. 1977;33(1):159-174. doi:10.2307/2529310.
+\item
+  Cohen J. A coefficient of agreement for nominal scales. Educ Psychol
+  Meas. 1960;20(1):37-46. doi:10.1177/001316446002000104.
+\item
+  Hodgkiss DD, Bhangu GS, Lunny C, Jutzeler CR, Chiou S-Y, Walter M, et
+  al.~Exercise and aerobic capacity in individuals with spinal cord
+  injury: a systematic review with meta-analysis and meta-regression.
+  PLoS Med. 2023;20(11):e1004082. doi:10.1371/journal.pmed.1004082.
+\item
+  Brümmer LE, Katzenschlager S, Gaeddert M, Erdmann C, Schmitz S, Bota
+  M, et al.~Accuracy of novel antigen rapid diagnostics for SARS-CoV-2:
+  a living systematic review and meta-analysis. PLoS Med.
+  2021;18(8):e1003735. doi:10.1371/journal.pmed.1003735.
+\item
+  Brümmer LE, Katzenschlager S, McGrath, et al.~Accuracy of rapid
+  point-of-care antigen-based diagnostics for SARS-CoV-2: an updated
+  systematic review and meta-analysis with meta-regression analyzing
+  influencing factors. PLoS Med. 2022;19(5):e1004011.
+  doi:10.1371/journal.pmed.1004011.
+\item
+  The PLOS Medicine Staff. Correction: accuracy of novel antigen rapid
+  diagnostics for SARS-CoV-2: a living systematic review and
+  meta-analysis. PLoS Med. 2021;18(10):e1003825.
+  doi:10.1371/journal.pmed.1003825.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\emph{Manuscript draft v1.0. Prepared with AI assistance under the
+project's AI-use policy; all figures trace to execution receipts listed
+in Data Availability. Citation order follows first appearance
+(Vancouver).}
+
+\end{document}
