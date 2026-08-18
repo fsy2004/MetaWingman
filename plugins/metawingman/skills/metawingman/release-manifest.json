@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "933f890b092a2f60eb1b58f4f0eb5dc7eeacdabe3129f30d513b2a284a68f2df",
+  "source_tree_sha256": "287d83893c7aa232fda4825873c2192d36c84f41c1d3b30467327b54b4d52233",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -47,8 +47,8 @@
   "files": [
     {
       "path": "SKILL.md",
-      "sha256": "36b2f63c24ee37b746b5d2a66f27e843774965c739daa802cfa9862956a065fa",
-      "bytes": 22224
+      "sha256": "f2f5c7deb1b65eb34f77eb39be9902d1723b8920206471a04497b62b6affa0c7",
+      "bytes": 22720
     },
     {
       "path": "agents/openai.yaml",
@@ -129,6 +129,11 @@
       "path": "references/evidence-integrity.md",
       "sha256": "b1219b7452b6fad6ee3a4d035c81024aa5ab2ead5e0b17f81c2d44f0d957f888",
       "bytes": 2698
+    },
+    {
+      "path": "references/glm-provider-config.json",
+      "sha256": "1ef791c0571993c17a37ecca3d343f66bb7d2d85d32c0ee637d898135afb4848",
+      "bytes": 446
     },
     {
       "path": "references/methodology-source-registry.md",
@@ -436,6 +441,11 @@
       "bytes": 4201
     },
     {
+      "path": "schemas/review_question_certificate.schema.json",
+      "sha256": "67397546fdb738cd680e99ad63f9212f13751f6b1f3fd4bbea0190a92b87c482",
+      "bytes": 6802
+    },
+    {
       "path": "schemas/review_state.schema.json",
       "sha256": "8df4197a8b6416733f9008961710dfbbf01f9f4ba8915e9d86756e3a73720cdc",
       "bytes": 3296
@@ -674,6 +684,11 @@
       "path": "scripts/freeze_training_dataset.py",
       "sha256": "9ee28afb741bd4d9bb96ab7c263338b93c273f148ea31e85780733713a839574",
       "bytes": 3283
+    },
+    {
+      "path": "scripts/generate_review_question_certificate.py",
+      "sha256": "3dac3e1c75e908ca3f1f71ec0a4983e70eea8d07986e2fcabc020eaec589bc7f",
+      "bytes": 12056
     },
     {
       "path": "scripts/guard_scientific_action.py",

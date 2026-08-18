@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.dev/schemas/review_question_certificate.schema.json",
+  "title": "ReviewQuestionCertificate",
+  "type": "object",
+  "required": [
+    "schema_version", "certificate_id", "created_at_utc", "topic",
+    "primitives", "first_principle_assumptions", "mechanism_model",
+    "tension", "research_question", "hypothesis", "minimal_decisive_test",
+    "expected_observations", "failure_update_rule", "novelty_gate",
+    "quality_scores", "gate", "audit"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "certificate_id": { "type": "string", "pattern": "^rqc:[0-9a-f]{64}$" },
+    "created_at_utc": { "type": "string", "format": "date-time" },
+    "topic": {
+      "type": "object",
+      "required": ["domain", "working_title", "candidate_question_text"],
+      "properties": {
+        "domain": { "type": "string" },
+        "working_title": { "type": "string" },
+        "candidate_question_text": { "type": "string" }
+      }
+    },
+    "primitives": {
+      "type": "object",
+      "required": ["population", "intervention", "comparator", "outcomes", "study_designs"],
+      "properties": {
+        "population": { "type": "string" },
+        "intervention": { "type": "string" },
+        "comparator": { "type": "string" },
+        "outcomes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "level", "timepoint"],
+            "properties": {
+              "name": { "type": "string" },
+              "level": { "enum": ["patient_important", "surrogate"] },
+              "timepoint": { "type": "string" }
+            }
+          }
+        },
+        "study_designs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "first_principle_assumptions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["statement", "justification"],
+        "properties": {
+          "statement": { "type": "string" },
+          "justification": { "type": "string" }
+        }
+      }
+    },
+    "mechanism_model": {
+      "type": "object",
+      "required": ["exposure", "outcome", "pathway_nodes", "summary"],
+      "properties": {
+        "exposure": { "type": "string" },
+        "outcome": { "type": "string" },
+        "pathway_nodes": { "type": "array", "items": { "type": "string" } },
+        "moderators": { "type": "array", "items": { "type": "string" } },
+        "summary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "tension": {
+      "type": "object",
+      "required": ["type", "description", "evidence_sources"],
+      "properties": {
+        "type": {
+          "enum": [
+            "guideline_discord", "direction_inconsistency", "heterogeneity",
+            "outdated_evidence", "evidence_gap"
+          ]
+        },
+        "description": { "type": "string" },
+        "evidence_sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["url_or_doi", "fetched"],
+            "properties": {
+              "url_or_doi": { "type": "string" },
+              "fetched": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "research_question": { "type": "string", "minLength": 1 },
+    "hypothesis": {
+      "type": "object",
+      "required": ["direction", "falsifiable_statement", "heterogeneity_pattern"],
+      "properties": {
+        "direction": { "type": "string" },
+        "magnitude": { "type": "string" },
+        "falsifiable_statement": { "type": "string", "minLength": 1 },
+        "heterogeneity_pattern": { "type": "string" }
+      }
+    },
+    "minimal_decisive_test": {
+      "type": "object",
+      "required": ["description", "rejection_observation", "evidence_required"],
+      "properties": {
+        "description": { "type": "string" },
+        "rejection_observation": { "type": "string", "minLength": 1 },
+        "evidence_required": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "expected_observations": { "type": "array", "items": { "type": "string" } },
+    "failure_update_rule": {
+      "type": "object",
+      "required": ["negative_result_action", "description"],
+      "properties": {
+        "negative_result_action": {
+          "enum": ["downgrade_narrative", "subgroup_refocus", "terminate"]
+        },
+        "description": { "type": "string" }
+      }
+    },
+    "novelty_gate": {
+      "type": "object",
+      "required": ["existing_reviews", "gap_statement", "verdict"],
+      "properties": {
+        "existing_reviews": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["title", "source", "identifier"],
+            "properties": {
+              "title": { "type": "string" },
+              "source": { "type": "string" },
+              "identifier": { "type": "string" },
+              "overlap_note": { "type": "string" }
+            }
+          }
+        },
+        "gap_statement": { "type": "string" },
+        "time_window": {
+          "type": "object",
+          "properties": { "start": { "type": "string" }, "end": { "type": "string" } }
+        },
+        "verdict": { "enum": ["novel", "incremental", "covered"] },
+        "live_update_eligible": { "type": "boolean" }
+      }
+    },
+    "quality_scores": {
+      "type": "object",
+      "required": ["derivation", "falsifiability", "mechanism_clarity", "novelty", "experimentability", "average"],
+      "properties": {
+        "derivation": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "falsifiability": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "mechanism_clarity": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "novelty": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "experimentability": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "average": { "type": "number", "minimum": 0, "maximum": 5 }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "required": ["passed", "hard_failures", "soft_repairs"],
+      "properties": {
+        "passed": { "type": "boolean" },
+        "hard_failures": { "type": "array", "items": { "type": "string" } },
+        "soft_repairs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "required": ["provider", "model", "prompt_sha256s", "provider_content_sha256"],
+      "properties": {
+        "provider": { "type": "string" },
+        "model": { "type": "string" },
+        "prompt_sha256s": { "type": "object", "additionalProperties": { "type": "string" } },
+        "provider_content_sha256": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": false
+}
