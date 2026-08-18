@@ -28,18 +28,23 @@ Extracted 2026-08-18 from PLoS Med 18(8):e1003735 + supplement S2 Text
 |---|---|---|---|
 | bioRxiv+medRxiv | Europe PMC (native EPMC syntax from S2 Text) | `strategy-preprints.json` | ✅ **5,000 records** (cap hit — more available), receipt + hashes |
 | PubMed | NCBI eutils (native PubMed syntax, verbatim strategy) | `strategy-pubmed-ncbi.json` | ✅ **7,500 records** (esearch true count, 244 s; 92.9% with abstract), receipt `records_sha256 bff472a2…` |
-| PubMed (EPMC translated query) | Europe PMC | `strategy-pubmed-epmc.json` | ⏳ background job `pwsh-4` (slow pages/retries; kept for cross-engine reconciliation) |
+| PubMed (EPMC translated query) | Europe PMC | `strategy-pubmed-epmc.json` | ❌ **rejected variant**: single-page hitCount **69,289** vs NCBI native **7,500** — the tag-stripped/MESH: translation over-matches by an order of magnitude; full download killed, count-level evidence recorded |
 | Web of Science Core | not executable locally (no WoS API access) | verbatim TS= string in strategy file | ⛔ recorded limitation |
 | FIND website | manual browsing in the review | n/a | ⛔ not reconstructible from a string (uncertainty[4]) |
 
 ## 3. Coverage boundary (must travel with every downstream report)
 
-The corpus covers **PubMed/MEDLINE + bioRxiv/medRxiv preprints** retrievable
-via Europe PMC. It does NOT cover Web-of-Science-only records or FIND manual
-additions; the 2022 update (194 studies) drew on the same source set, so the
-corpus is a subset, not an equal, of the update's evidence base. Screening
-agreement against the sealed 2022 workbook is therefore evaluated on the
-covered slice only.
+The corpus covers **PubMed/MEDLINE (native NCBI execution, 7,500 records) +
+bioRxiv/medRxiv preprints (5,000 cap hit)**. It does NOT cover
+Web-of-Science-only records or FIND manual additions; the 2022 update (194
+studies) drew on the same source set, so the corpus is a subset, not an
+equal, of the update's evidence base. Screening agreement against the sealed
+2022 workbook is therefore evaluated on the covered slice only.
+
+**Engine lesson (recorded)**: the Europe PMC tag-stripped translation of the
+PubMed strategy over-matched by ~9× (hitCount 69,289 vs 7,500 native).
+Native PubMed syntax must be executed on NCBI eutils, not translated for
+Europe PMC. The verbatim strategy string remains the audit artifact.
 
 ## 4. Next steps
 
