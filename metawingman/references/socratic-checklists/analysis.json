@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "stage": "analysis",
+  "title": "Socratic checklist — quantitative synthesis & certainty (分析)",
+  "rationale": "Questions the agent must answer before and during synthesis; each answer is recorded for the gate. Sources are chapter/item-level references.",
+  "items": [
+    {
+      "id": "analysis-01",
+      "question": "Is the effect measure and scale chosen to match the outcome type and the certificate's hypothesis?",
+      "rationale": "Mismatched effect measures (e.g., OR for common outcomes) distort interpretation.",
+      "source": "Cochrane Handbook v6 Ch.6 (choosing effect measures)",
+      "answer_format": "outcome -> measure mapping with justification",
+      "gate": "required"
+    },
+    {
+      "id": "analysis-02",
+      "question": "Is the synthesis model (fixed/random/multilevel) pre-specified and consistent with the study design structure?",
+      "rationale": "Model choice changes point estimates and CI widths; post-hoc switching is p-hacking.",
+      "source": "Cochrane Handbook v6 Ch.10 (random-effects); Ch.23 (multilevel)",
+      "answer_format": "pre-registered model + design structure it reflects",
+      "gate": "required"
+    },
+    {
+      "id": "analysis-03",
+      "question": "Is heterogeneity reported (I2, tau2, prediction interval) and interpreted clinically, not just numerically?",
+      "rationale": "A numeric I2 without clinical interpretation misleads readers.",
+      "source": "Cochrane Handbook v6 Ch.10 (heterogeneity)",
+      "answer_format": "estimates + clinical interpretation",
+      "gate": "required"
+    },
+    {
+      "id": "analysis-04",
+      "question": "Is the pooling decision based on clinical, methodological, and statistical poolability — never on 'tools available'?",
+      "rationale": "Pooling incomparable studies produces meaningless estimates.",
+      "source": "Cochrane Handbook v6 Ch.12 (Synthesis Without Meta-analysis, SWiM); Ch.10",
+      "answer_format": "three-dimension poolability judgment per comparison",
+      "gate": "required"
+    },
+    {
+      "id": "analysis-05",
+      "question": "Are small-study effects and reporting bias assessed (funnel, Egger-type, PET-PEESE) and interpreted with the known caveats?",
+      "rationale": "Small-study effects are a leading cause of exaggerated pooled effects.",
+      "source": "Cochrane Handbook v6 Ch.13 (reporting bias)",
+      "answer_format": "methods used + caveat-aware interpretation",
+      "gate": "required"
+    },
+    {
+      "id": "analysis-06",
+      "question": "Are sensitivity and influence analyses (leave-one-out, model switching, high-RoB exclusion) pre-specified and executed?",
+      "rationale": "Unplanned sensitivity analysis is indistinguishable from specification search.",
+      "source": "Cochrane Handbook v6 Ch.10.14 (sensitivity)",
+      "answer_format": "pre-registered set + executed results",
+      "gate": "required"
+    },
+    {
+      "id": "analysis-07",
+      "question": "Are subgroup and meta-regression analyses limited to the certificate's pre-specified moderators (to control multiplicity)?",
+      "rationale": "Exploratory subgroup fishing inflates false positives.",
+      "source": "Cochrane Handbook v6 Ch.10.11 (subgroup/meta-regression caveats)",
+      "answer_format": "prespecified moderator list + any post-hoc analyses flagged",
+      "gate": "required"
+    },
+    {
+      "id": "analysis-08",
+      "question": "For network meta-analysis: are transitivity and consistency assumptions checked (node splitting, design-by-treatment)?",
+      "rationale": "NMA without transitivity/consistency checks is unreliable.",
+      "source": "Cochrane Handbook v6 Ch.11 (NMA)",
+      "answer_format": "assumption checks + results",
+      "gate": "required_if_nma"
+    },
+    {
+      "id": "analysis-09",
+      "question": "Is certainty (GRADE) assessed per outcome across the five domains, with every downgrade/upgrade recorded with a reason?",
+      "rationale": "Undocumented GRADE decisions make certainty claims unfalsifiable.",
+      "source": "GRADE Handbook (five domains); Cochrane Handbook v6 Ch.14",
+      "answer_format": "per-outcome domain table with reasons",
+      "gate": "required"
+    },
+    {
+      "id": "analysis-10",
+      "question": "Do the conclusions match the certainty of evidence (no over-claiming beyond the GRADE level)?",
+      "rationale": "Overstated conclusions are the most common review-level error.",
+      "source": "GRADE Handbook (recommendations); PRISMA 2020 item 24c",
+      "answer_format": "conclusion -> certainty level mapping",
+      "gate": "required"
+    }
+  ]
+}
