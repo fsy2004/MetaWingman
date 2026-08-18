@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "287d83893c7aa232fda4825873c2192d36c84f41c1d3b30467327b54b4d52233",
+  "source_tree_sha256": "695ddbf0c08ede467fbc0751d8e44ee9871b908c4d383f23d7a72d7faa639629",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -159,6 +159,21 @@
       "path": "references/search-retrieval-and-apis.md",
       "sha256": "67cc8d84df0274f9273528d8cd2c9bd801197f9c204965b4b180e51d9c01c6f1",
       "bytes": 5082
+    },
+    {
+      "path": "references/socratic-checklists/analysis.json",
+      "sha256": "d65d305ed30807339022fc6d7eaa4e488bcd6837512b34470889c739cd243996",
+      "bytes": 4633
+    },
+    {
+      "path": "references/socratic-checklists/appraisal.json",
+      "sha256": "0e586953300a92164cc1c52766b5f92e17effabc8d93fb115a9e9508edb3ffa0",
+      "bytes": 4045
+    },
+    {
+      "path": "references/socratic-checklists/screening.json",
+      "sha256": "aaf72067e50e93004a3eb709514553332395da49825d1459e312ab591522506c",
+      "bytes": 4622
     },
     {
       "path": "references/source-provenance.md",
@@ -609,6 +624,11 @@
       "path": "scripts/check_observation.py",
       "sha256": "b53fb654c785be443df6c519d125b1bcb583d024e831c7044d426c274b6ce449",
       "bytes": 2014
+    },
+    {
+      "path": "scripts/check_socratic_checklist.py",
+      "sha256": "7c1dcd7bda918f992a4124b33dc585fc4aa6f37a3681dd5aa1b90d99ce61fcee",
+      "bytes": 2867
     },
     {
       "path": "scripts/cluster_review_families.py",
