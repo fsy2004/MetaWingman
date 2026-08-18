@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "ed97432c3f3a1669effb2b96d171b1867949d0f881e0ff544479038270451160",
+  "source_tree_sha256": "fe8f199401d8cefc79c9193002866a1a04c7985828ad32b4b39d9f6a8a23b43b",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -249,6 +249,11 @@
       "path": "schemas/appraisal_step_verification_report.schema.json",
       "sha256": "216be4320a54369d39a1ff70e8489ca756b4ed94ea2c5c84a1874c39efe14343",
       "bytes": 1488
+    },
+    {
+      "path": "schemas/audit_log_entry.schema.json",
+      "sha256": "6a65241e5a6007e714aeb05cf9c21050631aac0e100647213dea00354e63210c",
+      "bytes": 1673
     },
     {
       "path": "schemas/benchmark_candidate_registry.schema.json",
@@ -1624,6 +1629,11 @@
       "path": "scripts/recalculate_effect.py",
       "sha256": "298e10f52e42a4c5aab7085af8a601ddf21787e2a44ceb43b4c638c3b3890253",
       "bytes": 2055
+    },
+    {
+      "path": "scripts/record_audit_log.py",
+      "sha256": "b1ecd20e05c19cc063f8425debd7b3550f6fe2db6fffb8f401c127f31f0a40c5",
+      "bytes": 5573
     },
     {
       "path": "scripts/record_event.py",

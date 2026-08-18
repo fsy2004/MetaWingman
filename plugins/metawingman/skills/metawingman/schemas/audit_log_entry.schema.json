@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.dev/schemas/audit_log_entry.schema.json",
+  "title": "AuditLogEntry",
+  "type": "object",
+  "required": ["schema_version", "entry_id", "timestamp_utc", "stage", "event_type", "description", "proposed_update"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "entry_id": { "type": "string", "pattern": "^audit:[0-9a-f]{64}$" },
+    "timestamp_utc": { "type": "string", "format": "date-time" },
+    "stage": {
+      "enum": ["topic", "protocol", "search", "screening", "extraction", "appraisal", "analysis", "writing", "review", "update", "meta"]
+    },
+    "event_type": {
+      "enum": ["deviation", "failure", "fix", "reflection", "question_answer", "certificate_update"]
+    },
+    "description": { "type": "string", "minLength": 1 },
+    "evidence_source": {
+      "type": ["string", "null"],
+      "description": "URL/DOI actually fetched or local file path + line number actually read"
+    },
+    "proposed_update": {
+      "type": "object",
+      "required": ["target_file", "section", "new_text", "rationale", "source"],
+      "properties": {
+        "target_file": { "type": "string", "minLength": 1 },
+        "section": { "type": "string" },
+        "new_text": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
+        "source": { "type": "string", "minLength": 1 }
+      }
+    },
+    "applied": { "type": "boolean", "default": false },
+    "applied_at_utc": { "type": ["string", "null"], "format": "date-time" },
+    "applied_commit": { "type": ["string", "null"] }
+  },
+  "additionalProperties": false
+}
