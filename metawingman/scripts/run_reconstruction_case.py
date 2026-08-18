@@ -149,8 +149,34 @@ def run_r_call(adapter: Path, workdir: Path, toolkit: Path, call: dict, inputs: 
     return sorted(out_dir.glob("*.csv")) + sorted(out_dir.glob("*.pdf")) + sorted(out_dir.glob("*.png"))
 
 
+def _find_estimate(ref: dict, metric: str) -> dict | None:
+    """Return the first reference estimate whose metric name contains the token."""
+    for entry in ref.get("estimates", []):
+        if metric in (entry.get("metric") or ""):
+            return entry
+    return None
+
+
+def _num(value) -> float | None:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def compare_to_reference(case: dict, workdir: Path) -> dict:
-    """Score the deterministic outputs against the sealed reference answers."""
+    """Score the deterministic outputs against the sealed reference answers.
+
+    Concrete mapping for the sci-exercise reference schema (metric names are
+    those of the sealed extractor file):
+      summary.est -> pooled_MD.value            (tolerance: pooled_est)
+      summary.ci.lb -> pooled_MD.ci_low          (tolerance: ci_bounds)
+      summary.ci.ub -> pooled_MD.ci_high         (tolerance: ci_bounds)
+      summary.I2 -> heterogeneity_I2_percent.value (tolerance: i2_pp)
+      summary.tau2 -> tau2.value                 (tolerance: tau2; often null in ref)
+      summary.k -> n_studies_rct_intervention_arms.value (exact if enabled)
+      egger.csv -> egger_z / egger_p (significance-side agreement if enabled)
+    """
     ref_path = Path(case["reference_answers"]["package_path"])
     expected = case["reference_answers"]["sha256"]
     if expected and sha256_file(ref_path) != expected:
@@ -164,28 +190,66 @@ def compare_to_reference(case: dict, workdir: Path) -> dict:
         return {"scored": False, "reason": "summary.csv empty"}
     ours = rows[0]
     tol = case["tolerances"]
-    agreements = {}
-    for metric in ("est", "ci.lb", "ci.ub", "tau2"):
-        ref_val = next((e["value"] for e in ref.get("estimates", []) if e.get("metric") == f"pooled_{metric}"), None)
-        # reference file uses its own metric naming; fall back to a tolerant lookup
-        if ref_val is None:
-            for e in ref.get("estimates", []):
-                if metric in (e.get("metric") or "") and e.get("value") is not None:
-                    ref_val = e["value"]
-                    break
-        if ref_val is None:
-            agreements[metric] = {"reference_missing": True}
-            continue
-        ours_val = float(ours[metric])
-        key = "ci_bounds" if metric in ("ci.lb", "ci.ub") else ("i2_pp" if metric == "I2" else metric)
-        limit = tol.get(key, tol.get(metric, 0))
-        agreements[metric] = {
-            "ours": ours_val, "reference": ref_val,
-            "abs_delta": round(ours_val - ref_val, 6),
+
+    def agree(ours_value: float, ref_value: float, key: str) -> dict:
+        limit = tol[key]
+        return {
+            "ours": ours_value,
+            "reference": ref_value,
+            "abs_delta": round(ours_value - ref_value, 6),
             "tolerance": limit,
-            "within_tolerance": abs(ours_val - ref_val) <= limit,
+            "within_tolerance": abs(ours_value - ref_value) <= limit,
         }
-    return {"scored": True, "agreements": agreements}
+
+    agreements: dict = {}
+    for our_key, ref_metric, tol_key, ref_field in (
+        ("est", "pooled_MD", "pooled_est", "value"),
+        ("ci.lb", "pooled_MD", "ci_bounds", "ci_low"),
+        ("ci.ub", "pooled_MD", "ci_bounds", "ci_high"),
+        ("I2", "heterogeneity_I2_percent", "i2_pp", "value"),
+        ("tau2", "tau2", "tau2", "value"),
+    ):
+        entry = _find_estimate(ref, ref_metric)
+        ref_val = _num(entry.get(ref_field)) if entry else None
+        ours_val = _num(ours.get(our_key))
+        if ours_val is None or ref_val is None:
+            agreements[our_key] = {"reference_missing": ref_val is None, "ours_missing": ours_val is None}
+            continue
+        agreements[our_key] = agree(ours_val, ref_val, tol_key)
+
+    if tol.get("study_count_exact"):
+        entry = _find_estimate(ref, "n_studies_rct_intervention_arms")
+        ref_k = _num(entry.get("value")) if entry else None
+        our_k = _num(ours.get("k"))
+        agreements["k"] = {
+            "ours": our_k, "reference": ref_k,
+            "exact_match": our_k is not None and ref_k is not None and int(our_k) == int(ref_k),
+        }
+
+    egger_csv = workdir / "egger" / "egger.csv"
+    if egger_csv.is_file():
+        egger_rows = list(csv.DictReader(egger_csv.open(encoding="utf-8")))
+        if egger_rows:
+            our_p = _num(egger_rows[0].get("p"))
+            ref_entry = _find_estimate(ref, "egger_p")
+            ref_p = _num(ref_entry.get("value")) if ref_entry else None
+            our_z = _num(egger_rows[0].get("statistic"))
+            ref_z_entry = _find_estimate(ref, "egger_z")
+            ref_z = _num(ref_z_entry.get("value")) if ref_z_entry else None
+            side = tol.get("egger_significance_side")
+            agreements["egger"] = {
+                "ours_z": our_z, "reference_z": ref_z,
+                "ours_p": our_p, "reference_p": ref_p,
+                "significance_side_agreement": (
+                    None if side is not True or our_p is None or ref_p is None
+                    else (our_p < 0.05) == (ref_p < 0.05)
+                ),
+            }
+
+    passed = all(
+        v.get("within_tolerance", True) for v in agreements.values() if isinstance(v, dict)
+    ) and agreements.get("k", {}).get("exact_match", True)
+    return {"scored": True, "passed": bool(passed), "agreements": agreements}
 
 
 def main() -> int:

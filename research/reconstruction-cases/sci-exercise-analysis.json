@@ -3,7 +3,7 @@
   "case_id": "sci-exercise-rvo2-rct-analysis",
   "review_family_id": "spinal-cord-exercise",
   "split": "dev",
-  "status": "case_drafted_answer_pending",
+  "status": "sealed",
   "task": "analysis_slice",
   "notes": "Reconstruction slice defined by RVO2_RCT.R (repo jutzca/Exercise-and-fitness-in-SCI @ 58f690c0847d5d099fef98141d706fc5c24d94ed, BSD-3-Clause): read RCTS_DATA.xlsx sheet 2, escalc MD, rma random-effects (REML, z-test), forest, Egger regression. Scope is analysis only; search/screening reconstruction is explicitly out of scope (month-precision cutoff; no screening labels).",
   "input_artifact": {
@@ -30,11 +30,13 @@
     "pooled_est": 0.05,
     "ci_bounds": 0.05,
     "i2_pp": 1.0,
-    "tau2": 0.05
+    "tau2": 0.05,
+    "study_count_exact": true,
+    "egger_significance_side": true
   },
   "reference_answers": {
-    "package_path": "validation-output/benchmark-materials/sci-exercise-analysis/sealed-reference/reported-estimates.draft.json",
-    "sha256": null,
+    "package_path": "validation-output/benchmark-materials/sci-exercise-analysis/sealed-reference/reported-estimates.sealed.json",
+    "sha256": "3d9f643dc819f7f5fc0bb83f0163bac218ef5deb704bd9aca692205004b591d5",
     "sealed_until_all_locks": true
   },
   "boundary": {

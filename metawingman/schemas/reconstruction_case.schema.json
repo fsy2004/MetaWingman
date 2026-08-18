@@ -58,7 +58,9 @@
         "pooled_est": {"type": "number", "minimum": 0},
         "ci_bounds": {"type": "number", "minimum": 0},
         "i2_pp": {"type": "number", "minimum": 0},
-        "tau2": {"type": "number", "minimum": 0}
+        "tau2": {"type": "number", "minimum": 0},
+        "study_count_exact": {"type": "boolean"},
+        "egger_significance_side": {"type": "boolean"}
       }
     },
     "reference_answers": {
