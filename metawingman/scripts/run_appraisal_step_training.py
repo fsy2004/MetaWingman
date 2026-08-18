@@ -103,7 +103,8 @@ def train(
         pairs = records_to_pairs(records)
         dataset = Dataset.from_list(pairs)
         datasets[split] = dataset.map(
-            lambda batch: tokenizer(batch["text"], truncation=True, max_length=max_length), batched=True
+            lambda batch: tokenizer(batch["text"], padding="max_length", truncation=True, max_length=max_length),
+            batched=True,
         )
 
     weights = _inverse_frequency_weights([item["label"] for item in records_to_pairs(train_records)])
