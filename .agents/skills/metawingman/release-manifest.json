@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "695ddbf0c08ede467fbc0751d8e44ee9871b908c4d383f23d7a72d7faa639629",
+  "source_tree_sha256": "ed97432c3f3a1669effb2b96d171b1867949d0f881e0ff544479038270451160",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -244,6 +244,11 @@
       "path": "schemas/appraisal_framework_adapter.schema.json",
       "sha256": "5c0b8e6e35d886d42d1f8a1d1442319ec6a483b0c9529435c944db3da91e8de1",
       "bytes": 2298
+    },
+    {
+      "path": "schemas/appraisal_step_verification_report.schema.json",
+      "sha256": "216be4320a54369d39a1ff70e8489ca756b4ed94ea2c5c84a1874c39efe14343",
+      "bytes": 1488
     },
     {
       "path": "schemas/benchmark_candidate_registry.schema.json",
@@ -1684,6 +1689,11 @@
       "path": "scripts/validate_project.py",
       "sha256": "f15fad4535ec44ba3b350bafcae8bece35f4e0721ff07c7b26046c82cd5e7e9f",
       "bytes": 13544
+    },
+    {
+      "path": "scripts/verify_appraisal_steps.py",
+      "sha256": "39c41d78e76ecf79b3217b3cef79965644632ba48261f1c0de1500a5d86de2f1",
+      "bytes": 6304
     },
     {
       "path": "scripts/verify_citations.py",
