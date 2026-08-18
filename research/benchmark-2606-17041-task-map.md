@@ -117,7 +117,15 @@ MetaWingman 对照侧（已核实存在）：
 ### Gap 1（最重要）：无黄金评测语料库（离线、PubMed 锚定、含硬负例）
 - 对方：422 个专家 curated meta 分析实例，每实例含研究问题、PI/ECO 结构、检索策略与日期边界、纳入/排除标准、**黄金纳入文章清单**、结论方向标签与关键发现；共享 140,585 篇 PubMed 语料含 8,674 正例与 131,911 个"topically similar 但 PI/ECO 不合格"的硬负例（v1 §3.4 数字）。
 - 我方：MetaWingman 全部为 live 流程（live 检索 + 人机双筛），没有任何离线 benchmark 语料可供定量评测组件。
-- 建议：**值得补**。接入官方数据集（HuggingFace `THUIR/MetaSyn`，GitHub 代码 MIT 许可——数据集卡片因本次超时未读取，其许可状态 not verified）作为 MetaWingman 组件的第三方评测基准：把 search/screening/writing 阶段接到 MetaSyn 评测器，产出与论文可比的 R@K / Inc.R / Inc.P / Scr.A 分数。这是把 MetaWingman"流程完备但无分数"变成"可与 SOTA 基线比较"的最低成本路径。
+- 建议：**值得补**。接入官方数据集（HuggingFace `THUIR/MetaSyn`）作为 MetaWingman 组件的第三方评测基准：把 search/screening/writing 阶段接到 MetaSyn 评测器，产出与论文可比的 R@K / Inc.R / Inc.P / Scr.A 分数。这是把 MetaWingman"流程完备但无分数"变成"可与 SOTA 基线比较"的最低成本路径。
+
+**数据集卡核实（2026-08-18，经 HF API + 数据集卡 README 实际获取）**：
+- 整体 `license: other`；**项目自建标注为 MIT**；PubMed 元数据/摘要、综述摘录、官方 PMC 派生段落**保留上游条款**；语料**不含**任何封闭出版商页面文本（README "Licensing and provenance" 原文）。
+- 规模：422 篇 Nature Portfolio 源综述（336 训练 / 86 测试）+ 共享 140,585 篇 PubMed 语料；7,374 条综述-文章链接（7,187 篇唯一文章）；宏平均标题匹配率 51.6%（测试集 67.7%）——**参考集本身有缺口，Inc.R 天花板受限于此**。
+- 构造：约 50 名标注者筛 34,375 候选；每条保留记录二次人工核查；GLM-4.6 起草 PI/ECO 字段、人工修正（README 原文）。
+- 关键机制：`source_review_corpus_ids` 必须在 top-K 截断前移除；测试集链接文章已从检索器正例训练对排除。
+- 效应量字段为字符串（数字/区间/NR 混合）——效应量对比需先解析。
+- **接入判定**：标注 + PubMed 元数据可按 MIT/上游条款用于评测；正式纳入前需按项目惯例做一次许可清单存档（not yet done）。
 
 ### Gap 2：端到端纳入清单评分 + 阶段归因诊断
 - 对方：Inc.R/Inc.P/Inc.F1 对黄金清单；conditional_retention / post_retrieval_loss 把"检索后遗漏"与"筛选丢弃"分离；token 用量作检索深度诊断。
@@ -138,7 +146,7 @@ MetaWingman 对照侧（已核实存在）：
 ## 5. 诚实声明（not verified 清单）
 
 以下内容**未获取到**，本文件未据此做任何断言，如后续需要请补充获取：
-- **HuggingFace 数据集卡**（`datasets/THUIR/MetaSyn`）：读取连接超时，字段级说明与数据集许可协议 **not verified**（GitHub 代码与项目自带标注为 MIT，README 原文；PubMed/PMC 内容保留上游条款）。
+- **HuggingFace 数据集卡**（`datasets/THUIR/MetaSyn`）：**2026-08-18 已补获取**（HF API 元数据 + 数据集卡 README 全文，经本地代理）。许可/规模/构造已核实（见 Gap 1 附录）；字段级说明已记录（Review fields / Corpus fields 表）。
 - **v6 附录 F.2 / G.3 / C 的逐字内容**：仅凭 §4.3 正文引用（ρ=+0.82、Inc.C/SQ 描述性等）与 v1 摘要转述，附录正文 **not verified**。
 - **Table 4 的具体数值表**与实验细节（检索深度、token 用量的具体数字）：本次任务范围外，未逐表核实。
 - **v1 与 v6 之间所有数字差异**（422 vs 442 实例、91.7% vs 90.9% R@200、51.2% vs 52.7% 纳入召回）未逐项核对原因；本文件一律以 **v6** 为准并明确标注。
