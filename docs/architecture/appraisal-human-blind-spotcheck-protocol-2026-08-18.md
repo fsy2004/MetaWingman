@@ -66,6 +66,13 @@ in the manifest (`claim_policy`) and is binding on every downstream report.
 4. Two independent raters are preferred; single-rater mode is acceptable for a
    first spot-check but must be reported as such.
 
+**Tooling:** `metawingman/scripts/rate_blind_spotcheck.py`
+- `export` writes a one-row-per-task rating sheet (TSV: task_id / label /
+  flattened passage; the original passage stays in the questions JSONL).
+- `score` reads the filled sheet + the sealed key and computes Cohen's kappa,
+  approximate 95% CI (Fleiss SE), per-class agreement, and a confusion
+  matrix — the key is never printed, only aggregate statistics.
+
 ## 5. Metrics and interpretation
 
 - **Agreement:** Cohen's kappa (quadratic weighting is NOT used; the six
