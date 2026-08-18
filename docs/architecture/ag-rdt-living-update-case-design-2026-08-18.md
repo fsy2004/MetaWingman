@@ -98,7 +98,7 @@ audit; field-level extraction for the case requires the full-text stage
 |---|---|---|---|
 | 1 | Inventory and hash the immutable 2022 heiDATA files | ✅ **resolved** | one file, 674,749 bytes, file DOI 10.11588/DATA/T3MIB0/FIDTR9; repository MD5 `8541981cc4ec230b2a8c67e885fac4a6` verified on fetch; local SHA-256 `b5683efa9fa4577179124663de3d0a3517811cbbbb71e8e53fe3c91e02647085`; V1.0→V1.1 rename-only (same MD5/storageIdentifier), no V2 |
 | 2 | Verify the later repository license | ✅ **resolved** | **CC BY-NC-ND 4.0** (both versions, termsOfUse field) — NOT CC BY: non-commercial, no derivatives → read-only reference, not redistributable; recorded in the material plan (`controlled_terms`) |
-| 3 | Construct a pre-update operational corpus that excludes later evidence | ⛔ open, no local action possible yet | contract: candidate records with search-date metadata ≤ 2021-08-31; post-cutoff records identified and sealed out; constructed only after blockers 1-2 resolve |
+| 3 | Construct a pre-update operational corpus that excludes later evidence | ✅ **resolved 2026-08-18** | corpus built + frozen: PubMed 7,500 (native NCBI) + preprints 5,000 (cap) → merged 12,498, freeze manifest `validation-output/ag-rdt-corpus/freeze-manifest.json`; coverage boundary (no WoS/FIND) recorded |
 
 ## 5. Freeze note
 
