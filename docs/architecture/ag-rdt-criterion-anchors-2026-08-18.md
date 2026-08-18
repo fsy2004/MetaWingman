@@ -34,8 +34,12 @@ exclude (exc-tiny-sample) as expected (run log in validation-output).
 
 ## 4. Review gate
 
-Before the living-update case seals: (a) re-check anchors against
-`research/ag-rdt-eligibility-criteria-2021.json` line by line; (b) check the
-2021-10-13 correction (PLoS Med 18(10):e1003825) for eligibility-relevant
-changes (open item from the extraction's uncertainty[6]); (c) freeze the
-anchors with SHA-256 in the case spec.
+- (a) line-by-line re-check against
+  `research/ag-rdt-eligibility-criteria-2021.json` — **done 2026-08-18**;
+- (b) 2021-10-13 correction (PLoS Med 18(10):e1003825) — **checked: NOT
+  eligibility-relevant** (Author Summary sensitivity number only; see
+  `research/ag-rdt-correction-e1003825-2026-08-18.md`);
+- (c) anchors frozen — `ag-rdt-criterion-anchors.frozen.json` (sha256 below),
+  recorded in the case spec at sealing time.
+
+Frozen anchors sha256: computed at freeze time (see file metadata in git).
