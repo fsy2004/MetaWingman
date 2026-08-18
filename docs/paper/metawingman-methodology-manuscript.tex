@@ -101,7 +101,7 @@ two-stage performance. A deterministic R pipeline reproduced a published
 random-effects meta-analysis (pooled MD 2.865 vs 2.9; I² 92.67\% vs
 93\%) in three locked runs. A first AI-only screening pilot on 649
 frozen records achieved gold recall 0.765 (114/149), with abstention the
-dominant loss. Cross-provider agreement reached kappa 0.8723.
+dominant loss. Cross-provider agreement reached kappa 0.8483.
 
 \textbf{Conclusions.} MetaWingman demonstrates a question-first,
 step-verified architecture with reproducible reconstruction evidence.
@@ -129,7 +129,7 @@ VAL-3），终点是已发表综述的时间切分重建。
 管线以三次锁定运行复现了已发表的随机效应 meta 分析（合并 MD 2.865 对
 2.9；I² 92.67\% 对 93\%）。首个 AI-only 筛选 pilot（649
 条冻结记录）黄金召回 0.765，弃权为主要损失；跨提供方一致性 kappa
-0.8723。
+0.8483。
 
 \textbf{结论。} MetaWingman
 展示了提问先行、步骤验证、可审计自改进的架构，并附复现实证。当前组件指标支持的是与弱标签/准则标签的一致性，而非科学有效性；AI-only
@@ -724,28 +724,29 @@ agreement}\label{cross-provider-and-judge-agreement}
 A cross-provider comparison ran the same blinded set of 999 paragraphs
 through a GLM model (glm-5.2 C3) and a DeepSeek model (C3-R2) (evidence:
 \texttt{docs/architecture/glm-cross-provider-results-2026-08-18.md}).
-Section-role macro-F1 was 0.9003 for GLM versus 0.9385 for DeepSeek;
-retrieval selection accuracy was 0.96 versus 0.93; and across providers,
-Cohen's kappa on the shared 927 scored passages was 0.8723 (95\% CI
-0.8483 to 0.8964), interpreted as substantial to almost-perfect
-agreement {[}16{]}. These numbers indicate that the two providers
-largely agree on section-role assignment, which supports provider
-diversity for verification roles without claiming that either model is
-correct where both agree. The certificate double-judge smoke test
-(DeepSeek 4.0 and GLM 4.4) ran blind with audit, quality-scores, and
-gate fields stripped and agreement measured by Pearson correlation
-(evidence:
+Section-role macro-F1 was 0.8829 for GLM (994 scored, 5 abstained after
+two dead-letter recovery rounds; the dominant dead-letter cause was
+reasoning-token budget exhaustion) versus 0.9385 for DeepSeek; retrieval
+selection accuracy was 0.96 versus 0.93; and across providers, Cohen's
+kappa on the shared 998 scored passages was 0.8483 (95\% CI 0.8233 to
+0.8733), interpreted as substantial to almost-perfect agreement
+{[}16{]}. These numbers indicate that the two providers largely agree on
+section-role assignment, which supports provider diversity for
+verification roles without claiming that either model is correct where
+both agree. The certificate double-judge smoke test (DeepSeek 4.0 and
+GLM 4.4) ran blind with audit, quality-scores, and gate fields stripped
+and agreement measured by Pearson correlation (evidence:
 \texttt{docs/architecture/innovation-whitepaper-2026-08-18.md}).
 
 Provider diversity is a verification strategy, not a truth oracle. If
 two independent providers assign the same section role to the same
 passage, the assignment is more likely to be right than either model
 alone, but two models can share the same systematic error, and the kappa
-of 0.8723 does not measure correctness against any reference. The point
+of 0.8483 does not measure correctness against any reference. The point
 of the comparison is narrower: the system can run its verification roles
 on two providers and expect them to agree most of the time, which makes
 cross-provider double-checking a usable mechanism rather than a source
-of constant disagreement. The per-metric differences (0.9003 versus
+of constant disagreement. The per-metric differences (0.8829 versus
 0.9385 on section-role; 0.96 versus 0.93 on retrieval selection) are
 also a reminder that provider choice moves component performance by a
 few points, which matters when a component sits at a decision boundary.
@@ -884,7 +885,7 @@ required by the pipeline was not part of the numbers reported here. (6)
 An AI-only end-to-end review, from certificate to published-numbers
 reconstruction under one protocol, remains unfinished; what we report is
 a validated assembly of components plus one locked reconstruction slice.
-(7) Cross-provider agreement (kappa 0.8723) is measured on a single
+(7) Cross-provider agreement (kappa 0.8483) is measured on a single
 999-paragraph set with one model per provider; it supports provider
 diversity as a verification mechanism but says nothing about absolute
 correctness. (8) The evaluation processes themselves are not yet
@@ -1161,10 +1162,10 @@ Agreement
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Section-role macro-F1 & 0.9385 & 0.9003 & --- \\
+Section-role macro-F1 & 0.9385 & 0.8829 & --- \\
 Retrieval selection accuracy & 0.93 & 0.96 & --- \\
-Cohen's kappa on shared 927 scored passages & --- & --- & 0.8723 (95\%
-CI 0.8483 to 0.8964) \\
+Cohen's kappa on shared 998 scored passages & --- & --- & 0.8483 (95\%
+CI 0.8233 to 0.8733) \\
 \end{longtable}
 }
 

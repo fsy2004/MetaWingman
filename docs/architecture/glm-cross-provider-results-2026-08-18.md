@@ -26,12 +26,19 @@ the frozen pilot reports, with its different task set flagged.
 
 | Metric | DeepSeek C3-R2 | GLM C3 |
 |---|---|---|
-| section-role hosted macro-F1 | **0.9385** | 0.9003 (927 scored; 72 abstained) |
+| section-role hosted macro-F1 | **0.9385** | 0.8829 (994 scored; 5 abstained after two dead-letter recovery rounds) |
 | section-role verifier-only F1 | 1.0000 | 1.0000 (circular — trained on these rules; not a claim) |
 | retrieval hosted MRR (pilot formula) | 0.465 | **0.4788** |
 | retrieval hosted P@1 | 0.20 | 0.205 |
 | retrieval hosted selection accuracy | 0.93 | **0.96** |
 | retrieval verifier MRR / P@1 | 0.9533 / 0.925 | 0.9533 / 0.925 |
+
+Dead-letter recovery (recorded): RT had 4 dead letters recovered at
+max_tokens 4096 (0 abstain); SR had 72 dead letters — the dominant cause
+was GLM-5.2 reasoning tokens consuming the output budget (empty content,
+finish=length) — recovered in two rounds (4096 → 8192) to 994/999, with
+the remaining 5 recorded as abstained. Root cause: reasoning-model token
+budgets must be sized for reasoning plus content, not content alone.
 
 DeepSeek pilot ladder (2k dev set, different population — context only):
 C0 0.8535 → C1 0.9079 → C2 0.8799 → C3 0.9668.
@@ -43,8 +50,8 @@ ladder data; recorded as scope shrinkage, not a null result.
 
 ## 4. Analysis C — cross-provider agreement
 
-Section-role predictions, shared 927 passages: **Cohen's kappa 0.8723
-(95% CI 0.8483–0.8964, Fleiss SE)**; raw agreement 89.5%. Interpretation:
+Section-role predictions, shared 998 scored passages: **Cohen's kappa 0.8483
+(95% CI 0.8233–0.8733, Fleiss SE)**; raw agreement 87.6%. Interpretation:
 provider-invariance of the C3 prompt stack is high but not perfect; the
 largest divergence is eligibility (DeepSeek 60 vs GLM 95 predictions).
 
