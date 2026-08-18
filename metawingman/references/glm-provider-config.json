@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "provider_id": "glm-development",
+  "adapter": "openai_compatible",
+  "display_name": "Zhipu GLM",
+  "base_url": "https://open.bigmodel.cn/api/paas/v4",
+  "model": "glm-4.5",
+  "api_key_required": true,
+  "api_key_env": "GLM_API_KEY",
+  "credential_target": "MetaWingman/GLM",
+  "allow_local_http": false,
+  "features": {
+    "json_output": true,
+    "reasoning_effort": false,
+    "deepseek_thinking": false
+  }
+}
