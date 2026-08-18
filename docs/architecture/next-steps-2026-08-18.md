@@ -51,7 +51,12 @@
 6. **对标 2606.17041 基准**：评估我们的 AI-only 任务是否覆盖其任务类型。
    **2026-08-18 已完成**：论文 = **MetaSyn**（THUIR，arXiv:2606.17041v6，Xie 等），
    两任务九指标；映射 15 项：covered 6 / partial 7 / gap 2（黄金语料库、阶段归因
-   诊断），见 `research/benchmark-2606-17041-task-map.md`。
+   诊断），见 `research/benchmark-2606-17041-task-map.md`。数据集卡已核实（MIT 标注
+   + 上游条款第三方文本）。
+8. **MetaSyn 评测适配器**（新增，gap 落地路径）：外部黄金语料轴上评测我方检索+
+   筛选，含阶段归因（retrieval_loss / screening_loss / reference_missing）。
+   **2026-08-18 设计冻结**（`metasyn-adapter-design-2026-08-18.md`，五条冻结条件
+   未满足前不运行；不可比声明绑定）。
 7. **VAL-1 首个晋升**（新增）：sci-exercise-analysis 分析切片重建案例已起草
    （`val1-promotion-analysis-2026-08-18.md`）；待密封答案提取完成后建
    benchmark manifest（dev split）+ 跑 run-lock 机制演练。
