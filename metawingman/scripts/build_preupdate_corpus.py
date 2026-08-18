@@ -25,8 +25,10 @@ import hashlib
 import json
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
+from http.client import IncompleteRead
 from pathlib import Path
 
 EPMC_REST = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
@@ -34,6 +36,20 @@ EPMC_REST = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 
 def sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _epmc_page(params: dict, attempts: int = 3) -> dict:
+    url = EPMC_REST + "?" + urllib.parse.urlencode(params)
+    last: Exception | None = None
+    for attempt in range(1, attempts + 1):
+        try:
+            with urllib.request.urlopen(url, timeout=90) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except (IncompleteRead, urllib.error.URLError, json.JSONDecodeError) as exc:
+            last = exc
+            if attempt < attempts:
+                time.sleep(2 * attempt)
+    raise RuntimeError(f"Europe PMC page failed after {attempts} attempts: {last}")
 
 
 def epmc_search(query: str, page_size: int, max_records: int) -> list[dict]:
@@ -48,9 +64,7 @@ def epmc_search(query: str, page_size: int, max_records: int) -> list[dict]:
     while len(records) < max_records:
         params = dict(params_base)
         params["cursorMark"] = cursor
-        url = EPMC_REST + "?" + urllib.parse.urlencode(params)
-        with urllib.request.urlopen(url, timeout=60) as resp:
-            payload = json.loads(resp.read().decode("utf-8"))
+        payload = _epmc_page(params)
         hits = payload.get("resultList", {}).get("result", [])
         if not hits:
             break
@@ -77,6 +91,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--strategy", type=Path, required=True)
     parser.add_argument("--cutoff", required=True)
+    parser.add_argument("--cutoff-lower", default="0001-01-01")
     parser.add_argument("--out-dir", type=Path, required=True)
     parser.add_argument("--database", default="PubMed")
     parser.add_argument("--page-size", type=int, default=1000)
@@ -89,7 +104,7 @@ def main() -> int:
         entry = databases.get(args.database)
         if not entry or not entry.get("query"):
             raise ValueError(f"strategy has no verbatim query for database {args.database!r}")
-        query = f'({entry["query"]}) AND (FIRST_PDATE:[0001-01-01 TO {args.cutoff}])'
+        query = f'({entry["query"]}) AND (FIRST_PDATE:[{args.cutoff_lower} TO {args.cutoff}])'
         records = epmc_search(query, args.page_size, args.max_records)
         args.out_dir.mkdir(parents=True, exist_ok=False)
         records_path = args.out_dir / "candidate-records.jsonl"
