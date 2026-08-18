@@ -7,3 +7,4 @@ validation-output/
 .install-test/
 dist/
 .dsh-filess/
+.dsh-vision-toolkit/
