@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "note": "Expected decisions derived from the SAME rules; rules are the fixture source of truth.",
+  "expected_counts": {
+    "include": 10,
+    "exclude": 18,
+    "abstain": 2
+  },
+  "expected_decisions": {
+    "fix-inc-01": "include",
+    "fix-inc-02": "include",
+    "fix-inc-03": "include",
+    "fix-inc-04": "include",
+    "fix-inc-05": "include",
+    "fix-inc-06": "include",
+    "fix-inc-07": "include",
+    "fix-inc-08": "include",
+    "fix-inc-09": "include",
+    "fix-inc-10": "include",
+    "fix-near-01": "exclude",
+    "fix-near-02": "exclude",
+    "fix-near-03": "exclude",
+    "fix-near-04": "exclude",
+    "fix-near-05": "exclude",
+    "fix-near-06": "exclude",
+    "fix-near-07": "exclude",
+    "fix-near-08": "exclude",
+    "fix-near-09": "exclude",
+    "fix-near-10": "exclude",
+    "fix-excl-01": "exclude",
+    "fix-excl-02": "exclude",
+    "fix-excl-03": "exclude",
+    "fix-excl-04": "exclude",
+    "fix-excl-05": "exclude",
+    "fix-none-01": "exclude",
+    "fix-none-02": "exclude",
+    "fix-none-03": "exclude",
+    "fix-abstain-01": "abstain",
+    "fix-abstain-02": "abstain"
+  }
+}

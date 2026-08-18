@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "8e9424be2e67e5fe576f30968435299b2326145f35c5e35d0ae5711ed0d9b118",
+  "source_tree_sha256": "e2b05018e4f518f0c380d89270d0fc70a8fc31e5a161d676aa80b03f07c5d3d8",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -54,6 +54,71 @@
       "path": "agents/openai.yaml",
       "sha256": "8dcdb75c44381a3d22c067e2db591876c68c6bf8eacc31676b1808d8eae6312d",
       "bytes": 270
+    },
+    {
+      "path": "fixtures/reconstruction-v2/ag-rdt-criterion-anchors.draft.json",
+      "sha256": "c6e7bab31e39e184d7fc7aadc5ab7eb931086a8825ffa1087a02a7de23eb6501",
+      "bytes": 3478
+    },
+    {
+      "path": "fixtures/reconstruction-v2/ag-rdt-criterion-anchors.frozen.json",
+      "sha256": "6793d6c0e44ecc1af75a7e4a949fdddbb6067a24fc1556e6f08b513ab2055c96",
+      "bytes": 3679
+    },
+    {
+      "path": "fixtures/reconstruction-v2/extraction-expected-key.json",
+      "sha256": "15a9d91f16147f8164b7dc2d36247523e3f054adedca395571f64fb192f90395",
+      "bytes": 1258
+    },
+    {
+      "path": "fixtures/reconstruction-v2/extraction-records.jsonl",
+      "sha256": "24da0462d6f90a018e2a5f68525db2df7934ccfe56b156613f456c3ddab84729",
+      "bytes": 802
+    },
+    {
+      "path": "fixtures/reconstruction-v2/extraction-template-agrdt.draft.json",
+      "sha256": "e41204f6d2e1253307e94dfb2703a91dcd5c72168cabe3f344c126bc58faef2c",
+      "bytes": 879
+    },
+    {
+      "path": "fixtures/reconstruction-v2/extraction-template-chain.json",
+      "sha256": "fc1deaed370a48e5c11f59f7a9398ab4aec1dba47e43f09835d7e5f00fbadfa9",
+      "bytes": 341
+    },
+    {
+      "path": "fixtures/reconstruction-v2/extraction-template.json",
+      "sha256": "a3c69268abfab338821c28b7a304cd1c1e0f461598c4957a18d06dc5f19c48a0",
+      "bytes": 594
+    },
+    {
+      "path": "fixtures/reconstruction-v2/generate_extraction_fixture.py",
+      "sha256": "84e2c66518347f4edba883f8ea4bb2c0170b6e0585124607dff8c94b54e59f8f",
+      "bytes": 3098
+    },
+    {
+      "path": "fixtures/reconstruction-v2/generate_screening_fixture.py",
+      "sha256": "b42c3f1da56302f291f8acfb4716ae28c53a205d8bd97d6175360d1a242b5e3b",
+      "bytes": 2793
+    },
+    {
+      "path": "fixtures/reconstruction-v2/screening-criterion-anchors.json",
+      "sha256": "083d451866b5d7a1f2f093b7101d6dbf8e51c7da3544c0d609f0fb5d9b752fc2",
+      "bytes": 881
+    },
+    {
+      "path": "fixtures/reconstruction-v2/screening-expected-key.json",
+      "sha256": "375a6ece8b0c6d38aa52af7a363c409198b719aa496e4473fd747d01fd9199db",
+      "bytes": 1139
+    },
+    {
+      "path": "fixtures/reconstruction-v2/screening-records.jsonl",
+      "sha256": "fd0e7939b11c143e336d89bbfc34bae7d17b253172a266f5688a1766ad249e8a",
+      "bytes": 5642
+    },
+    {
+      "path": "fixtures/reconstruction-v2/staged-case.json",
+      "sha256": "6f38bf824e84cd0ae955a236020c3aa7e1964313fa6cd91a43480f145ea326dd",
+      "bytes": 461
     },
     {
       "path": "references/ai-only-evaluation-plan.template.json",
@@ -671,6 +736,11 @@
       "bytes": 1135
     },
     {
+      "path": "scripts/build_preupdate_corpus.py",
+      "sha256": "3f10b6607648c18d3bce6c046076ee9891ad4c7a7d8f2715332b69259e8fbd1e",
+      "bytes": 9717
+    },
+    {
       "path": "scripts/build_server_training_handoff.py",
       "sha256": "9f6ff5109e79bea121cd5e166d22a6ff3a0986a75a1db0c256ce664d8c6ad116",
       "bytes": 4316
@@ -679,6 +749,11 @@
       "path": "scripts/build_tool_catalog.py",
       "sha256": "4b07c0adabb7802e5df3acdbabcfb59fe3a171d2320519cfe2a7cfca31664744",
       "bytes": 3427
+    },
+    {
+      "path": "scripts/build_val3_screening_sample.py",
+      "sha256": "fa5bd554d7fed59fc3945fab41bf3936ef48c02ee34de96ffad9fd939fae99d2",
+      "bytes": 4960
     },
     {
       "path": "scripts/check_grade_threshold.py",
@@ -804,6 +879,11 @@
       "path": "scripts/living_update.py",
       "sha256": "bba8dad8042e7f7c5e5b1683d022c4d0daefd3a14df925a74f3591ac976424c1",
       "bytes": 2021
+    },
+    {
+      "path": "scripts/merge_corpus_slices.py",
+      "sha256": "1af735a55b5b4d621d2b3c5ffa372a19ff853f76391af982bb914136d0a6112d",
+      "bytes": 3316
     },
     {
       "path": "scripts/metawingman_core/__init__.py",
@@ -1681,9 +1761,19 @@
       "bytes": 5829
     },
     {
+      "path": "scripts/rate_blind_spotcheck.py",
+      "sha256": "9430f6a9b15a9e5e0496ef3058694dddf3cde4a08d8d5618e2689eda572c8a43",
+      "bytes": 5877
+    },
+    {
       "path": "scripts/recalculate_effect.py",
       "sha256": "298e10f52e42a4c5aab7085af8a601ddf21787e2a44ceb43b4c638c3b3890253",
       "bytes": 2055
+    },
+    {
+      "path": "scripts/reconcile_corpus_slices.py",
+      "sha256": "fe6fd5fdc26ffcbd44de4b940ea784111f7f15b9e76d82fde6d84d20ac3523c6",
+      "bytes": 3489
     },
     {
       "path": "scripts/record_audit_log.py",
@@ -1716,6 +1806,11 @@
       "bytes": 13532
     },
     {
+      "path": "scripts/run_ai_screening_pilot.py",
+      "sha256": "ce1dddb6eda0806294932e77221ed3ad93ef72b4c7382ae01a26c94c9d8f4156",
+      "bytes": 7285
+    },
+    {
       "path": "scripts/run_appraisal_step_training.py",
       "sha256": "6a4f52026e41ddb244caf744df0db368d1641d99b664d2fde4d8f5045bcdbe3a",
       "bytes": 9145
@@ -1726,6 +1821,11 @@
       "bytes": 18048
     },
     {
+      "path": "scripts/run_extraction_slice.py",
+      "sha256": "3126d8653b8d0f1571139af91f7d7ad0f108f4585dc0eb1835ac6d83b6331acb",
+      "bytes": 5068
+    },
+    {
       "path": "scripts/run_r2_ai_validation.py",
       "sha256": "d0a8140ab51c66edee9e396ed3cea4691e6fef79f31fb8720a2e697f258aea66",
       "bytes": 14575
@@ -1734,6 +1834,21 @@
       "path": "scripts/run_reconstruction_case.py",
       "sha256": "17cc00dd493c4a06871eafb39d575e76096a5e9a3f2544e61b3235ebdc11bab0",
       "bytes": 16490
+    },
+    {
+      "path": "scripts/run_rubric_rating.py",
+      "sha256": "f5a8963428671526177251eaad8d75350873150a39fb07d25b703429fb4f54c9",
+      "bytes": 5599
+    },
+    {
+      "path": "scripts/run_screening_slice.py",
+      "sha256": "76b1742a4f528e2fc8e76e619b3ba5c5056de3f34e164f6fde41b8407ca2aaf0",
+      "bytes": 6594
+    },
+    {
+      "path": "scripts/run_staged_reconstruction.py",
+      "sha256": "7373539efe4c045b326a554b651be54cf9ae8ab087e81f41172e63f6782ca5d4",
+      "bytes": 5084
     },
     {
       "path": "scripts/score_r2_ai_validation.py",
