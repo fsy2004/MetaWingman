@@ -70,16 +70,40 @@ Follow [workflow-and-gates.md](references/workflow-and-gates.md). Do not skip fo
 
 | Stage | Required output | Hard gate |
 |---|---|---|
-| 0. Feasibility and topic | novelty map, decision need, existing-review map, accessible evidence estimate | question is useful, answerable, and not merely duplicative |
+| 0. Feasibility and topic | novelty map, decision need, existing-review map, accessible evidence estimate, **derived review question certificate** | question is useful, answerable, not merely duplicative; **certificate hard gates pass and novelty verdict is not covered** |
 | 1. Protocol | review and synthesis questions, estimands, eligibility, outcome hierarchy, thresholds, search, appraisal, synthesis, amendments and AI mode | protocol frozen and registered or registration decision documented |
 | 2. Search | source-specific strategies, exact dates, exports, query text, counts, hashes, dedup audit | search is reproducible and required sources are covered |
-| 3. Selection | mode/profile-specific independent decisions, criterion anchors, conflicts, exclusion reasons, PRISMA counts | mode/profile-required independent eligibility complete; all conflicts adjudicated |
+| 3. Selection | mode/profile-specific independent decisions, criterion anchors, conflicts, exclusion reasons, PRISMA counts, **socratic screening checklist answered** | mode/profile-required independent eligibility complete; all conflicts adjudicated |
 | 4. Data and lineage | piloted extraction, report/study/arm/result/synthesis map, duplicate/shared-control resolution | mode/profile-required independent extraction or verification complete; result definitions match protocol |
-| 5. Appraisal | result-level RoB, synthesis-level missing-evidence assessment, and supporting anchors | every synthesized result and prespecified critical synthesis has required appraisal |
-| 6. Freeze and synthesis | immutable analysis input, code, environment, tables, figures, sensitivity analyses | hashes and model checks pass; pooling is clinically and statistically defensible |
+| 5. Appraisal | result-level RoB, synthesis-level missing-evidence assessment, supporting anchors, **step-level appraisal verification report** | every synthesized result and prespecified critical synthesis has required appraisal; **verifier abstention resolved or human window invoked** |
+| 6. Freeze and synthesis | immutable analysis input, code, environment, tables, figures, sensitivity analyses, **socratic analysis checklist answered** | hashes and model checks pass; pooling is clinically and statistically defensible |
 | 7. Certainty and interpretation | GRADE or profile-appropriate certainty, absolute effects, limitations, applicability | conclusions follow certainty and do not exceed evidence |
 | 8. Reporting and review | manuscript, supplement, checklists, disclosure, reviewer panel, response matrix | all critical findings resolved or transparently unresolved |
 | 9. Update | search alerts, update cadence, status-change rules, version history | update criteria and retirement rule are explicit |
+
+## Question-first derivation & reflection loop (提问-推导-反思循环)
+
+The review is derived, not merely executed. Before each stage, ask that
+stage's Socratic questions and answer them; after each stage, log lessons.
+This loop is how the skill improves itself (lifelong-upgrades mechanism).
+
+- **Topic (Stage 0)** — run `scripts/generate_review_question_certificate.py`
+  to derive a Review Question Certificate: primitives, first-principle
+  assumptions, mechanism model, tension, falsifiable hypothesis, minimal
+  decisive test, failure-update rule, and a novelty gate, with hard/soft
+  gates. Blind-judge certificates with `scripts/blind_judge_certificates.py`
+  using two independent providers; record judge critiques through the audit
+  log.
+- **Screening / Appraisal / Analysis** — answer the Socratic checklists in
+  `references/socratic-checklists/{screening,appraisal,analysis}.json` and
+  gate completeness with `scripts/check_socratic_checklist.py`.
+- **Appraisal (Stage 5)** — run `scripts/verify_appraisal_steps.py` over each
+  dossier; any failed required step or a pending human signature means
+  abstention or the human review window.
+- **Every stage** — record deviations, failures, fixes, and reflections with
+  `scripts/record_audit_log.py`. Proposals must carry their source; they are
+  applied only through the human review window, and applied entries record
+  the commit.
 
 ## Search and retrieval
 
