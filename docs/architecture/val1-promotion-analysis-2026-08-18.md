@@ -64,6 +64,13 @@ reconstruction slice:
   human execution prohibited.
 - **Run lock**: `RUN_BOUNDARY.json` complete for every preregistered
   repetition before `RCTS_DATA.xlsx` or the answer file is read.
+- **Harness (landed 2026-08-18)**: `metawingman/scripts/run_reconstruction_case.py`
+  + `metawingman/schemas/reconstruction_case.schema.json` + case spec
+  `research/reconstruction-cases/sci-exercise-analysis.json`. Smoke-tested
+  locally with a synthetic sealed xlsx: lock-before-read contract enforced,
+  output hashes in receipt, sealed file unmodified, R summary/egger calls
+  succeed. Scoring stays disabled until the sealed answer file lands
+  (extraction in flight) and all three repetitions lock.
 
 ## 4. Other families — concrete next actions
 

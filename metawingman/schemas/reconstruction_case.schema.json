@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/reconstruction_case.schema.json",
+  "title": "MetaWingman reconstruction case spec (analysis slice)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "case_id", "review_family_id", "split", "status",
+    "task", "input_artifact", "column_mapping", "r_calls", "tolerances",
+    "reference_answers", "boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "case_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "review_family_id": {"type": "string", "minLength": 1},
+    "split": {"enum": ["train", "dev", "test"]},
+    "status": {"enum": ["case_drafted_answer_pending", "sealed", "retired"]},
+    "task": {"const": "analysis_slice"},
+    "notes": {"type": "string"},
+    "input_artifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["package_path", "sha256", "xlsx_sheet"],
+      "properties": {
+        "package_path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "xlsx_sheet": {"type": "integer", "minimum": 1},
+        "license": {"type": "string", "minLength": 1}
+      }
+    },
+    "column_mapping": {
+      "type": "object", "additionalProperties": false,
+      "required": ["m1i", "sd1i", "n1i", "m2i", "sd2i", "n2i", "slab"],
+      "properties": {
+        "m1i": {"type": "string"}, "sd1i": {"type": "string"},
+        "n1i": {"type": "string"}, "m2i": {"type": "string"},
+        "sd2i": {"type": "string"}, "n2i": {"type": "string"},
+        "slab": {"type": "string"}
+      }
+    },
+    "r_calls": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["adapter", "analysis"],
+        "properties": {
+          "adapter": {"type": "string", "minLength": 1},
+          "analysis": {"type": "string", "minLength": 1},
+          "measure": {"type": "string", "minLength": 1},
+          "method": {"type": "string", "minLength": 1},
+          "knha": {"type": "boolean"}
+        }
+      }
+    },
+    "tolerances": {
+      "type": "object", "additionalProperties": false,
+      "required": ["pooled_est", "ci_bounds", "i2_pp", "tau2"],
+      "properties": {
+        "pooled_est": {"type": "number", "minimum": 0},
+        "ci_bounds": {"type": "number", "minimum": 0},
+        "i2_pp": {"type": "number", "minimum": 0},
+        "tau2": {"type": "number", "minimum": 0}
+      }
+    },
+    "reference_answers": {
+      "type": "object", "additionalProperties": false,
+      "required": ["package_path"],
+      "properties": {
+        "package_path": {"type": "string", "minLength": 1},
+        "sha256": {
+          "anyOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+          ]
+        },
+        "sealed_until_all_locks": {"const": true}
+      }
+    },
+    "boundary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["expected_runs", "configuration_ids"],
+      "properties": {
+        "expected_runs": {"type": "integer", "minimum": 1},
+        "configuration_ids": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+        }
+      }
+    }
+  }
+}

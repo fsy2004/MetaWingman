@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "case_id": "sci-exercise-rvo2-rct-analysis",
+  "review_family_id": "spinal-cord-exercise",
+  "split": "dev",
+  "status": "case_drafted_answer_pending",
+  "task": "analysis_slice",
+  "notes": "Reconstruction slice defined by RVO2_RCT.R (repo jutzca/Exercise-and-fitness-in-SCI @ 58f690c0847d5d099fef98141d706fc5c24d94ed, BSD-3-Clause): read RCTS_DATA.xlsx sheet 2, escalc MD, rma random-effects (REML, z-test), forest, Egger regression. Scope is analysis only; search/screening reconstruction is explicitly out of scope (month-precision cutoff; no screening labels).",
+  "input_artifact": {
+    "package_path": "validation-output/benchmark-materials/sci-exercise-analysis/sealed-reference/RCTS_DATA.xlsx",
+    "sha256": "a3d237bf50c7682383456723e6f84b7e34994441cd0cc2efb4627011edd2d21d",
+    "xlsx_sheet": 2,
+    "license": "BSD-3-Clause"
+  },
+  "column_mapping": {
+    "m1i": "mean.int",
+    "sd1i": "sd.int",
+    "n1i": "n.int",
+    "m2i": "mean.con",
+    "sd2i": "sd.con",
+    "n2i": "n.con",
+    "slab": "study"
+  },
+  "r_calls": [
+    {"adapter": "run_pairwise.R", "analysis": "summary", "measure": "MD", "method": "REML", "knha": false},
+    {"adapter": "run_pairwise.R", "analysis": "egger", "measure": "MD", "method": "REML", "knha": false},
+    {"adapter": "run_pairwise.R", "analysis": "forest", "measure": "MD", "method": "REML", "knha": false}
+  ],
+  "tolerances": {
+    "pooled_est": 0.05,
+    "ci_bounds": 0.05,
+    "i2_pp": 1.0,
+    "tau2": 0.05
+  },
+  "reference_answers": {
+    "package_path": "validation-output/benchmark-materials/sci-exercise-analysis/sealed-reference/reported-estimates.draft.json",
+    "sha256": null,
+    "sealed_until_all_locks": true
+  },
+  "boundary": {
+    "expected_runs": 3,
+    "configuration_ids": ["deterministic-r-analysis"]
+  }
+}

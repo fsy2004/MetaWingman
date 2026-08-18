@@ -44,8 +44,9 @@
    重建案例手册仍阻塞于 VAL-1**（五家族许可/切分晋升）；VAL-2c 人类盲评抽检集
    已冻结，待人类评审窗口评分 → kappa 决定规则天花板。
 6. **对标 2606.17041 基准**：评估我们的 AI-only 任务是否覆盖其任务类型。
-   **2026-08-18 进行中**：子代理正在获取论文并产出任务映射
-   （`research/benchmark-2606-17041-task-map.md`）。
+   **2026-08-18 已完成**：论文 = **MetaSyn**（THUIR，arXiv:2606.17041v6，Xie 等），
+   两任务九指标；映射 15 项：covered 6 / partial 7 / gap 2（黄金语料库、阶段归因
+   诊断），见 `research/benchmark-2606-17041-task-map.md`。
 7. **VAL-1 首个晋升**（新增）：sci-exercise-analysis 分析切片重建案例已起草
    （`val1-promotion-analysis-2026-08-18.md`）；待密封答案提取完成后建
    benchmark manifest（dev split）+ 跑 run-lock 机制演练。
