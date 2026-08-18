@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "99674faf0cbf478e04a875b4034a09c01ee38508cc3e636e708f8a803653a7e5",
+  "source_tree_sha256": "ff741a42d0c05751c2635304452c21540ddb9f532496483ae3b58f80bf96b412",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -612,8 +612,8 @@
     },
     {
       "path": "scripts/build_appraisal_step_candidates.py",
-      "sha256": "f02940a06093ac9472fee8f1e0e6bc0b9bac385107406b74b51b57cce559fa0a",
-      "bytes": 4283
+      "sha256": "d2289f5d2c27b787eceee1a3ecac0c406159abf5011c06b67f81da9c42ff1551",
+      "bytes": 4254
     },
     {
       "path": "scripts/build_judgment_dossier.py",
