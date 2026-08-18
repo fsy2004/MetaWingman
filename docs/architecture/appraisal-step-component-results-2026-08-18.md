@@ -83,3 +83,14 @@ complete).
    below it, retrain with more epochs / larger model / RoBERTa-large to chase
    the ceiling; if kappa is low, revise the weak-label rules first and
    re-freeze a new VAL-2b generation (old generation retained).
+
+## 5. Training lessons (meta-update loop)
+
+- **Class-imbalanced cross-entropy weights are per-class, not per-example.**
+  `torch.nn.functional.cross_entropy(weight=...)` expects one weight per
+  output class (length = num_classes). Passing per-example weights fails with
+  a shape error ("weight tensor should be defined either for all N classes").
+  The V3 fix computes per-class inverse-frequency weights with zero weight for
+  classes absent from the training split
+  (`metawingman/scripts/run_appraisal_step_training.py:60-72`). Source:
+  commit 4bc303a, verified by the V3 re-run receipt.

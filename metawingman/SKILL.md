@@ -70,7 +70,7 @@ Follow [workflow-and-gates.md](references/workflow-and-gates.md). Do not skip fo
 
 | Stage | Required output | Hard gate |
 |---|---|---|
-| 0. Feasibility and topic | novelty map, decision need, existing-review map, accessible evidence estimate, **derived review question certificate** | question is useful, answerable, not merely duplicative; **certificate hard gates pass and novelty verdict is not covered** |
+| 0. Feasibility and topic | novelty map, decision need, existing-review map, accessible evidence estimate, **socratic topic checklist answered**, **derived review question certificate** | question is useful, answerable, not merely duplicative; **topic novelty-audit checklist passes and certificate hard gates pass with novelty verdict not covered** |
 | 1. Protocol | review and synthesis questions, estimands, eligibility, outcome hierarchy, thresholds, search, appraisal, synthesis, amendments and AI mode | protocol frozen and registered or registration decision documented |
 | 2. Search | source-specific strategies, exact dates, exports, query text, counts, hashes, dedup audit | search is reproducible and required sources are covered |
 | 3. Selection | mode/profile-specific independent decisions, criterion anchors, conflicts, exclusion reasons, PRISMA counts, **socratic screening checklist answered** | mode/profile-required independent eligibility complete; all conflicts adjudicated |
@@ -87,7 +87,12 @@ The review is derived, not merely executed. Before each stage, ask that
 stage's Socratic questions and answer them; after each stage, log lessons.
 This loop is how the skill improves itself (lifelong-upgrades mechanism).
 
-- **Topic (Stage 0)** — run `scripts/generate_review_question_certificate.py`
+- **Topic (Stage 0)** — answer the Socratic topic checklist in
+  `references/socratic-checklists/topic.json` (nearest existing review,
+  coverage-gap matrix, PROSPERO collision, time-window volume, falsifiable
+  contribution sentence, rediscovery probe) and gate completeness with
+  `scripts/check_socratic_checklist.py --stage topic`; then run
+  `scripts/generate_review_question_certificate.py`
   to derive a Review Question Certificate: primitives, first-principle
   assumptions, mechanism model, tension, falsifiable hypothesis, minimal
   decisive test, failure-update rule, and a novelty gate, with hard/soft
