@@ -32,11 +32,17 @@ specific domain onto most of them. No keyword threshold closes this gap.
 ## 3. Execution sequence
 
 1. Server: sample ≈800 dev appraisal candidates (exclude the 100 already
-   rated), export locally with SHA-256.
+   rated), export locally with SHA-256. **done** (`appraisal-rubric-
+   sample.jsonl`, sha256 `c82787ab…`).
 2. Rubric-rate the sample (batched, same rubric and procedure as the
-   original sheet; ratings are judgment labels, provenance recorded only in
-   the private audit log per project policy).
-3. Train on rubric labels (server job, same trainer with rubric-label
-   mapping; receipt + hashes).
-4. Validate: rubric-consistency on a held-out rubric-rated slice + new
+   original sheet). **done**: 800 rated — other 773 / reporting 11 /
+   performance 7 / selection 6 / detection 2 / attrition 1 (96.6% other;
+   the single-domain passages are genuinely rare in this corpus).
+3. Train on rubric labels (server job). **done, pilot**: rubric V1
+   (640 train / 160 dev) eval macro-F1 0.1929 — expected with 0-3 domain
+   examples per class in train; recorded as the thin-data baseline.
+4. **Scale-up (in flight)**: rate the full train split (7,932 passages,
+   4 shard jobs `pwsh-7..10`) + the remaining dev candidates (1,174,
+   3 subagent batches) → final rubric training set → rubric V2 training.
+5. Validate: rubric-consistency on a held-out rubric-rated slice + new
    VAL-2c generation.
