@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "stage": "update",
+  "title": "Socratic checklist — living update & retirement (更新与退役)",
+  "rationale": "A living systematic review needs explicit update mechanics before the first publication. Answers are recorded; the gate checks completeness. Sources are chapter/item-level references, not page numbers.",
+  "items": [
+    {
+      "id": "update-01",
+      "question": "Is the update trigger defined in advance: which signals (new studies, changed conclusion, new intervention, search-alert hits) move the review from dormant to updating?",
+      "rationale": "Ad-hoc updates drift into selective updating — the living-review analogue of selective reporting.",
+      "source": "Cochrane Handbook v6 Ch.22 (prospective approaches to accumulating evidence); Elliott et al. 2017 (living systematic reviews, J Clin Epidemiol)",
+      "answer_format": "trigger list with thresholds and the responsible actor",
+      "gate": "required"
+    },
+    {
+      "id": "update-02",
+      "question": "Is the search-alert mechanism configured and tested, with a verification that new records actually arrive?",
+      "rationale": "An unverified alert is a false sense of currency; test it with a seeded record or a sentinel query.",
+      "source": "Cochrane Handbook v6 Ch.22 (searching for updates)",
+      "answer_format": "alert setup + last successful run + sentinel test result",
+      "gate": "required"
+    },
+    {
+      "id": "update-03",
+      "question": "Is the update cadence explicit (time-based, evidence-based, or hybrid) and documented with the last update date visible to readers?",
+      "rationale": "Readers must know how stale a living review is; the date is part of the method.",
+      "source": "Elliott et al. 2017 (living systematic reviews); Cochrane Handbook v6 Ch.22",
+      "answer_format": "cadence rule + last-update timestamp placement",
+      "gate": "required"
+    },
+    {
+      "id": "update-04",
+      "question": "Are the rules for when an update changes the conclusions (versus when new evidence is incorporated without changing them) precommitted?",
+      "rationale": "Precommitted conclusion-change rules prevent confirmation-driven updating.",
+      "source": "Cochrane Handbook v6 Ch.22; GRADE handbook (updating certainty)",
+      "answer_format": "decision rule: what evidence change triggers a conclusion change",
+      "gate": "required"
+    },
+    {
+      "id": "update-05",
+      "question": "Is the versioning scheme for the review defined (version numbers, what changes per version, changelog format)?",
+      "rationale": "A living document without versions cannot be cited or audited.",
+      "source": "Elliott et al. 2017 (versioning of living reviews); Cochrane Handbook v6 Ch.22",
+      "answer_format": "versioning scheme + changelog template",
+      "gate": "required"
+    },
+    {
+      "id": "update-06",
+      "question": "Is the retirement rule explicit: under what conditions does the review stop updating (evidence stable, superseded, question obsolete)?",
+      "rationale": "Living reviews must know how to die; otherwise the update burden is unbounded.",
+      "source": "Elliott et al. 2017 (retiring living reviews); Cochrane Handbook v6 Ch.22",
+      "answer_format": "retirement criteria + archival plan",
+      "gate": "required"
+    },
+    {
+      "id": "update-07",
+      "question": "Does each update re-run the full reproducibility receipt (input freeze, code commit, environment, hashes) rather than patching in place?",
+      "rationale": "An update is a new analysis; it inherits all reproducibility obligations of the original.",
+      "source": "MetaWingman reproducibility checklist (reproducibility.json); PRISMA 2020 item 27",
+      "answer_format": "new receipt per update + diff against the previous version",
+      "gate": "required"
+    },
+    {
+      "id": "update-08",
+      "question": "Are stage-gate obligations re-triggered by an update when the new evidence touches them (e.g., new studies trigger screening/extraction/appraisal gates)?",
+      "rationale": "Updates that bypass stage gates silently degrade the review's assurance level.",
+      "source": "MetaWingman stage-gated workflow; Cochrane Handbook v6 Ch.22",
+      "answer_format": "per-stage re-trigger map: what new evidence re-opens which gate",
+      "gate": "required"
+    },
+    {
+      "id": "update-09",
+      "question": "Does the meta-update loop feed update observations back into the skill itself (new lessons, checklist revisions) with sources attached?",
+      "rationale": "The living review and the living skill should improve together (lifelong-upgrades mechanism).",
+      "source": "MetaWingman meta-update loop (audit log); ICLR 2026 lifelong-agents line",
+      "answer_format": "lesson entries with sources + applied/unapplied status",
+      "gate": "required"
+    },
+    {
+      "id": "update-10",
+      "question": "Which update scenario would most stress the current mechanics, and has it been drilled once?",
+      "rationale": "A one-off dry run of the hardest update (e.g., conclusion-changing new trial) exposes mechanics gaps cheaply.",
+      "source": "Cochrane Handbook v6 Ch.22",
+      "answer_format": "scenario + drill result + fixes",
+      "gate": "optional"
+    }
+  ]
+}

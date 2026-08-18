@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "stage": "extraction",
+  "title": "Socratic checklist — data extraction & lineage (提取与谱系)",
+  "rationale": "Before extraction at scale, the agent audits the form, the lineage model, and the error controls. Answers are recorded; the gate checks completeness. Sources are chapter/item-level references, not page numbers.",
+  "items": [
+    {
+      "id": "extraction-01",
+      "question": "Was the extraction form piloted on a sample of included reports, and were ambiguous fields revised before full extraction?",
+      "rationale": "Unpiloted forms produce inconsistent fields that cannot be repaired after scale extraction.",
+      "source": "Cochrane Handbook v6 Ch.5 (collecting data); MECIR",
+      "answer_format": "pilot sample size + field-level revisions + inter-extractor check on the pilot",
+      "gate": "required"
+    },
+    {
+      "id": "extraction-02",
+      "question": "Is each extracted value stored at its correct lineage level (report -> study -> arm -> result), with the report-study merge recorded?",
+      "rationale": "Confusing the report with the study is the classic unit-of-analysis error (double counting).",
+      "source": "PRISMA 2020 items 3 and 5 (report/study distinction); Cochrane Handbook v6 Ch.10 (unit-of-analysis issues)",
+      "answer_format": "lineage map + merge log for companion reports",
+      "gate": "required"
+    },
+    {
+      "id": "extraction-03",
+      "question": "Are continuous-outcome changes (change-from-baseline vs final values) converted to a common metric with the correlation assumptions recorded?",
+      "rationale": "Mixing change and final values across studies biases pooled estimates; assumptions must be explicit.",
+      "source": "Cochrane Handbook v6 Ch.6 (combining groups / change-from-baseline)",
+      "answer_format": "conversion rules + per-study correlation values or imputation method",
+      "gate": "required"
+    },
+    {
+      "id": "extraction-04",
+      "question": "Are multi-arm and shared-control studies handled so no control group is counted twice in any comparison?",
+      "rationale": "Double-counting controls is the most frequent meta-analysis inflation error.",
+      "source": "Cochrane Handbook v6 Ch.10 (multi-arm and shared control designs)",
+      "answer_format": "arm mapping per comparison + control-splitting method",
+      "gate": "required"
+    },
+    {
+      "id": "extraction-05",
+      "question": "Was extraction performed (or verified) by two independent actors, with disagreements adjudicated and the agreement rate recorded?",
+      "rationale": "Dual extraction halves transcription error; the agreement rate calibrates the error risk for readers.",
+      "source": "Cochrane Handbook v6 Ch.5; MECIR",
+      "answer_format": "actor identities + disagreement count + adjudication + agreement metric",
+      "gate": "required"
+    },
+    {
+      "id": "extraction-06",
+      "question": "Are missing, unclear, or derived values flagged per cell, with the derivation or imputation formula attached?",
+      "rationale": "Silent imputation is undetectable in the published table and inflates confidence.",
+      "source": "Cochrane Handbook v6 Ch.5 and Ch.6 (imputing missing data)",
+      "answer_format": "per-cell status flags + formula for every derived value",
+      "gate": "required"
+    },
+    {
+      "id": "extraction-07",
+      "question": "Does the form capture the fields required for risk-of-bias and GRADE domains (allocation, blinding, attrition counts, protocol availability)?",
+      "rationale": "RoB and GRADE judgments are only as good as the fields extracted to support them.",
+      "source": "Cochrane Handbook v6 Ch.8 (assessing RoB); GRADE handbook (domains)",
+      "answer_format": "field-to-domain mapping table",
+      "gate": "required"
+    },
+    {
+      "id": "extraction-08",
+      "question": "Are effect estimates and standard errors checked numerically (direction, units, SE vs SD vs CI confusion) for every result row?",
+      "rationale": "SE/SD/CI confusion and sign errors are the most common numerical extraction mistakes.",
+      "source": "Cochrane Handbook v6 Ch.6 (obtaining standard errors from CIs and P values)",
+      "answer_format": "per-row consistency check + correction log",
+      "gate": "required"
+    },
+    {
+      "id": "extraction-09",
+      "question": "Can every cell in the published analysis tables be traced back to a source page, section, or machine-readable field?",
+      "rationale": "Traceability is what makes a review auditable and is the reproducibility floor.",
+      "source": "PRISMA 2020 item 11 (data items); MetaWingman lineage norm",
+      "answer_format": "source-locator scheme (page/paragraph/field id) + spot-check sample",
+      "gate": "required"
+    },
+    {
+      "id": "extraction-10",
+      "question": "Which single extracted field, if wrong in half the studies, would most change the pooled result?",
+      "rationale": "The load-bearing field deserves a dedicated double-check pass.",
+      "source": "Cochrane Handbook v6 Ch.5",
+      "answer_format": "one field + the dedicated verification pass planned for it",
+      "gate": "optional"
+    }
+  ]
+}

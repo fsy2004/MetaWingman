@@ -14,9 +14,15 @@ from typing import Any
 
 STAGE_TO_FILE = {
     "topic": "topic.json",
+    "protocol": "protocol.json",
+    "search": "search.json",
     "screening": "screening.json",
+    "extraction": "extraction.json",
     "appraisal": "appraisal.json",
     "analysis": "analysis.json",
+    "writing": "writing.json",
+    "reproducibility": "reproducibility.json",
+    "update": "update.json",
 }
 
 
