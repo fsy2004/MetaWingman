@@ -1,4 +1,4 @@
-"""Tests for the appraisal-step weak-supervision candidate builder."""
+﻿"""Tests for the appraisal-step weak-supervision candidate builder."""
 from __future__ import annotations
 
 import json
@@ -22,9 +22,9 @@ class AppraisalStepCandidateTests(unittest.TestCase):
 
     def test_build_candidates_writes_only_appraisal(self) -> None:
         examples = [
-            {"task": "section_role_classification", "gold_label": "appraisal", "example_id": "e1", "family_id": "f1", "split": "train", "input_text": "blinding of participants was performed"},
-            {"task": "section_role_classification", "gold_label": "search", "example_id": "e2", "family_id": "f2", "split": "train", "input_text": "blinding of participants"},
-            {"task": "section_role_classification", "gold_label": "appraisal", "example_id": "e3", "family_id": "f3", "split": "train", "input_text": "unrelated prose"},
+            {"task": "section_role_classification", "target": {"section_role": "appraisal"}, "example_id": "e1", "family_id": "f1", "split": "train", "input_text": "blinding of participants was performed"},
+            {"task": "section_role_classification", "target": {"section_role": "search"}, "example_id": "e2", "family_id": "f2", "split": "train", "input_text": "blinding of participants"},
+            {"task": "section_role_classification", "target": {"section_role": "appraisal"}, "example_id": "e3", "family_id": "f3", "split": "train", "input_text": "unrelated prose"},
         ]
         with tempfile.TemporaryDirectory() as tmp:
             src = Path(tmp) / "examples.jsonl"
@@ -37,7 +37,7 @@ class AppraisalStepCandidateTests(unittest.TestCase):
     def test_weak_label_status_is_declared(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             src = Path(tmp) / "examples.jsonl"
-            src.write_text(json.dumps({"task": "section_role_classification", "gold_label": "appraisal", "example_id": "e1", "family_id": "f1", "split": "train", "input_text": "selective reporting suspected"}), encoding="utf-8")
+            src.write_text(json.dumps({"task": "section_role_classification", "target": {"section_role": "appraisal"}, "example_id": "e1", "family_id": "f1", "split": "train", "input_text": "selective reporting suspected"}), encoding="utf-8")
             out = Path(tmp) / "candidates.jsonl"
             build_candidates(src, out, Path(tmp) / "stats.json")
             candidate = json.loads(out.read_text(encoding="utf-8").strip())
@@ -47,3 +47,4 @@ class AppraisalStepCandidateTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
