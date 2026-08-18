@@ -110,7 +110,24 @@ Reflexion 式**口头反思**（偏差、意外、可改进项）写入阶段记
    完整闭环**（教训记录 → 提案 → 应用 → 提交）；
 5. 证书质量双法官盲评协议脚本。**已落地 + 双 provider 冒烟通过**。
 
-## 8. 参考文献（已下载/精读）
+## 8. 落地状态总览（2026-08-18，活文档）
+
+| 创新/路线项 | 落地物 | 状态 | 声明边界 |
+|---|---|---|---|
+| ① RQC 选题证书 | `review_question_certificate.schema.json` + `generate_review_question_certificate.py` + 双法官盲评 `blind_judge_certificates.py` | ✅ 落地，冒烟通过（门禁通过、双 provider 盲评 4.0/4.4） | 推导链可审计；新颖性 verdict 不独立宣称 |
+| ② 十阶段苏格拉底清单 | `references/socratic-checklists/`（10 阶段 × 10 问，9 必答）+ `check_socratic_checklist.py` 全门禁 | ✅ 全十阶段落地，回归通过 | 问题清单为方法学检查，非自动裁决 |
+| ③ 步骤级验证器 | 规则版 `verify_appraisal_steps.py`（10 步，弃权/人工窗口）+ 6 域 RoB 分类组件 V3（BiomedBERT 110M） | ✅ 规则版 + 训练版落地：dev macro-F1 **0.8500**（规则一致性） | 弱标签规则一致性，非独立验证；VAL-2c 抽检集冻结待人类评分 |
+| ④ audit log + meta-update | `record_audit_log.py`（JSONL + 人工窗口应用 + 提交回填） | ✅ 实跑 3 条完整闭环（glm-5.3 教训、权重 bug、重建机制教训） | 提案带出处；应用经窗口记录 |
+| ⑤ 检索/语料组件 | section-role（macro-F1 0.9995）+ evidence-retrieval（候选集 MRR 0.962）+ BM25 开集检索证据 | ✅ 两组件训练完成；开集检索方向 = 词法（BM25 0.294 证据链） | dev 弱标签；重排器非召回器 |
+| 复现机制 | VAL-1 晋升 + VAL-2b1 冻结 + VAL-2c 抽检 + 重建案例 harness + 首个案例 | ✅ **首个重建案例评分通过**（PLoS Medicine e1004082，R V̇O2peak 切片：MD 2.865 vs 2.9、I² 92.67% vs 93%、k=16 精确，3 次锁定重复） | 确定性 R 管线复算（同 metafor 引擎）；AI-only 端到端仍未跑 |
+| 评测对标 | MetaSyn（arXiv:2606.17041v6）任务映射 | ✅ 15 项映射（covered 6/partial 7/gap 2） | 黄金语料接入待评估（HF 许可未核实） |
+| 跨模型实证 | GLM glm-5.2 C0-C3 对比 | ⏳ 运行中（200 任务 × 4 配置） | 完成后整合 |
+
+**待办主线**（详见 `next-steps-2026-08-18.md`）：GLM 结果整合 → VAL-2c
+人工评分（kappa 决定规则天花板）→ ag-rdt 第二晋升（heiDATA 清单核实中）→
+AI-only 端到端重建（VAL-3）。
+
+## 9. 参考文献（已下载/精读）
 
 1. Wang, Y. *FirstResearch: Auditable Question Formation for LLM Scientific
    Discovery Agents*. arXiv:2607.05682 (2026).（全文精读）
@@ -126,7 +143,8 @@ Reflexion 式**口头反思**（偏差、意外、可改进项）写入阶段记
    Questioning Framework into Automated AI-Based Question Generation*.
    arXiv 2026（LLM-Metacognition 综述收录）.
 9. Schmidgall et al. *Agent Laboratory*. arXiv:2501.04227 (2025).
-10. Benchmarking LLM Agents on Meta-Analysis Articles from Nature Portfolio.
-    arXiv:2606.17041 (2026)（评测设计对标）.
+10. Xie, A. et al. *MetaSyn: A Benchmark for LLM Agents on Meta-Analysis
+    Articles from Nature Portfolio*. arXiv:2606.17041v6 (2026)
+    （评测设计对标；任务映射见 research/benchmark-2606-17041-task-map.md）.
 
 （PDF 存放：`research/method-literature/`，git 忽略、本地留档。）
