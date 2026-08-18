@@ -28,12 +28,19 @@
 
 3. **R6 步骤级评价 verifier**：RoB/GRADE 链拆步骤，每步可验证 + 不确定性弃权
    （Setlur PRM 定性思路 + 2026 Structured Verbal Verification 线索）。
+   **2026-08-18 已实施（本轮）**：10 步规则 verifier 脚本 + schema 已在库；第三
+   个训练组件（6 域 RoB 领域分类，BiomedBERT 110M）V3 训练完成，dev macro-F1
+   **0.8500**（规则一致性，非独立验证；见
+   `appraisal-step-component-results-2026-08-18.md`）。
 4. **选题新颖性审计单**：候选选题输出"既有综述/注册联网比对 + 覆盖缺口 + 时间
-   窗口"证据链。ModSearch 已装，落地条件成熟。
+   窗口"证据链。ModSearch 已装，落地条件成熟。**下一轮开工。**
 
 ## P2 —— 评测与研究层
 
 5. **VAL-2b 手册冻结** → 时间切分重建（复现能力实证，当前最大卡点）。
+   **2026-08-18 冻结完成（本轮）**：100 项人类盲评抽检集已在服务器与本地冻结
+   （协议 `appraisal-human-blind-spotcheck-protocol-2026-08-18.md`；SHA-256 见
+   results 文档），**待人类评审窗口评分** → kappa 决定规则天花板。
 6. **对标 2606.17041 基准**：评估我们的 AI-only 任务是否覆盖其任务类型。
 7. **Lifelong upgrades 机制化**：skill/预设版本化 + 变更日志（已起步）→ 扩展为
    "新文献线索 → 带出处提案 → 更新文件 → 记录"的循环（对应 ICLR 2026 lifelong
