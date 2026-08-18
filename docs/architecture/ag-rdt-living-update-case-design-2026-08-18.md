@@ -1,0 +1,75 @@
+# ag-rdt Living-Update Case Design (VAL-2b2 draft, 2026-08-18)
+
+> Status: **design draft**. This is the task-manual skeleton for the second
+> reconstruction family (`covid19-antigen-dta-living`). It is NOT frozen: two
+> of the three material-plan blockers are still open (see §4). Nothing here
+> may be run or claimed until the freeze note at the end is satisfied.
+
+## 1. Family and slice
+
+| Field | Value |
+|---|---|
+| review_family_id | covid19-antigen-dta-living |
+| published reviews | Brümmer et al., COVID-19 antigen rapid diagnostic test living systematic review (2021 first version; 2022 update) |
+| supported scopes (plan) | extraction, appraisal, analysis, living_update |
+| reproduction ceiling | living_update |
+| cutoffs | 2021-04-30 (first version), 2021-08-31 (update) — both day-precision |
+| frozen reference artifact | 2021 extraction workbook, Zenodo 4924035 revision 7, CC-BY-4.0, sha256 `8c2dfe6f4a1512994890c8346b7e2a52598d90fe84f1aed1fe5ebac3c9fb6955`, 531,709 bytes |
+
+## 2. Reconstruction task (the "living update" slice)
+
+An AI-only run replays the **update** under the historical boundary:
+
+1. **Operational inputs** (must contain no post-2021-08-31 evidence): the
+   2021 frozen workbook (operational copy of the extraction tables) + a
+   pre-update candidate corpus (records identifiable by a search executed as
+   of 2021-08-31, with post-cutoff records excluded and sealed).
+2. **Run**: screen the delta window (new records 2021-04-30 → 2021-08-31),
+   extract/appraise newly included studies per the protocol criteria, and
+   produce the updated synthesis (per-outcome pooled estimates + counts).
+3. **Reference (sealed)**: the 2022 update publication's inclusion decisions,
+   per-study extractions, and updated estimates. Source artifact = the 2022
+   heiDATA record (inventory in flight, 2026-08-18) — see §4.
+
+## 3. Scoring design (precommitted BEFORE the reference is sealed)
+
+- **Inclusion delta agreement**: studies entering/leaving the included set
+  between versions — exact match on study identifiers; discordance classified
+  via the benchmark error classes (no de-novo adjudication).
+- **Extraction agreement**: per-field agreement on newly included studies,
+  with the precommitted tolerance per field type (continuous ±0.05 in natural
+  units; counts exact; categorical exact).
+- **Synthesis agreement**: updated pooled estimates within the same tolerance
+  scheme as the sci-exercise case (pooled ±0.05, CI ±0.05, I² ±1.0 pp,
+  k exact), extended per outcome.
+- **Update mechanics**: did the run produce a valid living-update delta
+  (version increment, changelog, re-run receipt)? Scored as process
+  compliance (yes/no), not a number.
+- All tolerances freeze together with the reference answers, before any
+  unsealing, recorded in the case spec JSON.
+
+## 4. Blockers and their exact resolution paths
+
+| # | Blocker (from the material plan) | Status 2026-08-18 | Resolution path |
+|---|---|---|---|
+| 1 | Inventory and hash the immutable 2022 heiDATA files | ⏳ subagent inventory in flight (`research/ag-rdt-heidata-inventory-2026-08-18.md`) | file list + per-file SHA-256 + license → extend the material plan with pinned artifacts (role `sealed_reference`) |
+| 2 | Verify the later repository license | ⏳ same subagent | license field from the heiDATA record page/API; only verified-open licenses promote |
+| 3 | Construct a pre-update operational corpus that excludes later evidence | ⛔ open, no local action possible yet | contract: candidate records with search-date metadata ≤ 2021-08-31; post-cutoff records identified and sealed out; constructed only after blockers 1-2 resolve |
+
+## 5. Freeze note
+
+This design becomes a sealed case only when: (a) the 2022 artifact is pinned
+with SHA-256 and a verified-open license; (b) the pre-update operational
+corpus exists and is hash-frozen; (c) the reference answers are extracted
+with source locators (same standard as the sci-exercise sealed file); (d) the
+case spec JSON passes `reconstruction_case.schema.json` with `status:
+sealed`; (e) tolerances are frozen in the spec. Until then this document is a
+plan, not a benchmark.
+
+## 6. Reuse
+
+- Runner: `metawingman/scripts/run_reconstruction_case.py` (the living-update
+  slice adds a screening/extraction stage; the runner currently supports the
+  deterministic analysis slice — an extension task is implied and must be
+  preregistered before use).
+- Machinery precedent: `reconstruction-first-case-results-2026-08-18.md`.

@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "2f12ba3fdab42e934da36ce20232e5709ae132f394149eda5e272d04f7212d57",
+  "source_tree_sha256": "8e9424be2e67e5fe576f30968435299b2326145f35c5e35d0ae5711ed0d9b118",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -47,8 +47,8 @@
   "files": [
     {
       "path": "SKILL.md",
-      "sha256": "d0eea1f62ae51827751989c6bf0186a26ce4eff04f1be18cff7353c49c933a91",
-      "bytes": 24420
+      "sha256": "a1305cc8a6b10b9568fd18f182e22a2e54a54d80741eaae8954c0b8ded5d40f5",
+      "bytes": 25412
     },
     {
       "path": "agents/openai.yaml",
@@ -171,9 +171,44 @@
       "bytes": 4045
     },
     {
+      "path": "references/socratic-checklists/extraction.json",
+      "sha256": "5323c6806866a361c69bb064b49b9b6b48bbb5e1ef624ede9d64741e16e116ad",
+      "bytes": 5207
+    },
+    {
+      "path": "references/socratic-checklists/protocol.json",
+      "sha256": "4d4e002b32d5275894df50b8cbe06481c41a9e229ed2a9d893cae9daa641db3e",
+      "bytes": 5544
+    },
+    {
+      "path": "references/socratic-checklists/reproducibility.json",
+      "sha256": "9ef501ab0b3c91209c3b187b940103227104b52811c9456cfe8eda064111f2e3",
+      "bytes": 5511
+    },
+    {
       "path": "references/socratic-checklists/screening.json",
       "sha256": "aaf72067e50e93004a3eb709514553332395da49825d1459e312ab591522506c",
       "bytes": 4622
+    },
+    {
+      "path": "references/socratic-checklists/search.json",
+      "sha256": "09ac64d4d389118c5e9a81201ef7f9dcf9687507d92a51a8307a42df12bfeaed",
+      "bytes": 5089
+    },
+    {
+      "path": "references/socratic-checklists/topic.json",
+      "sha256": "d0579467d090d51d42345b1434320cb50c1648ff4006860793e054cc74b89169",
+      "bytes": 5574
+    },
+    {
+      "path": "references/socratic-checklists/update.json",
+      "sha256": "abdadb4d1073c1b77d7fb67417533745a632c4fc3f578dd18796e04fe45853c5",
+      "bytes": 5300
+    },
+    {
+      "path": "references/socratic-checklists/writing.json",
+      "sha256": "5c010bb5b640f7d70dccf27bf40c226bdf4d3cc2891f1c0448d024b0d001d855",
+      "bytes": 5379
     },
     {
       "path": "references/source-provenance.md",
@@ -446,6 +481,11 @@
       "bytes": 1616
     },
     {
+      "path": "schemas/reconstruction_case.schema.json",
+      "sha256": "700e9d1daa9f1a981212bfe241923413d3444c41063ec8de9dbbfd2aa66bd950",
+      "bytes": 3504
+    },
+    {
       "path": "schemas/reliability_trial.schema.json",
       "sha256": "8af491f5639b50c23a9bede96eaf02b35e411fb84033451f17e7219bfac53df8",
       "bytes": 1510
@@ -616,6 +656,11 @@
       "bytes": 4254
     },
     {
+      "path": "scripts/build_human_blind_spotcheck.py",
+      "sha256": "3206a1871fcb7496d4cb953f49c7e5a9e5e0629f1fef9a32a91a3570fd7213d2",
+      "bytes": 7375
+    },
+    {
       "path": "scripts/build_judgment_dossier.py",
       "sha256": "a421e7aac128e2bfb04cd9de2345071e342851da3f86e9102b4bc8c62a6b8440",
       "bytes": 1695
@@ -647,8 +692,8 @@
     },
     {
       "path": "scripts/check_socratic_checklist.py",
-      "sha256": "7c1dcd7bda918f992a4124b33dc585fc4aa6f37a3681dd5aa1b90d99ce61fcee",
-      "bytes": 2867
+      "sha256": "0fda932882addcbf73f969b8aee4553f3732634787c179b55edc14a2799c3b16",
+      "bytes": 3104
     },
     {
       "path": "scripts/cluster_review_families.py",
@@ -1672,8 +1717,8 @@
     },
     {
       "path": "scripts/run_appraisal_step_training.py",
-      "sha256": "c709660b53af750f2b8b907c451de6429e25a4236ec4d86c1a66f54e04abdae7",
-      "bytes": 8819
+      "sha256": "6a4f52026e41ddb244caf744df0db368d1641d99b664d2fde4d8f5045bcdbe3a",
+      "bytes": 9145
     },
     {
       "path": "scripts/run_component_training.py",
@@ -1684,6 +1729,11 @@
       "path": "scripts/run_r2_ai_validation.py",
       "sha256": "d0a8140ab51c66edee9e396ed3cea4691e6fef79f31fb8720a2e697f258aea66",
       "bytes": 14575
+    },
+    {
+      "path": "scripts/run_reconstruction_case.py",
+      "sha256": "17cc00dd493c4a06871eafb39d575e76096a5e9a3f2544e61b3235ebdc11bab0",
+      "bytes": 16490
     },
     {
       "path": "scripts/score_r2_ai_validation.py",

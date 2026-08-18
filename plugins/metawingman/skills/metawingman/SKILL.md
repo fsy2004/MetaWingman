@@ -1,6 +1,6 @@
 ---
 name: metawingman
-description: End-to-end, evidence-grounded systematic review and meta-analysis support from topic selection, protocol and registration through live database searching, lawful full-text retrieval, deduplication, dual screening, extraction, study/result lineage, risk-of-bias assessment, quantitative or SWiM synthesis, GRADE, manuscript writing, AI reviewer audit, revision and living updates. Use whenever Codex is asked to plan, conduct, automate, analyze, write, audit, update, or peer-review a systematic review, scoping review, evidence synthesis, or meta-analysis in biomedicine or related fields. Supports pairwise, network, diagnostic, prognostic, prevalence, incidence, proportion, dose-response, IPD, multilevel/RVE, Bayesian, umbrella, qualitative, mixed-methods, rapid, living, and other review profiles. Requires live source verification, auditable provenance, reproducible code, and explicit human decisions; never invent references, screening decisions, extracted values, or completed analyses.
+description: End-to-end, evidence-grounded systematic review and meta-analysis support from topic selection, protocol and registration through live database searching, lawful full-text retrieval, deduplication, dual screening, extraction, study/result lineage, risk-of-bias assessment, quantitative or SWiM synthesis, GRADE, manuscript writing, AI reviewer audit, revision and living updates. Use whenever Codex is asked to plan, conduct, automate, analyze, write, audit, update, or peer-review a systematic review, scoping review, evidence synthesis, or meta-analysis in biomedicine or related fields. Supports pairwise, network, diagnostic, prognostic, prevalence, incidence, proportion, dose-response, IPD, multilevel/RVE, Bayesian, umbrella, qualitative, mixed-methods, rapid, living, and other review profiles. Requires live source verification, auditable provenance, reproducible code, and explicit human decisions; never invent references, screening decisions, extracted values, or completed analyses. 中文触发：系统综述、系统评价、荟萃分析、meta 分析、Meta分析、PRISMA、GRADE、证据合成、meta 论文。
 ---
 
 # MetaWingman
@@ -70,16 +70,16 @@ Follow [workflow-and-gates.md](references/workflow-and-gates.md). Do not skip fo
 
 | Stage | Required output | Hard gate |
 |---|---|---|
-| 0. Feasibility and topic | novelty map, decision need, existing-review map, accessible evidence estimate, **derived review question certificate** | question is useful, answerable, not merely duplicative; **certificate hard gates pass and novelty verdict is not covered** |
-| 1. Protocol | review and synthesis questions, estimands, eligibility, outcome hierarchy, thresholds, search, appraisal, synthesis, amendments and AI mode | protocol frozen and registered or registration decision documented |
-| 2. Search | source-specific strategies, exact dates, exports, query text, counts, hashes, dedup audit | search is reproducible and required sources are covered |
+| 0. Feasibility and topic | novelty map, decision need, existing-review map, accessible evidence estimate, **socratic topic checklist answered**, **derived review question certificate** | question is useful, answerable, not merely duplicative; **topic novelty-audit checklist passes and certificate hard gates pass with novelty verdict not covered** |
+| 1. Protocol | review and synthesis questions, estimands, eligibility, outcome hierarchy, thresholds, search, appraisal, synthesis, amendments and AI mode, **socratic protocol checklist answered** | protocol frozen and registered or registration decision documented; protocol checklist passes |
+| 2. Search | source-specific strategies, exact dates, exports, query text, counts, hashes, dedup audit, **socratic search checklist answered** | search is reproducible and required sources are covered; search checklist passes |
 | 3. Selection | mode/profile-specific independent decisions, criterion anchors, conflicts, exclusion reasons, PRISMA counts, **socratic screening checklist answered** | mode/profile-required independent eligibility complete; all conflicts adjudicated |
-| 4. Data and lineage | piloted extraction, report/study/arm/result/synthesis map, duplicate/shared-control resolution | mode/profile-required independent extraction or verification complete; result definitions match protocol |
+| 4. Data and lineage | piloted extraction, report/study/arm/result/synthesis map, duplicate/shared-control resolution, **socratic extraction checklist answered** | mode/profile-required independent extraction or verification complete; result definitions match protocol |
 | 5. Appraisal | result-level RoB, synthesis-level missing-evidence assessment, supporting anchors, **step-level appraisal verification report** | every synthesized result and prespecified critical synthesis has required appraisal; **verifier abstention resolved or human window invoked** |
-| 6. Freeze and synthesis | immutable analysis input, code, environment, tables, figures, sensitivity analyses, **socratic analysis checklist answered** | hashes and model checks pass; pooling is clinically and statistically defensible |
+| 6. Freeze and synthesis | immutable analysis input, code, environment, tables, figures, sensitivity analyses, **socratic analysis + reproducibility checklists answered** | hashes and model checks pass; pooling is clinically and statistically defensible |
 | 7. Certainty and interpretation | GRADE or profile-appropriate certainty, absolute effects, limitations, applicability | conclusions follow certainty and do not exceed evidence |
-| 8. Reporting and review | manuscript, supplement, checklists, disclosure, reviewer panel, response matrix | all critical findings resolved or transparently unresolved |
-| 9. Update | search alerts, update cadence, status-change rules, version history | update criteria and retirement rule are explicit |
+| 8. Reporting and review | manuscript, supplement, checklists, disclosure, reviewer panel, response matrix, **socratic writing checklist answered** | all critical findings resolved or transparently unresolved; writing checklist passes |
+| 9. Update | search alerts, update cadence, status-change rules, version history, **socratic update checklist answered** | update criteria and retirement rule are explicit; update checklist passes |
 
 ## Question-first derivation & reflection loop (提问-推导-反思循环)
 
@@ -87,16 +87,23 @@ The review is derived, not merely executed. Before each stage, ask that
 stage's Socratic questions and answer them; after each stage, log lessons.
 This loop is how the skill improves itself (lifelong-upgrades mechanism).
 
-- **Topic (Stage 0)** — run `scripts/generate_review_question_certificate.py`
+- **Topic (Stage 0)** — answer the Socratic topic checklist in
+  `references/socratic-checklists/topic.json` (nearest existing review,
+  coverage-gap matrix, PROSPERO collision, time-window volume, falsifiable
+  contribution sentence, rediscovery probe) and gate completeness with
+  `scripts/check_socratic_checklist.py --stage topic`; then run
+  `scripts/generate_review_question_certificate.py`
   to derive a Review Question Certificate: primitives, first-principle
   assumptions, mechanism model, tension, falsifiable hypothesis, minimal
   decisive test, failure-update rule, and a novelty gate, with hard/soft
   gates. Blind-judge certificates with `scripts/blind_judge_certificates.py`
   using two independent providers; record judge critiques through the audit
   log.
-- **Screening / Appraisal / Analysis** — answer the Socratic checklists in
-  `references/socratic-checklists/{screening,appraisal,analysis}.json` and
-  gate completeness with `scripts/check_socratic_checklist.py`.
+- **Every stage** — answer the Socratic checklist in
+  `references/socratic-checklists/<stage>.json` before entering the stage and
+  gate completeness with `scripts/check_socratic_checklist.py --stage <stage>`.
+  All ten stages are covered: topic, protocol, search, screening, extraction,
+  appraisal, analysis, writing, reproducibility, update.
 - **Appraisal (Stage 5)** — run `scripts/verify_appraisal_steps.py` over each
   dossier; any failed required step or a pending human signature means
   abstention or the human review window.
