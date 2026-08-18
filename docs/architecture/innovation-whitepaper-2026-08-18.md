@@ -104,7 +104,7 @@ Reflexion 式**口头反思**（偏差、意外、可改进项）写入阶段记
    writing / reproducibility / update（每阶段 10 问，9 必答 + 1 可选项），
    门禁 `check_socratic_checklist.py --stage <stage>` 全覆盖；
 3. R6 评价步骤验证器（规则版先行，训练版入组件管线）；**规则版 + 6 域训练
-   组件 V3 已落地**（dev macro-F1 0.8500，规则一致性；VAL-2b 人类盲评抽检集
+   组件 V3 已落地**（dev macro-F1 0.8500，规则一致性；VAL-2c 人类盲评抽检集
    已冻结待评分）；
 4. audit log + meta-update 回路接入 skill 版本化流程；**已落地并实跑一条
    完整闭环**（教训记录 → 提案 → 应用 → 提交）；

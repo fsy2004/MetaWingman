@@ -1,4 +1,4 @@
-"""Build the VAL-2b human-blind appraisal-domain spot-check set.
+"""Build the VAL-2c human-blind appraisal-domain spot-check set.
 
 Purpose: freeze a reproducible 100-item sample from the appraisal-step
 development split so a human reviewer can rate risk-of-bias domain labels
@@ -142,7 +142,7 @@ def main() -> int:
             label_counts[k["weak_label"]] = label_counts.get(k["weak_label"], 0) + 1
         manifest = {
             "schema_version": "1.0",
-            "generation": "val2b-human-blind-appraisal-spotcheck",
+            "generation": "val2c-human-blind-appraisal-spotcheck",
             "frozen_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "n": len(questions),
             "seed": args.seed,

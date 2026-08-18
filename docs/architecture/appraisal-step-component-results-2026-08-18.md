@@ -1,4 +1,4 @@
-# Appraisal-Step Component — V3 Training Results & VAL-2b Freeze
+# Appraisal-Step Component — V3 Training Results & VAL-2c Freeze
 
 **Date:** 2026-08-18
 **Component:** appraisal-step domain classifier (six risk-of-bias domains)
@@ -45,7 +45,14 @@ best model + tokenizer, hashed in the receipt.
   the rules. This is the "rule-consistency ceiling" defined in the
   preregistration, and every downstream claim must use that vocabulary.
 
-## 3. VAL-2b human-blind spot-check — frozen
+## 3. VAL-2c human-blind spot-check — frozen
+
+> Naming corrected 2026-08-18: this spot-check is **VAL-2c** (human-blind
+> weak-label rule-clarity measurement). The roadmap's **VAL-2b** (task-manual /
+> loss-weight / release-threshold freezing) is a separate, still-open item. The
+> already-frozen manifest's `generation` field reads
+> `val2b-human-blind-appraisal-spotcheck` (historical label); it was frozen
+> before the collision fix and is not regenerated — freeze immutability wins.
 
 Frozen 2026-08-18 by
 `metawingman/scripts/build_human_blind_spotcheck.py` (seed 20260815), sampled
@@ -82,7 +89,7 @@ complete).
 3. **Possible V4:** if kappa is high (>0.81) but model consistency plateaus
    below it, retrain with more epochs / larger model / RoBERTa-large to chase
    the ceiling; if kappa is low, revise the weak-label rules first and
-   re-freeze a new VAL-2b generation (old generation retained).
+   re-freeze a new VAL-2c generation (old generation retained).
 
 ## 5. Training lessons (meta-update loop)
 

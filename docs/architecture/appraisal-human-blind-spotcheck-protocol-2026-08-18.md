@@ -1,10 +1,17 @@
-# VAL-2b: Human-Blind Appraisal-Domain Spot-Check — Frozen Protocol
+# VAL-2c: Human-Blind Appraisal-Domain Spot-Check — Frozen Protocol
 
 **Status:** frozen before any independent-validation claim
 **Date:** 2026-08-18
 **Component:** appraisal-step domain classifier (six risk-of-bias domains:
 selection / performance / detection / attrition / reporting / other)
 **Tooling:** `metawingman/scripts/build_human_blind_spotcheck.py`
+
+> **Ladder note:** this protocol is **VAL-2c** (human-blind weak-label spot-check).
+> The roadmap's **VAL-2b** ("fill and freeze task manuals, scientific loss
+> weights, release thresholds, configuration hashes, stopping rules") remains a
+> separate, still-open item. The frozen manifest's `generation` field reads
+> `val2b-human-blind-appraisal-spotcheck` because it was assigned before the
+> collision was corrected; treat that string as a historical label for VAL-2c.
 
 ## 1. Why this exists
 
@@ -15,11 +22,11 @@ can even discuss "how well the component works", two questions must be
 separated:
 
 1. **Rule clarity:** are the deterministic labels themselves what a careful
-   human would assign? (VAL-2b measures this.)
+   human would assign? (VAL-2c measures this.)
 2. **Rule consistency:** does the trained component reproduce the rule labels
    on held-out passages? (the training receipt's `eval_macro_f1` measures this.)
 
-VAL-2b is the human-blind measurement of (1). It is a spot-check, not a
+VAL-2c is the human-blind measurement of (1). It is a spot-check, not a
 clinical validation: the passages concern methods descriptions, and no claim
 about any medical conclusion is being validated. This restriction is recorded
 in the manifest (`claim_policy`) and is binding on every downstream report.
@@ -76,7 +83,7 @@ in the manifest (`claim_policy`) and is binding on every downstream report.
 
 ## 6. Reporting rules
 
-Any document citing VAL-2b must: (a) cite this protocol; (b) report the
+Any document citing VAL-2c must: (a) cite this protocol; (b) report the
 manifest SHA-256 pair so reviewers can verify the freeze; (c) report kappa
 with CI and per-class counts; (d) use the claim-policy sentence verbatim when
 describing what the result does and does not show.
