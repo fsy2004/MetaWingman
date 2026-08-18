@@ -54,7 +54,7 @@ def build_candidates(examples_path: Path, out_path: Path, stats_path: Path) -> d
             example = json.loads(line)
             if example.get("task") != "section_role_classification":
                 continue
-            if example.get("gold_label") != "appraisal" and example.get("predicted_role") != "appraisal":
+            if example.get("target", {}).get("section_role") != "appraisal":
                 continue
             text = example.get("input_text") or ""
             label = classify_domain(text)
