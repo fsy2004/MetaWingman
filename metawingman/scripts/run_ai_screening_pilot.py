@@ -114,11 +114,22 @@ def main() -> int:
         if not records:
             raise ValueError("sample is empty")
         provider = load_provider(args.provider_config)
-        args.out_dir.mkdir(parents=True, exist_ok=False)
+        args.out_dir.mkdir(parents=True, exist_ok=True)  # resume-friendly
         prompt_prefix = build_prompt(criteria)
         runs_path = args.out_dir / "screening-runs.jsonl"
-        with runs_path.open("w", encoding="utf-8") as fh:
+        done_ids: set[str] = set()
+        if runs_path.exists():
+            for line in runs_path.read_text(encoding="utf-8-sig").splitlines():
+                if not line.strip():
+                    continue
+                row = json.loads(line)
+                if row.get("repetition") == args.repetition:
+                    done_ids.add(row.get("record_id"))
+        started_count = len(done_ids)
+        with runs_path.open("a", encoding="utf-8") as fh:
             for record in records:
+                if record["id"] in done_ids:
+                    continue  # resume
                 decision = screen(record, prompt_prefix, provider)
                 row = {
                     "record_id": record["id"],
@@ -141,6 +152,7 @@ def main() -> int:
             "provider_config_sha256": sha256_file(args.provider_config),
             "prompt_prefix_sha256": hashlib.sha256(prompt_prefix.encode()).hexdigest(),
             "records": len(records),
+            "resumed_from": started_count,
             "runs_sha256": sha256_file(runs_path),
         }
         (args.out_dir / "execution-receipt.json").write_text(
