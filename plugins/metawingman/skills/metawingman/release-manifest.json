@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "fe8f199401d8cefc79c9193002866a1a04c7985828ad32b4b39d9f6a8a23b43b",
+  "source_tree_sha256": "deb7f792efa461c7cdc74c98f3e24db873451d4a5572ac3db39eb69f1b1d70fa",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -604,6 +604,11 @@
       "path": "scripts/audit_training_dataset.py",
       "sha256": "f769146a8d5b667a4a7c8745bbed46a15c2dfe4263bd23e9995831cc23f76263",
       "bytes": 1550
+    },
+    {
+      "path": "scripts/blind_judge_certificates.py",
+      "sha256": "1c2893bea418c35c8b6e27a7a82417d5ebfe6fa2ef081fb23bd1126948665045",
+      "bytes": 6775
     },
     {
       "path": "scripts/build_judgment_dossier.py",
