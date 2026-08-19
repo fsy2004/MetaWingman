@@ -143,7 +143,7 @@ download or training may start until the user authorizes that server and job ID.
 
 The rented server's measured reality, recorded before any training:
 
-- Container: AutoDL (Ubuntu 22.04), `root@connect.westb.seetacloud.com:12977`.
+- Container: AutoDL (Ubuntu 22.04); access details in the local-only runbook (not committed).
 - GPU: RTX 4090 D, `nvidia-smi` reports 24564 MiB (≈ 23.99 GiB) with driver
   595.71.05. Because the preflight check compares GiB, the component jobs are
   **rebuilt with `gpu_memory_gib_each: 23`** (a 24 GiB nominal card always
