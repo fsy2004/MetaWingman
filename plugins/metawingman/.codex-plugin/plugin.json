@@ -3,20 +3,26 @@
   "version": "0.1.0",
   "description": "AI-first, evidence-grounded, human-overseen systematic review and meta-analysis workflow.",
   "author": {
-    "name": "MetaWingman contributors"
+    "name": "fangshenyi"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "MetaWingman",
-    "shortDescription": "Auditable systematic reviews and Meta-analysis",
+    "shortDescription": "Auditable systematic reviews and meta-analysis",
     "longDescription": "Plan and execute evidence-grounded systematic reviews from topic selection through living updates, with typed provenance, deterministic verification, explicit abstention, and human responsibility gates.",
-    "developerName": "MetaWingman contributors",
+    "developerName": "fangshenyi",
     "category": "Research",
     "capabilities": [
       "systematic review",
       "meta-analysis",
       "evidence synthesis"
     ],
-    "defaultPrompt": "Use $metawingman to continue this systematic review from its live project state, preserve provenance, and stop at any unresolved scientific or credential gate."
+    "defaultPrompt": "Use $metawingman to continue this systematic review from its live project state, preserve provenance, and stop at any unresolved scientific or credential gate.",
+    "websiteURL": "https://github.com/fsy2004/MetaWingman",
+    "privacyPolicyURL": "https://github.com/fsy2004/MetaWingman/blob/main/docs/privacy.md",
+    "termsOfServiceURL": "https://github.com/fsy2004/MetaWingman/blob/main/docs/terms.md",
+    "brandColor": "#276DC3",
+    "logo": "./assets/logo.png",
+    "logoDark": "./assets/logo.png"
   }
 }

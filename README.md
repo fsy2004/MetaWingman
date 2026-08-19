@@ -88,6 +88,25 @@ recorded smoke/regression run:
 - **Dual-judge blind scoring** — certificate quality scored blind by two
   judge models.
 
+## Get the skill
+
+Three ways, pick the one that fits your host:
+
+1. **GitHub Releases** — download the deterministic bundle (ZIP + SHA-256
+   checksums) from
+   [Releases](https://github.com/fsy2004/MetaWingman/releases).
+2. **Plugin marketplace** — one command:
+   ```powershell
+   codex plugin marketplace add fsy2004/MetaWingman
+   codex plugin add metawingman@metawingman-local
+   ```
+3. **Clone + install script**:
+   ```powershell
+   git clone https://github.com/fsy2004/MetaWingman.git
+   cd MetaWingman
+   .\install.ps1        # installs to ~\.agents\skills\metawingman
+   ```
+
 ## Install
 
 ```powershell
@@ -258,6 +277,24 @@ flowchart LR
 - **审计日志 + 元更新回路**——JSONL 事件；变更提案带出处，仅经审核窗口应用
   并记录提交号。
 - **双法官盲评**——证书质量由两个法官模型盲评。
+
+## 获取 skill
+
+三种方式，按宿主选一种：
+
+1. **GitHub Releases**——下载确定性打包产物（ZIP + SHA-256 校验和）：
+   [Releases](https://github.com/fsy2004/MetaWingman/releases)。
+2. **插件市场**——一条命令：
+   ```powershell
+   codex plugin marketplace add fsy2004/MetaWingman
+   codex plugin add metawingman@metawingman-local
+   ```
+3. **克隆 + 安装脚本**：
+   ```powershell
+   git clone https://github.com/fsy2004/MetaWingman.git
+   cd MetaWingman
+   .\install.ps1        # 默认安装到 ~\.agents\skills\metawingman
+   ```
 
 ## 安装
 
