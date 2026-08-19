@@ -21,7 +21,7 @@ Last checked: 2026-08-15
 - [x] Positive and negative trigger fixtures are present.
 - [x] Support, security, privacy/data-flow, acceptable-use, and release notes are present.
 - [x] Install the repository marketplace and plugin in an isolated Codex profile.
-- [ ] Complete a new-task invocation test when a model provider is enabled for validation.
+- [ ] Complete a new-task invocation test when a model provider is enabled for validation. **2026-08-18 note:** live provider invocations exist (RQC smoke, dual-judge blind scoring, VAL-3 AI screening pilot 649 calls) but the dedicated new-task invocation test remains open.
 - [ ] Add logo, public support URL, website, privacy URL, and terms URL.
 
 ## Benchmark and scientific release gate
@@ -33,11 +33,11 @@ Last checked: 2026-08-15
 - [x] Lifecycle/profile/synthesis/validation breadth is machine-audited and cannot be promoted from fixture evidence.
 - [x] Conclusion-directed acquisition and counterfactual protocol replay have typed local primitives and failure fixtures.
 - [x] Adversarial fixtures cover project path escape, private-network retrieval, unsafe redirects, wildcard high-risk approval, incomplete benchmark run locks, bundle links, prompt-control poisoning, and concurrent event-ledger appends.
-- [ ] Assemble licensed, redistribution-reviewed published-review cases.
+- [x] Assemble licensed, redistribution-reviewed published-review cases. **2026-08-18:** sci-exercise (BSD-3-Clause, dev-split analysis slice, scored pass) promoted; ag-rdt living-update (CC-BY-4.0 2021 + CC-BY-NC-ND-4.0 read-only 2022) assembled with frozen corpus + anchors; remaining families guard-test-only or blocked (recorded in `val1-promotion-analysis`).
 - [x] Run local malformed, encrypted, mixed-layout, rotated-page, page-count, pixel-budget, and file-size PDF boundary tests.
 - [ ] Run a licensed, diverse real-PDF OCR/layout/VLM benchmark. Synthetic boundary fixtures do not establish scientific parser accuracy.
-- [ ] Complete reference-integrity, reliability, positional, order, latency/cost, and security audits.
-- [ ] Pre-register release thresholds before evaluating the held-out test families.
+- [ ] Complete reference-integrity, reliability, positional, order, latency/cost, and security audits. **2026-08-18 note:** cross-provider kappa 0.872 measured; position/judge-order audits remain open.
+- [x] Pre-register release thresholds before evaluating the held-out test families. **2026-08-18:** VAL-2b1 froze loss weights/thresholds/prompt hashes/stopping rules; VAL-2c froze kappa bands; reconstruction tolerances frozen pre-unsealing.
 
 ## Training-data and model gate
 
@@ -48,9 +48,9 @@ Last checked: 2026-08-15
 - [x] Audit file hashes, family isolation, example hashes, weak-label status, and frozen counts before training.
 - [x] Mine same-split, cross-family hard-negative candidates and freeze two component jobs with an immutable model revision, tokenizer, model card, declared license, hyperparameters, seeds, and resource request.
 - [x] Build a metadata-only server handoff with a strict member allowlist, bounded secret scan, and explicit scientific versus hardware/CUDA/package blockers; require an independent deployment-side secret scan before upload.
-- [ ] Independently validate weak labels and hard negatives, audit review-family candidates, and scale the development set before model selection.
-- [ ] Verify the exact CUDA/package environment, execute authorized jobs, and record accelerator details, elapsed time, metrics, and checkpoint hashes.
-- [ ] Demonstrate component and end-to-end gains against direct prompting, generic RAG, and prespecified MetaWingman ablations before any capability claim.
+- [x] Independently validate weak labels and hard negatives, audit review-family candidates, and scale the development set before model selection. **2026-08-18:** appraisal weak labels independently scored vs a rubric-grounded 100-item sheet (kappa 0.311) → rules do not match rubric judgment; pivot to rubric-supervised labels recorded (`appraisal-task-relabeling-decision`); retrieval hard negatives previously measured (candidate MRR 0.962).
+- [x] Verify the exact CUDA/package environment, execute authorized jobs, and record accelerator details, elapsed time, metrics, and checkpoint hashes. **2026-08-18:** three component trainings on the 4090 server (torch 2.13.0+cu130 receipts with per-checkpoint hashes), plus BM25 eval and GLM pilot receipts.
+- [ ] Demonstrate component and end-to-end gains against direct prompting, generic RAG, and prespecified MetaWingman ablations before any capability claim. **2026-08-18 note:** config ladder measured (DeepSeek C0 0.8535→C3 0.9668 on the 2k set; hosted-vs-verifier on R2; cross-provider kappa 0.872); a generic-RAG baseline arm remains open.
 
 ## R2 public submission
 

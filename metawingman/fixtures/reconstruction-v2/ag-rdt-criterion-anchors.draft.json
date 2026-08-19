@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "stage": "screening",
+  "status": "draft_until_reviewed",
+  "source_note": "Draft criterion anchors for the ag-rdt living-update screening stage, derived from research/ag-rdt-eligibility-criteria-2021.json per the auditable-mapping contract (ag-rdt-living-update-case-design-2026-08-18.md). Reviewed before the case seals; see docs/architecture/ag-rdt-criterion-anchors-2026-08-18.md for the full mapping and the NOT-captured list.",
+  "include_rules": [
+    {
+      "id": "inc-index-agrdt",
+      "terms": ["antigen", "rapid diagnostic", "lateral flow", "rdt"],
+      "mode": "any",
+      "requires": ["inc-accuracy-eval", "inc-reference-standard"],
+      "source_criterion": "inclusion #1 + #7 (commercially available Ag-RDT as index test, POC-developed)",
+      "source_locator": "Methods > Inclusion criteria para 1; S1 Text > Index test",
+      "simplification": "commercial/POC availability is not detectable from title/abstract terms; anchor flags Ag-RDT mentions only; v2 requires accuracy + reference-standard co-occurrence (rehearsal lesson: OR-only matching included 55.6% of the corpus vs ~4.5% real inclusion rate)"
+    },
+    {
+      "id": "inc-accuracy-eval",
+      "regex": ["accuracy|sensitivity|specificity|diagnostic performance"],
+      "mode": "any",
+      "source_criterion": "inclusion #1 (accuracy evaluation against a reference standard)",
+      "source_locator": "Methods > Inclusion criteria para 1",
+      "simplification": "accuracy-evaluation phrasing stands in for the reference-standard requirement at screening stage"
+    },
+    {
+      "id": "inc-reference-standard",
+      "terms": ["rt-pcr", "pcr", "cell culture"],
+      "regex": ["reference standard"],
+      "mode": "any",
+      "source_criterion": "inclusion #1 (RT-PCR or cell culture reference standard)",
+      "source_locator": "Methods > Inclusion criteria para 1",
+      "simplification": "term-level proxy; studies comparing against other Ag-RDTs would need the exclusion side (not captured at this stage)"
+    },
+    {
+      "id": "inc-design",
+      "regex": ["cohort|case.control|case control|cross.sectional|randomi[sz]ed"],
+      "mode": "any",
+      "source_criterion": "inclusion #3 (cohort / nested cohort / case-control / cross-sectional / randomized)",
+      "source_locator": "Methods > Inclusion criteria para 1",
+      "simplification": "design terms from title/abstract only"
+    }
+  ],
+  "exclude_rules": [
+    {
+      "id": "exc-quarantine-monitoring",
+      "regex": ["monitoring or ending quarantine|end of quarantine|release from isolation|exit testing|ending quarantine"],
+      "mode": "any",
+      "source_criterion": "exclusion #1 (testing for monitoring or ending quarantine)",
+      "source_locator": "Methods > Inclusion criteria para 2",
+      "simplification": "exact purpose phrases only; bare 'surveillance' deliberately NOT used (would over-exclude programme descriptions)"
+    },
+    {
+      "id": "exc-tiny-sample",
+      "regex": ["\\bn\\s*=\\s*[1-9]\\b", "sample size (of )?(less than 10|under 10|below 10)"],
+      "mode": "any",
+      "source_criterion": "exclusion #2 (population size smaller than 10)",
+      "source_locator": "Methods > Inclusion criteria para 2",
+      "simplification": "PARTIAL capture: only explicit small-n statements match; the true <10 population criterion needs numeric extraction and is not fully reproducible from abstracts (documented as not-captured for silent cases)"
+    }
+  ]
+}

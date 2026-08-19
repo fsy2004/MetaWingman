@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "stage": "protocol",
+  "title": "Socratic checklist — protocol & registration (方案与注册)",
+  "rationale": "Before the protocol freezes, the agent audits the design itself. Answers are recorded; the gate checks completeness. Sources are chapter/item-level references, not page numbers.",
+  "items": [
+    {
+      "id": "protocol-01",
+      "question": "Is every protocol element traceable to the Review Question Certificate primitives (population, intervention, comparator, outcome, timing, setting)?",
+      "rationale": "A protocol that drifts from the certificate breaks the derivation chain that Stage 0 established.",
+      "source": "PRISMA 2020 items 4-7; Cochrane Handbook v6 Ch.3 (defining the criteria)",
+      "answer_format": "element-by-element mapping certificate -> protocol, with any deviation justified",
+      "gate": "required"
+    },
+    {
+      "id": "protocol-02",
+      "question": "Is the estimand of the meta-analysis stated in terms of population, treatment conditions, and outcome, and does the pooling rule match it?",
+      "rationale": "Pooling across incompatible estimands is the classic synthesis error; the estimand must be declared before data are seen.",
+      "source": "Cochrane Handbook v6 Ch.2 (determining the scope); ICH E9(R1) estimand framework",
+      "answer_format": "estimand sentence + the analysis method(s) that target it",
+      "gate": "required"
+    },
+    {
+      "id": "protocol-03",
+      "question": "Are outcome definitions, measurement time points, and the effect measure chosen before data collection, with a hierarchy for multiple measures per outcome?",
+      "rationale": "Outcome switching and selective reporting are driven by post-hoc choice; a frozen hierarchy prevents it.",
+      "source": "Cochrane Handbook v6 Ch.6 (choosing effect measures); MECIR",
+      "answer_format": "outcome table with time points, measures, and the hierarchy rule",
+      "gate": "required"
+    },
+    {
+      "id": "protocol-04",
+      "question": "Is the registration or registration-decision documented, with the protocol frozen before searching begins?",
+      "rationale": "Unregistered post-hoc protocols are a recognized source of selective reporting.",
+      "source": "PRISMA 2020 items 24a-24c (registration and protocol)",
+      "answer_format": "PROSPERO number or documented decision not to register + freeze hash of the protocol file",
+      "gate": "required"
+    },
+    {
+      "id": "protocol-05",
+      "question": "Does the protocol state which analyses are prespecified versus exploratory, and the rule that distinguishes them?",
+      "rationale": "Exploratory analyses must be labeled so conclusions cannot silently rest on them.",
+      "source": "Cochrane Handbook v6 Ch.10 (analysing data and undertaking meta-analyses); PRISMA 2020 item 13d",
+      "answer_format": "two lists + the labeling rule that will be enforced at reporting",
+      "gate": "required"
+    },
+    {
+      "id": "protocol-06",
+      "question": "Does the protocol define the statistical model, heterogeneity handling, and sensitivity analyses, including how to proceed when heterogeneity is extreme?",
+      "rationale": "Model choice made after seeing heterogeneity inflates false-positive synthesis conclusions.",
+      "source": "Cochrane Handbook v6 Ch.10 (heterogeneity and random-effects); MECIR",
+      "answer_format": "model + I2/tau2 reporting + pre-specified sensitivity set + I2>=75% fallback",
+      "gate": "required"
+    },
+    {
+      "id": "protocol-07",
+      "question": "Does the protocol specify how missing data, missing results, and unpublished studies will be handled, including the reporting-bias assessment plan?",
+      "rationale": "Missing evidence is the largest threat to synthesis validity and must have a precommitted plan.",
+      "source": "Cochrane Handbook v6 Ch.13 (assessing risk of bias due to missing results); PRISMA 2020 item 14",
+      "answer_format": "missing-data rules + contour-enhanced funnel / selection-model plan",
+      "gate": "required"
+    },
+    {
+      "id": "protocol-08",
+      "question": "Does the protocol record the AI-mode (which stages are AI-first, which require the human responsibility gate) and the mode's limitations?",
+      "rationale": "AI-assisted reviews must disclose division of labor and where human accountability attaches.",
+      "source": "MetaWingman AI-first execution boundary (SKILL.md); PRISMA 2020 item 26 (competing interests) as disclosure analogue",
+      "answer_format": "stage-by-stage AI/human matrix + limitations statement",
+      "gate": "required"
+    },
+    {
+      "id": "protocol-09",
+      "question": "Is the amendment procedure defined: what counts as a protocol amendment, who approves it, and how the version history is kept?",
+      "rationale": "Undocumented amendments are indistinguishable from selective reporting.",
+      "source": "PRISMA 2020 item 24c (describe and explain any amendments)",
+      "answer_format": "amendment threshold + approval path + version log location",
+      "gate": "required"
+    },
+    {
+      "id": "protocol-10",
+      "question": "Which single protocol element would most change the review's conclusion if it were altered?",
+      "rationale": "Naming the load-bearing element focuses sensitivity analyses where they matter.",
+      "source": "Cochrane Handbook v6 Ch.10 (sensitivity analysis)",
+      "answer_format": "one element + the sensitivity analysis that tests it",
+      "gate": "optional"
+    }
+  ]
+}

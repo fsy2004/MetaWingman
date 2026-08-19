@@ -10,7 +10,7 @@
 
 | Item | Value |
 |---|---|
-| Host | AutoDL container, `root@connect.westb.seetacloud.com:12977` |
+| Host | AutoDL container; access details in the local-only runbook (not committed) |
 | GPU | NVIDIA GeForce RTX 4090 D, 24564 MiB, driver 595.71.05 |
 | GPU usable | 23.52 GiB (torch) → jobs rebuilt with `gpu_memory_gib_each: 23` |
 | RAM / disk | 503 GiB / 650 GiB at `/root/autodl-tmp` |

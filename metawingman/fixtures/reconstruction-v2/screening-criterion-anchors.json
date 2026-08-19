@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "stage": "screening",
+  "source_note": "Synthetic acceptance fixture for the deterministic screening engine (reconstruction-runner-v2-preregistration-2026-08-18.md). The rules below ARE the fixture's source of truth; 10 of the 30 records are designed to be included.",
+  "include_rules": [
+    {
+      "id": "inc-antigen-rdt",
+      "terms": ["antigen", "rapid diagnostic", "sars-cov-2"],
+      "mode": "all"
+    },
+    {
+      "id": "inc-accuracy-eval",
+      "regex": ["accuracy|sensitivity|specificity|diagnostic performance"],
+      "mode": "any"
+    }
+  ],
+  "exclude_rules": [
+    {
+      "id": "exc-not-human",
+      "terms": ["animal model", "in vitro", "cell culture"],
+      "mode": "any"
+    },
+    {
+      "id": "exc-opinion",
+      "regex": ["editorial|commentary|letter to the editor|narrative review"],
+      "mode": "any"
+    }
+  ]
+}

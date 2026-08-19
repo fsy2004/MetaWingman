@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "stage": "writing",
+  "title": "Socratic checklist — manuscript writing & reporting (写作与报告)",
+  "rationale": "Before the manuscript is drafted, the agent audits the claim structure. Answers are recorded; the gate checks completeness. Sources are chapter/item-level references, not page numbers.",
+  "items": [
+    {
+      "id": "writing-01",
+      "question": "Does every quantitative claim in the manuscript trace to a verified analysis output or extracted value, with the source locator attached?",
+      "rationale": "Unanchored numbers are the dominant manuscript integrity failure; each claim needs its artifact.",
+      "source": "MetaWingman grounding norm; PRISMA 2020 item 20a (results of individual studies)",
+      "answer_format": "claim -> artifact map (file:line or receipt field) for every number",
+      "gate": "required"
+    },
+    {
+      "id": "writing-02",
+      "question": "Does the abstract state the search dates, number of studies and participants, effect estimate with CI, heterogeneity, and certainty — without exceeding what the certainty assessment supports?",
+      "rationale": "Abstracts are the most-read and most-misleading part; conclusion must match GRADE certainty.",
+      "source": "PRISMA 2020 item 2 (structured summary); GRADE handbook (wording of conclusions)",
+      "answer_format": "abstract element checklist + certainty-matched wording check",
+      "gate": "required"
+    },
+    {
+      "id": "writing-03",
+      "question": "Are conclusions worded at the level of the certainty rating, distinguishing evidence of absence from absence of evidence?",
+      "rationale": "\"No difference\" claims without imprecision context are the classic spin pattern.",
+      "source": "GRADE handbook (interpreting results and drawing conclusions)",
+      "answer_format": "conclusion sentence + its certainty tier + the fallback wording if downgraded",
+      "gate": "required"
+    },
+    {
+      "id": "writing-04",
+      "question": "Are exploratory and sensitivity analyses labeled as such in the text, tables, and figures?",
+      "rationale": "Exploratory results presented as confirmatory mislead readers about prespecification.",
+      "source": "PRISMA 2020 item 13d (methods used for additional analyses)",
+      "answer_format": "labeling rule + audit of every table/figure for compliance",
+      "gate": "required"
+    },
+    {
+      "id": "writing-05",
+      "question": "Does the discussion address limitations including risk of bias, inconsistency, imprecision, indirectness, and publication bias as actually assessed — not a generic template paragraph?",
+      "rationale": "Template limitation paragraphs disconnect the discussion from the review's own numbers.",
+      "source": "PRISMA 2020 item 23 (discussion); GRADE handbook",
+      "answer_format": "limitation list keyed to this review's own assessments",
+      "gate": "required"
+    },
+    {
+      "id": "writing-06",
+      "question": "Is the PRISMA 2020 checklist completed against the actual manuscript with item-level page/section locators, not inherited from a template?",
+      "rationale": "A checklist without locators is unverifiable and often copy-pasted.",
+      "source": "PRISMA 2020 statement (checklist items 1-27)",
+      "answer_format": "27-item table with per-item locators",
+      "gate": "required"
+    },
+    {
+      "id": "writing-07",
+      "question": "Are figures checked for misleading presentation: untruncated axes, named error bars, sample sizes visible, forest plots ordered sensibly, colorblind-safe palette?",
+      "rationale": "Figure-level spin survives text-level checks; visual integrity needs its own pass.",
+      "source": "MetaWingman figure norms (SciPilot-style visual audit); PRISMA 2020 item 20b (synthesis results)",
+      "answer_format": "per-figure audit: axes/error bars/n/sorting/palette",
+      "gate": "required"
+    },
+    {
+      "id": "writing-08",
+      "question": "Is AI assistance disclosed per journal policy: which stages, which tools, with what human verification?",
+      "rationale": "Journals require disclosure; vague disclosure is the MetaWingman reserved-window norm.",
+      "source": "MetaWingman disclosure norm (AI-first execution boundary); ICMJE authorship recommendations",
+      "answer_format": "disclosure paragraph naming stages, tools, and verification",
+      "gate": "required"
+    },
+    {
+      "id": "writing-09",
+      "question": "Does the data/code availability statement name every artifact needed to reproduce the review (data, code, environment, receipts) with access paths?",
+      "rationale": "Reproducibility claims need the artifact list, not a vague 'available on request'.",
+      "source": "PRISMA 2020 item 27 (availability of data, code and other materials)",
+      "answer_format": "artifact list + access path or embargo explanation",
+      "gate": "required"
+    },
+    {
+      "id": "writing-10",
+      "question": "Which single sentence in the draft would a skeptic most challenge, and does its evidence chain hold?",
+      "rationale": "Adversarial self-audit of the load-bearing sentence is the cheapest spin defense.",
+      "source": "MetaWingman AI reviewer panel norm; PRISMA 2020 item 23",
+      "answer_format": "one sentence + its full evidence chain walk-through",
+      "gate": "optional"
+    }
+  ]
+}

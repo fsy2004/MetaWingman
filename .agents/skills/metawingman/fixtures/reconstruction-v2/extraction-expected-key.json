@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "note": "Expected fields derived from the SAME template; template is the fixture source of truth.",
+  "expected_coverage": {
+    "n_intervention": {
+      "extracted": 5,
+      "missing": 1,
+      "unclear": 0
+    },
+    "n_control": {
+      "extracted": 5,
+      "missing": 1,
+      "unclear": 0
+    },
+    "sensitivity_percent": {
+      "extracted": 6,
+      "missing": 0,
+      "unclear": 0
+    }
+  },
+  "expected_fields": {
+    "ext-01": {
+      "n_intervention": "extracted",
+      "n_control": "extracted",
+      "sensitivity_percent": "extracted"
+    },
+    "ext-02": {
+      "n_intervention": "extracted",
+      "n_control": "extracted",
+      "sensitivity_percent": "extracted"
+    },
+    "ext-03": {
+      "n_intervention": "extracted",
+      "n_control": "extracted",
+      "sensitivity_percent": "extracted"
+    },
+    "ext-04": {
+      "n_intervention": "extracted",
+      "n_control": "extracted",
+      "sensitivity_percent": "extracted"
+    },
+    "ext-05": {
+      "n_intervention": "extracted",
+      "n_control": "extracted",
+      "sensitivity_percent": "extracted"
+    },
+    "ext-06": {
+      "n_intervention": "missing",
+      "n_control": "missing",
+      "sensitivity_percent": "extracted"
+    }
+  }
+}

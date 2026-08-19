@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "stage": "extraction",
+  "source_note": "Chain-acceptance extraction template: extracts the evaluation index from the screening fixture's included titles.",
+  "fields": {
+    "evaluation_index": {
+      "id": "ext-eval-index",
+      "pattern": "evaluation (?P<value>\\d{1,2})",
+      "type": "int"
+    }
+  }
+}

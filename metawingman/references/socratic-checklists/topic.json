@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "stage": "topic",
+  "title": "Socratic checklist — topic selection & novelty audit (选题新颖性审计)",
+  "rationale": "Before a topic candidate may proceed to the Review Question Certificate, the agent audits novelty itself and answers each question with an evidence chain (search date, database, query hash, records found). Sources are chapter/item-level references, not page numbers.",
+  "items": [
+    {
+      "id": "topic-01",
+      "question": "Has the nearest existing systematic review / meta-analysis on this PICO been identified, with its last search date and conclusion summarized?",
+      "rationale": "A novelty claim is comparative: it must name the closest prior synthesis, not merely assert none exists.",
+      "source": "Cochrane Handbook v6 Ch.2.3 (rationale and context of the review); PRISMA 2020 item 4",
+      "answer_format": "nearest review citation + last search date + one-line conclusion",
+      "gate": "required"
+    },
+    {
+      "id": "topic-02",
+      "question": "What fraction of the candidate's population / intervention / outcome space is already covered by the nearest review (coverage-gap matrix)?",
+      "rationale": "Uncovered slivers must be quantified; a 90% overlap review with a new comparator is a minor gap, not a new review.",
+      "source": "PRISMA 2020 item 4 (rationale in the context of existing knowledge)",
+      "answer_format": "3-cell matrix: already covered / partially covered / uncovered, with counts or estimates",
+      "gate": "required"
+    },
+    {
+      "id": "topic-03",
+      "question": "Do any PROSPERO records overlap the candidate question, and are they (a) ongoing or (b) completed but unpublished?",
+      "rationale": "Registration collision is the strongest evidence of low novelty and wasted effort.",
+      "source": "PROSPERO registration guidance; Cochrane Handbook v6 Ch.2 (checking for existing reviews)",
+      "answer_format": "PROSPERO search date + record ids + status for every overlap",
+      "gate": "required"
+    },
+    {
+      "id": "topic-04",
+      "question": "Does the candidate's time window extend beyond the nearest review's last search, and how many new primary studies would plausibly enter the window?",
+      "rationale": "Temporal novelty must be estimated against real publication volume, not assumed.",
+      "source": "Cochrane Handbook v6 Ch.4 (updating searches); MECIR",
+      "answer_format": "window start/end vs nearest review's last search + estimated new-study count with basis",
+      "gate": "required"
+    },
+    {
+      "id": "topic-05",
+      "question": "What single falsifiable contribution sentence distinguishes this review from every identified prior synthesis?",
+      "rationale": "If the contribution cannot be stated in one falsifiable sentence, the topic is not yet a question.",
+      "source": "PRISMA 2020 item 4; Cochrane Handbook v6 Ch.2.3",
+      "answer_format": "one sentence of the form: this review is the first to [X] because [evidence]",
+      "gate": "required"
+    },
+    {
+      "id": "topic-06",
+      "question": "If the coverage gap is genuine but small, does the candidate still justify a full new review rather than a living update of the nearest review?",
+      "rationale": "Resource proportionality: small gaps can be closed by updating an existing synthesis.",
+      "source": "Cochrane Handbook v6 Ch.2 (formulating the question); Living systematic review guidance (Elliott et al. 2017, J Clin Epidemiol)",
+      "answer_format": "decision + one-line justification tied to gap size from topic-02/04",
+      "gate": "required"
+    },
+    {
+      "id": "topic-07",
+      "question": "Does at least one eligible primary study type exist inside the candidate's time window?",
+      "rationale": "A zero-study window means there is nothing to synthesize, whatever the theoretical gap.",
+      "source": "Cochrane Handbook v6 Ch.2.3 (preliminary scoping of the evidence base)",
+      "answer_format": "study type + count estimate + search basis",
+      "gate": "required"
+    },
+    {
+      "id": "topic-08",
+      "question": "Has the candidate been run through the rediscovery-corpus probe, and did any 2018-2026 review already state the candidate's headline conclusion?",
+      "rationale": "Conclusion-level duplication can exist even when PICO strings differ; the probe catches near-duplicate conclusions.",
+      "source": "MetaWingman internal: metawingman/scripts/evaluate_topic_rediscovery.py (rediscovery corpus protocol)",
+      "answer_format": "probe run id + top-3 matched reviews + overlap verdict",
+      "gate": "required"
+    },
+    {
+      "id": "topic-09",
+      "question": "Is the novelty audit itself reproducible: which databases and registries were queried, on what date, with which query hashes?",
+      "rationale": "An unauditable novelty claim is an assertion, not evidence.",
+      "source": "PRISMA-S (search reporting); Cochrane Handbook v6 Ch.4",
+      "answer_format": "database list + run date + query hash per database",
+      "gate": "required"
+    },
+    {
+      "id": "topic-10",
+      "question": "Do multiple existing reviews on this PICO disagree, and does the candidate position itself explicitly against that disagreement?",
+      "rationale": "Discordant prior syntheses are one legitimate source of contribution; ignoring them wastes it.",
+      "source": "Cochrane Handbook v6 Ch.2.3; PRISMA 2020 item 4",
+      "answer_format": "disagreement summary or explicit 'no disagreement found' with basis",
+      "gate": "optional"
+    }
+  ]
+}

@@ -87,24 +87,52 @@ Reflexion 式**口头反思**（偏差、意外、可改进项）写入阶段记
 
 ## 6. 训练与数据路线（"训练要大"）
 
-1. 语料：27,046 已采 OA 记录 → 下一步冻结全量（现 12k 已冻结训练）；
-2. 新组件：评价步骤验证器、纳排分类器、证书质量评判器（三组件共用
-   BiomedBERT 基座与冻结管线）；
-3. 规模：有效 batch 已恢复 16（梯度累积）；下一步负样本扩到全库 in-batch
+1. 语料（2026-08-18 服务器实测）：`training-examples.jsonl` **109,028 例**
+   （section-role 54,514 + evidence-retrieval 54,514；train 87,264 / dev
+   21,764；标签全部为确定性弱监督，8.2 GB 含 7 个文档分片）；
+2. 新组件：评价步骤验证器 ✅（6 域 RoB 分类 V3，dev macro-F1 0.8500）、
+   纳排分类器（筛选切片规则引擎已落地，训练版待标签）、证书质量评判器
+   （待盲评数据积累）——共用 BiomedBERT 基座与冻结管线；
+3. 规模：有效 batch 16（梯度累积）；下一步负样本扩到全库 in-batch
    （需显存优化或双卡）；epochs 由弱标签收敛曲线决定（以 dev 为准，不做
    拍脑袋）；
-4. 复现：全部 receipt/checkpoint 哈希归档（既有规范）。
+4. 复现：全部 receipt/checkpoint 哈希归档（既有规范；首个重建案例已
+   三重复跑通并评分通过）。
 
 ## 7. 实施顺序（自主推进）
 
 1. `review_question_certificate.schema.json` + 选题证书生成器（LLM 配置 +
-   novelty gate 联网比对）——P1 选题审计单的升级版；
-2. `socratic-checklists/` 十阶段问题清单（先写纳排、评价、分析三阶段）；
-3. R6 评价步骤验证器（规则版先行，训练版入组件管线）；
-4. audit log + meta-update 回路接入 skill 版本化流程；
-5. 证书质量双法官盲评协议脚本。
+   novelty gate 联网比对）——P1 选题审计单的升级版；**已落地 + 冒烟通过**；
+2. `socratic-checklists/` 十阶段问题清单 —— **已完成全十阶段**：topic /
+   protocol / search / screening / extraction / appraisal / analysis /
+   writing / reproducibility / update（每阶段 10 问，9 必答 + 1 可选项），
+   门禁 `check_socratic_checklist.py --stage <stage>` 全覆盖；
+3. R6 评价步骤验证器（规则版先行，训练版入组件管线）；**规则版 + 6 域训练
+   组件 V3 已落地**（dev macro-F1 0.8500，规则一致性；VAL-2c 人类盲评抽检集
+   已冻结待评分）；
+4. audit log + meta-update 回路接入 skill 版本化流程；**已落地并实跑一条
+   完整闭环**（教训记录 → 提案 → 应用 → 提交）；
+5. 证书质量双法官盲评协议脚本。**已落地 + 双 provider 冒烟通过**。
 
-## 8. 参考文献（已下载/精读）
+## 8. 落地状态总览（2026-08-18，活文档）
+
+| 创新/路线项 | 落地物 | 状态 | 声明边界 |
+|---|---|---|---|
+| ① RQC 选题证书 | `review_question_certificate.schema.json` + `generate_review_question_certificate.py` + 双法官盲评 `blind_judge_certificates.py` | ✅ 落地，冒烟通过（门禁通过、双 provider 盲评 4.0/4.4） | 推导链可审计；新颖性 verdict 不独立宣称 |
+| ② 十阶段苏格拉底清单 | `references/socratic-checklists/`（10 阶段 × 10 问，9 必答）+ `check_socratic_checklist.py` 全门禁 | ✅ 全十阶段落地，回归通过 | 问题清单为方法学检查，非自动裁决 |
+| ③ 步骤级验证器 | 规则版 `verify_appraisal_steps.py`（10 步，弃权/人工窗口）+ 6 域 RoB 分类组件（BiomedBERT 110M） | ✅ 规则版 + 两代训练版：规则一致性 0.8500 → VAL-2c kappa 0.311（规则与准则不符）→ **准则监督重标注 9,906 条 → rubric V2 dev macro-F1 0.3777 / weighted-F1 0.871**（`appraisal-rubric-v2-results`） | 一切为准则一致性测量；gen-2 kappa 因 98% other 无统计意义（如实记录）；非科学验证 |
+| AI-only 筛选（VAL-3 首跑） | `run_ai_screening_pilot.py` + 冻结 649 样本（149 黄金 + 500 非黄金） | ✅ **首个结果**：黄金召回 **0.765**（114/149）、保留率 19.4%、弃权为最大损失（26/149）→ 指向全文阶段 | 仅黄金召回（非黄金无标签，禁精度声明）；覆盖切片 149/194 |
+| ④ audit log + meta-update | `record_audit_log.py`（JSONL + 人工窗口应用 + 提交回填） | ✅ 实跑 3 条完整闭环（glm-5.3 教训、权重 bug、重建机制教训） | 提案带出处；应用经窗口记录 |
+| ⑤ 检索/语料组件 | section-role（macro-F1 0.9995）+ evidence-retrieval（候选集 MRR 0.962）+ 开集检索方向实测 | ✅ 两组件训练完成；**开集检索定论：BM25 单阶段（dev MRR 0.2649，实测 2026-08-18）；训练重排器仅限 curated 候选集（开放语料负贡献）** | dev 弱标签；重排器非召回器；~50% 召回天花板为任务语义固有限制 |
+| 复现机制 | VAL-1 晋升 + VAL-2b1 冻结 + VAL-2c 抽检 + 重建案例 harness + 首个案例 | ✅ **首个重建案例评分通过**（PLoS Medicine e1004082，R V̇O2peak 切片：MD 2.865 vs 2.9、I² 92.67% vs 93%、k=16 精确，3 次锁定重复） | 确定性 R 管线复算（同 metafor 引擎）；AI-only 端到端仍未跑 |
+| 评测对标 | MetaSyn（arXiv:2606.17041v6）任务映射 | ✅ 15 项映射（covered 6/partial 7/gap 2） | 黄金语料接入待评估（HF 许可未核实） |
+| 跨模型实证 | GLM glm-5.2 C3 与 DeepSeek C3-R2 同盲集对比 | ✅ **完成**（`glm-cross-provider-results-2026-08-18.md`）：section-role 0.8816 vs 0.9385（0 弃权，999/999；72+8 死信三轮恢复后清零）；检索选择准确率 0.96 vs 0.93；跨 provider kappa **0.8472（95% CI 0.8221–0.8722）**——提示栈的 provider 不变性高但非完美；GLM 仅 C3 执行（范围收缩已记录） | 弱标签一致性；跨 provider 一致≠科学验证 |
+
+**待办主线**（详见 `next-steps-2026-08-18.md`）：GLM 结果整合 → VAL-2c
+人工评分（kappa 决定规则天花板）→ ag-rdt 第二晋升（heiDATA 清单核实中）→
+AI-only 端到端重建（VAL-3）。
+
+## 9. 参考文献（已下载/精读）
 
 1. Wang, Y. *FirstResearch: Auditable Question Formation for LLM Scientific
    Discovery Agents*. arXiv:2607.05682 (2026).（全文精读）
@@ -120,7 +148,8 @@ Reflexion 式**口头反思**（偏差、意外、可改进项）写入阶段记
    Questioning Framework into Automated AI-Based Question Generation*.
    arXiv 2026（LLM-Metacognition 综述收录）.
 9. Schmidgall et al. *Agent Laboratory*. arXiv:2501.04227 (2025).
-10. Benchmarking LLM Agents on Meta-Analysis Articles from Nature Portfolio.
-    arXiv:2606.17041 (2026)（评测设计对标）.
+10. Xie, A. et al. *MetaSyn: A Benchmark for LLM Agents on Meta-Analysis
+    Articles from Nature Portfolio*. arXiv:2606.17041v6 (2026)
+    （评测设计对标；任务映射见 research/benchmark-2606-17041-task-map.md）.
 
 （PDF 存放：`research/method-literature/`，git 忽略、本地留档。）
