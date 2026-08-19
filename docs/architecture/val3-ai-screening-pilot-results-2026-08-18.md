@@ -24,6 +24,21 @@
 | gold abstained (title/abstract insufficient) | 26 |
 | retention rate (full sample) | 0.1941 |
 
+## Repetitions 2-3 and run-to-run reliability (added after the pilot)
+
+| rep | gold recall | excluded | abstained | retention |
+|---|---|---|---|---|
+| 1 | 0.7651 (114/149) | 9 | 26 | 0.1941 |
+| 2 | 0.7315 (109/149) | 4 | 36 | 0.1818 |
+| 3 | 0.7517 (112/149) | 7 | 30 | 0.1864 |
+
+- **Run-to-run reliability: 3-of-3 identical decisions on 591/649 records
+  (0.9106); at-least-2-of-3 agree on 648/649 (0.9985).** The 0.9106 exact
+  agreement meets the VAL-2b1 frozen release threshold
+  (`min_run_to_run_reliability` = 0.90), making this configuration
+  release-eligible on the reliability axis.
+- Majority-consensus (2-of-3) gold recall: 0.7584 (113/149).
+
 ## Interpretation (claim bounds verbatim)
 
 - Gold recall measures agreement with the published 2022 included-study
