@@ -96,3 +96,8 @@ Benchmark and training-data gate sections: untouched by this packaging run; thei
 ## 6. Provenance of this report
 
 Every number above comes from the actual tool outputs captured during these runs (JSON on stdout of each script, `Get-FileHash` output, and `releases/SHA256SUMS.txt`). No push, no commit, no account creation was performed.
+
+## Update (2026-08-19)
+- GPG signing done: tag v0.1.4 re-created signed (primary key fingerprint 47AED2854ED7BA28D21ACAF3BE92E5C8DE650DE3; signing subkey 2EA5E69DB0B8D741840CBDEDE5618E85F44E7EFB); verified with git verify-tag, pushed to GitHub and Gitee. Revocation certificate kept at %APPDATA%\gnupg\openpgp-revocs.d (local only).
+- Logo / website / privacy URL: deferred ¡ª no materials provided; plugin metadata left unchanged.
+- Marketplace submission: user action; see README-level guidance (OpenAI plugin submission form https://developers.openai.com/plugins/deploy/submission).
