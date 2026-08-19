@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "note": "Chain acceptance: screening fixture -> its 10 includes -> chain extraction template.",
+  "stages": {
+    "screening": {
+      "records": "metawingman/fixtures/reconstruction-v2/screening-records.jsonl",
+      "rules": "metawingman/fixtures/reconstruction-v2/screening-criterion-anchors.json"
+    },
+    "extraction": {
+      "template": "metawingman/fixtures/reconstruction-v2/extraction-template-chain.json"
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "stage": "reproducibility",
+  "title": "Socratic checklist — reproducibility & freezing (复现与冻结)",
+  "rationale": "Reproducibility is a cross-stage constraint, checked at least twice: at the Stage 6 freeze and again at Stage 8 reporting. Answers are recorded; the gate checks completeness. Sources are chapter/item-level references, not page numbers.",
+  "items": [
+    {
+      "id": "reproducibility-01",
+      "question": "Is the analysis input frozen (data file, config, seed, model checkpoints) with SHA-256 hashes recorded before any result is derived?",
+      "rationale": "Without an input freeze, results cannot be regenerated bit-for-bit and no audit is possible.",
+      "source": "MetaWingman freeze norm; PRISMA 2020 item 27",
+      "answer_format": "freeze manifest: artifact list + hash + timestamp",
+      "gate": "required"
+    },
+    {
+      "id": "reproducibility-02",
+      "question": "Is the analysis code versioned at a specific commit, and does the receipt record that commit plus the runtime versions (R/Python, packages, OS-level notes)?",
+      "rationale": "Code without version pins reproduces nothing; package drift is the usual failure.",
+      "source": "MetaWingman receipt norm; PRISMA 2020 item 27",
+      "answer_format": "commit hash + sessionInfo()/pip freeze + env lock file path",
+      "gate": "required"
+    },
+    {
+      "id": "reproducibility-03",
+      "question": "Can a clean-machine re-run regenerate every headline number from the frozen inputs, and has at least one full re-run been executed and logged?",
+      "rationale": "A reproducibility claim is an execution result, not a promise; at least one cold re-run must exist.",
+      "source": "MetaWingman re-run norm (time-split reconstruction target); PRISMA 2020 item 27",
+      "answer_format": "re-run log + diff between original and regenerated outputs",
+      "gate": "required"
+    },
+    {
+      "id": "reproducibility-04",
+      "question": "Is the RNG seeding explicit for every stochastic step (sampling, imputation, simulation, model training) and recorded in the receipt?",
+      "rationale": "Unseeded stochastic steps are the most common silent non-reproducibility.",
+      "source": "MetaWingman seed convention (20260815); Cochrane Handbook v6 Ch.10 (analysis)",
+      "answer_format": "seed table: step -> seed -> note",
+      "gate": "required"
+    },
+    {
+      "id": "reproducibility-05",
+      "question": "Are intermediate objects (per-stage data, model checkpoints, review files) saved at each stage boundary so any single stage can be re-run without redoing the whole pipeline?",
+      "rationale": "Stage-level resumability is the practical definition of a reproducible pipeline.",
+      "source": "MetaWingman stage norm (receipts at every stage); PRISMA 2020 item 27",
+      "answer_format": "artifact map per stage + restore instructions",
+      "gate": "required"
+    },
+    {
+      "id": "reproducibility-06",
+      "question": "Is the data lineage recorded from raw export to analysis table, including every transformation (dedup, merge, conversion) with code and parameters?",
+      "rationale": "Raw-to-analysis lineage is what lets a reviewer verify that no study was silently lost or altered.",
+      "source": "PRISMA 2020 items 3, 16a-16b (counts and flow); MetaWingman lineage norm",
+      "answer_format": "lineage log: input -> transform -> output per step, with counts",
+      "gate": "required"
+    },
+    {
+      "id": "reproducibility-07",
+      "question": "Are all learned components (trained models) archived with their training receipts, data splits, and the exact commit of the training script?",
+      "rationale": "A checkpoint without its training receipt is a black box; the receipt is the scientific record.",
+      "source": "MetaWingman component preregistration norm (appraisal-step preregistration as template)",
+      "answer_format": "per-component: checkpoint hash + receipt path + split definition + script commit",
+      "gate": "required"
+    },
+    {
+      "id": "reproducibility-08",
+      "question": "Is the time-split reconstruction check planned or executed: can the current pipeline reproduce a past review's numbers when pointed at its frozen inputs?",
+      "rationale": "Reconstruction against known past reviews is the strongest end-to-end reproducibility evidence.",
+      "source": "MetaWingman VAL-2 plan (time-split reconstruction as the current bottleneck item)",
+      "answer_format": "reconstruction target + status + diff report",
+      "gate": "required"
+    },
+    {
+      "id": "reproducibility-09",
+      "question": "Are raw data files preserved read-only with a documented no-overwrite policy, and derived outputs written only to separate results directories?",
+      "rationale": "Overwritten raw data destroys provenance silently; separation is the structural fix.",
+      "source": "MetaWingman data-provenance norm; PRISMA 2020 item 27",
+      "answer_format": "directory policy statement + enforcement check",
+      "gate": "required"
+    },
+    {
+      "id": "reproducibility-10",
+      "question": "Which single stage of the pipeline is currently the weakest reproducibility link, and what is the concrete fix?",
+      "rationale": "Naming the weakest link turns reproducibility from a slogan into a work queue.",
+      "source": "MetaWingman next-steps tracking norm",
+      "answer_format": "one stage + fix + owner + deadline",
+      "gate": "optional"
+    }
+  ]
+}

@@ -11,9 +11,9 @@
     {"kind": "update_cutoff", "value": "2021-08-31", "precision": "day", "source_note": "Updated publication cutoff."}
   ],
   "license_assessment": {
-    "pack_redistributable": true,
-    "reviewed_at_utc": "2026-08-13T10:00:00Z",
-    "notes": "Zenodo record 4924035 identifies version 2 of the deposited workbook as CC BY 4.0. The later heiDATA artifact still needs an immutable file inventory and license review."
+    "pack_redistributable": false,
+    "reviewed_at_utc": "2026-08-18T12:30:00Z",
+    "notes": "2021 Zenodo workbook is CC BY 4.0 (redistributable). The 2022 heiDATA workbook (doi:10.11588/DATA/T3MIB0/FIDTR9, verified 2026-08-18) is CC BY-NC-ND 4.0: non-commercial, no derivatives -> read-only reference, NOT redistributable; the pack therefore is not redistributable as a whole. MD5 8541981cc4ec230b2a8c67e885fac4a6 matches the repository; local SHA-256 b5683efa9fa4577179124663de3d0a3517811cbbbb71e8e53fe3c91e02647085."
   },
   "artifacts": [
     {
@@ -24,7 +24,17 @@
       "license": {"status": "verified_open", "identifier": "CC-BY-4.0", "redistributable": true, "evidence_url": "https://zenodo.org/records/4924035"},
       "temporal_relation": "at_or_before_cutoff", "contains_answer": true, "retrieval_policy": "requires_run_lock",
       "notes": "Complete deposited workbook. It is a reference artifact, never an operational input."
+    },
+    {
+      "artifact_id": "agrdt-2022-update-workbook", "role": "sealed_reference", "artifact_type": "extraction_reference",
+      "source_url": "https://heidata.uni-heidelberg.de/api/access/datafile/:persistentId/?persistentId=doi:10.11588/DATA/T3MIB0/FIDTR9",
+      "immutable_revision": "doi:10.11588/DATA/T3MIB0/FIDTR9 (V1.1, released 2022-02-25)",
+      "destination": "ag-rdt-living-update/sealed-reference/Accuracy_of_rapid_point-of-care_antigen-based_diagnostics_for_SARS-CoV-2.xlsx",
+      "expected_sha256": "b5683efa9fa4577179124663de3d0a3517811cbbbb71e8e53fe3c91e02647085", "expected_bytes": 674749,
+      "license": {"status": "controlled_terms", "identifier": "CC-BY-NC-ND-4.0", "redistributable": false, "evidence_url": "https://heidata.uni-heidelberg.de/dataset.xhtml?persistentId=doi:10.11588/data/T3MIB0"},
+      "temporal_relation": "at_or_before_cutoff", "contains_answer": true, "retrieval_policy": "requires_run_lock",
+      "notes": "2022 update workbook (194 studies). Read-only comparison reference; never redistributed or modified. Repository MD5 verified on fetch (8541981cc4ec230b2a8c67e885fac4a6)."
     }
   ],
-  "blockers": ["Inventory and hash the immutable 2022 heiDATA files.", "Verify the later repository license.", "Construct a pre-update operational corpus that excludes later evidence."]
+  "blockers": ["Construct a pre-update operational corpus that excludes later evidence."]
 }

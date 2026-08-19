@@ -57,13 +57,21 @@ def _hash_tree(root: Path) -> dict[str, str]:
     return hashes
 
 
-def _inverse_frequency_weights(labels: Sequence[int]) -> list[float]:
+def _inverse_frequency_weights(labels: Sequence[int], num_classes: int) -> list[float]:
+    """Per-CLASS inverse-frequency weights (length == num_classes).
+
+    torch.nn.functional.cross_entropy expects one weight per class, not per
+    example. Classes absent from the training split get weight 0.0 so they
+    contribute no gradient.
+    """
     counts: dict[int, int] = {}
     for label in labels:
         counts[label] = counts.get(label, 0) + 1
     total = len(labels)
-    weights = {label: total / (len(counts) * count) for label, count in counts.items()}
-    return [weights[label] for label in labels]
+    return [
+        total / (num_classes * counts[label]) if counts.get(label, 0) > 0 else 0.0
+        for label in range(num_classes)
+    ]
 
 
 def train(
@@ -107,7 +115,9 @@ def train(
             batched=True,
         )
 
-    weights = _inverse_frequency_weights([item["label"] for item in records_to_pairs(train_records)])
+    weights = _inverse_frequency_weights(
+        [item["label"] for item in records_to_pairs(train_records)], num_classes=len(DOMAIN_LABELS)
+    )
     weights_tensor = torch.tensor(weights, dtype=torch.float32, device=device)
 
     class WeightedTrainer(Trainer):

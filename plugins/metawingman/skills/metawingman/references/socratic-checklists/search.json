@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "stage": "search",
+  "title": "Socratic checklist — search & retrieval (检索)",
+  "rationale": "Before executing database searches, the agent audits the strategy itself. Answers are recorded; the gate checks completeness. Sources are chapter/item-level references, not page numbers.",
+  "items": [
+    {
+      "id": "search-01",
+      "question": "Is the search strategy derived from the certificate's concepts, controlled vocabulary, and free-text terms with a documented derivation, not pasted from another database?",
+      "rationale": "Concept drift between question and query silently truncates the evidence base.",
+      "source": "Cochrane Handbook v6 Ch.4 (searching for and selecting studies); PRISMA-S item 4 (full search strategy)",
+      "answer_format": "concept -> term table + per-database translation log",
+      "gate": "required"
+    },
+    {
+      "id": "search-02",
+      "question": "Was the strategy validated with a known-item test (a set of studies that must be retrieved) and a recall check before full execution?",
+      "rationale": "A strategy that cannot retrieve known relevant studies has unknown recall.",
+      "source": "Cochrane Handbook v6 Ch.4; PRISMA-S item 7 (prior work)",
+      "answer_format": "known-item list + retrieved/missed counts + revision log",
+      "gate": "required"
+    },
+    {
+      "id": "search-03",
+      "question": "Are validated filters (RCT, human, date) applied where appropriate, with the filter version recorded?",
+      "rationale": "Filter versioning is required for reproducibility; unversioned filters drift silently.",
+      "source": "Cochrane Handbook v6 Ch.4 (search filters); PRISMA-S item 6 (limits and restrictions)",
+      "answer_format": "filter names + versions + the databases they were applied to",
+      "gate": "required"
+    },
+    {
+      "id": "search-04",
+      "question": "Is every source-specific strategy stored exactly as run, with the run date, the raw export, and a query hash?",
+      "rationale": "Reproducibility of the search is a PRISMA requirement and the basis of the living-update diff.",
+      "source": "PRISMA-S items 3-5 (database, date, full strategy); MetaWingman search audit norm",
+      "answer_format": "file map: strategy text / run date / export / hash per database",
+      "gate": "required"
+    },
+    {
+      "id": "search-05",
+      "question": "Are registries, preprint servers, and grey sources covered per the protocol, with their coverage explicitly recorded?",
+      "rationale": "Unpublished and ongoing studies are required for a complete evidence map and for reporting-bias assessment.",
+      "source": "Cochrane Handbook v6 Ch.4; PRISMA-S items 8-12 (registers, websites, citation searching, contact)",
+      "answer_format": "sources searched + counts + explicit 'not searched' list with reason",
+      "gate": "required"
+    },
+    {
+      "id": "search-06",
+      "question": "Is the deduplication method (fuzzy keys, thresholds) fixed and audited so the PRISMA flow counts can be reproduced?",
+      "rationale": "Dedup errors propagate into every later stage count.",
+      "source": "PRISMA 2020 item 3 (records identified via databases/registers); MECIR",
+      "answer_format": "dedup tool + threshold + pre/post counts + merge log",
+      "gate": "required"
+    },
+    {
+      "id": "search-07",
+      "question": "Does the search date boundary match the certificate's time window and the living-update cadence?",
+      "rationale": "The novelty claim depends on the exact window; mismatch invalidates the gap analysis.",
+      "source": "Cochrane Handbook v6 Ch.4 (updating searches); PRISMA-S item 8",
+      "answer_format": "start/end dates + cadence + overlap with nearest prior review's last search",
+      "gate": "required"
+    },
+    {
+      "id": "search-08",
+      "question": "Were zero-hit or anomalous-result sources investigated rather than silently accepted?",
+      "rationale": "Zero hits usually mean query error, not empty evidence.",
+      "source": "Cochrane Handbook v6 Ch.4 (troubleshooting searches)",
+      "answer_format": "per-source hit counts + investigation note for anomalies",
+      "gate": "required"
+    },
+    {
+      "id": "search-09",
+      "question": "Is the full search strategy included verbatim in the supplement so a reviewer can re-run it line by line?",
+      "rationale": "Summaries of searches are not reproducible; verbatim strategy text is the PRISMA-S default.",
+      "source": "PRISMA-S item 4; PRISMA 2020 item 7",
+      "answer_format": "supplement file path with verbatim strategies for every database",
+      "gate": "required"
+    },
+    {
+      "id": "search-10",
+      "question": "Which single query revision between protocol and execution would most change the review's evidence base?",
+      "rationale": "Naming the load-bearing revision turns search drift into a documented, testable decision.",
+      "source": "Cochrane Handbook v6 Ch.4",
+      "answer_format": "one revision + its retrieval-impact estimate",
+      "gate": "optional"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "article": {
+    "doi": "10.1371/journal.pmed.1003735",
+    "title": "Accuracy of novel antigen rapid diagnostics for SARS-CoV-2: A living systematic review and meta-analysis",
+    "authors": "Brümmer LE, Katzenschlager S, Gaeddert M, Erdmann C, Schmitz S, Bota M, Grilli M, Larmann J, Weigand MA, Pollock NR, Macé A, Carmona S, Ongarello S, Sacks JA, Denkinger CM",
+    "journal": "PLoS Medicine 18(8): e1003735",
+    "published": "2021-08-12",
+    "pmid": "34383750",
+    "prospero": "CRD42020225140",
+    "source_urls": [
+      "https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1003735",
+      "https://journals.plos.org/plosmedicine/article/file?type=supplementary&id=10.1371/journal.pmed.1003735.s016",
+      "https://pubmed.ncbi.nlm.nih.gov/34383750/",
+      "https://zenodo.org/record/4924035"
+    ],
+    "access_method": "read_page (modsearch bridge) 获取 PLOS 文章页全文；直接 HTTP 下载 PLOS 补充材料 s001–s017（PDF 用 pdftotext 提取，docx 用 XML 提取，xlsx 未逐一读取）；Zenodo 记录经 API 核验"
+  },
+  "extraction_date_utc": "2026-08-18T12:56:22Z",
+  "search_cutoff": "2021-04-30",
+  "databases": [
+    {
+      "database": "PubMed",
+      "query": "(\"Severe Acute Respiratory Syndrome Coronavirus 2\"[Supplementary Concept] OR \"COVID-19\"[Supplementary Concept] OR \"Betacoronavirus\"[MeSH Terms] OR \"Coronavirus\"[MeSH Terms] OR \"covid*\"[Text Word] OR \"coronavirus*\"[Text Word] OR \"corona virus*\"[Text Word] OR \"ncov*\"[Text Word] OR \"n cov*\"[Text Word] OR \"sarscov*\"[Text Word] OR \"sars cov*\"[Text Word] OR \"2019ncov*\"[Text Word] OR \"2019 ncov*\"[Text Word] OR \"sars2*\"[Text Word] OR \"sars 2*\"[Text Word]) AND (\"Point-of-Care Testing\"[MeSH Terms] OR \"antigen\"[Text Word] OR \"lateral flow\"[Text Word] OR \"RDT\"[Text Word] OR ((\"point of care*\"[Text Word] OR \"bedside*\"[Text Word] OR \"rapid*\"[Text Word]) AND \"test*\"[Text Word])) AND 2019/12/01:2020/12/11[Date - Publication]",
+      "query_parts": {
+        "P_executed": "(\"Severe Acute Respiratory Syndrome Coronavirus 2\"[Supplementary Concept] OR \"COVID-19\"[Supplementary Concept] OR \"Betacoronavirus\"[MeSH Terms] OR \"Coronavirus\"[MeSH Terms] OR \"covid*\"[Text Word] OR \"coronavirus*\"[Text Word] OR \"corona virus*\"[Text Word] OR \"ncov*\"[Text Word] OR \"n cov*\"[Text Word] OR \"sarscov*\"[Text Word] OR \"sars cov*\"[Text Word] OR \"2019ncov*\"[Text Word] OR \"2019 ncov*\"[Text Word] OR \"sars2*\"[Text Word] OR \"sars 2*\"[Text Word])",
+        "I_executed": "(\"Point-of-Care Testing\"[MeSH Terms] OR \"antigen\"[Text Word] OR \"lateral flow\"[Text Word] OR \"RDT\"[Text Word] OR ((\"point of care*\"[Text Word] OR \"bedside*\"[Text Word] OR \"rapid*\"[Text Word]) AND \"test*\"[Text Word]))",
+        "date_filter_verbatim": "2019/12/01:2020/12/11[Date - Publication]",
+        "combined": "1 AND 2 AND 3",
+        "hits": "2990 (1 AND 2 AND 3); P=99976; I=816722; date-line=1637239"
+      },
+      "date_limit": "S2 Text 起始限制 'start Dezember 2019'；文章 Methods 声明检索至 2021-04-30；但 S2 Text 中可执行日期过滤器为 2019/12/01:2020/12/11[Date - Publication]（见 uncertainty[0]）",
+      "filters": "无语言限制（Methods 原文 'No language restrictions were applied'）；无其他过滤器",
+      "source_locator": "Methods 'Search strategy' 段（概念词+检索截止）＋ 补充材料 S2 Text（PLOS s016，docx，完整检索串逐字）"
+    },
+    {
+      "database": "Web of Science Core Collection",
+      "query": "TS=(\"covid*\" OR \"coronavirus*\" OR \"corona virus*\" OR \"ncov*\" OR \"n cov*\" OR \"sarscov*\" OR \"sars cov*\" OR \"2019nCoV*\" OR \"2019 nCoV*\" OR \"sars2*\" OR \"sars 2*\") AND TS=(\"antigen\" OR \"Lateral flow\" OR \"RDT\" OR ((\"Point of Care*\" OR \"Bedside*\" OR \"Rapid*\")AND Test*))",
+      "query_parts": {
+        "P_executed": "TS=(\"covid*\" OR \"coronavirus*\" OR \"corona virus*\" OR \"ncov*\" OR \"n cov*\" OR \"sarscov*\" OR \"sars cov*\" OR \"2019nCoV*\" OR \"2019 nCoV*\" OR \"sars2*\" OR \"sars 2*\")",
+        "I_executed": "TS=(\"antigen\" OR \"Lateral flow\" OR \"RDT\" OR ((\"Point of Care*\" OR \"Bedside*\" OR \"Rapid*\")AND Test*))",
+        "combined": "1 AND 2",
+        "hits": "1568 (1 AND 2); P=56968; I=34058",
+        "filter_note": "Filter (year to date 2020/12/11) —— S2 Text 原文如此"
+      },
+      "date_limit": "起始 2019-12（S2 Text 'Restriction: start Dezember 2019'）；S2 Text 记录 'Filter (year to date 2020/12/11)'；文章 Methods 声明检索至 2021-04-30（见 uncertainty[0]）",
+      "filters": "无语言限制（Methods）；S2 Text 中 WoS 另标注 year-to-date 2020/12/11 过滤",
+      "source_locator": "补充材料 S2 Text（PLOS s016，docx，逐字；含 `(\"Point of Care*\" OR \"Bedside*\" OR \"Rapid*\")AND Test*))` 原文无空格、双右括号）"
+    },
+    {
+      "database": "bioRxiv + medRxiv (via Europe PMC, europepmc.org)",
+      "query": "(covid* OR Coronavirus* OR \"corona virus*\" OR ncov* OR \"n cov*\" OR sarscov* OR \"sars cov*\" OR 2019nCov* OR \"2019 nCov*\" OR sars2* OR \"sars 2*\") AND (Antigen OR \"Lateral flow\" OR RDT OR \"Rapid test*\" OR Bedside* OR \"Point of Care*\") AND (PUBLISHER:MedRxiv OR PUBLISHER:BioRxiv) AND FIRST_PDATE:[2019-12-01 TO 2020-12-11]",
+      "query_parts": {
+        "P": "covid* OR Coronavirus* OR \"corona virus*\" OR ncov* OR \"n cov*\" OR sarscov* OR \"sars cov*\" OR 2019nCov* OR \"2019 nCov*\" OR sars2* OR \"sars 2*\"",
+        "I_readable": "\"Antigen*\" OR \"Lateral flow*\" OR \"RDT\" OR \"Rapid test*\" OR \"Bedside*\" OR \"Point of Care*\"",
+        "I_executed": "Antigen OR \"Lateral flow\" OR RDT OR \"Rapid test*\" OR Bedside* OR \"Point of Care*\"",
+        "publisher_filter": "(PUBLISHER:MedRxiv OR PUBLISHER:BioRxiv)",
+        "date_filter_verbatim": "FIRST_PDATE:[2019-12-01 TO 2020-12-11]",
+        "combined": "P AND I AND (PUBLISHER:MedRxiv OR PUBLISHER:BioRxiv) AND FIRST_PDATE:[2019-12-01 TO 2020-12-11]",
+        "hits": "2225 (P AND I)"
+      },
+      "date_limit": "FIRST_PDATE:[2019-12-01 TO 2020-12-11]（S2 Text 逐字）；文章 Methods 声明检索至 2021-04-30（见 uncertainty[0]）",
+      "filters": "PUBLISHER:MedRxiv OR PUBLISHER:BioRxiv（预印本服务器限定）；无语言限制",
+      "source_locator": "补充材料 S2 Text（PLOS s016，docx，逐字）"
+    },
+    {
+      "database": "FIND website (https://www.finddx.org/sarscov2-eval-antigen/)",
+      "query": null,
+      "query_parts": {
+        "method": "人工浏览 FIND 的 SARS-CoV-2 抗原检测评估页，无机器可执行检索串（Methods 原文 'searched ... manually'）"
+      },
+      "date_limit": "同上，检索至 2021-04-30（Methods）",
+      "filters": "无",
+      "source_locator": "Methods 'Search strategy' 段"
+    }
+  ],
+  "uncertainty": [
+    "S2 Text 内全部可执行日期过滤器止于 2020-12-11（PubMed '2019/12/01:2020/12/11[Date - Publication]'；WoS 'Filter (year to date 2020/12/11)'；预印本 'FIRST_PDATE:[2019-12-01 TO 2020-12-11]'），而文章 Methods/摘要声明检索执行至 2021-04-30。S2 Text 疑似 2020-12-11 前后快照、未随 living 更新刷新到最终检索日；上表 query 字段照录 S2 Text 的可执行串，运行语料时需自行把日期段改为 2019-12-01 至 2021-04-30",
+    "WoS 索引试验串在 S2 Text 原文中为 TS=(\"antigen\" OR \"Lateral flow\" OR \"RDT\" OR ((\"Point of Care*\" OR \"Bedside*\" OR \"Rapid*\")AND Test*)) —— AND 前无空格、末尾双右括号，照原文转录，可能是文档排版伪影",
+    "PubMed 概念版检索串中 'Lateral flow' 使用弯引号（“Lateral flow”[tw]），执行版（[MeSH Terms]/[Text Word]）为直引号；已录执行版",
+    "Embase 与 Cochrane 未被本综述检索（Methods 仅列 PubMed、Web of Science、medRxiv、bioRxiv 与 FIND），任务预设数据库清单宽于实际",
+    "FIND 网站检索为人工浏览，无逐字检索串可复现（URL: https://www.finddx.org/sarscov2-eval-antigen/）"
+  ],
+  "notes": "获取方式：文章页经 read_page(modsearch) 直读 Methods 'Search strategy' 段；补充材料从 PLOS 直链批量下载 s001–s017（正确格式为 article/file?type=supplementary&id=10.1371/journal.pmed.1003735.s00X，无 info:doi/ 前缀）。文件映射：s001–s010=S1–S10 Fig（PDF）；s011=S1 PRISMA Checklist（docx）；s012/s013/s014=S1/S2/S3 Table（xlsx，本次未读）；s015=S1 Text 研究方案（PROSPERO 提交稿，docx）；s016=S2 Text 检索策略（docx，检索串唯一来源）；s017=S3 Text QUADAS 解读指南（docx）。Zenodo 记录 4924035 仅含数据提取文件 'Covid Ag SR_MA Update V2.xlsx'，无检索串。检索概念：P=SARS-CoV-2，I=抗原快速检测（Ag-RDT），组合 P AND I。方法学要点：living review 每周检索（见 Author summary），结果发布在 https://www.diagnosticsglobalhealth.org ；无语言限制、含预印本。",
+  "methods_verbatim": {
+    "search_strategy_section": "We performed a search of the databases PubMed, Web of Science, medRxiv, and bioRxiv using search terms that were developed with an experienced medical librarian (M. Grilli) using combinations of subject headings (when applicable) and text-words for the concepts of the search question. The main search terms were \"Severe Acute Respiratory Syndrome Corona-virus 2,\" \"COVID-19,\" \"Betacoronavirus,\" \"Coronavirus,\" and \"Point of Care Testing.\" The full list of search terms is available in S2 Text. We also searched the Foundation for Innovative New Diagnostics (FIND) website ( https://www.finddx.org/sarscov2-eval-antigen/ ) for relevant studies manually. We performed the search up until 30 April 2021. No language restrictions were applied."
+  }
+}

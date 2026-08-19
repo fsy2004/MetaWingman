@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "article": {
+    "doi": "10.1371/journal.pmed.1003735",
+    "title": "Accuracy of novel antigen rapid diagnostics for SARS-CoV-2: A living systematic review and meta-analysis",
+    "source_urls": [
+      "https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1003735",
+      "https://journals.plos.org/plosmedicine/article/file?id=10.1371/journal.pmed.1003735&type=manuscript",
+      "https://journals.plos.org/plosmedicine/article/file?id=10.1371/journal.pmed.1003735.s015&type=supplementary",
+      "https://pubmed.ncbi.nlm.nih.gov/34383750/"
+    ],
+    "access_method": "read_page 读取 PLOS HTML 文章页（HTTP 200，经 modsearch bridge）；Invoke-WebRequest 下载 PLOS 官方稿件 XML（type=manuscript）核对逐字文本；Invoke-WebRequest 下载补充材料 S1 Text（.s015，docx）并解包 word/document.xml 提取全文。三源交叉核对。"
+  },
+  "extraction_date_utc": "2026-08-18T13:16:28Z",
+  "inclusion_criteria": [
+    {
+      "criterion": "索引检测与参考标准：纳入评估商用 Ag-RDT 对 SARS-CoV-2 感染诊断准确性的研究，参考标准为 RT-PCR 或细胞培养",
+      "verbatim": "We included studies evaluating the accuracy of commercially available Ag-RDTs to establish a diagnosis of SARS-CoV-2 infection, against reverse transcription polymerase chain reaction (RT-PCR) or cell culture as reference standard.",
+      "source_locator": "Methods > Inclusion criteria, 第 1 段（PLOS 官方 XML 与 HTML 页面提取一致）"
+    },
+    {
+      "criterion": "人群：不限年龄、症状状态与研究地点",
+      "verbatim": "We included all study populations irrespective of age, presence of symptoms, or study location.",
+      "source_locator": "Methods > Inclusion criteria, 第 1 段"
+    },
+    {
+      "criterion": "研究设计：队列研究、嵌套队列研究、病例对照或横断面研究、随机研究",
+      "verbatim": "We considered cohort studies, nested cohort studies, case–control or cross-sectional studies, and randomized studies.",
+      "source_locator": "Methods > Inclusion criteria, 第 1 段"
+    },
+    {
+      "criterion": "文献类型：同行评议出版物与预印本均纳入",
+      "verbatim": "We included both peer-reviewed publications and preprints.",
+      "source_locator": "Methods > Inclusion criteria, 第 1 段"
+    },
+    {
+      "criterion": "语言：无语言限制",
+      "verbatim": "No language restrictions were applied.",
+      "source_locator": "Methods > Search strategy（末句）"
+    },
+    {
+      "criterion": "meta 分析资格：临床准确性研究与分析性（spiked samples）准确性研究均提取数据，但仅临床准确性研究数据进入 meta 分析",
+      "verbatim": "Thus, while we extracted the data for both kinds of studies, we only considered data from clinical accuracy studies as eligible for the meta-analysis.",
+      "source_locator": "Methods > Study types（段中句）"
+    },
+    {
+      "criterion": "方案层（S1 Text）：索引检测定义为为 POC 使用开发且商用的 SARS-CoV-2 Ag-RDT",
+      "verbatim": "Antigen rapid diagnostic test (ag-RDT) for SARS-CoV-2, developed for POC use and commercially available",
+      "source_locator": "S1 Text（PROSPERO 方案）> Criteria for considering studies for the review > Index test"
+    },
+    {
+      "criterion": "方案层（S1 Text）：目标疾病为假定感染 COVID-19 的人群，与症状无关",
+      "verbatim": "Persons presumed to have COVID-19, independent of symptoms",
+      "source_locator": "S1 Text（PROSPERO 方案）> Target conditions"
+    }
+  ],
+  "exclusion_criteria": [
+    {
+      "criterion": "排除为监测或结束隔离目的检测患者的研究",
+      "verbatim": "We excluded studies in which patients were tested for the purpose of monitoring or ending quarantine.",
+      "source_locator": "Methods > Inclusion criteria, 第 2 段（正文未单设 Exclusion criteria 标题）"
+    },
+    {
+      "criterion": "排除人群规模小于 10 的出版物（阈值任意，但小样本更可能给出不可靠的灵敏度/特异度估计）",
+      "verbatim": "Also, publications with a population size smaller than 10 were excluded. Although the size threshold of 10 is arbitrary, such small studies are more likely to give unreliable estimates of sensitivity and specificity.",
+      "source_locator": "Methods > Inclusion criteria, 第 2 段"
+    },
+    {
+      "criterion": "方案层（S1 Text）：排除少于 10 名参与者的人群；排除为监测或结束隔离而检测患者的研究",
+      "verbatim": "We will exclude any studies in which patients are being tested for monitoring or end of quarantine. We will exclude an populations of less than 10 participants. Although the size threshold of 10 is arbitrary, such small studies are likely to give unreliable estimates of sensitivity or specificity.",
+      "source_locator": "S1 Text（PROSPERO 方案）> Types of participants（计划时态表述，措辞与正文略异；'an populations' 为方案原文笔误，照录）"
+    }
+  ],
+  "study_designs_considered": "纳入考虑的设计：队列研究、嵌套队列研究、病例对照研究、横断面研究、随机研究；同行评议出版物与预印本均纳入。研究类型上区分临床准确性研究（临床样本）与分析性准确性研究（已知病毒量的加标样本）：两类数据均提取，但仅临床准确性研究数据进入 meta 分析，分析性研究结果单独汇总并与 meta 分析结果对比（Methods > Study types）。方案（S1 Text）另规定：仅对至少 4 项研究评估过的索引检测进行 test-specific meta 分析；正文摘要表述为'当超过 4 项研究可用时进行随机效应 meta 分析'。",
+  "verbatim_methods_section": "Methods > Inclusion criteria（整节逐字，2 段；摘自 PLOS 官方稿件 XML，并经 HTML 页面提取交叉核对一致）：\n\n\"Inclusion criteria\n\nWe included studies evaluating the accuracy of commercially available Ag-RDTs to establish a diagnosis of SARS-CoV-2 infection, against reverse transcription polymerase chain reaction (RT-PCR) or cell culture as reference standard. We included all study populations irrespective of age, presence of symptoms, or study location. We considered cohort studies, nested cohort studies, case–control or cross-sectional studies, and randomized studies. We included both peer-reviewed publications and preprints.\n\nWe excluded studies in which patients were tested for the purpose of monitoring or ending quarantine. Also, publications with a population size smaller than 10 were excluded. Although the size threshold of 10 is arbitrary, such small studies are more likely to give unreliable estimates of sensitivity and specificity.\"",
+  "uncertainty": [
+    "正文小节标题为 'Inclusion criteria'，无独立的 'Exclusion criteria' 标题；排除标准位于该小节第 2 段。",
+    "逐字文本取自 PLOS 官方稿件 XML（type=manuscript）并经 HTML 页面提取交叉核对，两源完全一致；XML 文本提取已剥离引注标记（如 [ 6 ]、[ 16 ]）与内部链接，若需含引注的逐字文本请对照期刊原文。",
+    "S1 Text（.s015）为提交 PROSPERO 的方案版本：方案中检索时间窗为 2019-12-01 至 2020-12-11，正文最终检索截至 2021-04-30；方案 eligibility 为计划性表述（will 时态），个别措辞与正文不同（如 'less than 10 samples' vs 'population size smaller than 10'）。未独立调取 PROSPERO 记录页（CRD42020225140）核对登记原文与 S1 Text 是否逐字一致。",
+    "S1 Text 方案含原文笔误（'comercially available'、'an populations'、'METANANLYSIS'、'ag-RDT/Ag-RDT' 大小写不一），已照录未改。",
+    "s015 文件头自带图注 'S1 Text. Study protocol submitted to PROSPERO (Registration number: CRD42020225140).'，据此确认其身份；未在文章页逐项核对补充材料编号到标题的映射表。",
+    "该文于 2021-10-13 发布更正（PLOS Medicine 18(10): e1003825，DOI 10.1371/journal.pmed.1003825），本次提取未核对该更正是否涉及纳入/排除标准相关表述。",
+    "read_page 提取的摘要数据（如 133 项研究、214 个数据集、112,323 样本）仅作背景信息，未经独立数字核验流程；本 JSON 的准则锚点不依赖这些数字。"
+  ],
+  "notes": "文章：Brümmer LE 等 15 人，PLOS Medicine 2021;18(8):e1003735，2021-08-12 发表（页面显示 Version 2）；living systematic review；PROSPERO 注册号 CRD42020225140；检索截至 2021-04-30；原始提取数据公开于 https://zenodo.org/record/4924035。PubMed 记录 34383750 经搜索摘要核实。补充材料下载：S1 Text（.s015）直链 https://journals.plos.org/plosmedicine/article/file?id=10.1371/journal.pmed.1003735.s015&type=supplementary，文件头图注 'S1 Text. Study protocol submitted to PROSPERO (Registration number: CRD42020225140).'，其 eligibility 位于 'Criteria for considering studies for the review'（Types of studies / Types of participants / Index test / Target conditions / Reference Standard）及 'Criteria for considering studies for the METANANLYSIS'；本地副本 %TEMP%\\ag-rdt-S1Text-s015.docx，提取纯文本 %TEMP%\\ag-rdt-S1Text-plain.txt，期刊 XML %TEMP%\\pmed.1003735.xml。本 JSON 为 MetaWingman 确定性筛选引擎的准则锚点：正文 Methods 为准（含引注原文），S1 Text 方案层条目已单独标注 source_locator，两者措辞差异见 uncertainty。"
+}

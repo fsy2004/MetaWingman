@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "plan_id": "val2b1-component-axis",
+  "plan_version": "1.0",
+  "status": "frozen",
+  "benchmark_version": "component-axis-2026-08",
+  "design": "ai_only_repeated_runs",
+  "target_tasks": ["appraisal_dossier", "lineage"],
+  "configurations": [
+    {
+      "configuration_id": "general-model-baseline",
+      "description": "C0: hosted model with raw prompt, no MetaWingman schema/terminology/routing/verifier context.",
+      "model_registry_refs": ["deepseek-v4-pro-development-unvalidated"],
+      "pipeline_version": "metawingman@f7075c1",
+      "prompt_sha256": "a1bcce33671e6f05a84a69b9925333094a08d14121f3a0a80e454ba48b4274f4",
+      "tool_versions": ["metawingman@f7075c1"],
+      "ablations": ["biomedical_schema", "biomedical_terminology", "biomedical_retrieval", "domain_routing", "evidence_graph", "document_state", "external_verifiers", "test_time_scaling", "abstention"],
+      "max_model_calls": 2,
+      "retry_budget": 0
+    },
+    {
+      "configuration_id": "biomedical-schema",
+      "description": "C1: C0 + the exact 8-role output schema and per-role definitions in the prompt.",
+      "model_registry_refs": ["deepseek-v4-pro-development-unvalidated"],
+      "pipeline_version": "metawingman@f7075c1",
+      "prompt_sha256": "0b4803f1aa0f3763a77f70b3c69446938bc5cf867d2dd5b763a004eb6dad5bd2",
+      "tool_versions": ["metawingman@f7075c1"],
+      "ablations": ["biomedical_terminology", "biomedical_retrieval", "domain_routing", "evidence_graph", "document_state", "external_verifiers", "test_time_scaling", "abstention"],
+      "max_model_calls": 2,
+      "retry_budget": 0
+    },
+    {
+      "configuration_id": "biomedical-routing",
+      "description": "C2: C1 + the record's biomedical stratum (specialty, question type) as context.",
+      "model_registry_refs": ["deepseek-v4-pro-development-unvalidated"],
+      "pipeline_version": "metawingman@f7075c1",
+      "prompt_sha256": "fc131f3e107627d0ea1a8642645e1c22871783005eb673a720e3c578833de364",
+      "tool_versions": ["metawingman@f7075c1"],
+      "ablations": ["evidence_graph", "document_state", "external_verifiers", "test_time_scaling", "abstention"],
+      "max_model_calls": 2,
+      "retry_budget": 0
+    },
+    {
+      "configuration_id": "full-biomedical-stack",
+      "description": "C3: C2 + the trained component as verifier; disagreement routes to abstention.",
+      "model_registry_refs": ["deepseek-v4-pro-development-unvalidated"],
+      "pipeline_version": "metawingman@f7075c1",
+      "prompt_sha256": "394bd424d7d5cece4dbd340b2fb2ceb1707de492efa48183f2dfde8531d8e633",
+      "tool_versions": ["metawingman@f7075c1"],
+      "ablations": [],
+      "max_model_calls": 2,
+      "retry_budget": 0
+    }
+  ],
+  "repetitions_per_case": 3,
+  "reference_standard": {
+    "source": "published_expert_reference",
+    "correction_policy": "verified_corrected_version_only",
+    "integrity_policy": "unresolved_cases_excluded_from_held_out_scoring",
+    "de_novo_human_adjudication": false,
+    "answers_sealed_until_all_runs_locked": true
+  },
+  "metrics": {
+    "primary": ["critical_error_rate", "false_exclusion_rate", "unsupported_value_rate", "end_to_end_result_accuracy"],
+    "secondary": ["coverage", "abstention_rate", "precision", "recall", "f1", "numerical_equivalence", "run_to_run_reliability", "position_sensitivity", "judge_order_sensitivity", "anchor_accuracy", "lineage_precision", "lineage_recall", "exact_recomputation_rate", "selective_coverage", "abstention_quality", "wall_clock_seconds", "model_calls", "input_tokens", "output_tokens", "api_cost", "compute_cost"],
+    "aggregation_unit": "review_family",
+    "uncertainty_method": "paired_bootstrap_by_review_family"
+  },
+  "critical_error_weights": {
+    "false_exclusion": 10,
+    "unsupported_value": 10,
+    "unanchored_claim": 10,
+    "unauthorized_action": 20,
+    "missed_required_abstention": 10
+  },
+  "release_thresholds": {
+    "max_critical_error_rate": 0,
+    "min_run_to_run_reliability": 0.9,
+    "min_coverage": 0,
+    "min_accuracy": 0
+  },
+  "inference_limits": {
+    "human_comparison_absent": true,
+    "may_claim_human_superiority": false,
+    "may_claim_labor_savings": false,
+    "allowed_claim": "AI agreement with published expert references, reliability, risk-coverage, latency, and cost"
+  },
+  "frozen_at_utc": "2026-08-18T12:10:00Z"
+}

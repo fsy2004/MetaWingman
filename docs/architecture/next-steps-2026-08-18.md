@@ -21,20 +21,50 @@
    两段式最佳 MRR 0.103（K=50）< TF-IDF 0.220；召回天花板 K=200 仅 52%；
    重排器在真实语料候选集上为负贡献。**方向修正：换更强召回（BM25/SPLADE/
    稠密检索）重测天花板，而非加大 K；重排器仅在 ≤几十候选的小集上使用。**
+   **2026-08-18 方向修正已执行并定论**（`bm25-two-stage-results-2026-08-18.md`）：
+   BM25 全库 MRR **0.2649**（最优单阶段）；BM25 召回天花板 K=200 **0.507**（与
+   TF-IDF 相近，~50% 是 dev 任务语义固有限制）；两段式 MRR 随 K 单调下降
+   （0.128→0.058），**重排器在开放语料候选集为负贡献——开放检索用 BM25 单阶段，
+   训练重排器仅限 curated 候选集**。P0 检索项就此定论。
 2. **GLM 双 provider C0-C3 对比**：glm-5.2（已实测可用）跑同配置四组，与 DeepSeek
    历史对比，产出跨模型一致性实证（对应 model-aware skill alignment 方向）。
+   **2026-08-18 已完成（C3-only，范围收缩已记录）**：
+   `glm-cross-provider-results-2026-08-18.md`——C3 同盲集 SR macro-F1 0.8816 vs
+   0.9385、检索选择准确率 0.96 vs 0.93、跨 provider kappa 0.8472（0.8221–0.8722）；
+   GLM 推理 token 吃掉输出预算（max_tokens 64→8192 才清零死信）是持久教训；
+   runner 无 C0/C1/C2 开关，GLM 仅跑 C3。
 
 ## P1 —— 用户指定重点（选题 + 系统评价）
 
 3. **R6 步骤级评价 verifier**：RoB/GRADE 链拆步骤，每步可验证 + 不确定性弃权
    （Setlur PRM 定性思路 + 2026 Structured Verbal Verification 线索）。
+   **2026-08-18 已实施（本轮）**：10 步规则 verifier 脚本 + schema 已在库；第三
+   个训练组件（6 域 RoB 领域分类，BiomedBERT 110M）V3 训练完成，dev macro-F1
+   **0.8500**（规则一致性，非独立验证；见
+   `appraisal-step-component-results-2026-08-18.md`）。
 4. **选题新颖性审计单**：候选选题输出"既有综述/注册联网比对 + 覆盖缺口 + 时间
-   窗口"证据链。ModSearch 已装，落地条件成熟。
+   窗口"证据链。ModSearch 已装，落地条件成熟。**下一轮开工。**
 
 ## P2 —— 评测与研究层
 
 5. **VAL-2b 手册冻结** → 时间切分重建（复现能力实证，当前最大卡点）。
+   **2026-08-18 拆分推进**：**VAL-2b1 组件轴冻结完成**（任务手册索引、损失权重、
+   发布阈值、C0-C3 prompt 哈希、停止规则；`val2b-task-manual-freeze-2026-08-18.md`
+   + `research/ai-only-evaluation-plan.val2b1-v1.0-frozen.json`）；**VAL-2b2
+   重建案例手册仍阻塞于 VAL-1**（五家族许可/切分晋升）；VAL-2c 人类盲评抽检集
+   已冻结，待人类评审窗口评分 → kappa 决定规则天花板。
 6. **对标 2606.17041 基准**：评估我们的 AI-only 任务是否覆盖其任务类型。
+   **2026-08-18 已完成**：论文 = **MetaSyn**（THUIR，arXiv:2606.17041v6，Xie 等），
+   两任务九指标；映射 15 项：covered 6 / partial 7 / gap 2（黄金语料库、阶段归因
+   诊断），见 `research/benchmark-2606-17041-task-map.md`。数据集卡已核实（MIT 标注
+   + 上游条款第三方文本）。
+8. **MetaSyn 评测适配器**（新增，gap 落地路径）：外部黄金语料轴上评测我方检索+
+   筛选，含阶段归因（retrieval_loss / screening_loss / reference_missing）。
+   **2026-08-18 设计冻结**（`metasyn-adapter-design-2026-08-18.md`，五条冻结条件
+   未满足前不运行；不可比声明绑定）。
+7. **VAL-1 首个晋升**（新增）：sci-exercise-analysis 分析切片重建案例已起草
+   （`val1-promotion-analysis-2026-08-18.md`）；待密封答案提取完成后建
+   benchmark manifest（dev split）+ 跑 run-lock 机制演练。
 7. **Lifelong upgrades 机制化**：skill/预设版本化 + 变更日志（已起步）→ 扩展为
    "新文献线索 → 带出处提案 → 更新文件 → 记录"的循环（对应 ICLR 2026 lifelong
    agents 方向）。

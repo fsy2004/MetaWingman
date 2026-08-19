@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "stage": "extraction",
+  "status": "draft_rehearsal",
+  "source_note": "Draft extraction template for the ag-rdt corpus rehearsal: extract sensitivity/specificity/participant counts from title+abstract of screened-in candidates. Real extraction for the living-update case uses the sealed workbooks' schema; this template only quantifies abstract-level feasibility.",
+  "fields": {
+    "sensitivity_percent": {
+      "id": "ext-sens",
+      "pattern": "sensitivity[^0-9.%]{0,25}(?P<value>\\d{1,3}(?:\\.\\d+)?)\\s*%?",
+      "type": "float"
+    },
+    "specificity_percent": {
+      "id": "ext-spec",
+      "pattern": "specificity[^0-9.%]{0,25}(?P<value>\\d{1,3}(?:\\.\\d+)?)\\s*%?",
+      "type": "float"
+    },
+    "n_total": {
+      "id": "ext-n",
+      "pattern": "\\b(?:n\\s*=\\s*|of\\s+)(?P<value>\\d{2,6})\\b",
+      "type": "int"
+    }
+  }
+}

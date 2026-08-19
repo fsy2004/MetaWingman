@@ -13,9 +13,16 @@ from pathlib import Path
 from typing import Any
 
 STAGE_TO_FILE = {
+    "topic": "topic.json",
+    "protocol": "protocol.json",
+    "search": "search.json",
     "screening": "screening.json",
+    "extraction": "extraction.json",
     "appraisal": "appraisal.json",
     "analysis": "analysis.json",
+    "writing": "writing.json",
+    "reproducibility": "reproducibility.json",
+    "update": "update.json",
 }
 
 
@@ -62,7 +69,7 @@ def main() -> int:
     parser.add_argument("--strict", action="store_true")
     args = parser.parse_args()
     try:
-        answers = json.loads(args.answers.read_text(encoding="utf-8"))
+        answers = json.loads(args.answers.read_text(encoding="utf-8-sig"))
         if not isinstance(answers, dict):
             raise ValueError("answers must be a JSON object keyed by item id")
         report = check_answers(args.stage, answers, args.skill_root, strict=args.strict)
