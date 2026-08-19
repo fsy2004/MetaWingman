@@ -48,19 +48,45 @@ flowchart LR
 
 ## Status
 
-The pipeline is under active development, and its components are at
-different stages of validation.
+The pipeline is under active development; components carry different levels
+of evidence. All numbers below are development-set consistency against
+weakly supervised or rubric-grounded labels, or reproduction of published
+values — not externally validated benchmarks.
 
 - **Runnable today:** auditable literature search, license- and
   retraction-checked full-text retrieval, deterministic effect-size
-  recomputation, and the R synthesis toolkit.
-- **Specified with schemas and tests, pending end-to-end validation:**
-  screening, extraction lineage, risk of bias, GRADE, review, and
-  living update.
-- **Trained verifiers:** two 110M BiomedBERT components (section-role
-  classification and evidence retrieval, below). Reported numbers are
-  development-set consistency against weakly supervised labels, not
-  externally validated benchmarks.
+  recomputation, the R synthesis toolkit, and the stage-gate scripts.
+- **Validation ladder (VAL-1 → VAL-3):** reconstruction families licensed
+  and promoted (VAL-1); AI-only repeated-run plan and frozen task manual
+  (VAL-2a/2b1); a 100-item appraisal spot-check scored kappa 0.311 against
+  rubric-grounded judgment, which triggered a relabeling pivot (VAL-2c);
+  first AI-only screening pilot on 649 frozen records, gold recall 0.765
+  (VAL-3).
+- **Reconstruction evidence:** the deterministic R pipeline reproduced a
+  published random-effects meta-analysis (Hodgkiss et al., PLoS Med 2023,
+  doi:10.1371/journal.pmed.1004082) within declared tolerances in three
+  locked runs (pooled MD 2.865 vs 2.9; I² 92.67% vs 93%; k=16 exact).
+- **Cross-provider:** GLM glm-5.2 vs DeepSeek on the same blinded set,
+  section-role kappa 0.8472 (95% CI 0.8221–0.8722).
+- **Release:** tag v0.1.4; deterministic bundle build passes 8/8 checks
+  (see `docs/architecture/release-report-2026-08-18.md`).
+
+## Design
+
+Five mechanisms structure the workflow; each has a script or schema and a
+recorded smoke/regression run:
+
+- **Review Question Certificate** — a seven-stage derivation (primitives →
+  falsifiable hypothesis) with hard/soft gates and a novelty search.
+- **Ten-stage Socratic checklists** — ten questions per stage (nine
+  mandatory), gated before stage entry.
+- **Step-level verifier** — ten appraisal steps with abstention and a
+  human-review window.
+- **Audit log + meta-update loop** — JSONL events; change proposals carry
+  sources and are applied only through the review window with the commit
+  recorded.
+- **Dual-judge blind scoring** — certificate quality scored blind by two
+  judge models.
 
 ## Install
 
@@ -85,12 +111,19 @@ review reports.
 
 ## Trained components
 
-Two 110M BiomedBERT models handle two narrow subtasks of the pipeline:
+Three 110M BiomedBERT models handle narrow subtasks of the pipeline. All
+results are development-set consistency, not external validation.
 
-| Component | Task | Development-set results (weak labels) |
+| Component | Task | Development-set results |
 |---|---|---|
-| Section-role classifier | assigns each paragraph one of 8 workflow roles (search, eligibility, selection, extraction, appraisal, synthesis, certainty, protocol) | macro-F1 0.983 (0.670 with title lines removed; majority-class baseline 0.046) |
-| Evidence retriever | maps fields plus the review title to supporting paragraphs (in-batch and hard negatives) | MRR 0.954, P@1 0.919 (TF-IDF baseline 0.712 / 0.549) |
+| Section-role classifier | assigns each paragraph one of 8 workflow roles (search, eligibility, selection, extraction, appraisal, synthesis, certainty, protocol) | eval macro-F1 0.9995 (weak labels) |
+| Evidence retriever | maps fields plus the review title to supporting paragraphs | candidate-set MRR 0.962, P@1 0.933 (weak labels) |
+| Appraisal domain classifier | labels an appraisal passage with one of six risk-of-bias domains | rule-label consistency macro-F1 0.8500; after rubric-grounded relabeling (9,906 records) weighted-F1 0.871, macro-F1 0.3777 |
+
+Open-corpus retrieval uses BM25 single-stage (MRR 0.2649 on the dev
+corpus); the trained retriever is used only on provided candidate sets,
+where it is strong. See
+`docs/architecture/bm25-two-stage-results-2026-08-18.md`.
 
 ## Statistics toolkit
 
@@ -143,6 +176,9 @@ current environment; it does not validate any specific review.
 - [AI-first roadmap](docs/architecture/ai-first-roadmap.md)
 - [AI-only benchmark protocol](docs/architecture/ai-only-benchmark-protocol.md)
 - [Training run report](docs/architecture/training-run-report-2026-08-17.md)
+- [Final status (single entry)](docs/architecture/final-status-2026-08-18.md)
+- [Methodology innovation whitepaper](docs/architecture/innovation-whitepaper-2026-08-18.md)
+- [Release report](docs/architecture/release-report-2026-08-18.md)
 
 ## License
 
@@ -194,14 +230,34 @@ flowchart LR
 
 ## 现状
 
-管线在持续开发中，各组件处于不同的验证阶段。
+管线在持续开发中，各组件证据级别不同。以下数字均为开发集上与弱监督/准则
+标签的一致性，或对已发表数值的复现——不是外部验证的基准成绩。
 
 - **当前可运行**：可审计文献检索、经许可/撤稿核验的全文获取、确定性效应量
-  重算、R 综合工具箱。
-- **已完成规范与测试、待端到端验证**：筛选、提取谱系、偏倚风险、GRADE、
-  审稿与持续更新。
-- **已训练的验证器**：两个 110M BiomedBERT 组件（段落角色分类与证据检索，
-  见下）。所报数字是开发集上与弱监督标签的一致性，并非外部验证的基准成绩。
+  重算、R 综合工具箱、阶段关卡脚本。
+- **验证阶梯（VAL-1 → VAL-3）**：重建家族许可与晋升（VAL-1）；AI-only 重复
+  运行计划与冻结任务手册（VAL-2a/2b1）；100 项评价抽检对准则判断评分 kappa
+  0.311，触发重标注转向（VAL-2c）；首个 AI-only 筛选 pilot（649 条冻结
+  记录）黄金召回 0.765（VAL-3）。
+- **复现证据**：确定性 R 管线以三次锁定运行、在声明容差内复现了已发表的
+  随机效应 Meta 分析（Hodgkiss 等，PLoS Med 2023，
+  doi:10.1371/journal.pmed.1004082；合并 MD 2.865 对 2.9；I² 92.67% 对
+  93%；k=16 精确）。
+- **跨模型**：GLM glm-5.2 与 DeepSeek 同盲集段落角色 kappa 0.8472（95% CI
+  0.8221–0.8722）。
+- **发布**：tag v0.1.4；确定性打包校验 8/8 通过（见
+  `docs/architecture/release-report-2026-08-18.md`）。
+
+## 方法学设计
+
+五个机制组织工作流，各自有脚本或 schema 与已记录的冒烟/回归运行：
+
+- **综述问题证书**——七阶段推导（原语 → 可证伪假设），带硬/软门与新颖性检索。
+- **十阶段苏格拉底清单**——每阶段十个问题（九个必答），进入阶段前过门禁。
+- **步骤级验证器**——十个评价步骤，带弃权与人工审核窗口。
+- **审计日志 + 元更新回路**——JSONL 事件；变更提案带出处，仅经审核窗口应用
+  并记录提交号。
+- **双法官盲评**——证书质量由两个法官模型盲评。
 
 ## 安装
 
@@ -224,12 +280,18 @@ GRADE 表、稿件与审稿报告。
 
 ## 已训练组件
 
-两个 110M BiomedBERT 模型处理管线中的两个窄子任务：
+三个 110M BiomedBERT 模型处理管线中的窄子任务。所有结果均为开发集一致性，
+不是外部验证。
 
-| 组件 | 任务 | 开发集结果（弱标签） |
+| 组件 | 任务 | 开发集结果 |
 |---|---|---|
-| 段落角色分类器 | 为每个段落分配 8 种工作流角色之一（search、eligibility、selection、extraction、appraisal、synthesis、certainty、protocol） | macro-F1 0.983（剥离标题行后 0.670；多数类基线 0.046） |
-| 证据检索器 | 由字段加综述标题映射到支撑段落（in-batch 与 hard negatives） | MRR 0.954，P@1 0.919（TF-IDF 基线 0.712 / 0.549） |
+| 段落角色分类器 | 为每个段落分配 8 种工作流角色之一（search、eligibility、selection、extraction、appraisal、synthesis、certainty、protocol） | eval macro-F1 0.9995（弱标签） |
+| 证据检索器 | 由字段加综述标题映射到支撑段落 | 候选集 MRR 0.962，P@1 0.933（弱标签） |
+| 评价域分类器 | 为评价段落标注六个偏倚域之一 | 规则标签一致性 macro-F1 0.8500；经准则重标注（9,906 条）后 weighted-F1 0.871，macro-F1 0.3777 |
+
+开集检索使用 BM25 单阶段（开发语料 MRR 0.2649）；训练检索器只在给定候选集
+上使用（该场景下表现强）。见
+`docs/architecture/bm25-two-stage-results-2026-08-18.md`。
 
 ## 统计工具箱
 
@@ -278,6 +340,9 @@ python .\scripts\verify_dependency_locks.py                     # 依赖锁核�
 - [AI-first 路线图](docs/architecture/ai-first-roadmap.md)
 - [AI-only 评测协议](docs/architecture/ai-only-benchmark-protocol.md)
 - [训练运行报告](docs/architecture/training-run-report-2026-08-17.md)
+- [终版状态（单一入口）](docs/architecture/final-status-2026-08-18.md)
+- [方法学创新白皮书](docs/architecture/innovation-whitepaper-2026-08-18.md)
+- [发布报告](docs/architecture/release-report-2026-08-18.md)
 
 ## License
 
