@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "case_id": "ag-rdt-pooled-sensitivity-slice",
+  "review_family_id": "covid19-antigen-dta-living",
+  "split": "dev",
+  "status": "sealed",
+  "task": "analysis_slice",
+  "notes": "Deterministic analysis slice on the 2022 update workbook (heiDATA doi:10.11588/DATA/T3MIB0/FIDTR9, CC BY-NC-ND 4.0, read-only comparison reference; derived 2x2 inputs are local staging, never redistributed). Unit = study-level (189 studies with complete 2x2; the workbook's 194 included studies include 5 without complete 2x2 - recorded). Model: mada bivariate (Reitsma) pooled sensitivity/specificity, matching the published overall pooled estimates (72.0% [69.8-74.2] / 98.9% [98.6-99.1], research/ag-rdt-2022-pooled-estimates.json). Tolerances precommitted: ±2.0 pp for both, covering unit granularity and model-family differences. Exclusion rule (amended pre-run, mada model constraint): studies with >=3 zero cells dropped (f104, f189) -> 187 studies. Exclusion rule (amended pre-run, mada model constraints): >=3 zero cells OR undefined rates dropped (f104, f118, f189, f193) -> 185 studies.",
+  "input_artifact": {
+    "package_path": "validation-output/ag-rdt-corpus/case-input/agrdt-2x2-study.csv",
+    "sha256": "20fcabede320c5ef5fc3854d85e0db0c239509576234e64811143c85fa22c5ab",
+    "xlsx_sheet": 1,
+    "license": "CC-BY-NC-ND-4.0 (derived local staging from read-only reference)"
+  },
+  "column_mapping": {
+    "m1i": "TP",
+    "sd1i": "FN",
+    "n1i": "FP",
+    "m2i": "TN",
+    "sd2i": "TN",
+    "n2i": "TN",
+    "slab": "study"
+  },
+  "r_calls": [
+    {
+      "adapter": "run_diagnostic.R",
+      "analysis": "sroc_summary",
+      "measure": "",
+      "method": "",
+      "knha": false
+    }
+  ],
+  "tolerances": {
+    "pooled_est": 2.0,
+    "ci_bounds": 2.0,
+    "i2_pp": 0.0,
+    "tau2": 0.0
+  },
+  "scoring": {
+    "artifact": "sroc_summary/sroc_summary.csv",
+    "row_key": "metric",
+    "comparisons": [
+      {
+        "row": "Sensitivity",
+        "reference_path": [
+          "pooled",
+          "sensitivity_percent"
+        ],
+        "field": "estimate",
+        "tolerance": 2.0,
+        "scale": 100
+      },
+      {
+        "row": "Specificity",
+        "reference_path": [
+          "pooled",
+          "specificity_percent"
+        ],
+        "field": "estimate",
+        "tolerance": 2.0,
+        "scale": 100
+      }
+    ]
+  },
+  "reference_answers": {
+    "package_path": "research/ag-rdt-2022-pooled-estimates.json",
+    "sha256": "b3a0dbf87677eb80b782245c7adbd3d04ae5dcc7d92c154419b7edfb454f9162",
+    "sealed_until_all_locks": true
+  },
+  "boundary": {
+    "expected_runs": 3,
+    "configuration_ids": [
+      "deterministic-r-analysis"
+    ]
+  }
+}

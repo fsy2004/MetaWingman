@@ -182,6 +182,43 @@ def compare_to_reference(case: dict, workdir: Path) -> dict:
     if expected and sha256_file(ref_path) != expected:
         raise ValueError("reference answer SHA-256 mismatch; scoring refused")
     ref = json.loads(ref_path.read_text(encoding="utf-8"))
+
+    # Generic scoring block (per-case config; e.g. diagnostic sroc_summary.csv)
+    scoring = case.get("scoring")
+    if scoring:
+        artifact = workdir / scoring["artifact"]
+        if not artifact.is_file():
+            return {"scored": False, "reason": f"{scoring['artifact']} missing"}
+        rows = {r.get(scoring.get("row_key", "metric")): r for r in csv.DictReader(artifact.open(encoding="utf-8"))}
+        comparisons = {}
+        for comp in scoring["comparisons"]:
+            row = rows.get(comp["row"])
+            ref_val = None
+            if comp.get("reference_path"):
+                node = ref
+                for key in comp["reference_path"]:
+                    node = node.get(key) if isinstance(node, dict) else None
+                    if node is None:
+                        break
+                ref_val = _num(node)
+            else:
+                ref_entry = _find_estimate(ref, comp["reference_metric"]) if comp.get("reference_metric") else None
+                ref_val = _num(ref_entry.get("value")) if ref_entry else None
+            ours_val = _num(row.get(comp.get("field", "estimate"))) if row else None
+            if ours_val is not None and comp.get("scale"):
+                ours_val = ours_val * comp["scale"]
+            tol = comp["tolerance"]
+            comparisons[comp["row"]] = {
+                "ours": ours_val, "reference": ref_val,
+                "abs_delta": round(ours_val - ref_val, 6) if ours_val is not None and ref_val is not None else None,
+                "tolerance": tol,
+                "within_tolerance": (
+                    ours_val is not None and ref_val is not None and abs(ours_val - ref_val) <= tol
+                ),
+            }
+        passed = all(c.get("within_tolerance", True) for c in comparisons.values() if isinstance(c, dict))
+        return {"scored": True, "passed": bool(passed), "agreements": {}, "generic": {"scored": True, "comparisons": comparisons}}
+
     summary_csv = workdir / "summary" / "summary.csv"
     if not summary_csv.is_file():
         return {"scored": False, "reason": "summary.csv missing"}
@@ -312,7 +349,10 @@ def main() -> int:
         shutil.copyfile(input_artifact, staged)  # staged copy; sealed tree untouched
 
         csv_out = args.out_dir / "data.csv"
-        stage_xlsx_to_csv(staged, case["input_artifact"]["xlsx_sheet"], case["column_mapping"], csv_out)
+        if input_artifact.suffix.lower() == ".csv":
+            shutil.copyfile(input_artifact, csv_out)  # already CSV (derived analysis input)
+        else:
+            stage_xlsx_to_csv(staged, case["input_artifact"]["xlsx_sheet"], case["column_mapping"], csv_out)
 
         adapters_dir = Path(__file__).resolve().parent / "r" / "adapters"
         inputs = {"csv": csv_out, "mapping": case["column_mapping"]}
