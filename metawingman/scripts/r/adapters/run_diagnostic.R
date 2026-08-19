@@ -57,6 +57,17 @@ switch(analysis,
     ), file.path(outdir, "sroc_summary.csv"), row.names = FALSE)
   },
 
+  ## #46b 双变量合并表(仅汇总,跳过图与 AUC;处理退化数据时图/AUC 会崩)
+  "sroc_summary" = {
+    s  <- summary(fit)$coefficients
+    write.csv(data.frame(
+      metric = c("Sensitivity", "Specificity"),
+      estimate = c(s["sensitivity", "Estimate"], 1 - s["false pos. rate", "Estimate"]),
+      ci_low  = c(s["sensitivity", "95%ci.lb"], 1 - s["false pos. rate", "95%ci.ub"]),
+      ci_high = c(s["sensitivity", "95%ci.ub"], 1 - s["false pos. rate", "95%ci.lb"])
+    ), file.path(outdir, "sroc_summary.csv"), row.names = FALSE)
+  },
+
   ## #47 敏感度 / 特异度森林 -------------------------------------------
   "paired_forest" = {
     ps <- file.path(outdir, "forest_sens.pdf"); pp <- file.path(outdir, "forest_spec.pdf")
