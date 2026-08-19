@@ -1,8 +1,8 @@
-"""Extract figure metadata from literature PDFs."""
+﻿"""Extract figure metadata from literature PDFs."""
 import fitz
 import os
 
-pdf_dir = r'C:\Users\fsy\Documents\Codex\MetaWingman\research\method-literature'
+pdf_dir = r'C:\Users\fsy\Desktop\MetaWingman\research\method-literature'
 for f in sorted(os.listdir(pdf_dir)):
     if not f.endswith('.pdf'):
         continue
