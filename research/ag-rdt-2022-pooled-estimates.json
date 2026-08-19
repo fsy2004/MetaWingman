@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "article": {
+    "doi": "10.1371/journal.pmed.1004011",
+    "title": "Accuracy of rapid point-of-care antigen-based diagnostics for SARS-CoV-2: An updated systematic review and meta-analysis with meta-regression analyzing influencing factors",
+    "authors": "Brümmer LE, Katzenschlager S, McGrath S, Schmitz S, Gaeddert M, Erdmann C, Bota M, Grilli M, Larmann J, Weigand MA, Pollock NR, Macé A, Erkosar B, Carmona S, Sacks JA, Ongarello S, Denkinger CM",
+    "journal": "PLoS Med. 2022 May 26;19(5):e1004011",
+    "pmid": "35617375",
+    "pmcid": "PMC9187092",
+    "urls": [
+      "https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1004011",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC9187092/",
+      "https://doi.org/10.1371/journal.pmed.1004011"
+    ],
+    "access_method": "read_page 读取 PMC 全文页与 PLOS 文章页（摘要与正文起始部分，两镜像逐字一致）；正文 Results 段经 PLOS 官方稿件 XML（article/file?type=manuscript，Google Storage 签名 URL）在内存中抓取定位（read_page 的文本提取在 Methods/Inclusion criteria 处截断，正文 Results 未能经 read_page 直接到达）"
+  },
+  "extraction_date_utc": "2026-08-19T03:13:29Z",
+  "pooled": {
+    "sensitivity_percent": 72.0,
+    "sensitivity_ci": [69.8, 74.2],
+    "specificity_percent": 98.9,
+    "specificity_ci": [98.6, 99.1],
+    "n_studies": 194,
+    "n_tests": 221878,
+    "source_locator": "正文 Results（总体估计段，'Subgroup analysis by IFU conformity' 之前、Fig 3 说明之前）: \"Including any test and type of sample, the pooled estimates of sensitivity and specificity were 72.0% (95% CI 69.8 to 74.2) and 98.9% (95% CI 98.6 to 99.1), respectively.\"；摘要 'Methods and findings' 段同值: \"We included 194 studies with 221,878 Ag-RDTs performed. Overall, the pooled estimates of Ag-RDT sensitivity and specificity were 72.0% (95% confidence interval [CI] 69.8 to 74.2) and 98.9% (95% CI 98.6 to 99.1).\""
+  },
+  "uncertainty": [
+    "数值仅取自已发表期刊版本（Version 2，2022-05-26 出版）的报道文本；未与底层数据仓库（https://doi.org/10.11588/data/T3MIB0，Data Availability 声明）中的原始数据复算核对，也未与 medRxiv 预印本比对（PLOS 页标注 'See the preprint'）。作为密封参考答案，以期刊正式文本为准。",
+    "正文 Results 总体估计句未说明进入该总体合并的确切数据集数目；同一节 'Analysis of individual tests' 基于 179 个数据集 / 143,803 次检测（12 种 Ag-RDT）得 71.6% (69.0–74.1) / 99.0% (98.8–99.2)，原文明言其 '非常接近总体合并估计（72.0% 和 98.9%，见上）'。若重建流程按研究子集筛选（如仅含可计算 2×2 表的数据集），与 72.0/98.9 的微小偏差属预期而非错误。",
+    "read_page 全文提取在 Methods/Inclusion criteria 处截断；正文 Results 定位改用 PLOS 官方稿件 XML 在内存中抓取。XML 经 PowerShell 控制台输出时出现 UTF-8 显示乱码（如 ≥ 显示为 â\u0089¥），仅影响显示、不影响数值本身。",
+    "摘要中 '76.3% (73.7–78.7)' 为按制造商说明书（IFU）执行时的敏感性，非总体值；Author summary 中 '99.1% (98.8–99.3)' 为 IFU 组特异度，均不可与总体 72.0%/98.9% 混用（对拍时须区分）。"
+  ],
+  "notes": "总体定义：纳入全部研究（194 项研究、221,878 次 Ag-RDT 检测，检索截至 2021-08-31；随机效应 meta 分析，RT-PCR 为参照，>4 项研究时合并）。分层合并值（供未来切片，全部来自同一期刊文本抓取）：(1) 按 IFU 符合性——敏感性 76.3% (73.7–78.7) vs 非 IFU 66.7% (62.6–70.6)；特异度 99.1% (98.8–99.3) vs 98.4% (97.8–98.8)。(2) 按 Ct 值——<20: 97.9% (96.9–98.9)；<25: 90.6% (88.3–93.0)；≥25: 54.4% (47.3–61.5)；≥30: 18.7% (13.9–23.4)。(3) 按症状病程——≤7 天: 81.9% (77.7–85.5)；≥7 天: 51.8% (41.5–61.9)。(4) 按症状状态——有症状: 76.2% (73.3–78.9)；无症状: 56.8% (50.9–62.4)。(5) 按样本类型——NP 及 NP/OP: 70.8% (68.3–73.2)；前鼻/中鼻甲: 77.3% (73.0–81.0)。(6) 按变异株——野生株（188 数据集/153,522 样本）: 72.3% (69.7–74.7) / 特异度 99.0% (98.7–99.2)；Alpha（26 数据集/19,512 样本）: 67.0% (58.5–74.5) / 99.3% (98.7–99.6)；野生+Alpha 共显（6 数据集/8,753 样本）: 72.0% (57.9–82.8) / 99.6% (98.4–99.9)。(7) 按年龄——成人 ≥18 岁（62,433 样本）: 74.8% (71.5–77.8)；儿童 <18 岁（5,137 样本）: 69.8% (61.0–77.3)。(8) 12 种单一测试（179 数据集/143,803 测试）: 71.6% (69.0–74.1) / 99.0% (98.8–99.2)；最高为 LumiraDx 82.7% (73.2–89.4) 与 Standard Q nasal 81.4% (73.8–87.2)。另：Ct 值每降低 1 个单位（均值），敏感性估计增加 2.9 个百分点 (95% CI 1.7–4.0)。本切片仅对拍总体值 72.0%/98.9%。",
+  "verification": {
+    "pmc_abstract_match": true,
+    "plos_abstract_match": true,
+    "maintext_results_match": true,
+    "cross_mirror_identical": true,
+    "checked_values": [
+      "sensitivity 72.0 (69.8–74.2)",
+      "specificity 98.9 (98.6–99.1)",
+      "n_studies 194",
+      "n_tests 221878"
+    ]
+  }
+}
