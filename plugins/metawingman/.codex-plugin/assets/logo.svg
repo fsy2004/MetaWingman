@@ -1,8 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <rect x="0" y="0" width="512" height="512" rx="96" fill="#111827"/>
-  <!-- three geometric M glyphs -->
+  <!-- outer M glyphs -->
   <path fill="#FFFFFF" d="M56 340 V170 L106 265 L156 170 V340 H138 V255 L106 300 L74 255 V340 Z"/>
-  <path fill="#FFFFFF" d="M206 340 V170 L256 265 L306 170 V340 H288 V255 L256 300 L224 255 V340 Z"/>
+  <!-- middle W glyph -->
+  <path fill="#FFFFFF" d="M206 170 L226 340 L256 250 L286 340 L306 170 H288 L274 298 L256 222 L238 298 L224 170 Z"/>
+  <!-- outer M glyph -->
   <path fill="#FFFFFF" d="M356 340 V170 L406 265 L456 170 V340 H438 V255 L406 300 L374 255 V340 Z"/>
   <!-- forest-plot accent: horizontal line + centered diamond -->
   <line x1="156" y1="424" x2="356" y2="424" stroke="#60A5FA" stroke-width="8" stroke-linecap="round"/>
