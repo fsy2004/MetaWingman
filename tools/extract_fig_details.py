@@ -1,8 +1,8 @@
-"""Extract detailed figure design patterns from key papers."""
+﻿"""Extract detailed figure design patterns from key papers."""
 import fitz
 import os
 
-pdf_dir = r'C:\Users\fsy\Documents\Codex\MetaWingman\research\method-literature'
+pdf_dir = r'C:\Users\fsy\Desktop\MetaWingman\research\method-literature'
 
 # Key papers to study for figure design
 papers = {
