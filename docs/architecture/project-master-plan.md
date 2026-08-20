@@ -2,7 +2,10 @@
 
 > 方案流程 · 剩余工作 · 创新点 · 方法 · 算力选型。
 > 事实来源：仓库文件、Git 状态、真实测试输出与既有架构文档，不含未经验证的性能或科学有效性声明。
-> 最后核对：2026-08-16（分支 `codex/github-beta` 已与 origin 同步）。
+> 历史基线：2026-08-16。当前科学主线与服务器执行权威入口见
+> `clinical-question-synthesis-co-design.md` 和
+> `../superpowers/plans/2026-08-20-question-synthesis-server-mainline.md`；
+> 本文中的旧测试数、分支状态和两组件算力结论不代表当前 live 状态。
 
 ## 0. 一句话定位
 
@@ -28,12 +31,12 @@ MetaWingman 是一个**方法学优先、可审计的医学全科证据综合系
 
 每阶段留输入、决策者、时间戳、证据锚点、版本与校验结果；前一阶段 hard gate 通过才进入下一阶段。三模式：`assurance`（权威要求的人工独立决策保留）/ `evaluation`（唯一可检验替代人工任务的模式，需预注册标准）/ `rapid`（记录每条捷径、不得声称全面）。
 
-### 1.3 研发路线（P0 → P3）
+### 1.3 研发路线（P0 → P3，2026-08-20 收束）
 
-- **P0 审计内核**：可回放、类型化、可停止。review_state / event_ledger / evidence_anchor / model_registry / tool_contract / abstention / protocol / lineage 等 schema，state_store、schema_guard、method_contract、capability_router、provenance_graph 模块。
-- **P1 两个垂直切片**：A) 协议感知的 hard-negative 筛选（protocol_compiler、query_swarm、criterion_agents、hard_negative_adversary、protocol_judge、screening_escalator）；B) 多模态提取 + 确定性重算（document_ingestor、layout_parser、lineage_resolver、global_state_solver、effect_recalculator）。
-- **P2 判断工作台**：RoB 2/ROBINS/QUADAS/ROB-ME 证据卷宗、estimand 对齐、poolability 会议、GRADE 卷宗、claim_compiler（把高风险判断变成证据卷宗而非 oracle 标签）。
-- **P3 living 系统 + 前瞻评价**：living_monitor、impact_analyzer、amendment_manager、prospective_workflow_logger，以及时间切分重建 + 组件 benchmark + AI-only 重复运行对比。
+- **P0 联合设计契约与封存 benchmark**：临床决策语境、问题框架、综述类型、estimand、综合方法、数据要求和弃权进入同一状态；完成时间/家族隔离和目标泄漏封存。
+- **P1 临床问题—综合方法联合搜索**：证据图种子、方法路由、proposal-opposition-judge、外部 verifier、风险自适应 test-time compute 与候选组合输出。
+- **P2 全流程科学状态**：持久 Review Case State 贯穿检索、筛选、多模态全文、report-study-result lineage、RoB/GRADE/poolability、R 分析、写作与 AI 审稿。
+- **P3 有界学习与 living 验证**：训练问题—方法 ranker、来源支持 verifier、风险—成本 router；开展 AI-only 时间切分重建、消融、重复运行与前瞻选题/living update。
 
 ### 1.4 可复现训练范式（首个本地可训练的组件）
 
@@ -47,9 +50,9 @@ metadata intake（4,098 篇顶刊优先语料）
 → 四级 AI-only 消融（general-model-baseline / biomedical-schema / biomedical-routing / full-stack）
 ```
 
-## 2. 已完成（当前基线，本次已实测）
+## 2. 已完成（2026-08-16 历史基线）
 
-- Python 全量测试 **214/214 OK**；R adapters **61/61**；系统/医学 coverage 审计 valid；依赖锁 valid。
+- 当时记录为 Python **214/214 OK**、R adapters **61/61**、系统/医学 coverage 审计 valid、依赖锁 valid；使用前必须以当前测试重跑结果为准。
 - 医学全科应用契约、领域解析路由、项目迁移、医学分层计划、hard negatives、两个组件训练 job、四级消融、living drift、metadata-only 服务器交接（`local_ready_pending_server_preflight`）全部落地。
 - 冻结决策已固化为 `training-freeze-decisions.md`；标签/held-out 验证协议固化为 `label-and-heldout-validation-protocol.md`。
 - 分支 `codex/github-beta` 已推送（含本次 2 个文档提交 `f13380e`）；DRAFT PR #1 待评审合并。
@@ -76,33 +79,29 @@ metadata intake（4,098 篇顶刊优先语料）
 - 论文五图（贡献叙事契约）：架构图 / Top-K 选题重发现 + 假机会对照 / 覆盖地图 / 端到端 stage-loss 瀑布 / 风险-覆盖-成本前沿。
 - 公开提交前需真实 benchmark、许可证审查、公开 URL、发布者身份材料；第一版不需要 MCP 服务器。
 
-## 4. 创新点（四项贡献 + 支撑机制）
+## 4. 创新点（两项主贡献）
 
-- **C1 决策感知的选题机会控制**：时间边界多学科证据图 + 价值/风险冻结门 + 多样性感知 portfolio + 前瞻注册，把"值得做"变成可审计决策。
-- **C2 全生命周期系统**：单一体类型化证据状态贯穿选题到 living update，`record → report → study/trial → arm → result → synthesis → certainty → claim` 谱系。
-- **C3 结论导向的证据控制**：按"准则层残余遗漏风险 × 下游结论影响"动态分配检索/全文/复核/test-time compute，可返回 `continue/stop_candidate/abstain`，但不得终结生产性综述的停止决策。
-- **C4 已发表专家 + 反事实协议 benchmark**：时间切分重建 + published_expert_reference（仅用核验修正版）+ 单准则扰动 + 首次分歧点干预重放，测因果归因。
-- **支撑机制**（不单独包装成算法）：证据编译器、反证据锦标赛、多模态全局状态求解器、living graph、时间封存/协议扰动评测。
-- **可证伪边界**：复用 ReAct/辩论/路由/语义熵/conformal/多模态解析为基础；每项创新绑定直接对照、消融与失败条件，见 `innovation-and-falsification-matrix.md`。
+- **C1 临床问题—Meta 方法联合设计**：不是先定题再套统计方法，而是在临床决策语境中联合搜索问题范围、综述类型、estimand、证据可得性、效应量和综合路线；允许缩窄、扩展、拆题、换型、SWiM 或 no-pooling，并保留每次变更的证据依据。
+- **C2 像专业研究者一样反思的全流程证据状态**：一个持久、可回放的 Review Case State 贯穿选题到 living update；反思只有在原文锚点、标识符核验、谱系检查或确定性 R/Python 工具观察后才能改变科学状态。
+- **训练与评测基础设施**：顶刊已发表综述的时间切分重建、published_reference 标签、协议扰动、首次分歧重放和 AI-only 重复运行，用来验证 C1/C2，不另包装为主创新。
+- **借鉴机制**：ReAct、检索增强、树搜索、辩论、动态路由、语义熵、conformal risk control 和多模态解析均是支撑件；对应来源、边界、直接对照和消融见 `clinical-question-synthesis-co-design.md`。
 
 ## 5. 方法（技术栈）
 
 - **语言/契约**：Python 3.12 + JSON Schema 2020-12（closed object、`additionalProperties: false`）+ `jsonschema` + 标准库 CLI（无网络、原子写、fail-closed）。
 - **统计**：独立 R toolkit 26 模块 + 15 任务适配器 + 61 分析清单（Pairwise/NMA/DTA/比例/剂量反应/Bayesian/多层 RVE/序贯/SWiM；metafor/netmeta/mada/dosresmeta 等）。
 - **训练**：`microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext`（revision `e1354b7a…`，MIT），section-role 用 `AutoModelForSequenceClassification`+Trainer，检索用 tied encoder + in-batch negatives + cosine；accelerate/datasets/torch/transformers 锁定，seed `20260815`。
-- **外接 Agent**：provider-neutral contract（OpenAI 兼容），无密钥配置、schema 门控、单次修复弃权、内容无关遥测；DeepSeek 仅为第一个 adapter。
+- **外接 Agent**：provider-neutral contract（OpenAI 兼容），无密钥配置、schema 门控、单次修复弃权、内容无关遥测；当前批量运行固定 `deepseek-v4-flash` 单 API，Codex 负责主要交互式研发与审查，第二商业 provider 不构成 P0-P3 前置条件。
 - **可复现**：哈希链事件账本、逐文件/聚合哈希 bundle、依赖锁、SPDX SBOM + in-toto provenance（未签名声明）。
-- **方法学锚定**：每一步对应的 AI 顶会/顶刊论文与 GitHub 实现见 `methods-bibliography.md`（DPR/SBERT/BiomedBERT/Zhang&Stratos/LLM-as-Judge/HELM/TGAT/TGN/test-time compute 等）。
+- **方法学锚定**：系统综述行为由 `human-methodology-training-registry.json` 中的官方手册、原始方法论文和专业流程约束；AI 顶会/顶刊论文与 GitHub 实现只提供工程机制，见 `methods-bibliography.md`。
 
-## 6. 算力选型（对应你的预算 GPU 需求）
+## 6. 算力选型（完整服务器主线）
 
-- **结论**：本任务微调 110M 的 BERT-base，**单卡 24 GB 即可，无需 5090、无需多卡**。
-- **首选**：RTX 4090（24 GB）@ AutoDL；**更省**：RTX 3090（24 GB）。
-- 16 GB（A4000/L4）能跑，但 bi-encoder + in-batch negatives 场景余量偏小；L40S/A100 严重过剩。
-- 精度耦合：4090（Ada）原生 bf16、吞吐约 3090 的 2×；3090（Ampere）仅 fp16——选 3090 需把冻结的 `precision` 从 `bf16` 改为 `fp16` 再 preflight。
-- 参考价（近似、时效敏感，下单前核实 spot 价）：3090 约 $0.07–0.20/hr，4090 约 $0.30–0.70/hr。
-- 平台：AutoDL（国内通常最便宜）、Vast.ai、RunPod、Lambda。组件 job 已声明 24 GB GPU 需求，与选型一致。
+- 旧结论“单卡 24 GB”只适用于现有两个 110M 级编码器组件训练。
+- 完整研发主线首选 **2 × L40S 48 GB、32–48 vCPU、128–256 GB RAM、4 TB NVMe、1 Gbps 网络**；预算档为 **1 × L40S 48 GB、24–32 vCPU、96–128 GB RAM、2 TB NVMe**。
+- NVIDIA 官方规格给出 L40S 单卡 48 GB ECC 且不支持 NVLink，因此双卡用于并行独立 worker，不得写成单个 96 GB 显存模型（[NVIDIA L40S](https://www.nvidia.com/en-us/data-center/l40s/)）。
+- RTX 5090 32 GB 可作为经济型开发节点；A100 80 GB 只在实测显示需要更大单卡显存或带宽时升级。完整配置、存储分区和 API 边界见 `compute-and-deployment-budget.md`。
 
 ## 7. 声明边界（始终遵守）
 
-当前只能声明"已实现架构 + 类型化契约 + fixture 测试机制 + 明确验证缺口"。不得声称 first / 全自动 / 人类水平 / 超人类 / 全面验证 / 节省人工，除非有直接、适当功效的对照。训练未运行，无性能结论、无 checkpoint、无科学有效性声明。
+当前可声明既有架构、类型化契约、fixture/组件测试，以及已记录的两个有界编码器训练结果；结果与限制以 `final-status-2026-08-18.md`、`training-run-report-2026-08-17.md` 和 README 为准。新的临床问题—综合方法联合引擎尚未实现或训练。不得声称 first / 全自动 / 人类水平 / 超人类 / 全面验证 / 节省人工，除非有直接、适当功效且预先冻结的评价。

@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/metawingman/human_methodology_training_registry.schema.json",
+  "title": "Human methodology training registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "snapshot_date",
+    "purpose",
+    "method_authority",
+    "agent_literature_role",
+    "authority_precedence",
+    "threshold_provenance",
+    "distribution_policy",
+    "sources"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "snapshot_date": { "type": "string", "format": "date" },
+    "purpose": { "type": "string", "minLength": 1 },
+    "method_authority": { "const": "human_methodology_and_frozen_protocol" },
+    "agent_literature_role": { "const": "engineering_candidates_only" },
+    "authority_precedence": {
+      "type": "array",
+      "prefixItems": [
+        { "const": "official_standard_or_handbook" },
+        { "const": "original_method_article_and_supplement" },
+        { "const": "verified_professional_review_artifact" },
+        { "const": "secondary_explanation" }
+      ],
+      "items": false,
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "threshold_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "normative_requirement",
+        "primary_study_empirical",
+        "project_calibrated",
+        "engineering_placeholder"
+      ],
+      "properties": {
+        "normative_requirement": { "$ref": "#/$defs/provenancePolicy" },
+        "primary_study_empirical": { "$ref": "#/$defs/provenancePolicy" },
+        "project_calibrated": { "$ref": "#/$defs/provenancePolicy" },
+        "engineering_placeholder": { "$ref": "#/$defs/provenancePolicy" }
+      }
+    },
+    "distribution_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["full_text_bundled", "rule"],
+      "properties": {
+        "full_text_bundled": { "const": false },
+        "rule": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 18,
+      "items": { "$ref": "#/$defs/source" }
+    }
+  },
+  "$defs": {
+    "provenancePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definition",
+        "may_support_scientific_release",
+        "requires_frozen_calibration_record"
+      ],
+      "properties": {
+        "definition": { "type": "string", "minLength": 1 },
+        "may_support_scientific_release": { "type": "boolean" },
+        "requires_frozen_calibration_record": { "type": "boolean" }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "format",
+        "bytes",
+        "sha256",
+        "access_route",
+        "license_or_terms",
+        "redistribution_policy",
+        "bundled"
+      ],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "format": { "enum": ["html", "pdf", "xml", "json", "text"] },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "access_route": { "type": "string", "minLength": 1 },
+        "license_or_terms": { "type": "string", "minLength": 1 },
+        "redistribution_policy": {
+          "enum": ["metadata_only", "source_license_required", "permission_required"]
+        },
+        "bundled": { "const": false }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "statement", "provenance", "anchors"],
+      "properties": {
+        "rule_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]+$" },
+        "statement": { "type": "string", "minLength": 1 },
+        "provenance": {
+          "enum": [
+            "normative_requirement",
+            "primary_study_empirical",
+            "project_calibrated",
+            "engineering_placeholder"
+          ]
+        },
+        "anchors": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "title",
+        "year",
+        "source_tier",
+        "authority_classes",
+        "review_profiles",
+        "identity",
+        "read_status",
+        "read_scope",
+        "local_artifacts",
+        "supported_rules",
+        "unsupported_inferences"
+      ],
+      "properties": {
+        "source_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]+$" },
+        "title": { "type": "string", "minLength": 1 },
+        "year": { "type": "integer", "minimum": 2000, "maximum": 2100 },
+        "source_tier": {
+          "enum": [
+            "official_conduct_standard",
+            "original_method_article",
+            "reporting_guideline",
+            "appraisal_tool",
+            "certainty_guidance",
+            "ai_governance_consensus"
+          ]
+        },
+        "authority_classes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["CONDUCT", "REPORT", "APPRAISE", "CERTAINTY", "GOVERNANCE"] }
+        },
+        "review_profiles": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "identity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["official_url", "version_or_date"],
+          "properties": {
+            "doi": { "type": "string" },
+            "pmcid": { "type": "string" },
+            "official_url": { "type": "string", "format": "uri" },
+            "version_or_date": { "type": "string", "minLength": 1 }
+          }
+        },
+        "read_status": {
+          "enum": [
+            "targeted_sections_verified",
+            "full_text_and_relevant_sections_verified",
+            "official_live_page_verified",
+            "official_page_verified_download_pending"
+          ]
+        },
+        "read_scope": { "type": "string", "minLength": 1 },
+        "local_artifacts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/artifact" }
+        },
+        "supported_rules": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/rule" }
+        },
+        "unsupported_inferences": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

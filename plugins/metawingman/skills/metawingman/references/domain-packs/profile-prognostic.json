@@ -22,9 +22,9 @@
     {
       "source_id": "methodology-source-registry",
       "path": "references/methodology-source-registry.md",
-      "version": "2026-08-15",
-      "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027",
-      "verified_at_utc": "2026-08-15T00:00:00Z"
+      "version": "2026-08-20",
+      "content_sha256": "064ca19a69c32addc545f540a7b6f451f7c764f95864fe58452fa36b8c4b28b8",
+      "verified_at_utc": "2026-08-20T00:00:00Z"
     },
     {
       "source_id": "appraisal-certainty",
@@ -38,7 +38,7 @@
     {
       "pack_id": "biomedical-foundation",
       "version": "1.0.0",
-      "content_sha256": "96e2fbe3f50f129c76c6d83737f235f56e7fdaccdbf3c4ecea2e004d34ef1950"
+      "content_sha256": "72eb8d00150aefd1427b5197223a6f0006231c5de11fa11b101f4f4aa75a4c20"
     }
   ],
   "constraints": {
@@ -54,5 +54,5 @@
       "docs/architecture/biomedical-application-contract.md"
     ]
   },
-  "content_sha256": "f9faa4ef65ba9631dbbd4c612af809620e2abca3ec4da8b710427f426a15062e"
+  "content_sha256": "ea61f40d052fcacc2ee8c0b521a959fda315380cc6754e94b0b5e3f36ec231a5"
 }

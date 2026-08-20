@@ -1,0 +1,882 @@
+{
+  "schema_version": "1.0",
+  "snapshot_date": "2026-08-20",
+  "purpose": "Source-ground professional methodology rules for training, evaluation, and release decisions without bundling copyrighted full text.",
+  "method_authority": "human_methodology_and_frozen_protocol",
+  "agent_literature_role": "engineering_candidates_only",
+  "authority_precedence": [
+    "official_standard_or_handbook",
+    "original_method_article_and_supplement",
+    "verified_professional_review_artifact",
+    "secondary_explanation"
+  ],
+  "threshold_provenance": {
+    "normative_requirement": {
+      "definition": "A requirement stated by the selected current conduct, reporting, appraisal, certainty, governance, or protocol authority within its declared scope.",
+      "may_support_scientific_release": true,
+      "requires_frozen_calibration_record": false
+    },
+    "primary_study_empirical": {
+      "definition": "A measured result from a named primary methods study; it remains population, task, model, and version specific.",
+      "may_support_scientific_release": true,
+      "requires_frozen_calibration_record": false
+    },
+    "project_calibrated": {
+      "definition": "A decision threshold estimated on a frozen project development set and evaluated once on dependency-isolated held-out families.",
+      "may_support_scientific_release": true,
+      "requires_frozen_calibration_record": true
+    },
+    "engineering_placeholder": {
+      "definition": "A provisional implementation value used only to exercise software before calibration.",
+      "may_support_scientific_release": false,
+      "requires_frozen_calibration_record": true
+    }
+  },
+  "distribution_policy": {
+    "full_text_bundled": false,
+    "rule": "The public skill carries identities, source URLs, hashes, scope notes, and rule anchors only. Full text remains in a Git-ignored lawful cache and must be reacquired under the source license or access terms."
+  },
+  "sources": [
+    {
+      "source_id": "cochrane-handbook-ch01",
+      "title": "Cochrane Handbook Chapter 1: Starting a review",
+      "year": 2024,
+      "source_tier": "official_conduct_standard",
+      "authority_classes": ["CONDUCT"],
+      "review_profiles": ["intervention"],
+      "identity": {
+        "official_url": "https://training.cochrane.org/handbook/current/chapter-01",
+        "version_or_date": "Version 6.5, chapter snapshot retrieved 2026-08-20"
+      },
+      "read_status": "targeted_sections_verified",
+      "read_scope": "Key points; question relevance; team roles; advance protocol decisions; question-method direction; decision records.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/cochrane-handbook-ch01.txt",
+          "format": "text",
+          "bytes": 51940,
+          "sha256": "a9765d28bed25e98f9c6d2f0e8f888583f00917b8617e3630e315109138bdb08",
+          "access_route": "official Cochrane HTML converted to text",
+          "license_or_terms": "official site terms apply",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "question_before_method",
+          "statement": "The review question determines the methods; available tools or methods must not determine the question.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch01.txt#line=93", "cochrane-handbook-ch01.txt#line=97"]
+        },
+        {
+          "rule_id": "decision_relevant_question",
+          "statement": "Question formulation must address an important user decision and include relevant perspectives.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch01.txt#line=43", "cochrane-handbook-ch01.txt#line=47", "cochrane-handbook-ch01.txt#line=61"]
+        },
+        {
+          "rule_id": "prespecify_review_methods",
+          "statement": "Methods and material judgments should be established in advance and not depend on included-study findings.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch01.txt#line=22", "cochrane-handbook-ch01.txt#line=33", "cochrane-handbook-ch01.txt#line=93"]
+        }
+      ],
+      "unsupported_inferences": [
+        "This intervention-review chapter does not define universal rules for every review family.",
+        "It does not validate an AI model or numeric automation threshold."
+      ]
+    },
+    {
+      "source_id": "cochrane-handbook-ch02",
+      "title": "Cochrane Handbook Chapter 2: Determining the scope of the review and the questions it will address",
+      "year": 2023,
+      "source_tier": "official_conduct_standard",
+      "authority_classes": ["CONDUCT"],
+      "review_profiles": ["intervention"],
+      "identity": {
+        "official_url": "https://training.cochrane.org/handbook/current/chapter-02",
+        "version_or_date": "last updated August 2023; retrieved 2026-08-20"
+      },
+      "read_status": "targeted_sections_verified",
+      "read_scope": "Key points; FINER and scoping; existing-review checks; broad versus narrow scope; stakeholder and decision relevance.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/cochrane-handbook-ch02.txt",
+          "format": "text",
+          "bytes": 92650,
+          "sha256": "afd0925f644f6ef37cc51be672a12b6100c2b11edd47acb0774e9790735027ce",
+          "access_route": "official Cochrane HTML converted to text",
+          "license_or_terms": "official site terms apply",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "scope_for_decision_and_answerability",
+          "statement": "Scope should be chosen for decision relevance, answerability, and feasibility after structured scoping rather than novelty alone.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch02.txt#line=36", "cochrane-handbook-ch02.txt#line=40", "cochrane-handbook-ch02.txt#line=42"]
+        },
+        {
+          "rule_id": "check_existing_reviews_and_registrations",
+          "statement": "Before starting, check existing reviews and registrations and classify whether a new review, update, or other response is justified.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch02.txt#line=46"]
+        },
+        {
+          "rule_id": "breadth_is_not_poolability",
+          "statement": "Review breadth and statistical pooling are separate decisions; broad scope can aid decisions while an over-broad pooled effect can become uninterpretable.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch02.txt#line=96", "cochrane-handbook-ch02.txt#line=174"]
+        }
+      ],
+      "unsupported_inferences": [
+        "FINER is not a validated model score or automatic go/no-go threshold.",
+        "A broad review is not automatically a network meta-analysis."
+      ]
+    },
+    {
+      "source_id": "cochrane-handbook-ch03",
+      "title": "Cochrane Handbook Chapter 3: Defining criteria and grouping studies for synthesis",
+      "year": 2024,
+      "source_tier": "official_conduct_standard",
+      "authority_classes": ["CONDUCT"],
+      "review_profiles": ["intervention"],
+      "identity": {
+        "official_url": "https://training.cochrane.org/handbook/current/chapter-03",
+        "version_or_date": "Version 6.5 snapshot retrieved 2026-08-20"
+      },
+      "read_status": "targeted_sections_verified",
+      "read_scope": "Eligibility, review PICO versus synthesis PICO versus study PICO, grouping, outcome hierarchy, and protocol independence.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/cochrane-handbook-ch03.txt",
+          "format": "text",
+          "bytes": 287710,
+          "sha256": "572a5e4f4c49dce3e5acbfb65f1acf2aa3d7cc1d0f687a97ddfd80f33c77b657",
+          "access_route": "official Cochrane HTML converted to text",
+          "license_or_terms": "official site terms apply",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "separate_review_synthesis_and_study_pico",
+          "statement": "The review PICO, each synthesis PICO, and each included-study PICO must remain distinct and linked.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch03.txt#line=35", "cochrane-handbook-ch03.txt#line=37"]
+        },
+        {
+          "rule_id": "preplan_synthesis_grouping",
+          "statement": "Eligibility and synthesis grouping should be planned together and grouping changes must be documented without outcome-driven selection.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch03.txt#line=35", "cochrane-handbook-ch03.txt#line=39", "cochrane-handbook-ch03.txt#line=295"]
+        }
+      ],
+      "unsupported_inferences": [
+        "The chapter does not justify arbitrary sample-size, heterogeneity, or quality cutoffs.",
+        "Study inclusion does not imply inclusion of every result in one synthesis."
+      ]
+    },
+    {
+      "source_id": "cochrane-handbook-ch04",
+      "title": "Cochrane Handbook Chapter 4: Searching for and selecting studies",
+      "year": 2025,
+      "source_tier": "official_conduct_standard",
+      "authority_classes": ["CONDUCT"],
+      "review_profiles": ["intervention"],
+      "identity": {
+        "official_url": "https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-04",
+        "version_or_date": "last updated March 2025; retrieved 2026-08-20"
+      },
+      "read_status": "targeted_sections_verified",
+      "read_scope": "Key points; source coverage; sensitivity; peer review; study-report identity; lawful access and documentation.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/cochrane-handbook-ch04.txt",
+          "format": "text",
+          "bytes": 307751,
+          "sha256": "fd47d61489603180899efb0bb000abbf90acd9dfaba6c8b991b59cd5bd52944f",
+          "access_route": "official Cochrane HTML converted to text",
+          "license_or_terms": "official site terms apply",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "multi_source_sensitive_search",
+          "statement": "Searches should be reproducible, cover multiple relevant sources, and favor sensitivity within declared resource limits.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch04.txt#line=50", "cochrane-handbook-ch04.txt#line=51", "cochrane-handbook-ch04.txt#line=94", "cochrane-handbook-ch04.txt#line=118"]
+        },
+        {
+          "rule_id": "report_study_result_identity",
+          "statement": "Studies are the primary review unit, while multiple reports and records must be linked without duplicate counting.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch04.txt#line=102"]
+        },
+        {
+          "rule_id": "lawful_retrieval_only",
+          "statement": "Database terms, licensing agreements, and copyright law govern record and publication retrieval.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch04.txt#line=106"]
+        }
+      ],
+      "unsupported_inferences": [
+        "A single literature QA or RAG query is not a comprehensive systematic search.",
+        "Two independent identical searches are not required; search-strategy peer review is the relevant control."
+      ]
+    },
+    {
+      "source_id": "cochrane-handbook-ch09",
+      "title": "Cochrane Handbook Chapter 9: Summarizing study characteristics and preparing for synthesis",
+      "year": 2024,
+      "source_tier": "official_conduct_standard",
+      "authority_classes": ["CONDUCT"],
+      "review_profiles": ["intervention"],
+      "identity": {
+        "official_url": "https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-09",
+        "version_or_date": "Version 6.5 snapshot retrieved 2026-08-20"
+      },
+      "read_status": "targeted_sections_verified",
+      "read_scope": "Synthesis PICO, pre-specified grouping, study-characteristic comparison, and preparation for synthesis.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/cochrane-handbook-ch09.txt",
+          "format": "text",
+          "bytes": 67871,
+          "sha256": "f31a190beacb35562da2d311e1f7ec9404851ddb9772d8509593dd5c779890e6",
+          "access_route": "official Cochrane HTML converted to text",
+          "license_or_terms": "official site terms apply",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "synthesis_pico_controls_structure",
+          "statement": "Each synthesis PICO defines the question, comparison, grouping, and outcome or population subgroups for that synthesis.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch09.txt#line=38", "cochrane-handbook-ch09.txt#line=41"]
+        },
+        {
+          "rule_id": "compare_studies_before_pooling",
+          "statement": "Map included-study characteristics to pre-specified synthesis groups and compare them before choosing statistical synthesis.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch09.txt#line=75", "cochrane-handbook-ch09.txt#line=77", "cochrane-handbook-ch09.txt#line=85"]
+        }
+      ],
+      "unsupported_inferences": [
+        "Terminology similarity alone does not establish clinical poolability.",
+        "A model-generated cluster cannot silently replace the protocol grouping."
+      ]
+    },
+    {
+      "source_id": "cochrane-handbook-ch10",
+      "title": "Cochrane Handbook Chapter 10: Analysing data and undertaking meta-analyses",
+      "year": 2025,
+      "source_tier": "official_conduct_standard",
+      "authority_classes": ["CONDUCT"],
+      "review_profiles": ["intervention"],
+      "identity": {
+        "official_url": "https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-10",
+        "version_or_date": "current chapter snapshot retrieved 2026-08-20"
+      },
+      "read_status": "targeted_sections_verified",
+      "read_scope": "Meta-analysis assumptions, poolability, heterogeneity, model interpretation, prediction intervals, subgroup and sensitivity analysis.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/cochrane-handbook-ch10.txt",
+          "format": "text",
+          "bytes": 168345,
+          "sha256": "ba66ea0557574f7b2aa0944b9a55c3d96e45436b6e33e63e0a215d032bb91ab2",
+          "access_route": "official Cochrane HTML converted to text",
+          "license_or_terms": "official site terms apply",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "pool_only_meaningful_synthesis",
+          "statement": "Meta-analysis is considered only when the synthesis studies are sufficiently similar to answer a clinically meaningful common question.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch10.txt#line=311", "cochrane-handbook-ch10.txt#line=318"]
+        },
+        {
+          "rule_id": "no_automatic_i2_gate",
+          "statement": "Heterogeneity must be interpreted with clinical and methodological context; simple I-squared thresholds must not act as automatic pooling gates.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch10.txt#line=305", "cochrane-handbook-ch10.txt#line=332", "cochrane-handbook-ch10.txt#line=339"]
+        },
+        {
+          "rule_id": "sensitivity_for_influential_decisions",
+          "statement": "Sensitivity analyses test whether conclusions depend on influential arbitrary, uncertain, or borderline decisions.",
+          "provenance": "normative_requirement",
+          "anchors": ["cochrane-handbook-ch10.txt#line=58", "cochrane-handbook-ch10.txt#line=704", "cochrane-handbook-ch10.txt#line=709"]
+        }
+      ],
+      "unsupported_inferences": [
+        "REML, HKSJ, fixed effect, random effects, or a prediction interval is not universally correct without the case assumptions.",
+        "Statistical significance alone does not establish subgroup differences or clinical importance."
+      ]
+    },
+    {
+      "source_id": "mecir-2023-revised-2024",
+      "title": "Methodological Expectations of Cochrane Intervention Reviews",
+      "year": 2024,
+      "source_tier": "official_conduct_standard",
+      "authority_classes": ["CONDUCT"],
+      "review_profiles": ["intervention"],
+      "identity": {
+        "official_url": "https://www.cochrane.org/authors/handbooks-and-manuals/mecir-manual",
+        "version_or_date": "August 2023, revised 8 April 2024"
+      },
+      "read_status": "targeted_sections_verified",
+      "read_scope": "Mandatory standards C39 and C46 plus duplicate risk-of-bias and certainty passages.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/mecir-august-2023-revised-2024.txt",
+          "format": "text",
+          "bytes": 142478,
+          "sha256": "f694d668db897641b80a7292bc39cc9ff85c64ec3b98dda4f90562b5a0707412",
+          "access_route": "official Cochrane PDF converted to text",
+          "license_or_terms": "official site terms apply",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "mecir_c39_independent_final_eligibility",
+          "statement": "At least two people independently determine final study inclusion, with a predefined process for disagreements.",
+          "provenance": "normative_requirement",
+          "anchors": ["mecir-august-2023-revised-2024.txt#line=1247", "mecir-august-2023-revised-2024.txt#line=1248"]
+        },
+        {
+          "rule_id": "mecir_c46_duplicate_outcome_extraction",
+          "statement": "At least two people independently extract outcome data under the intervention-review assurance standard.",
+          "provenance": "normative_requirement",
+          "anchors": ["mecir-august-2023-revised-2024.txt#line=1335", "mecir-august-2023-revised-2024.txt#line=1337"]
+        }
+      ],
+      "unsupported_inferences": [
+        "An LLM is not silently counted as an independent person.",
+        "These intervention-review mandates must not be generalized unchanged to every review family."
+      ]
+    },
+    {
+      "source_id": "jbi-manual-2024-live",
+      "title": "JBI Manual for Evidence Synthesis",
+      "year": 2024,
+      "source_tier": "official_conduct_standard",
+      "authority_classes": ["CONDUCT"],
+      "review_profiles": ["effectiveness", "qualitative", "etiology", "diagnostic", "mixed-methods", "umbrella", "scoping", "economic"],
+      "identity": {
+        "doi": "10.46658/JBIMES-24-01",
+        "official_url": "https://jbi-global.atlassian.net/wiki/spaces/MANUAL",
+        "version_or_date": "online living manual; 2024 citation; retrieved 2026-08-20"
+      },
+      "read_status": "official_live_page_verified",
+      "read_scope": "Root manual identity, review-family routing, online-versus-PDF currency warning, and permissions boundary.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/jbi-manual-root-2024.txt",
+          "format": "text",
+          "bytes": 2823,
+          "sha256": "bcee43bd6bbd314239ac17387a79f7ec6f9ad42ab7328d15c25e97960f8fb6f9",
+          "access_route": "official JBI live manual page converted to text",
+          "license_or_terms": "JBI permission required for reproduction",
+          "redistribution_policy": "permission_required",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "route_by_review_family",
+          "statement": "Select the methodology chapter for the evidence type and clinical or policy question; do not force intervention methods onto all review families.",
+          "provenance": "normative_requirement",
+          "anchors": ["jbi-manual-root-2024.txt#line=11", "jbi-manual-root-2024.txt#line=19", "jbi-manual-root-2024.txt#line=24"]
+        }
+      ],
+      "unsupported_inferences": [
+        "The periodically updated PDF is not automatically the latest online manual.",
+        "The manual cannot be redistributed in the public skill without permission."
+      ]
+    },
+    {
+      "source_id": "prisma-2020",
+      "title": "PRISMA 2020 statement and explanation and elaboration",
+      "year": 2021,
+      "source_tier": "reporting_guideline",
+      "authority_classes": ["REPORT"],
+      "review_profiles": ["systematic-review"],
+      "identity": {
+        "doi": "10.1136/bmj.n71; 10.1136/bmj.n160",
+        "pmcid": "PMC8005924; PMC8005925",
+        "official_url": "https://www.bmj.com/content/372/bmj.n71",
+        "version_or_date": "PRISMA 2020, published 2021"
+      },
+      "read_status": "full_text_and_relevant_sections_verified",
+      "read_scope": "Statement, checklist scope, explanation and elaboration, reporting-versus-conduct boundary, reproducibility and updating.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/prisma-2020-statement-bmj-n71.xml",
+          "format": "xml",
+          "bytes": 138678,
+          "sha256": "c5e3b4a1892f0cb97ea0360d5e5b4b51ab4ea8b4e8ddabe7b441b5d464f18758",
+          "access_route": "Europe PMC legal fullTextXML service",
+          "license_or_terms": "CC BY 4.0",
+          "redistribution_policy": "source_license_required",
+          "bundled": false
+        },
+        {
+          "path": "research/method-literature/human-review-methodology/prisma-2020-explanation-bmj-n160.xml",
+          "format": "xml",
+          "bytes": 456626,
+          "sha256": "c056a0fdb0cbb76eead718d7ee16981bc21e1db7e535d5261b83f31e7b66eb37",
+          "access_route": "Europe PMC legal fullTextXML service",
+          "license_or_terms": "CC BY 4.0",
+          "redistribution_policy": "source_license_required",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "prisma_is_reporting_authority",
+          "statement": "PRISMA governs transparent and complete reporting; checklist completion alone does not establish valid conduct or low bias.",
+          "provenance": "normative_requirement",
+          "anchors": ["prisma-2020-statement-bmj-n71.txt#line=15", "prisma-2020-explanation-bmj-n160.txt#line=19"]
+        },
+        {
+          "rule_id": "report_reproducible_methods",
+          "statement": "Report methods and results in enough detail for readers to assess trustworthiness and for others to replicate or update the review.",
+          "provenance": "normative_requirement",
+          "anchors": ["prisma-2020-explanation-bmj-n160.txt#line=19"]
+        }
+      ],
+      "unsupported_inferences": [
+        "PRISMA compliance is not a risk-of-bias or certainty rating.",
+        "PRISMA does not require meta-analysis or a directional falsifiable hypothesis."
+      ]
+    },
+    {
+      "source_id": "prisma-p-2015",
+      "title": "PRISMA-P 2015 statement",
+      "year": 2015,
+      "source_tier": "reporting_guideline",
+      "authority_classes": ["REPORT"],
+      "review_profiles": ["systematic-review-protocol"],
+      "identity": {
+        "doi": "10.1186/2046-4053-4-1",
+        "official_url": "https://www.prisma-statement.org/protocols",
+        "version_or_date": "2015 statement"
+      },
+      "read_status": "targeted_sections_verified",
+      "read_scope": "Protocol reporting items, rationale, eligibility, information sources, synthesis, amendments, and registration.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/prisma-p-statement-2015.txt",
+          "format": "text",
+          "bytes": 62710,
+          "sha256": "fe717ad877d685cc62941992ac03cea716442efeb4da7907b60cc188a209f87c",
+          "access_route": "official open-access PDF converted to text",
+          "license_or_terms": "source article license applies",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "protocol_items_before_review_execution",
+          "statement": "The protocol records rationale, eligibility, sources, outcomes, synthesis plans, amendments, and registration before result-driven execution.",
+          "provenance": "normative_requirement",
+          "anchors": ["prisma-p-statement-2015.txt#line=61", "prisma-p-statement-2015.txt#line=109"]
+        }
+      ],
+      "unsupported_inferences": [
+        "PRISMA-P is a protocol reporting guideline, not a substitute for profile-specific conduct guidance.",
+        "Registration is not peer review or endorsement."
+      ]
+    },
+    {
+      "source_id": "prisma-s-2021",
+      "title": "PRISMA-S: reporting literature searches in systematic reviews",
+      "year": 2021,
+      "source_tier": "reporting_guideline",
+      "authority_classes": ["REPORT"],
+      "review_profiles": ["systematic-review-search"],
+      "identity": {
+        "doi": "10.1186/s13643-020-01542-z",
+        "official_url": "https://www.equator-network.org/reporting-guidelines/prisma-s/",
+        "version_or_date": "published 2021"
+      },
+      "read_status": "targeted_sections_verified",
+      "read_scope": "Information sources, complete strategy, dates, deduplication, peer review, updates, and limits.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/prisma-s-2021.txt",
+          "format": "text",
+          "bytes": 135442,
+          "sha256": "645b7f03d0bbbfd7eb1fa484fad82b49c102751aef992aeb9388b1449dbea2e4",
+          "access_route": "official open-access PDF converted to text",
+          "license_or_terms": "source article license applies",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "report_complete_search_provenance",
+          "statement": "Report each information source, complete reproducible strategies, dates, limits, deduplication, and search updating.",
+          "provenance": "normative_requirement",
+          "anchors": ["prisma-s-2021.txt#line=99", "prisma-s-2021.txt#line=147"]
+        }
+      ],
+      "unsupported_inferences": [
+        "Complete reporting does not prove that source selection or recall was adequate.",
+        "PRISMA-S does not replace PRESS or known-item testing."
+      ]
+    },
+    {
+      "source_id": "prisma-lsr-2024",
+      "title": "PRISMA-LSR extension for living systematic reviews",
+      "year": 2024,
+      "source_tier": "reporting_guideline",
+      "authority_classes": ["REPORT"],
+      "review_profiles": ["living"],
+      "identity": {
+        "doi": "10.1136/bmj-2024-079183",
+        "pmcid": "PMC12036629",
+        "official_url": "https://www.prisma-statement.org/lsr",
+        "version_or_date": "published 19 November 2024"
+      },
+      "read_status": "full_text_and_relevant_sections_verified",
+      "read_scope": "Living-review status, surveillance, update methods, version changes, flow diagram, and use with PRISMA 2020.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/prisma-lsr-bmj-2024-079183.xml",
+          "format": "xml",
+          "bytes": 159789,
+          "sha256": "a82d77c1d3237b44568b6b51c93ab01bb4be1f64e4518d6cd6763f75ec9a576a",
+          "access_route": "Europe PMC legal fullTextXML service",
+          "license_or_terms": "CC BY 4.0",
+          "redistribution_policy": "source_license_required",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "report_living_state_and_changes",
+          "statement": "A living review reports its current status, surveillance and update methods, flow, and changes in addition to PRISMA 2020.",
+          "provenance": "normative_requirement",
+          "anchors": ["prisma-lsr-bmj-2024-079183.txt#line=17", "prisma-lsr-bmj-2024-079183.txt#line=65"]
+        }
+      ],
+      "unsupported_inferences": [
+        "PRISMA-LSR does not itself define when a review should become or cease to be living.",
+        "A periodic search without state and version lineage is not sufficient living-review evidence."
+      ]
+    },
+    {
+      "source_id": "swim-2020",
+      "title": "Synthesis without meta-analysis in systematic reviews: SWiM reporting guideline",
+      "year": 2020,
+      "source_tier": "reporting_guideline",
+      "authority_classes": ["REPORT"],
+      "review_profiles": ["synthesis-without-meta-analysis"],
+      "identity": {
+        "doi": "10.1136/bmj.l6890",
+        "pmcid": "PMC7190266",
+        "official_url": "https://www.bmj.com/content/368/bmj.l6890",
+        "version_or_date": "published 2020"
+      },
+      "read_status": "full_text_and_relevant_sections_verified",
+      "read_scope": "Nine reporting items, grouping, standardized metrics, synthesis methods, presentation, limitations, and vote-counting cautions.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/swim-bmj-l6890.xml",
+          "format": "xml",
+          "bytes": 78605,
+          "sha256": "7b32ed35945f36c4c0ddc15e49f6745cd6d1991341204c74f88f30b75de6a6d9",
+          "access_route": "Europe PMC legal fullTextXML service",
+          "license_or_terms": "CC BY 4.0",
+          "redistribution_policy": "source_license_required",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "transparent_non_meta_synthesis",
+          "statement": "When meta-analysis is not appropriate, report grouping, metric, synthesis method, presentation, findings, and limitations explicitly.",
+          "provenance": "normative_requirement",
+          "anchors": ["swim-bmj-l6890.txt#line=21", "swim-bmj-l6890.txt#line=69"]
+        }
+      ],
+      "unsupported_inferences": [
+        "SWiM is not permission for informal vote counting by statistical significance.",
+        "It is a reporting guideline rather than a universal conduct algorithm."
+      ]
+    },
+    {
+      "source_id": "amstar-2-2017",
+      "title": "AMSTAR 2: critical appraisal tool for systematic reviews",
+      "year": 2017,
+      "source_tier": "appraisal_tool",
+      "authority_classes": ["APPRAISE"],
+      "review_profiles": ["intervention-review-appraisal"],
+      "identity": {
+        "doi": "10.1136/bmj.j4008",
+        "pmcid": "PMC5833365",
+        "official_url": "https://www.bmj.com/content/358/bmj.j4008",
+        "version_or_date": "published 2017"
+      },
+      "read_status": "full_text_and_relevant_sections_verified",
+      "read_scope": "Critical domains, item ratings, overall confidence, profile boundary, and validation limitations.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/amstar-2-bmj-j4008.xml",
+          "format": "xml",
+          "bytes": 121528,
+          "sha256": "2d4dc7298e0bd2219de2bb537d299991c3fdcb709af80c9abaccf03072ddcc86",
+          "access_route": "Europe PMC legal fullTextXML service",
+          "license_or_terms": "CC BY 4.0",
+          "redistribution_policy": "source_license_required",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "amstar_no_overall_numeric_score",
+          "statement": "Do not sum AMSTAR 2 items into an overall numeric quality score; inspect predeclared critical-domain weaknesses.",
+          "provenance": "normative_requirement",
+          "anchors": ["amstar-2-bmj-j4008.txt#line=159", "amstar-2-bmj-j4008.txt#line=193", "amstar-2-bmj-j4008.txt#line=195"]
+        }
+      ],
+      "unsupported_inferences": [
+        "AMSTAR 2 is not interchangeable with ROBIS or primary-study risk-of-bias tools.",
+        "The authors explicitly did not perform extensive validation of the revised tool."
+      ]
+    },
+    {
+      "source_id": "robins-i-2016",
+      "title": "ROBINS-I: risk of bias in non-randomised studies of interventions",
+      "year": 2016,
+      "source_tier": "appraisal_tool",
+      "authority_classes": ["APPRAISE"],
+      "review_profiles": ["non-randomized-intervention"],
+      "identity": {
+        "doi": "10.1136/bmj.i4919",
+        "pmcid": "PMC5062054",
+        "official_url": "https://www.bmj.com/content/355/bmj.i4919",
+        "version_or_date": "published 2016; exact tool version must be pinned"
+      },
+      "read_status": "full_text_and_relevant_sections_verified",
+      "read_scope": "Target-trial framing, seven domains, signalling questions, result-level judgments, and applicability boundary.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/robins-i-bmj-i4919.xml",
+          "format": "xml",
+          "bytes": 74518,
+          "sha256": "2fc7dd084bd8a6954adc47542a7ce0536efb29ec871c916971379cdf55979a4b",
+          "access_route": "Europe PMC legal fullTextXML service",
+          "license_or_terms": "CC BY-NC 4.0",
+          "redistribution_policy": "source_license_required",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "robins_target_trial_domains",
+          "statement": "Assess each eligible non-randomized intervention result against an explicit target trial across the named bias domains.",
+          "provenance": "normative_requirement",
+          "anchors": ["robins-i-bmj-i4919.txt#line=29", "robins-i-bmj-i4919.txt#line=51"]
+        }
+      ],
+      "unsupported_inferences": [
+        "ROBINS-I is not a generic study quality score.",
+        "A draft later version cannot silently replace the pinned tool."
+      ]
+    },
+    {
+      "source_id": "probast-ai-2025",
+      "title": "PROBAST+AI: quality, risk of bias, and applicability for prediction models",
+      "year": 2025,
+      "source_tier": "appraisal_tool",
+      "authority_classes": ["APPRAISE"],
+      "review_profiles": ["prediction-model"],
+      "identity": {
+        "doi": "10.1136/bmj-2024-082505",
+        "pmcid": "PMC11931409",
+        "official_url": "https://www.bmj.com/content/388/bmj-2024-082505",
+        "version_or_date": "published 24 March 2025"
+      },
+      "read_status": "full_text_and_relevant_sections_verified",
+      "read_scope": "Separate development and evaluation parts, domains, quality, risk of bias, applicability, and fairness context.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/probast-ai-bmj-2024-082505.xml",
+          "format": "xml",
+          "bytes": 179719,
+          "sha256": "69f1f7f327b46ee945d7ba08b70326199153a48ea6a0823298aa7baa8638715d",
+          "access_route": "Europe PMC legal fullTextXML service",
+          "license_or_terms": "CC BY-NC 4.0",
+          "redistribution_policy": "source_license_required",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "separate_model_development_and_evaluation",
+          "statement": "Prediction-model development quality and model-evaluation risk of bias are distinct assessments with profile-specific signalling questions.",
+          "provenance": "normative_requirement",
+          "anchors": ["probast-ai-bmj-2024-082505.txt#line=33", "probast-ai-bmj-2024-082505.txt#line=75"]
+        }
+      ],
+      "unsupported_inferences": [
+        "PROBAST+AI does not validate MetaWingman or a general-purpose LLM.",
+        "A development appraisal cannot stand in for external performance evaluation."
+      ]
+    },
+    {
+      "source_id": "grade-book-live-2026-08-20",
+      "title": "GRADE Book live guidance snapshot",
+      "year": 2026,
+      "source_tier": "certainty_guidance",
+      "authority_classes": ["CERTAINTY"],
+      "review_profiles": ["intervention", "diagnostic", "prognostic", "exposure"],
+      "identity": {
+        "official_url": "https://book.gradepro.org/api/guidelines?lng=en",
+        "version_or_date": "live API snapshot retrieved 2026-08-20; each guideline object retains version and lastModified"
+      },
+      "read_status": "targeted_sections_verified",
+      "read_scope": "Index identity plus final guidance on questions, outcomes, decision thresholds, intervention certainty, imprecision, and inconsistency.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/grade-guidelines-index-2026-08-20.json",
+          "format": "json",
+          "bytes": 29391,
+          "sha256": "47ee1c688023f9a0801e1979b4776ac9a6b33cfc731216c80a55605304f2074c",
+          "access_route": "official GRADE Book API",
+          "license_or_terms": "official service terms apply",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        },
+        {
+          "path": "research/method-literature/human-review-methodology/grade-decision-thresholds-2026.json",
+          "format": "json",
+          "bytes": 307428,
+          "sha256": "dd7becf6172b66b913b15223afb4e278d6fe974a511f3d9373349fcd8520850b",
+          "access_route": "official GRADE Book API guideline object",
+          "license_or_terms": "official service terms apply",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        },
+        {
+          "path": "research/method-literature/human-review-methodology/grade-certainty-principles-interventions.json",
+          "format": "json",
+          "bytes": 179477,
+          "sha256": "077137dc5adac9a7554b00321aeb75f8627a8e668d3d6b52b923d7f0b62732df",
+          "access_route": "official GRADE Book API guideline object",
+          "license_or_terms": "official service terms apply",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "grade_outcome_level_certainty",
+          "statement": "Certainty is judged for a defined outcome and body of evidence, not assigned as a hidden study or review score.",
+          "provenance": "normative_requirement",
+          "anchors": ["grade-certainty-principles-interventions.json#/chapters/the-target-of-grade-certainty-of-evidence-assessment"]
+        },
+        {
+          "rule_id": "grade_patient_important_outcomes",
+          "statement": "Prioritize outcomes important to affected people and decisions, including desirable and undesirable effects, with explicit importance ratings.",
+          "provenance": "normative_requirement",
+          "anchors": ["grade-guidelines-index-2026-08-20.json#/guidelines/id=outcomes"]
+        },
+        {
+          "rule_id": "grade_decision_thresholds",
+          "statement": "Use pre-established outcome-specific decision thresholds or ranges for interpretation and imprecision; the null is not an automatic universal threshold.",
+          "provenance": "normative_requirement",
+          "anchors": ["grade-decision-thresholds-2026.json#/guideline/id=decision-thresholds", "grade-guidelines-index-2026-08-20.json#/guidelines/id=imprecision"]
+        }
+      ],
+      "unsupported_inferences": [
+        "A model may not invent minimally important differences or certainty downgrades.",
+        "The live GRADE Book changes over time, so root labels without object versions and lastModified dates are insufficient."
+      ]
+    },
+    {
+      "source_id": "ai-evidence-synthesis-position-2025",
+      "title": "Position statement on the use of AI in evidence synthesis",
+      "year": 2025,
+      "source_tier": "ai_governance_consensus",
+      "authority_classes": ["GOVERNANCE"],
+      "review_profiles": ["all-evidence-synthesis"],
+      "identity": {
+        "doi": "10.1186/s13750-025-00374-5",
+        "official_url": "https://doi.org/10.1186/s13750-025-00374-5",
+        "version_or_date": "published 2025"
+      },
+      "read_status": "full_text_and_relevant_sections_verified",
+      "read_scope": "Joint organizational principles, accountability, oversight, reporting, developer transparency, task-specific evaluation, limitations, and protocol justification.",
+      "local_artifacts": [
+        {
+          "path": "research/method-literature/human-review-methodology/ai-evidence-synthesis-position-2025.pdf",
+          "format": "pdf",
+          "bytes": 973438,
+          "sha256": "e993198d3d49a4fadbfac080b59336dae4818891c03a8ba570326b7ae9074ed6",
+          "access_route": "publisher open-access article",
+          "license_or_terms": "source article license applies",
+          "redistribution_policy": "metadata_only",
+          "bundled": false
+        }
+      ],
+      "supported_rules": [
+        {
+          "rule_id": "ai_use_requires_accountability_and_oversight",
+          "statement": "Evidence synthesists retain responsibility for AI use, legal and ethical compliance, and human oversight.",
+          "provenance": "normative_requirement",
+          "anchors": ["ai-evidence-synthesis-position-2025.txt#line=21", "ai-evidence-synthesis-position-2025.txt#line=29"]
+        },
+        {
+          "rule_id": "report_ai_judgments_and_validation",
+          "statement": "AI that makes or suggests judgments must be transparently reported and justified using relevant public testing, training, validation, limitations, and bias information.",
+          "provenance": "normative_requirement",
+          "anchors": ["ai-evidence-synthesis-position-2025.txt#line=30", "ai-evidence-synthesis-position-2025.txt#line=107", "ai-evidence-synthesis-position-2025.txt#line=115", "ai-evidence-synthesis-position-2025.txt#line=175"]
+        }
+      ],
+      "unsupported_inferences": [
+        "Human oversight does not mean humans must manually repeat every low-risk AI action.",
+        "The statement does not establish equivalence for any named model or task."
+      ]
+    },
+    {
+      "source_id": "rob2-2019-official",
+      "title": "RoB 2: revised tool for assessing risk of bias in randomized trials",
+      "year": 2019,
+      "source_tier": "appraisal_tool",
+      "authority_classes": ["APPRAISE"],
+      "review_profiles": ["randomized-intervention"],
+      "identity": {
+        "doi": "10.1136/bmj.l4898",
+        "official_url": "https://www.riskofbias.info/welcome/rob-2-0-tool/current-version-of-rob-2",
+        "version_or_date": "official current tool release dated 22 August 2019; page verified 2026-08-20"
+      },
+      "read_status": "official_page_verified_download_pending",
+      "read_scope": "Official identity and current-version page only; local guidance download timed out and no full-text-derived rule was admitted in this registry.",
+      "local_artifacts": [],
+      "supported_rules": [],
+      "unsupported_inferences": [
+        "No RoB 2 signalling rule or automation threshold is admitted until the exact official guidance is acquired and read.",
+        "The official page identity alone is not enough to train or validate an appraisal model."
+      ]
+    }
+  ]
+}

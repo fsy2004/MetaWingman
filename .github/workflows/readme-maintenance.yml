@@ -1,0 +1,21 @@
+name: README maintenance
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 2 * * 1"
+  workflow_dispatch:
+
+jobs:
+  check-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/update_readme.py --check
+      - run: python -m unittest discover -s tests -p "test_readme_update.py" -v

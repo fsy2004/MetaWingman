@@ -1,10 +1,10 @@
 """Generate an auditable Review Question Certificate (RQC) for a candidate
 systematic-review topic.
 
-FirstResearch-style derivation (arXiv:2607.05682): primitives -> assumptions ->
-mechanism -> tension -> question/hypothesis -> minimal decisive test ->
-failure-update rule, then a novelty gate and a hard/soft gate, all JSON and
-inspectable before any downstream execution.
+The certificate separates universal review-quality requirements from an
+optional hypothesis-testing mode. Estimation, mapping, and interpretive reviews
+must be answerable and auditable, but are not forced into directional
+falsification language.
 
 Usage:
   python metawingman/scripts/generate_review_question_certificate.py \
@@ -35,6 +35,14 @@ from metawingman_core.schema_guard import SchemaValidationError, validate_docume
 
 SCHEMA = "review_question_certificate"
 HARD_GATE_MIN_SCORE = 3
+QUALITY_DIMENSIONS = (
+    "clinical_relevance",
+    "method_fit",
+    "traceability",
+    "explainability",
+    "reproducibility",
+)
+CLAIM_MODES = {"hypothesis_test", "estimation", "mapping", "interpretive_synthesis"}
 EUROPEPMC_SEARCH = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 
 
@@ -49,23 +57,26 @@ def hard_gate(certificate: dict[str, Any]) -> GateResult:
     """Deterministic hard/soft gate over a completed certificate (pure)."""
     hard: list[str] = []
     soft: list[str] = []
-    if not certificate["hypothesis"]["falsifiable_statement"].strip():
+    hypothesis = certificate["hypothesis"]
+    claim_mode = hypothesis.get("claim_mode")
+    if claim_mode not in CLAIM_MODES:
+        hard.append("claim_mode_invalid")
+    if not hypothesis.get("answerability_criterion", "").strip():
+        hard.append("answerability_criterion_empty")
+    if claim_mode == "hypothesis_test" and not hypothesis.get("falsifiable_statement", "").strip():
         hard.append("falsifiable_statement_empty")
     if not certificate["mechanism_model"]["summary"].strip():
         hard.append("mechanism_summary_empty")
-    if not certificate["minimal_decisive_test"]["rejection_observation"].strip():
+    if claim_mode == "hypothesis_test" and not certificate["minimal_decisive_test"]["rejection_observation"].strip():
         hard.append("rejection_observation_empty")
     scores = certificate["quality_scores"]
-    if scores["derivation"] < HARD_GATE_MIN_SCORE:
-        hard.append(f"derivation_score_{scores['derivation']}_below_{HARD_GATE_MIN_SCORE}")
-    if scores["falsifiability"] < HARD_GATE_MIN_SCORE:
-        hard.append(f"falsifiability_score_{scores['falsifiability']}_below_{HARD_GATE_MIN_SCORE}")
+    for dimension in QUALITY_DIMENSIONS:
+        if scores[dimension] < HARD_GATE_MIN_SCORE:
+            soft.append(f"{dimension}_model_score_low_requires_external_verification")
     if certificate["novelty_gate"]["verdict"] == "covered":
         hard.append("novelty_verdict_covered")
     if certificate["novelty_gate"]["verdict"] == "incremental":
         soft.append("novelty_incremental_consider_living_update")
-    if scores["mechanism_clarity"] < HARD_GATE_MIN_SCORE:
-        soft.append("mechanism_clarity_weak_repair_boundary_language")
     if not any(a["justification"].strip() for a in certificate["first_principle_assumptions"]):
         hard.append("assumptions_unjustified")
     return GateResult(passed=not hard, hard_failures=hard, soft_repairs=soft)
@@ -78,9 +89,9 @@ def _prompt(stage: str, topic: str, prior: dict[str, Any] | None) -> str:
         "assumptions": "Output ONLY JSON: first_principle_assumptions as a list of {statement, justification}. No prose.",
         "mechanism": "Output ONLY JSON: {exposure, outcome, pathway_nodes: [..], moderators: [..], summary: one-sentence mechanism summary}. No prose.",
         "tension": "Output ONLY JSON: {type in [guideline_discord, direction_inconsistency, heterogeneity, outdated_evidence, evidence_gap], description, evidence_sources: [{url_or_doi, fetched: false}]}. No prose.",
-        "question_hypothesis": "Output ONLY JSON: {research_question: PICOT sentence, hypothesis: {direction, magnitude, falsifiable_statement, heterogeneity_pattern}}. No prose.",
+        "question_hypothesis": "Output ONLY JSON: {research_question: structured clinical review question, hypothesis: {claim_mode: one of [hypothesis_test, estimation, mapping, interpretive_synthesis], direction, magnitude, falsifiable_statement, answerability_criterion, heterogeneity_pattern}}. Use falsifiable_statement only for hypothesis_test; otherwise return an empty string. No prose.",
         "test_update": "Output ONLY JSON: {minimal_decisive_test: {description, rejection_observation, evidence_required: [..]}, expected_observations: [..], failure_update_rule: {negative_result_action in [downgrade_narrative, subgroup_refocus, terminate], description}}. No prose.",
-        "scores": "Output ONLY JSON: {derivation, falsifiability, mechanism_clarity, novelty, experimentability} each integer 0-5. No prose.",
+        "scores": "Output ONLY JSON: {clinical_relevance, method_fit, traceability, explainability, reproducibility} each integer 0-5. Judge professional review quality; do not use falsifiability as a universal quality proxy. No prose.",
     }
     return (
         "You are a systematic-review methodologist producing one auditable part of a "
@@ -157,8 +168,9 @@ def generate_certificate(
             assembled["expected_observations"] = stage_out["expected_observations"]
             assembled["failure_update_rule"] = stage_out["failure_update_rule"]
         elif stage == "scores":
-            scores = {key: int(stage_out[key]) for key in ("derivation", "falsifiability", "mechanism_clarity", "novelty", "experimentability")}
+            scores = {key: int(stage_out[key]) for key in QUALITY_DIMENSIONS}
             scores["average"] = round(sum(scores.values()) / 5, 3)
+            scores["provenance"] = "model_proposed_unvalidated"
             assembled["quality_scores"] = scores
         prior = stage_out
 
@@ -174,6 +186,8 @@ def generate_certificate(
     gate = hard_gate(assembled)
     assembled["gate"] = {
         "passed": gate.passed,
+        "scope": "candidate_structure_only",
+        "scientific_release_ready": False,
         "hard_failures": gate.hard_failures,
         "soft_repairs": gate.soft_repairs,
     }
@@ -182,7 +196,7 @@ def generate_certificate(
         json.dumps(assembled, sort_keys=True, ensure_ascii=False).encode("utf-8")
     ).hexdigest()
     certificate = {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "certificate_id": f"rqc:{fingerprint}",
         "created_at_utc": created_at_utc or datetime.now(timezone.utc).isoformat(),
         "topic": {

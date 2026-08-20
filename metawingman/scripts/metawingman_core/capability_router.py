@@ -1,4 +1,4 @@
-"""Deterministically compose models by capability, risk, calibration, and diversity."""
+"""Compose models by capability and risk while binding consequential work to verifiers."""
 
 from __future__ import annotations
 
@@ -26,6 +26,16 @@ ROLE_METRICS = {
     "opposition": ("counterevidence_recall", "recall"),
     "judge": ("critical_error_free", "accuracy"),
 }
+VERIFICATION_CHANNELS = {
+    "controlled_vocabulary",
+    "deterministic_recomputation",
+    "document_state_consistency",
+    "evidence_span_recovery",
+    "graph_consistency",
+    "schema_validation",
+    "source_resolution",
+    "statistical_recomputation",
+}
 
 
 @dataclass(frozen=True)
@@ -35,6 +45,7 @@ class RoutingDecision:
     reason_codes: tuple[str, ...]
     test_time_calls: int
     requires_human_signature: bool
+    verification_channels: tuple[str, ...] = ()
 
 
 def _metric(model: dict[str, Any], role: str) -> float:
@@ -64,27 +75,40 @@ def route_models(
     modalities: set[str],
     risk_class: str,
     required_tools: set[str] | None = None,
+    verification_channels: set[str] | None = None,
 ) -> RoutingDecision:
     validate_document(registry, "model_registry")
     if risk_class not in ROLE_PLANS:
         raise ValueError(f"Unsupported risk class: {risk_class}")
     tools = required_tools or set()
+    verifiers = verification_channels or set()
+    unsupported_verifiers = verifiers - VERIFICATION_CHANNELS
+    if unsupported_verifiers:
+        raise ValueError(
+            "Unsupported verification channels: "
+            + ", ".join(sorted(unsupported_verifiers))
+        )
     eligible = [
         model for model in registry["models"]
         if _eligible(model, capability, modalities, tools)
     ]
     roles = ROLE_PLANS[risk_class]
-    if len(eligible) < len(roles):
+    if not eligible:
         return RoutingDecision(
             "abstained", {}, ("insufficient_capability_coverage",), 0,
             risk_class in {"high", "irreversible"},
+        )
+    if risk_class in {"high", "irreversible"} and not verifiers:
+        return RoutingDecision(
+            "abstained", {}, ("external_verification_required",), 0, True,
         )
 
     assignments: dict[str, str] = {}
     selected: list[dict[str, Any]] = []
     for role in roles:
         remaining = [model for model in eligible if model not in selected]
-        remaining.sort(
+        candidates = remaining or eligible
+        candidates.sort(
             key=lambda model: (
                 model["provider"] not in {item["provider"] for item in selected},
                 _metric(model, role),
@@ -92,20 +116,17 @@ def route_models(
             ),
             reverse=True,
         )
-        chosen = remaining[0]
+        chosen = candidates[0]
         assignments[role] = chosen["model_id"]
         selected.append(chosen)
 
-    if risk_class in {"high", "irreversible"} and len({model["provider"] for model in selected}) < 2:
-        return RoutingDecision(
-            "abstained", {}, ("insufficient_provider_diversity",), 0, True,
-        )
     return RoutingDecision(
         "routed",
         assignments,
         (),
         len(roles),
         risk_class in {"high", "irreversible"},
+        tuple(sorted(verifiers)),
     )
 
 
@@ -116,9 +137,23 @@ def main() -> int:
     parser.add_argument("--modality", action="append", default=["text"])
     parser.add_argument("--risk", choices=sorted(ROLE_PLANS), default="low")
     parser.add_argument("--tool", action="append", default=[])
+    parser.add_argument(
+        "--verification-channel",
+        action="append",
+        default=[],
+        choices=sorted(VERIFICATION_CHANNELS),
+        help="External source or executable verification bound to the routed task.",
+    )
     args = parser.parse_args()
     registry = json.loads(args.registry.read_text(encoding="utf-8"))
-    decision = route_models(registry, args.capability, set(args.modality), args.risk, set(args.tool))
+    decision = route_models(
+        registry,
+        args.capability,
+        set(args.modality),
+        args.risk,
+        set(args.tool),
+        set(args.verification_channel),
+    )
     print(json.dumps(asdict(decision), indent=2))
     return 0 if decision.status == "routed" else 2
 

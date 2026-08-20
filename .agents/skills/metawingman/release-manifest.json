@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "e26d543c26b93985ca682c033944458eb35e6d8624d938c5585e723aa5ec566e",
+  "source_tree_sha256": "cba979ffe03616f92cb403747e66079190273ec9c55d1aac51921b98844a57f2",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -47,8 +47,8 @@
   "files": [
     {
       "path": "SKILL.md",
-      "sha256": "4d80e0a74f500580d48f25d8b10d25bc8dc1edd615b786ce159009ad07db6fcc",
-      "bytes": 25344
+      "sha256": "f527a895b84673b01ebcdfee8fe993d3e2b54db902d7dccbfff3c8b92ab989be",
+      "bytes": 27748
     },
     {
       "path": "agents/openai.yaml",
@@ -162,32 +162,32 @@
     },
     {
       "path": "references/domain-packs/biomedical-foundation.json",
-      "sha256": "f769520254be92ab33d60486d5d51316cc73fd2f2a7e731a96ff22b7626ed421",
-      "bytes": 1568
+      "sha256": "2d3d0b3fcf3ca91f79b51f2a5554abf066a2fee849bd627cc63f40d9b9679ca2",
+      "bytes": 1879
     },
     {
       "path": "references/domain-packs/profile-diagnostic.json",
-      "sha256": "3813fe20ed4eae8c7268fe95a109c05fcc02c4654640a98c413b72e5f1efcade",
+      "sha256": "c5ae9b241d89689c53e32f2aace335990dd027e2bdaa80cae7d80434c4f469b0",
       "bytes": 1654
     },
     {
       "path": "references/domain-packs/profile-harms.json",
-      "sha256": "a5069c2fa236a91491ee5c770e63d1ac1a949d044f5a7aa9f78cad6653e831de",
+      "sha256": "e0d10ae52fac639b4b71d0eee2e1c04b30e0b00e7a03125fb98bafb18dc7dcf4",
       "bytes": 1625
     },
     {
       "path": "references/domain-packs/profile-intervention.json",
-      "sha256": "1a1df5d8d2a889ff8e89bfb27c431bbcac3f446399b5c69a1401497a385e4ed8",
+      "sha256": "90e7c505b3e0c0e78acf957b3ed03c196b283616cb2fbd3f7a504c7e93631b77",
       "bytes": 1686
     },
     {
       "path": "references/domain-packs/profile-prognostic.json",
-      "sha256": "d87557e5beaac492e8f4be8e592dfa78ecdb0cc74941301344079959e7be424e",
+      "sha256": "9ecd793c2f9ab589b32bd89b0f7b31aa22bec9bd7aab6c1366833a722a1e3298",
       "bytes": 1710
     },
     {
       "path": "references/domain-packs/specialty-registry.json",
-      "sha256": "358017aed614f1fbe401fe13f866b912573e67fe27b834ab599c54aecde7492e",
+      "sha256": "27b29d938dfde4c79ff93ea032b49bb83b5fb5f30f78158a7795e42f2b21167b",
       "bytes": 4134
     },
     {
@@ -201,9 +201,14 @@
       "bytes": 446
     },
     {
+      "path": "references/human-methodology-training-registry.json",
+      "sha256": "270891308a9bd4d47a29515a9bed0afca6bae1be092463f884dec2c0f92f4601",
+      "bytes": 43792
+    },
+    {
       "path": "references/methodology-source-registry.md",
-      "sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027",
-      "bytes": 60972
+      "sha256": "064ca19a69c32addc545f540a7b6f451f7c764f95864fe58452fa36b8c4b28b8",
+      "bytes": 65518
     },
     {
       "path": "references/review-types.md",
@@ -262,8 +267,8 @@
     },
     {
       "path": "references/socratic-checklists/topic.json",
-      "sha256": "d0579467d090d51d42345b1434320cb50c1648ff4006860793e054cc74b89169",
-      "bytes": 5574
+      "sha256": "3ab03c79c1cdf07df50897d665c50427011b4f0ff4fea89f1be30e43f8376537",
+      "bytes": 5791
     },
     {
       "path": "references/socratic-checklists/update.json",
@@ -282,8 +287,8 @@
     },
     {
       "path": "references/system-capability-matrix.json",
-      "sha256": "46923431e5015790f920e7657728fd22221cb22f35f5bcc47108c86a511a455f",
-      "bytes": 55206
+      "sha256": "b334a89c60049e13aa1340529bca116fe0b18ad33c232195ddc4554a439ba98f",
+      "bytes": 55546
     },
     {
       "path": "references/tool-catalog.md",
@@ -476,6 +481,11 @@
       "bytes": 2799
     },
     {
+      "path": "schemas/human_methodology_training_registry.schema.json",
+      "sha256": "b1ff68b88a3c9afe9b1c5dad17a04ec2aa8a705522d36fec4e2ee3510dbfed9c",
+      "bytes": 6551
+    },
+    {
       "path": "schemas/lineage_edge.schema.json",
       "sha256": "6488b4b8577cf723f2beac2fa7cfc1c4936250677189ad8c43c187fa33499b10",
       "bytes": 3180
@@ -572,8 +582,8 @@
     },
     {
       "path": "schemas/review_question_certificate.schema.json",
-      "sha256": "67397546fdb738cd680e99ad63f9212f13751f6b1f3fd4bbea0190a92b87c482",
-      "bytes": 6802
+      "sha256": "e1cd20c9ebb5e851e4f25cb15a5f4e408209fcd758dc633f75c26331ad5b4ee4",
+      "bytes": 7237
     },
     {
       "path": "schemas/review_state.schema.json",
@@ -712,8 +722,8 @@
     },
     {
       "path": "scripts/blind_judge_certificates.py",
-      "sha256": "1c2893bea418c35c8b6e27a7a82417d5ebfe6fa2ef081fb23bd1126948665045",
-      "bytes": 6775
+      "sha256": "7993b14f0bf4b2e2b51305a0b21e84ec3b2cac72b754135585b8a52a02f054dc",
+      "bytes": 7060
     },
     {
       "path": "scripts/build_appraisal_step_candidates.py",
@@ -847,8 +857,8 @@
     },
     {
       "path": "scripts/generate_review_question_certificate.py",
-      "sha256": "3dac3e1c75e908ca3f1f71ec0a4983e70eea8d07986e2fcabc020eaec589bc7f",
-      "bytes": 12056
+      "sha256": "2b5f6d9a091ac700d8635a2d3ea7f8a09cd3ea1d6ac6bbd8bc65af251cb64ca0",
+      "bytes": 12749
     },
     {
       "path": "scripts/guard_scientific_action.py",
@@ -917,8 +927,8 @@
     },
     {
       "path": "scripts/metawingman_core/capability_router.py",
-      "sha256": "473c76e707f85f6dd406a20ebb793197a05c1aaefc946d3ab726eb428db652c1",
-      "bytes": 3998
+      "sha256": "73d4fc1d1352a157c32b7f95b2f1d705a62175a22796624d8f9a23832f86de6f",
+      "bytes": 5000
     },
     {
       "path": "scripts/metawingman_core/causal_replay.py",

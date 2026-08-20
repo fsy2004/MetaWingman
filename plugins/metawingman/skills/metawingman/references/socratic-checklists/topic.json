@@ -38,10 +38,10 @@
     },
     {
       "id": "topic-05",
-      "question": "What single falsifiable contribution sentence distinguishes this review from every identified prior synthesis?",
-      "rationale": "If the contribution cannot be stated in one falsifiable sentence, the topic is not yet a question.",
-      "source": "PRISMA 2020 item 4; Cochrane Handbook v6 Ch.2.3",
-      "answer_format": "one sentence of the form: this review is the first to [X] because [evidence]",
+      "question": "What single source-anchored, decision-relevant contribution distinguishes this review from every identified prior synthesis, and which review family can answer it?",
+      "rationale": "The contribution must connect a verified evidence gap to a clinical or research decision and a feasible synthesis method. A directional hypothesis is required only when the selected question mode is hypothesis testing.",
+      "source": "PRISMA 2020 item 4; Cochrane Handbook v6 Ch.2.3 and Ch.3",
+      "answer_format": "one contribution sentence + evidence-gap anchors + decision target + selected review family and synthesis route",
       "gate": "required"
     },
     {

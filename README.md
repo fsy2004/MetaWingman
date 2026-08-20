@@ -1,360 +1,158 @@
 <p align="center">
-  <img src="plugins/metawingman/.codex-plugin/assets/logo.png" width="120" alt="MetaWingman logo"/>
+  <img src="plugins/metawingman/.codex-plugin/assets/logo.png" width="112" alt="MetaWingman logo"/>
 </p>
 
 <h1 align="center">MetaWingman</h1>
 
-<p align="center">
-  <b>Systematic reviews and meta-analysis, done with an agent that asks first, verifies each step, and keeps an auditable record.</b>
-</p>
+<p align="center"><b>先把问题问对，再把系统综述与 Meta 分析做成可追溯、可复查、可持续更新的研究流程。</b></p>
 
-<p align="center">
-  <a href="https://github.com/fsy2004/MetaWingman/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="License"></a>
-  <a href="https://github.com/fsy2004/MetaWingman/releases"><img src="https://img.shields.io/badge/release-v0.1.6-276DC3" alt="Release"></a>
-  <a href="metawingman/SKILL.md"><img src="https://img.shields.io/badge/skill-cross--LLM-111827" alt="Skill"></a>
-  <a href="toolkit/R"><img src="https://img.shields.io/badge/R_toolkit-26_modules-276DC3" alt="R toolkit"></a>
-</p>
+<p align="center">Question-first, evidence-grounded, human-overseen systematic reviews and meta-analysis.</p>
 
----
-
-## What it is
-
-MetaWingman is a portable **skill** for LLM hosts: a self-contained package
-of instructions, JSON Schemas, and tooling that turns any LLM host with
-skill support into a systematic-review and meta-analysis assistant. It is
-host-agnostic — it runs with the model you already use, needs no extra API,
-and does not lock you to a vendor.
-
-It covers the full workflow: topic selection, protocol and registration,
-literature search, lawful full-text retrieval, deduplication, dual
-screening, extraction, risk of bias, quantitative synthesis, GRADE,
-manuscript writing, review, and living updates. Every stage must pass a
-gate before the next starts.
-
-## Quick start
-
-Three ways to install:
-
-```powershell
-# 1. Plugin marketplace (recommended)
-codex plugin marketplace add fsy2004/MetaWingman
-codex plugin add metawingman@metawingman-local
-
-# 2. Clone + install script
-git clone https://github.com/fsy2004/MetaWingman.git
-cd MetaWingman
-.\install.ps1        # installs to ~\.agents\skills\metawingman
-```
-
-Or download the deterministic bundle (ZIP + SHA-256 checksums) from
-[GitHub Releases](https://github.com/fsy2004/MetaWingman/releases).
-
-Then invoke the skill with your research question, the current stage, and
-the materials you have (protocol, search string, RIS/CSV, PDFs, extraction
-tables, or analysis data). Outputs include decision records, reproducible
-projects, figures, GRADE tables, manuscripts, and review reports.
-
-## How it works
-
-```mermaid
-flowchart LR
-    A[Topic & feasibility] --> B[Protocol & registration]
-    B --> C[Search & retrieval]
-    C --> D[Dual screening]
-    D --> E[Extraction & lineage]
-    E --> F[Risk of bias]
-    F --> G[Meta or SWiM]
-    G --> H[GRADE & writing]
-    H --> I[AI review & revision]
-    I --> J[Living update]
-```
-
-Five mechanisms structure the workflow; each has a script or schema and a
-recorded smoke/regression run:
-
-- **Review Question Certificate** — a seven-stage derivation (primitives →
-  falsifiable hypothesis) with hard/soft gates and a novelty search.
-- **Ten-stage Socratic checklists** — ten questions per stage (nine
-  mandatory), gated before stage entry.
-- **Step-level verifier** — ten appraisal steps with abstention and a
-  human-review window.
-- **Audit log + meta-update loop** — JSONL events; change proposals carry
-  sources and are applied only through the review window with the commit
-  recorded.
-- **Dual-judge blind scoring** — certificate quality scored blind by two
-  judge models.
-
-- **Typed contracts.** Every handoff between stages is a JSON Schema
-  2020-12 contract.
-- **Deterministic statistics.** A 26-module R toolkit recomputes effect
-  sizes and heterogeneity from raw study data.
-- **Auditable evidence.** Full texts carry per-record license and
-  retraction checks; claims trace back to their source study.
-- **Human oversight built in.** Every stage exposes a review checkpoint.
-
-## Trained components
-
-Three 110M BiomedBERT models handle narrow subtasks. All results are
-development-set consistency, not external validation.
-
-| Component | Task | Development-set results |
-|---|---|---|
-| Section-role classifier | assigns each paragraph one of 8 workflow roles | eval macro-F1 0.9995 (weak labels) |
-| Evidence retriever | maps fields plus the review title to supporting paragraphs | candidate-set MRR 0.962, P@1 0.933 |
-| Appraisal domain classifier | labels an appraisal passage with one of six risk-of-bias domains | rule-label consistency 0.8500; after rubric-grounded relabeling (9,906 records) weighted-F1 0.871 |
-
-Open-corpus retrieval uses BM25 single-stage (MRR 0.2649 on the dev
-corpus); the trained retriever is used on provided candidate sets, where it
-is strong. See
-`docs/architecture/bm25-two-stage-results-2026-08-18.md`.
-
-## Status
-
-The pipeline is under active development; components carry different levels
-of evidence. All numbers are development-set consistency against weakly
-supervised or rubric-grounded labels, or reproduction of published values —
-not externally validated benchmarks.
-
-- **Runnable today:** auditable search, license-checked retrieval,
-  deterministic effect-size recomputation, the R toolkit, and the
-  stage-gate scripts.
-- **Validation ladder (VAL-1 → VAL-3):** reconstruction families licensed
-  and promoted (VAL-1); AI-only repeated-run plan and frozen task manual
-  (VAL-2a/2b1); 100-item appraisal spot-check kappa 0.311 against
-  rubric-grounded judgment, which triggered a relabeling pivot (VAL-2c);
-  first AI-only screening pilot on 649 frozen records, gold recall 0.765
-  (VAL-3).
-- **Reconstruction:** the deterministic R pipeline reproduced a published
-  random-effects meta-analysis (Hodgkiss et al., PLoS Med 2023,
-  doi:10.1371/journal.pmed.1004082) within declared tolerances in three
-  locked runs (pooled MD 2.865 vs 2.9; I² 92.67% vs 93%; k=16 exact).
-- **Cross-provider:** GLM glm-5.2 vs DeepSeek on the same blinded set,
-  section-role kappa 0.8472 (95% CI 0.8221–0.8722).
-
-## Repository layout
-
-```text
-MetaWingman/
-├── README.md                  # this file
-├── metawingman/               # the skill (canonical source)
-│   ├── SKILL.md               # triggers, workflow, research rules
-│   ├── references/            # per-stage methodology and domain guides
-│   ├── schemas/               # JSON Schema 2020-12 contracts
-│   └── scripts/               # search, download, dedup, verification, training, eval
-├── toolkit/                   # standalone R meta-analysis toolkit (26 modules)
-├── .agents/skills/            # repo skill generated from the canonical source
-├── plugins/metawingman/       # skills-only plugin generated from the same source
-├── docs/architecture/         # methodology blueprints, roadmap, training reports
-├── research/                  # training corpus, registries, plans
-├── tests/                     # control-plane, corpus, and boundary tests
-└── scripts/                   # packaging, hash verification, release metadata
-```
-
-## Development
-
-```powershell
-python -m unittest discover -s .\tests -v                      # full test suite
-python .\metawingman\scripts\test_r_adapters.py .\metawingman  # R adapters
-python .\scripts\build_skill_bundle.py                          # rebuild skill artifacts
-python .\scripts\verify_skill_bundle.py .\.agents\skills\metawingman
-python .\scripts\verify_dependency_locks.py                     # dependency locks
-```
-
-A green test run proves the interfaces and dependencies work in the
-current environment; it does not validate any specific review.
-
-## Documentation
-
-| Topic | Link |
-|---|---|
-| End-to-end methodology blueprint | [docs/architecture/end-to-end-methodology-blueprint.md](docs/architecture/end-to-end-methodology-blueprint.md) |
-| AI-first roadmap | [docs/architecture/ai-first-roadmap.md](docs/architecture/ai-first-roadmap.md) |
-| AI-only benchmark protocol | [docs/architecture/ai-only-benchmark-protocol.md](docs/architecture/ai-only-benchmark-protocol.md) |
-| Training run report | [docs/architecture/training-run-report-2026-08-17.md](docs/architecture/training-run-report-2026-08-17.md) |
-| Final status (single entry) | [docs/architecture/final-status-2026-08-18.md](docs/architecture/final-status-2026-08-18.md) |
-| Methodology innovation whitepaper | [docs/architecture/innovation-whitepaper-2026-08-18.md](docs/architecture/innovation-whitepaper-2026-08-18.md) |
-| Release report | [docs/architecture/release-report-2026-08-18.md](docs/architecture/release-report-2026-08-18.md) |
-| Privacy policy | [docs/privacy.md](docs/privacy.md) |
-| Terms of service | [docs/terms.md](docs/terms.md) |
-
-## Contributing
-
-Bug reports and pull requests are welcome via
-[GitHub issues](https://github.com/fsy2004/MetaWingman/issues). Keep
-changes scoped, and run the development checks above before submitting.
-
-## License
-
-The code is [MIT licensed](LICENSE). R packages, databases, full texts,
-and methods follow their own licenses.
-
----
-
-## 中文说明
-
-<p align="center">
-  <img src="plugins/metawingman/.codex-plugin/assets/logo.png" width="120" alt="MetaWingman 标志"/>
-</p>
-
-<h1 align="center">MetaWingman</h1>
-
-<p align="center">
-  <b>系统综述与 Meta 分析，交给一个先提问、逐步验证、并留下可审计记录的智能体。</b>
-</p>
-
-<p align="center">
-  <a href="https://github.com/fsy2004/MetaWingman/blob/main/LICENSE"><img src="https://img.shields.io/badge/许可-MIT-green" alt="License"></a>
-  <a href="https://github.com/fsy2004/MetaWingman/releases"><img src="https://img.shields.io/badge/发布-v0.1.6-276DC3" alt="Release"></a>
-  <a href="metawingman/SKILL.md"><img src="https://img.shields.io/badge/skill-跨LLM通用-111827" alt="Skill"></a>
-  <a href="toolkit/R"><img src="https://img.shields.io/badge/R_工具箱-26_模块-276DC3" alt="R toolkit"></a>
-</p>
-
----
+<!-- readme-metrics:start -->
+[![license](https://img.shields.io/badge/license-MIT-15803D)](LICENSE)
+[![release](https://img.shields.io/badge/release-v0.1.6-2563EB)](https://github.com/fsy2004/MetaWingman/releases)
+![R toolkit](https://img.shields.io/badge/R_modules-26-276DC3)
+![manifests](https://img.shields.io/badge/manifests-61-7C3AED)
+![schemas](https://img.shields.io/badge/schemas-78-0F766E)
+<!-- readme-metrics:end -->
 
 ## 这是什么
 
-MetaWingman 是一个可移植的 **skill**：自带指令、JSON Schema 与工具的独立
-包，让任何支持 skill 的 LLM 宿主都能成为系统综述与 Meta 分析助手。它跨
-模型通用——用你现有的宿主模型即可运行，无需额外 API，不锁定厂商。
+MetaWingman 是一个可移植的 Agent Skill。它把系统综述从选题到持续更新拆成有输入契约、阶段门禁、来源谱系和人工审核点的工作流。Skill 使用当前宿主模型；确定性统计由随仓库发布的 R 工具箱完成。
 
-它覆盖完整工作流：选题、方案与注册、文献检索、合法全文获取、去重、双人
-筛选、提取、偏倚风险、定量综合、GRADE、论文写作、审稿与持续更新。每一
-阶段必须通过关卡，下一阶段才会启动。
+它适合系统综述、范围综述、证据图谱、快速综述、诊断/预后/干预 Meta 分析、网络 Meta、比例/患病率、剂量反应、贝叶斯和复杂依赖结构。方法选择服从研究问题、方案和数据结构，不以“工具齐全”为理由运行所有分析。
 
-## 快速开始
+## Quick start
 
-三种安装方式：
+### Codex plugin
 
 ```powershell
-# 1. 插件市场（推荐）
 codex plugin marketplace add fsy2004/MetaWingman
 codex plugin add metawingman@metawingman-local
-
-# 2. 克隆 + 安装脚本
-git clone https://github.com/fsy2004/MetaWingman.git
-cd MetaWingman
-.\install.ps1        # 默认安装到 ~\.agents\skills\metawingman
 ```
 
-也可以从 [GitHub Releases](https://github.com/fsy2004/MetaWingman/releases)
-下载确定性打包产物（ZIP + SHA-256 校验和）。
+### Clone and install
 
-随后调用 skill，给出研究问题、当前阶段与已有材料（协议、检索式、RIS/CSV、
-PDF、提取表或分析数据）。输出包括决策记录、可复现项目、图表、GRADE 表、
-稿件与审稿报告。
+```powershell
+git clone https://github.com/fsy2004/MetaWingman.git
+cd MetaWingman
+.\install.ps1
+```
 
-## 工作原理
+安装后给出研究问题、当前阶段和已有材料：
+
+```text
+$metawingman
+
+研究问题：……
+当前阶段：选题 / 方案 / 检索 / 筛选 / 提取 / 评价 / 分析 / 写作 / 更新
+已有材料：方案、检索式、RIS/CSV、PDF、提取表或分析数据
+期望输出：决策记录、可复现项目、图表、GRADE 表、稿件或审查报告
+```
+
+确定性 ZIP 和 SHA-256 校验和见 [GitHub Releases](https://github.com/fsy2004/MetaWingman/releases)。
+
+## 工作流
 
 ```mermaid
 flowchart LR
-    A[选题与可行性] --> B[方案与注册]
-    B --> C[检索与获取]
-    C --> D[双人筛选]
-    D --> E[提取与谱系]
+    A[问题与可行性] --> B[方案与注册]
+    B --> C[检索与合法获取]
+    C --> D[双路筛选]
+    D --> E[提取与研究谱系]
     E --> F[偏倚风险]
     F --> G[Meta 或 SWiM]
     G --> H[GRADE 与写作]
-    H --> I[AI 审稿与修订]
+    H --> I[审查与修订]
     I --> J[持续更新]
 ```
 
-五个机制组织工作流，各自有脚本或 schema 与已记录的冒烟/回归运行：
-
-- **综述问题证书**——七阶段推导（原语 → 可证伪假设），带硬/软门与新颖性检索。
-- **十阶段苏格拉底清单**——每阶段十个问题（九个必答），进入阶段前过门禁。
-- **步骤级验证器**——十个评价步骤，带弃权与人工审核窗口。
-- **审计日志 + 元更新回路**——JSONL 事件；变更提案带出处，仅经审核窗口应用
-  并记录提交号。
-- **双法官盲评**——证书质量由两个法官模型盲评。
-
-- **类型化契约。** 阶段之间每个交接点都有 JSON Schema 2020-12 契约。
-- **确定性统计。** 26 模块 R 工具箱从原始研究数据重算效应量与异质性。
-- **证据可审计。** 全文逐篇核验许可与撤稿；每条结论可追溯到来源研究。
-- **内置人工监督。** 每个阶段提供审核检查点。
-
-## 已训练组件
-
-三个 110M BiomedBERT 模型处理窄子任务。所有结果均为开发集一致性，不是
-外部验证。
-
-| 组件 | 任务 | 开发集结果 |
+| 阶段 | Skill 负责 | 人类必须确认 |
 |---|---|---|
-| 段落角色分类器 | 为每个段落分配 8 种工作流角色之一 | eval macro-F1 0.9995（弱标签） |
-| 证据检索器 | 由字段加综述标题映射到支撑段落 | 候选集 MRR 0.962，P@1 0.933 |
-| 评价域分类器 | 为评价段落标注六个偏倚域之一 | 规则标签一致性 0.8500；经准则重标注（9,906 条）后 weighted-F1 0.871 |
+| 问题与方案 | 问题证书、可行性、新颖性、estimand、资格标准、预设分析 | 临床意义、范围、方案冻结和重大偏离 |
+| 检索与获取 | 可复现检索、查询/时间戳/响应留档、开放全文和许可检查 | 商业数据库登录、CAPTCHA、机构权限和最终检索确认 |
+| 筛选与提取 | 确定性去重、双路判定、冲突队列、`record → report → study → result` 谱系 | 独立判断、冲突仲裁、关键数值复核 |
+| 评价与综合 | 设计匹配的偏倚工具、效应量重算、异质性/敏感性、Meta 或 SWiM | 偏倚域最终判断、效应量/模型选择、是否合并 |
+| GRADE 与写作 | 绝对效应、证据确定性草案、PRISMA 报告、数字与引文一致性检查 | 结论强度、临床解释、作者责任和投稿前核验 |
+| 持续更新 | 新证据监测、影响分析、版本化变更记录 | 是否改方案、是否重跑、是否发布更新 |
 
-开集检索使用 BM25 单阶段（开发语料 MRR 0.2649）；训练检索器在给定候选集上
-使用（该场景下表现强）。见
-`docs/architecture/bm25-two-stage-results-2026-08-18.md`。
+## 可信机制
 
-## 现状
+- **问题证书。** 从临床原语生成可回答的综述问题；方向性可证伪要求只用于适合的假设检验问题。
+- **阶段门禁。** 十阶段苏格拉底清单和步骤级验证器在证据不足时允许弃权并进入人工队列。
+- **类型化契约。** JSON Schema 约束阶段间交接、研究谱系、评价和重建记录。
+- **确定性统计。** 26 个 R 模块从研究级输入重算效应量、异质性和常用扩展分析。
+- **来源追踪。** 查询、文件哈希、许可、撤稿状态、提取值、变更提案和审核结果进入审计记录。
+- **盲法诊断。** 评分轮次隐藏生成器元数据和自评分；分数用于诊断流程，不作为真值。
 
-管线在持续开发中，各组件证据级别不同。所有数字均为开发集上与弱监督/准则
-标签的一致性，或对已发表数值的复现——不是外部验证的基准成绩。
+## 当前证据边界
 
-- **当前可运行**：可审计检索、经许可核验的全文获取、确定性效应量重算、
-  R 工具箱、阶段关卡脚本。
-- **验证阶梯（VAL-1 → VAL-3）**：重建家族许可与晋升（VAL-1）；AI-only
-  重复运行计划与冻结任务手册（VAL-2a/2b1）；100 项评价抽检对准则判断评分
-  kappa 0.311，触发重标注转向（VAL-2c）；首个 AI-only 筛选 pilot（649 条
-  冻结记录）黄金召回 0.765（VAL-3）。
-- **复现**：确定性 R 管线以三次锁定运行、在声明容差内复现了已发表的随机
-  效应 Meta 分析（Hodgkiss 等，PLoS Med 2023，
-  doi:10.1371/journal.pmed.1004082；合并 MD 2.865 对 2.9；I² 92.67% 对
-  93%；k=16 精确）。
-- **跨模型**：GLM glm-5.2 与 DeepSeek 同盲集段落角色 kappa 0.8472（95% CI
-  0.8221–0.8722）。
+仓库处于持续开发阶段。接口测试、弱监督一致性、方法复现和 AI-only pilot 分属不同证据层级；任何一层通过都不等于外部临床有效性。
+
+- 当前可运行部分包括可审计检索、许可核验的获取路径、阶段门禁、确定性效应量重算和 R 适配器。
+- 已锁定的重建、训练和 pilot 结果保存在 `docs/architecture/`；README 不复制全部数字，以免结果报告和主页漂移。
+- 100 项评价抽检曾触发方法学重标注转向；这类失败信号保留在验证阶梯中，不被“平均分”掩盖。
+- 具体综述仍需真实数据库检索、双人判断、来源定位、统计适配和作者签字。
+
+当前单一状态入口：[`docs/architecture/final-status-2026-08-18.md`](docs/architecture/final-status-2026-08-18.md)。方法学约束的训练与评估规则：[`docs/architecture/methodology-grounded-evaluation-contract.md`](docs/architecture/methodology-grounded-evaluation-contract.md)。
 
 ## 项目结构
 
 ```text
 MetaWingman/
-├── README.md                  # 本文件
-├── metawingman/               # skill 本体（canonical source）
-│   ├── SKILL.md               # 触发规则、工作流与研究规范
-│   ├── references/            # 分阶段方法学与领域指南
-│   ├── schemas/               # JSON Schema 2020-12 契约
-│   └── scripts/               # 检索、下载、去重、校验、训练、评测
-├── toolkit/                   # 独立 R Meta 分析工具箱（26 模块）
-├── .agents/skills/            # 由 canonical source 生成的 repo skill
-├── plugins/metawingman/       # 由同一来源生成的 skills-only plugin
-├── docs/architecture/         # 方法学蓝图、路线图、训练报告
-├── research/                  # 训练语料、注册表、计划
-├── tests/                     # 控制面、语料与边界测试
-└── scripts/                   # 打包、哈希核验、发布元数据
+├── metawingman/               # canonical Skill source
+│   ├── SKILL.md
+│   ├── references/
+│   ├── schemas/
+│   └── scripts/
+├── toolkit/R/                 # 确定性 Meta 分析工具箱
+├── .agents/skills/            # 生成的 Skill bundle
+├── plugins/metawingman/       # 生成的 Codex plugin
+├── docs/architecture/         # 方法学、验证、部署和状态报告
+├── research/                  # 语料、注册表和计划
+├── tests/                     # 控制面、边界和回归测试
+└── scripts/                   # 构建、校验、发布与 README 维护
 ```
+
+`metawingman/` 是唯一源码；`.agents/skills/` 和 `plugins/` 由构建脚本生成。修改 Skill 后必须重建并验证，不能只改生成副本。
 
 ## 开发
 
 ```powershell
-python -m unittest discover -s .\tests -v                      # 全量测试
-python .\metawingman\scripts\test_r_adapters.py .\metawingman  # R 适配器
-python .\scripts\build_skill_bundle.py                          # 重建 skill 产物
+python -m unittest discover -s .\tests -v
+python .\metawingman\scripts\test_r_adapters.py .\metawingman
+python .\scripts\build_skill_bundle.py
 python .\scripts\verify_skill_bundle.py .\.agents\skills\metawingman
-python .\scripts\verify_dependency_locks.py                     # 依赖锁核验
+python .\scripts\verify_dependency_locks.py
+python .\scripts\update_readme.py --check
 ```
 
-测试通过只证明接口与依赖在当前环境可工作，不验证任何具体综述。
+绿色测试证明当前环境中的接口、schema、依赖或回归契约成立；它不验证任何具体综述的科学结论。
 
-## 文档
+## 核心文档
 
-| 主题 | 链接 |
+| 主题 | 入口 |
 |---|---|
-| 端到端方法学蓝图 | [docs/architecture/end-to-end-methodology-blueprint.md](docs/architecture/end-to-end-methodology-blueprint.md) |
-| AI-first 路线图 | [docs/architecture/ai-first-roadmap.md](docs/architecture/ai-first-roadmap.md) |
-| AI-only 评测协议 | [docs/architecture/ai-only-benchmark-protocol.md](docs/architecture/ai-only-benchmark-protocol.md) |
-| 训练运行报告 | [docs/architecture/training-run-report-2026-08-17.md](docs/architecture/training-run-report-2026-08-17.md) |
-| 终版状态（单一入口） | [docs/architecture/final-status-2026-08-18.md](docs/architecture/final-status-2026-08-18.md) |
-| 方法学创新白皮书 | [docs/architecture/innovation-whitepaper-2026-08-18.md](docs/architecture/innovation-whitepaper-2026-08-18.md) |
-| 发布报告 | [docs/architecture/release-report-2026-08-18.md](docs/architecture/release-report-2026-08-18.md) |
-| 隐私政策 | [docs/privacy.md](docs/privacy.md) |
-| 服务条款 | [docs/terms.md](docs/terms.md) |
+| 当前科学主线：临床问题与综合方法联合设计 | [`clinical-question-synthesis-co-design.md`](docs/architecture/clinical-question-synthesis-co-design.md) |
+| 服务器实施计划 | [`2026-08-20-question-synthesis-server-mainline.md`](docs/superpowers/plans/2026-08-20-question-synthesis-server-mainline.md) |
+| 服务器选型与初始化 | [`server-mainline-runbook.md`](docs/architecture/server-mainline-runbook.md) |
+| 算力与部署配置 | [`compute-and-deployment-budget.md`](docs/architecture/compute-and-deployment-budget.md) |
+| 端到端方法学蓝图 | [`end-to-end-methodology-blueprint.md`](docs/architecture/end-to-end-methodology-blueprint.md) |
+| 方法学训练与评估契约 | [`methodology-grounded-evaluation-contract.md`](docs/architecture/methodology-grounded-evaluation-contract.md) |
+| 人类方法学机器注册表 | [`human-methodology-training-registry.json`](metawingman/references/human-methodology-training-registry.json) |
+| README 写作与更新 | [`README_MAINTENANCE.md`](docs/README_MAINTENANCE.md) |
+| 隐私、可接受使用与安全 | [`PRIVACY.md`](PRIVACY.md) · [`ACCEPTABLE_USE.md`](ACCEPTABLE_USE.md) · [`SECURITY.md`](SECURITY.md) |
 
-## 参与贡献
+## README 持续更新
 
-欢迎通过 [GitHub issues](https://github.com/fsy2004/MetaWingman/issues)
-提交缺陷报告与拉取请求。改动请保持范围聚焦，提交前运行上述开发检查。
+动态徽章由 `scripts/update_readme.py` 从 canonical source、R 工具箱和 Git 标签生成。GitHub Actions 在 push、pull request 和每周计划任务中检查漂移；能力、安装方式、验证等级或主线文档变化时，维护者同步复核人工段落。完整范式见 [`docs/README_MAINTENANCE.md`](docs/README_MAINTENANCE.md)。
 
-## License
+## English summary
 
-代码采用 [MIT License](LICENSE)。R 包、数据库、全文与方法各自遵循其许可证。
+MetaWingman is a portable agent skill for auditable systematic reviews and meta-analysis. It combines question formulation, protocol gates, lawful evidence retrieval, dual screening, typed study lineage, design-matched appraisal, deterministic R analysis, GRADE, writing checks, and living updates. Human reviewers retain responsibility for database access, eligibility decisions, extracted values, risk-of-bias judgments, model choice, interpretation, and publication.
+
+## 贡献与许可
+
+请先搜索现有 Issue/PR，保持改动范围清晰，并运行上面的开发检查。缺陷与建议通过 [GitHub Issues](https://github.com/fsy2004/MetaWingman/issues) 提交。
+
+仓库代码采用 [MIT License](LICENSE)。R 包、数据库、全文和方法遵循各自许可。

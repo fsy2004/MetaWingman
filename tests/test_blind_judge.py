@@ -20,7 +20,7 @@ from blind_judge_certificates import (  # noqa: E402
 
 def make_cert() -> dict:
     return {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "certificate_id": "rqc:" + "a" * 64,
         "created_at_utc": "2026-08-18T00:00:00Z",
         "topic": {"domain": "x", "working_title": "t", "candidate_question_text": "q"},
@@ -29,12 +29,23 @@ def make_cert() -> dict:
         "mechanism_model": {},
         "tension": {},
         "research_question": "R?",
-        "hypothesis": {"falsifiable_statement": "f"},
+        "hypothesis": {
+            "claim_mode": "estimation",
+            "falsifiable_statement": "",
+            "answerability_criterion": "an interpretable estimate can be produced",
+        },
         "minimal_decisive_test": {},
         "expected_observations": [],
         "failure_update_rule": {},
         "novelty_gate": {"existing_reviews": [], "gap_statement": "g", "verdict": "novel"},
-        "quality_scores": {"derivation": 5, "falsifiability": 5, "mechanism_clarity": 5, "novelty": 5, "experimentability": 5, "average": 5.0},
+        "quality_scores": {
+            "clinical_relevance": 5,
+            "method_fit": 5,
+            "traceability": 5,
+            "explainability": 5,
+            "reproducibility": 5,
+            "average": 5.0,
+        },
         "gate": {"passed": True, "hard_failures": [], "soft_repairs": []},
         "audit": {"provider": "secret-generator", "model": "m", "prompt_sha256s": {}, "provider_content_sha256": "h"},
     }
@@ -65,16 +76,26 @@ class BlindJudgeTests(unittest.TestCase):
             self.assertNotIn(key, blinded)
 
     def test_judge_scores_parses(self) -> None:
-        scores = judge_scores(_StubJudge({"derivation": 4, "falsifiability": 5, "mechanism_clarity": 4, "novelty": 3, "experimentability": 5}), make_cert())
-        self.assertEqual(scores["scores"]["derivation"], 4)
+        scores = judge_scores(_StubJudge({
+            "clinical_relevance": 4,
+            "method_fit": 5,
+            "traceability": 4,
+            "explainability": 3,
+            "reproducibility": 5,
+        }), make_cert())
+        self.assertEqual(scores["scores"]["method_fit"], 5)
+        self.assertNotIn("falsifiability", scores["scores"])
 
     def test_report_ranking_and_agreement(self) -> None:
-        a1 = {"scores": {"derivation": 4, "falsifiability": 4, "mechanism_clarity": 4, "novelty": 4, "experimentability": 4}, "overall": 4, "rationale": ""}
-        a2 = {"scores": {"derivation": 2, "falsifiability": 2, "mechanism_clarity": 2, "novelty": 2, "experimentability": 2}, "overall": 2, "rationale": ""}
-        b1 = {"scores": {"derivation": 5, "falsifiability": 5, "mechanism_clarity": 5, "novelty": 5, "experimentability": 5}, "overall": 5, "rationale": ""}
-        b2 = {"scores": {"derivation": 1, "falsifiability": 1, "mechanism_clarity": 1, "novelty": 1, "experimentability": 1}, "overall": 1, "rationale": ""}
+        dimensions = ("clinical_relevance", "method_fit", "traceability", "explainability", "reproducibility")
+        a1 = {"scores": {key: 4 for key in dimensions}, "overall": 4, "rationale": ""}
+        a2 = {"scores": {key: 2 for key in dimensions}, "overall": 2, "rationale": ""}
+        b1 = {"scores": {key: 5 for key in dimensions}, "overall": 5, "rationale": ""}
+        b2 = {"scores": {key: 1 for key in dimensions}, "overall": 1, "rationale": ""}
         report = build_report(["c1", "c2"], [a1, a2], [b1, b2])
         self.assertEqual(report["ranking"], ["c1", "c2"])
+        self.assertEqual(report["dimensions"], list(dimensions))
+        self.assertEqual(report["interpretation"], "diagnostic_only_not_ground_truth")
         self.assertAlmostEqual(report["inter_judge_pearson"], 1.0, places=3)
 
     def test_pearson(self) -> None:

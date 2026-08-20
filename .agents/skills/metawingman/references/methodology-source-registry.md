@@ -1,7 +1,12 @@
 # Methodology and AI Source Registry
 
-Verified: 2026-08-12
+Verified: 2026-08-20
 Purpose: exact primary or official sources governing MetaWingman. Recheck live versions at the start of every review and before a public methods claim.
+
+The machine-readable reading and rule ledger is
+[`human-methodology-training-registry.json`](human-methodology-training-registry.json).
+It records local cache hashes, source scope, admitted rules, unsupported
+inferences, and threshold provenance without distributing cached full text.
 
 ## Source Classes
 
@@ -384,6 +389,46 @@ For every project or research claim, retain the exact title, authors, venue, yea
 - **Transfer:** specialized literature corpus, retrieval, cited synthesis, and expert benchmark.
 - **Boundary:** literature QA quality is not database-level systematic-search recall.
 - **Record:** [Nature](https://www.nature.com/articles/s41586-025-10072-4).
+
+### DEEPRARE — Traceable Host-and-Specialist Medical Agent
+
+- **Identity:** Zhao W, Wu C, Fan Y, et al. “An agentic system for rare disease diagnosis with traceable reasoning.” *Nature*. 2026;651:775-784. DOI [10.1038/s41586-025-10097-9](https://doi.org/10.1038/s41586-025-10097-9).
+- **Class:** `MECHANISM/EMPIRICAL`.
+- **Transfer:** use a central host with memory, differentiated specialist tool servers, heterogeneous up-to-date knowledge sources, source-linked reasoning, and an iterative validate-or-refute loop.
+- **Boundary:** rare-disease differential diagnosis is not systematic-review conduct. Multiple roles powered by related models are not independent experts, and source-linked reasoning still requires field-level support and coverage evaluation.
+- **Record:** [Nature](https://www.nature.com/articles/s41586-025-10097-9).
+
+### ERA — Tree Search Against Executable Scientific Scores
+
+- **Identity:** Aygun E, Belyaeva A, Comanici G, et al. “An AI system to help scientists write expert-level empirical software.” *Nature*. 2026;654:909-916. DOI [10.1038/s41586-026-10658-6](https://doi.org/10.1038/s41586-026-10658-6).
+- **Class:** `MECHANISM/EMPIRICAL`.
+- **Transfer:** mutate several candidate solutions, use tree search to balance exploration and exploitation, inject external research ideas, and retain branches using an executable quality metric.
+- **Boundary:** most review judgments lack one complete leaderboard-style objective. MetaWingman can use executable checks for syntax, lineage, effect recalculation, and source support, but clinical value, RoB, certainty, and question validity remain multi-objective evidence judgments.
+- **Record:** [Nature](https://www.nature.com/articles/s41586-026-10658-6).
+
+### MIRA — Sandboxed Medical Action Space
+
+- **Identity:** Ferber D, Hilgers L, Hoper C, et al. “Towards autonomous medical artificial intelligence agents.” *Nature*. 2026;655:1282-1291. DOI [10.1038/s41586-026-10675-5](https://doi.org/10.1038/s41586-026-10675-5).
+- **Class:** `MECHANISM/EMPIRICAL`.
+- **Transfer:** expose a broad but standardized action space inside a sandbox, maintain case state across sequential observations, and evaluate final structured actions rather than free-text advice alone.
+- **Boundary:** the published evaluation used a simulated EHR workflow and explicitly called for prospective real-world safety and governance work. It does not authorize unattended credentialed search, download, registration, publication, or irreversible review decisions.
+- **Record:** [Nature](https://www.nature.com/articles/s41586-026-10675-5).
+
+### AMIE-MANAGEMENT — Longitudinal Guideline-Grounded Reasoning
+
+- **Identity:** Lievin V, Palepu A, Weng WH, et al. “Towards conversational artificial intelligence for disease management.” *Nature*. 2026;655:1292-1299. DOI [10.1038/s41586-026-10764-5](https://doi.org/10.1038/s41586-026-10764-5).
+- **Class:** `MECHANISM/EMPIRICAL`.
+- **Transfer:** maintain longitudinal state across multiple encounters and ground structured reasoning in current authoritative guidelines and formularies.
+- **Boundary:** guideline concordance in virtual clinical scenarios is not primary-study synthesis. MetaWingman uses authorities to constrain method and reporting while preserving primary sources, protocol eligibility, and result lineage as separate evidence layers.
+- **Record:** [Nature](https://www.nature.com/articles/s41586-026-10764-5).
+
+### OPEN-RUBRIC-HALLUCINATION — Abstention-Aligned Evaluation
+
+- **Identity:** Kalai AT, Nachum O, Vempala SS, et al. “Evaluating large language models for accuracy incentivizes hallucinations.” *Nature*. 2026;653:1047-1051. DOI [10.1038/s41586-026-10549-w](https://doi.org/10.1038/s41586-026-10549-w).
+- **Class:** `MECHANISM/EVALUATION`.
+- **Transfer:** expose the cost of errors and the value of abstention in an open rubric, evaluate across several error penalties, and avoid headline metrics that reward guessing.
+- **Boundary:** an open rubric changes incentives; it does not calibrate correctness by itself. MetaWingman must define task- and review-family-specific asymmetric loss and validate selective risk on sealed data.
+- **Record:** [Nature](https://www.nature.com/articles/s41586-026-10549-w).
 
 ### PAPERQA2 and SCIRAG — Agentic Literature Exploration
 

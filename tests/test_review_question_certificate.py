@@ -46,9 +46,11 @@ STAGE_PAYLOADS: dict[str, dict[str, Any]] = {
     "question_hypothesis": {
         "research_question": "In adults with early dcSSc, does anti-IL-6 therapy reduce skin fibrosis at 48 weeks versus placebo?",
         "hypothesis": {
+            "claim_mode": "hypothesis_test",
             "direction": "anti-IL-6 reduces mRSS versus placebo",
             "magnitude": "MCID-level reduction",
             "falsifiable_statement": "no mRSS improvement at 48 weeks in at least two high-quality RCTs rejects the hypothesis",
+            "answerability_criterion": "the eligible RCT evidence permits an interpretable 48-week effect estimate",
             "heterogeneity_pattern": "effect larger in early disease",
         },
     },
@@ -64,7 +66,13 @@ STAGE_PAYLOADS: dict[str, dict[str, Any]] = {
             "description": "refocus on early-disease subgroup if overall null",
         },
     },
-    "scores": {"derivation": 4, "falsifiability": 5, "mechanism_clarity": 4, "novelty": 4, "experimentability": 5},
+    "scores": {
+        "clinical_relevance": 4,
+        "method_fit": 5,
+        "traceability": 4,
+        "explainability": 4,
+        "reproducibility": 5,
+    },
 }
 
 
@@ -102,6 +110,9 @@ class ReviewQuestionCertificateTests(unittest.TestCase):
         cert = generate_certificate("Systemic sclerosis; anti-IL-6 therapy", _StubProvider(), lambda _t: [], created_at_utc="2026-08-18T00:00:00Z")
         self.assertTrue(cert["certificate_id"].startswith("rqc:"))
         self.assertTrue(cert["gate"]["passed"], cert["gate"])
+        self.assertEqual(cert["quality_scores"]["provenance"], "model_proposed_unvalidated")
+        self.assertFalse(cert["gate"]["scientific_release_ready"])
+        self.assertEqual(cert["gate"]["scope"], "candidate_structure_only")
         self.assertIn("prompt_sha256s", cert["audit"])
 
     def test_novelty_verdict_covered_fails_gate(self):
@@ -110,20 +121,41 @@ class ReviewQuestionCertificateTests(unittest.TestCase):
         self.assertFalse(cert["gate"]["passed"])
         self.assertIn("novelty_verdict_covered", cert["gate"]["hard_failures"])
 
-    def test_empty_falsifiable_statement_fails_gate(self):
+    def test_estimation_question_does_not_require_falsifiable_statement(self):
         payloads = dict(STAGE_PAYLOADS)
-        payloads["question_hypothesis"] = {**STAGE_PAYLOADS["question_hypothesis"], "hypothesis": {**STAGE_PAYLOADS["question_hypothesis"]["hypothesis"], "falsifiable_statement": "  "}}
+        payloads["question_hypothesis"] = {
+            **STAGE_PAYLOADS["question_hypothesis"],
+            "hypothesis": {
+                **STAGE_PAYLOADS["question_hypothesis"]["hypothesis"],
+                "claim_mode": "estimation",
+                "direction": "",
+                "falsifiable_statement": "",
+            },
+        }
+        cert = generate_certificate("topic", _StubProvider(payloads), lambda _t: [], created_at_utc="2026-08-18T00:00:00Z")
+        self.assertTrue(cert["gate"]["passed"], cert["gate"])
+
+    def test_hypothesis_test_requires_falsifiable_statement(self):
+        payloads = dict(STAGE_PAYLOADS)
+        payloads["question_hypothesis"] = {
+            **STAGE_PAYLOADS["question_hypothesis"],
+            "hypothesis": {
+                **STAGE_PAYLOADS["question_hypothesis"]["hypothesis"],
+                "falsifiable_statement": "",
+            },
+        }
         cert = generate_certificate("topic", _StubProvider(payloads), lambda _t: [], created_at_utc="2026-08-18T00:00:00Z")
         self.assertFalse(cert["gate"]["passed"])
         self.assertIn("falsifiable_statement_empty", cert["gate"]["hard_failures"])
 
-    def test_hard_gate_min_scores(self):
+    def test_unvalidated_model_scores_cannot_be_a_scientific_hard_gate(self):
         cert = generate_certificate("topic", _StubProvider(), lambda _t: [], created_at_utc="2026-08-18T00:00:00Z")
         low = dict(cert)
-        low["quality_scores"] = {**cert["quality_scores"], "derivation": 2, "average": 1.0}
+        low["quality_scores"] = {**cert["quality_scores"], "method_fit": 2, "average": 4.0}
         gate = hard_gate(low)
-        self.assertFalse(gate.passed)
-        self.assertTrue(any("derivation_score" in item for item in gate.hard_failures))
+        self.assertTrue(gate.passed)
+        self.assertNotIn("method_fit_score_2_below_3", gate.hard_failures)
+        self.assertIn("method_fit_model_score_low_requires_external_verification", gate.soft_repairs)
 
 
 if __name__ == "__main__":
