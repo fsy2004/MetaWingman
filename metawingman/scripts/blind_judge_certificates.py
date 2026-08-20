@@ -1,9 +1,8 @@
 """Double-judge blind scoring for Review Question Certificates.
 
-FirstResearch-style dual-judge protocol (arXiv:2607.05682): strip generator
-metadata and self-scores so judges see only the certificate content, have two
-independent judges (different providers/models) score five dimensions 1-5,
-then report per-judge averages, system ranking, and inter-judge agreement.
+Generator metadata and self-scores are stripped so judges see only certificate
+content. Independent judges score five professional evidence-synthesis quality
+dimensions, then the script reports averages, ranking, and agreement.
 
 Usage:
   python metawingman/scripts/blind_judge_certificates.py \
@@ -31,15 +30,22 @@ from metawingman_core.deepseek_provider import DeepSeekProvider
 from metawingman_core.model_provider import ModelProvider, ProviderResult
 from metawingman_core.openai_compatible_provider import OpenAICompatibleProvider
 
-DIMENSIONS = ("derivation", "falsifiability", "mechanism_clarity", "novelty", "experimentability")
+DIMENSIONS = (
+    "clinical_relevance",
+    "method_fit",
+    "traceability",
+    "explainability",
+    "reproducibility",
+)
 
 JUDGE_PROMPT = """You are an independent scientific reviewer scoring a research-question certificate for a clinical evidence-synthesis topic. Score each dimension 1 (poor) to 5 (excellent):
-- derivation: are primitives and assumptions first-principles and justified?
-- falsifiability: is the hypothesis falsifiable with a decisive test?
-- mechanism_clarity: is the mechanism model explicit and coherent?
-- novelty: does the novelty gate establish a real gap?
-- experimentability: can the decisive test be executed with evidence synthesis?
-Output ONLY JSON: {"scores": {"derivation": int, "falsifiability": int, "mechanism_clarity": int, "novelty": int, "experimentability": int}, "overall": int, "rationale": "one sentence"}.
+- clinical_relevance: would answering the question inform a real clinical or research decision?
+- method_fit: does the proposed review and synthesis method fit the question, estimand, and evidence?
+- traceability: are claims and decisions anchored to identifiable sources?
+- explainability: can a reviewer inspect why the scope and method were chosen?
+- reproducibility: are the planned inputs, rules, and analysis sufficiently specified to rerun?
+Falsifiability is required only when claim_mode is hypothesis_test. Do not penalize estimation, mapping, or interpretive synthesis for lacking a directional hypothesis.
+Output ONLY JSON: {"scores": {"clinical_relevance": int, "method_fit": int, "traceability": int, "explainability": int, "reproducibility": int}, "overall": int, "rationale": "one sentence"}.
 
 CERTIFICATE:
 """
@@ -109,6 +115,7 @@ def build_report(
         "inter_judge_pearson": round(agreement, 3),
         "judge_count": 2,
         "dimensions": list(DIMENSIONS),
+        "interpretation": "diagnostic_only_not_ground_truth",
     }
 
 

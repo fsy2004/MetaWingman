@@ -39,6 +39,6 @@ Public metadata may be sent after the operator confirms hosted transfer. License
 ## Current limits
 
 - Only text and structured-data calls have live connectivity evidence.
-- DeepSeek Flash and Pro are one provider family and do not satisfy independent-provider verification.
+- DeepSeek Flash and Pro are one provider family. Repeated roles from that family are test-time compute, not independent corroboration; high-risk routes therefore require declared source or executable verification and a human signature rather than a second provider by default.
 - No real-PDF vision benchmark, review-family scientific calibration or high-risk proposal-opposition-judge release threshold has passed.
 - The local batch runner has checkpoint, delay and call/output reservation controls. A distributed queue, provider-specific rate-limit scheduler and server deployment remain deployment work, not standalone-skill requirements.

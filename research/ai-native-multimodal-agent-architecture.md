@@ -1,13 +1,13 @@
 # MetaWingman 的 AI 原生多模态 Agent 架构
 
-检索与核验日期：2026-08-13
+检索与核验日期：2026-08-20
 研究问题：如何把顶刊与顶会中的 AI Scientist、多智能体、检索增强、文档多模态理解、不确定性控制和工具验证方法，迁移为系统综述与 Meta-analysis 的端到端 AI 系统？
 
 ## 执行结论
 
 MetaWingman 应从“方法学 skill 加一组脚本”升级为 **AI-first、evidence-grounded、human-overseen 的系统综述操作系统**：模型默认承担从选题到 living update 的全部可执行工作，人不再逐条完成主流程，而是在高风险、模型分歧、证据缺失和最终责任节点介入。
 
-对外贡献不应平铺成“更多 agents、更多工具”。顶刊式主线压缩为四项：**decision-aware topic opportunity control** 把截止日前的多领域证据图转成可操作选题组合，**全生命周期 evidence-synthesis scientist** 是系统贡献，**结论风险导向的证据获取与验证** 是方法贡献，**时间封存的选题重发现与单协议扰动回放** 是评价贡献。多模型编队、多模态解析、proposal-opposition-judge、外部 verifier、evidence graph 和 living state 是支撑机制，不单独冒充创新。
+对外贡献不应平铺成“更多 agents、更多工具”。2026-08-20 的主线收束为两项：**clinical question and synthesis co-design** 在临床决策语境中联合搜索问题范围、综述类型、estimand、证据可得性与综合方法，**source-grounded full-review operating loop** 用同一个可回放科学状态贯穿选题到 living update，并要求反思通过外部证据或工具 observation 改变状态。时间封存重建是训练/评价基础设施；多模型编队、多模态解析、proposal-opposition-judge、外部 verifier、evidence graph 和 living state 是支撑机制。当前实现规范见 [`clinical-question-synthesis-co-design.md`](../docs/architecture/clinical-question-synthesis-co-design.md)。
 
 这与“无条件全自动”不同。当前最有说服力的研究表述是：
 
@@ -24,6 +24,11 @@ MetaWingman 应从“方法学 skill 加一组脚本”升级为 **AI-first、ev
 | [Virtual Lab, Nature 2025](https://www.nature.com/articles/s41586-025-09442-9) | PI agent 调度跨学科 scientist agents，结合 ESM、AlphaFold-Multimer、Rosetta，并由人类给高层反馈和实验验证 | 由 Review Director 调度检索方法学、临床、统计、视觉文档、偏倚评价和写作 agents；统计工具与文献 API 是正式团队成员；人主要设定目标与处理升级 | 不能把多个同源 LLM persona 当作真正独立专家；必须采用异构模型、不同证据视图和确定性工具形成差异化 |
 | [Coscientist, Nature 2023](https://www.nature.com/articles/s41586-023-06792-0) | LLM 规划、互联网与文档检索、代码执行、专用工具和实验自动化结合 | 将 reasoning 与数据库 API、浏览器 handoff、PDF parser、R toolkit、验证脚本交错执行；每个动作产生 observation 和状态变更 | 账户登录、验证码、许可数据库和下载授权不能交给无边界自动化；凭证必须与模型上下文隔离 |
 | [OpenScholar, Nature 2026](https://www.nature.com/articles/s41586-025-10072-4) | 专门文献语料、检索增强、多论文综合、逐项引用和专家 benchmark | 建立“检索—证据片段—综合—引用核验”链；把通用模型生成与领域检索器分开；用专家问题集评估而非只看文本流畅度 | 文献问答正确不等于系统综述召回充分；不能以回答质量替代数据库级可复现搜索和 study lineage |
+| [DeepRare, Nature 2026](https://www.nature.com/articles/s41586-025-10097-9) | 中央 host + memory、专业 tool servers、异构医学来源、可追踪推理和 validate/refute 循环 | 建立按临床、检索、方法、多模态和评价能力分工的 specialists；每个候选选题和判断都回到可验证来源并主动寻找反证 | 罕见病诊断不等于系统综述；多角色不是独立专家，来源覆盖与字段支持仍需单独评估 |
+| [ERA, Nature 2026](https://www.nature.com/articles/s41586-026-10658-6) | 多候选 mutation、tree search、探索—利用平衡、外部研究思路和可执行质量指标 | 对临床问题—综合方法联合状态做分支搜索；只有可执行规则、来源支持、谱系和重算指标参与硬剪枝 | Meta 的临床价值、RoB 和 GRADE 没有一个完整 leaderboard 分数，不能用单一模型分替代多目标科学判断 |
+| [MIRA, Nature 2026](https://www.nature.com/articles/s41586-026-10675-5) | 在 sandbox EHR 中通过标准化 action space 连续获取 observation 并更新病例状态 | 把检索、下载、解析、筛选、提取、R 分析和 living update 表达成受权限约束的 typed actions，验证最终状态而非聊天文本 | 其证据来自模拟临床工作流；不能授权无人监管的账号、下载、注册、提交或发布动作 |
+| [AMIE management, Nature 2026](https://www.nature.com/articles/s41586-026-10764-5) | 多次交互的纵向状态、in-context retrieval、结构化推理和权威指南/药典 grounding | living review 和全流程 case state 保留时间变化；方法和报告由当前权威约束并记录版本 | 指南约束不能代替原始研究、协议纳排和 result lineage |
+| [Hallucination incentives, Nature 2026](https://www.nature.com/articles/s41586-026-10549-w) | accuracy-only 会奖励猜测；open rubric 显式给出错误代价和弃权收益 | benchmark 为 false exclusion、unsupported value、错误方法路由等设置不对称代价，并评估不同门槛下的 risk-coverage | open rubric 只修正激励，不自动校准正确率；仍需 review-family 封存校准与前瞻验证 |
 | [Cochrane Handbook Chapter 2](https://training.cochrane.org/handbook/current/chapter-02) 与 [Towards evidence based research, BMJ 2016](https://www.bmj.com/content/355/bmj.i5440) | 问题范围、决策相关性、既有证据与利益相关者优先级是选题的正式方法学基础 | 把“是否值得做、是否重复、是否能改变决策”编译为显式信号和门，而不是让模型按新颖措辞排序 | 权威方法学不提供一个通用机器机会分，也不保证已发表选题最优；价值权重和最终选题仍需责任主体确认 |
 | [SciMON, ACL 2024](https://aclanthology.org/2024.acl-long.18/) 与 [ResearchAgent, NAACL 2025](https://aclanthology.org/2025.naacl-long.342/) | 文献启发检索、学术图谱/知识库、迭代提案与多 reviewer critique | 从截止日前文献图产生候选，再由 overlap opposition 和独立 verifier 查重、查可行性和查反证 | 自然语言 idea quality 不是 operational review question；相关模型 reviewer 也不是独立科学真值 |
 | [大规模 LLM ideation 研究, ICLR 2025](https://proceedings.iclr.cc/paper_files/paper/2025/hash/ea94957d81b1c1caf87ef5319fa6b467-Abstract-Conference.html) | 100 余名 NLP 研究者参与的盲法比较显示，LLM 提案被评为更有新颖性但可行性略低，并暴露自评与多样性问题 | 选题 benchmark 分开评估 novelty、feasibility、diversity 与稳定性；禁止用模型自评支持方法有效 | 该研究只针对 NLP 研究想法；不能外推为系统综述选题优于人，MetaWingman 也没有人工执行对照臂 |

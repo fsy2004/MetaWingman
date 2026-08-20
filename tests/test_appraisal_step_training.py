@@ -42,9 +42,13 @@ class AppraisalStepTrainingTests(unittest.TestCase):
         self.assertNotIn("abstain", [p["label"] for p in pairs])
 
     def test_inverse_frequency_weights(self) -> None:
-        weights = _inverse_frequency_weights([0, 1, 1, 1])
+        weights = _inverse_frequency_weights([0, 1, 1, 1], num_classes=2)
         self.assertAlmostEqual(weights[0], 2.0, places=6)
         self.assertAlmostEqual(weights[1], 2.0 / 3, places=6)
+        self.assertEqual(
+            _inverse_frequency_weights([0, 1, 1, 1], num_classes=3)[2],
+            0.0,
+        )
 
     def test_load_candidates_roundtrip(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

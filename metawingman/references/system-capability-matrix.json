@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "matrix_id": "metawingman-system-coverage-v1",
-  "as_of": "2026-08-13",
+  "as_of": "2026-08-20",
   "claim_policy": {
     "lifecycle_coverage": "Coverage means that every stage has an explicit state, gate, artifact route, and responsibility boundary. It does not mean every stage has passed a real-review validation.",
     "profile_coverage": "Every declared review family can enter the shared lifecycle, but profile-specific methods and native synthesis depth are reported separately.",
@@ -58,28 +58,33 @@
       {
         "pack_id": "biomedical-foundation",
         "version": "1.0.0",
-        "content_sha256": "96e2fbe3f50f129c76c6d83737f235f56e7fdaccdbf3c4ecea2e004d34ef1950",
+        "content_sha256": "72eb8d00150aefd1427b5197223a6f0006231c5de11fa11b101f4f4aa75a4c20",
         "validation_level": "fixture_tested",
         "terminology_releases": [],
         "authority_versions": [
           {
             "source_id": "methodology-source-registry",
-            "version": "2026-08-15",
-            "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027"
+            "version": "2026-08-20",
+            "content_sha256": "064ca19a69c32addc545f540a7b6f451f7c764f95864fe58452fa36b8c4b28b8"
+          },
+          {
+            "source_id": "human-methodology-training-registry",
+            "version": "2026-08-20",
+            "content_sha256": "270891308a9bd4d47a29515a9bed0afca6bae1be092463f884dec2c0f92f4601"
           }
         ]
       },
       {
         "pack_id": "profile-diagnostic",
         "version": "1.0.0",
-        "content_sha256": "495883ec7b94371e7fee2b12c5357fea80f1ea915795e15e168a9077a28aa4e5",
+        "content_sha256": "726a9d7eb659da65e88493a160c2c0def16b7c2ac675f714947e24edd6ccc52c",
         "validation_level": "contract_only",
         "terminology_releases": [],
         "authority_versions": [
           {
             "source_id": "methodology-source-registry",
-            "version": "2026-08-15",
-            "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027"
+            "version": "2026-08-20",
+            "content_sha256": "064ca19a69c32addc545f540a7b6f451f7c764f95864fe58452fa36b8c4b28b8"
           },
           {
             "source_id": "appraisal-certainty",
@@ -91,14 +96,14 @@
       {
         "pack_id": "profile-harms",
         "version": "1.0.0",
-        "content_sha256": "e513afdb4dafe74735d6c6372d654c474aa4dcc7feef681644f02cd7144891ef",
+        "content_sha256": "4c7250abc007ab4eb41750e8625989e7d5fac84fa78ae6ef2f00d004f9324e42",
         "validation_level": "contract_only",
         "terminology_releases": [],
         "authority_versions": [
           {
             "source_id": "methodology-source-registry",
-            "version": "2026-08-15",
-            "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027"
+            "version": "2026-08-20",
+            "content_sha256": "064ca19a69c32addc545f540a7b6f451f7c764f95864fe58452fa36b8c4b28b8"
           },
           {
             "source_id": "appraisal-certainty",
@@ -110,14 +115,14 @@
       {
         "pack_id": "profile-intervention",
         "version": "1.0.0",
-        "content_sha256": "2c63d3039960bf7a64d3012fb5c2acf4898359ee2c5bbc5a75d4bf21685be080",
+        "content_sha256": "c61081fbdeb4bc87da689920c9ae3fe7ef8abf5857f09f5ed1da6a79888ad83c",
         "validation_level": "contract_only",
         "terminology_releases": [],
         "authority_versions": [
           {
             "source_id": "methodology-source-registry",
-            "version": "2026-08-15",
-            "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027"
+            "version": "2026-08-20",
+            "content_sha256": "064ca19a69c32addc545f540a7b6f451f7c764f95864fe58452fa36b8c4b28b8"
           },
           {
             "source_id": "appraisal-certainty",
@@ -129,14 +134,14 @@
       {
         "pack_id": "profile-prognostic",
         "version": "1.0.0",
-        "content_sha256": "f9faa4ef65ba9631dbbd4c612af809620e2abca3ec4da8b710427f426a15062e",
+        "content_sha256": "ea61f40d052fcacc2ee8c0b521a959fda315380cc6754e94b0b5e3f36ec231a5",
         "validation_level": "contract_only",
         "terminology_releases": [],
         "authority_versions": [
           {
             "source_id": "methodology-source-registry",
-            "version": "2026-08-15",
-            "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027"
+            "version": "2026-08-20",
+            "content_sha256": "064ca19a69c32addc545f540a7b6f451f7c764f95864fe58452fa36b8c4b28b8"
           },
           {
             "source_id": "appraisal-certainty",
@@ -148,14 +153,14 @@
       {
         "pack_id": "specialty-registry",
         "version": "1.0.0",
-        "content_sha256": "d0739aae743040067247ed2b2ecd734d53346022852d83f43a84e3f95401a23a",
+        "content_sha256": "3493ed3fc7d0df7012cb7a6e0f8139e21cf347397996d2add788d2e6c64348cc",
         "validation_level": "contract_only",
         "terminology_releases": [],
         "authority_versions": [
           {
             "source_id": "methodology-source-registry",
-            "version": "2026-08-15",
-            "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027"
+            "version": "2026-08-20",
+            "content_sha256": "064ca19a69c32addc545f540a7b6f451f7c764f95864fe58452fa36b8c4b28b8"
           }
         ]
       }
@@ -1356,10 +1361,10 @@
       ],
       "validation_level": "fixture_tested",
       "validation_evidence": [
-        "provider diversity and risk-tier routing fixtures"
+        "risk-tier routing, role reuse, external-verifier gating, and optional diversity fixtures"
       ],
       "known_gaps": [
-        "The standalone skill uses the host model and cannot itself guarantee independent-provider diversity; task-specific calibration and a multimodal vision route remain pending."
+        "The standalone skill uses the host model; repeated host-model roles are not independent corroboration, so consequential routes require declared source or executable verification. Task-specific calibration and a multimodal vision route remain pending."
       ]
     },
     {

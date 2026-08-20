@@ -11,7 +11,7 @@
     "quality_scores", "gate", "audit"
   ],
   "properties": {
-    "schema_version": { "const": "1.0" },
+    "schema_version": { "const": "1.1" },
     "certificate_id": { "type": "string", "pattern": "^rqc:[0-9a-f]{64}$" },
     "created_at_utc": { "type": "string", "format": "date-time" },
     "topic": {
@@ -96,11 +96,15 @@
     "research_question": { "type": "string", "minLength": 1 },
     "hypothesis": {
       "type": "object",
-      "required": ["direction", "falsifiable_statement", "heterogeneity_pattern"],
+      "required": ["claim_mode", "direction", "answerability_criterion", "heterogeneity_pattern"],
       "properties": {
+        "claim_mode": {
+          "enum": ["hypothesis_test", "estimation", "mapping", "interpretive_synthesis"]
+        },
         "direction": { "type": "string" },
         "magnitude": { "type": "string" },
-        "falsifiable_statement": { "type": "string", "minLength": 1 },
+        "falsifiable_statement": { "type": "string" },
+        "answerability_criterion": { "type": "string", "minLength": 1 },
         "heterogeneity_pattern": { "type": "string" }
       }
     },
@@ -152,21 +156,24 @@
     },
     "quality_scores": {
       "type": "object",
-      "required": ["derivation", "falsifiability", "mechanism_clarity", "novelty", "experimentability", "average"],
+      "required": ["clinical_relevance", "method_fit", "traceability", "explainability", "reproducibility", "average", "provenance"],
       "properties": {
-        "derivation": { "type": "integer", "minimum": 0, "maximum": 5 },
-        "falsifiability": { "type": "integer", "minimum": 0, "maximum": 5 },
-        "mechanism_clarity": { "type": "integer", "minimum": 0, "maximum": 5 },
-        "novelty": { "type": "integer", "minimum": 0, "maximum": 5 },
-        "experimentability": { "type": "integer", "minimum": 0, "maximum": 5 },
-        "average": { "type": "number", "minimum": 0, "maximum": 5 }
+        "clinical_relevance": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "method_fit": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "traceability": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "explainability": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "reproducibility": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "average": { "type": "number", "minimum": 0, "maximum": 5 },
+        "provenance": { "const": "model_proposed_unvalidated" }
       }
     },
     "gate": {
       "type": "object",
-      "required": ["passed", "hard_failures", "soft_repairs"],
+      "required": ["passed", "scope", "scientific_release_ready", "hard_failures", "soft_repairs"],
       "properties": {
         "passed": { "type": "boolean" },
+        "scope": { "const": "candidate_structure_only" },
+        "scientific_release_ready": { "const": false },
         "hard_failures": { "type": "array", "items": { "type": "string" } },
         "soft_repairs": { "type": "array", "items": { "type": "string" } }
       }

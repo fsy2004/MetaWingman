@@ -40,9 +40,16 @@
     {
       "source_id": "methodology-source-registry",
       "path": "references/methodology-source-registry.md",
-      "version": "2026-08-15",
-      "content_sha256": "7270a1cad8d4f94e8d3acfe3d5d6cbc045939242e685f966e1e9cf92615e3027",
-      "verified_at_utc": "2026-08-15T00:00:00Z"
+      "version": "2026-08-20",
+      "content_sha256": "064ca19a69c32addc545f540a7b6f451f7c764f95864fe58452fa36b8c4b28b8",
+      "verified_at_utc": "2026-08-20T00:00:00Z"
+    },
+    {
+      "source_id": "human-methodology-training-registry",
+      "path": "references/human-methodology-training-registry.json",
+      "version": "2026-08-20",
+      "content_sha256": "270891308a9bd4d47a29515a9bed0afca6bae1be092463f884dec2c0f92f4601",
+      "verified_at_utc": "2026-08-20T00:00:00Z"
     }
   ],
   "dependencies": [],
@@ -59,5 +66,5 @@
       "tests/test_biomedical_application_contract.py"
     ]
   },
-  "content_sha256": "96e2fbe3f50f129c76c6d83737f235f56e7fdaccdbf3c4ecea2e004d34ef1950"
+  "content_sha256": "72eb8d00150aefd1427b5197223a6f0006231c5de11fa11b101f4f4aa75a4c20"
 }

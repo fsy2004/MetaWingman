@@ -205,17 +205,49 @@ class CapabilityRouterTests(unittest.TestCase):
         self.assertEqual(set(decision.assignments), {"executor"})
         self.assertEqual(decision.test_time_calls, 1)
 
-    def test_high_risk_uses_diverse_proposal_opposition_judge(self) -> None:
-        decision = route_models(registry(), "screening", {"pdf"}, "high", {"evidence_lookup"})
+    def test_high_risk_prefers_diverse_roles_with_external_verification(self) -> None:
+        decision = route_models(
+            registry(),
+            "screening",
+            {"pdf"},
+            "high",
+            {"evidence_lookup"},
+            {"source_resolution"},
+        )
         self.assertEqual(decision.status, "routed")
         self.assertEqual(set(decision.assignments), {"proposal", "opposition", "judge"})
         self.assertEqual(len(set(decision.assignments.values())), 3)
+        self.assertEqual(decision.verification_channels, ("source_resolution",))
         self.assertTrue(decision.requires_human_signature)
 
-    def test_high_risk_abstains_without_provider_diversity(self) -> None:
-        decision = route_models(registry(providers=("alpha",)), "screening", {"text"}, "high")
+    def test_high_risk_single_model_reuses_roles_when_externally_verified(self) -> None:
+        decision = route_models(
+            registry(model_count=1, providers=("alpha",)),
+            "screening",
+            {"text"},
+            "high",
+            verification_channels={"deterministic_recomputation", "source_resolution"},
+        )
+        self.assertEqual(decision.status, "routed")
+        self.assertEqual(set(decision.assignments), {"proposal", "opposition", "judge"})
+        self.assertEqual(set(decision.assignments.values()), {"model-1"})
+        self.assertEqual(decision.test_time_calls, 3)
+        self.assertTrue(decision.requires_human_signature)
+
+    def test_high_risk_abstains_without_external_verification(self) -> None:
+        decision = route_models(registry(), "screening", {"text"}, "high")
         self.assertEqual(decision.status, "abstained")
-        self.assertIn("insufficient_provider_diversity", decision.reason_codes)
+        self.assertIn("external_verification_required", decision.reason_codes)
+
+    def test_unknown_verification_channel_is_rejected(self) -> None:
+        with self.assertRaisesRegex(ValueError, "Unsupported verification channels"):
+            route_models(
+                registry(),
+                "screening",
+                {"text"},
+                "high",
+                verification_channels={"same_model_reflection"},
+            )
 
 
 class EventLedgerTests(unittest.TestCase):

@@ -65,6 +65,16 @@ def domain_pack_fixture() -> dict[str, object]:
     return json.loads((PACK_DIR / "biomedical-foundation.json").read_text(encoding="utf-8"))
 
 
+def copy_declared_authorities(pack_dir: Path, skill_root: Path) -> None:
+    for pack_path in pack_dir.glob("*.json"):
+        pack = json.loads(pack_path.read_text(encoding="utf-8"))
+        for authority in pack["authority_sources"]:
+            relative = Path(authority["path"])
+            destination = skill_root / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes((SKILL_ROOT / relative).read_bytes())
+
+
 def initialize_review(root: Path, name: str = "Legacy Oncology Review") -> Path:
     completed = subprocess.run(
         [
@@ -419,9 +429,7 @@ class BiomedicalApplicationContractTests(unittest.TestCase):
             packs.mkdir(parents=True)
             for path in PACK_DIR.glob("*.json"):
                 (packs / path.name).write_bytes(path.read_bytes())
-            for name in ("methodology-source-registry.md", "appraisal-certainty.md"):
-                source = SKILL_ROOT / "references" / name
-                (root / "references" / name).write_bytes(source.read_bytes())
+            copy_declared_authorities(packs, root)
             load_domain_packs(packs)
             with (root / "references" / "methodology-source-registry.md").open("ab") as handle:
                 handle.write(b"\ndrift")
@@ -456,13 +464,12 @@ class BiomedicalApplicationContractTests(unittest.TestCase):
             out_path = root / "route.json"
             packs = root / "metawingman" / "references" / "domain-packs"
             packs.mkdir(parents=True)
-            authority = root / "metawingman" / "references" / "methodology-source-registry.md"
-            authority.write_bytes((SKILL_ROOT / "references" / "methodology-source-registry.md").read_bytes())
             context_path.write_text(json.dumps(biomedical_context_fixture("diagnostic")), encoding="utf-8")
             (packs / "biomedical-foundation.json").write_text(
                 (PACK_DIR / "biomedical-foundation.json").read_text(encoding="utf-8"),
                 encoding="utf-8",
             )
+            copy_declared_authorities(packs, root / "metawingman")
             completed = subprocess.run(
                 [
                     sys.executable,

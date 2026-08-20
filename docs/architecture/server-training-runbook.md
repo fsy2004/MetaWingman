@@ -1,21 +1,32 @@
 # MetaWingman Biomedical Component Training Runbook
 
-Status: local handoff implemented; server execution requires explicit authorization.
-Last checked: 2026-08-15
+Status: local handoff implemented; target server is not yet preflighted.
+Last checked: 2026-08-20
 
 ## Scope
 
 This runbook covers lawful full-text retrieval, weak-label freezing, contrastive pair export, and bounded training for section-role classification and evidence retrieval. It does not train a foundation model, run the four existing servers, or authorize model/checkpoint publication.
 
-The current local handoff is `validation-output/server-training-handoff-v3/`. Its manifest must say `local_ready_pending_server_preflight`; `server_ready` is not a valid local state. Earlier local directories are retained only as ignored development artifacts and must not be uploaded.
+The current local handoff is `validation-output/server-training-handoff-v3/`. Its manifest must say `local_ready_pending_server_preflight`; `server_ready` is not a valid local state. Superseded handoff directories were moved to the recoverable 2026-08-20 cleanup archive and must not be uploaded.
 
 ## Recommended Server
 
-- Minimum practical pilot: one 24 GiB NVIDIA GPU, 16 vCPU, 64 GiB RAM, and 500 GiB NVMe.
-- Comfortable scale-up: one 48 GiB GPU, 24-32 vCPU, 128 GiB RAM, and 1 TiB NVMe.
-- Network: stable public HTTPS, preferably at least 100 Mbps, with institutional sources handled outside automation.
+For the two existing BiomedBERT component jobs alone, the original practical
+pilot remains one 24 GiB NVIDIA GPU, 16 vCPU, 64 GiB RAM, and 500 GiB NVMe. That
+is a component-training minimum, not the configuration for the complete
+question-synthesis and full-review research mainline.
 
-One 24-48 GiB GPU is preferable to several small GPUs for the current encoders. Multiple low-memory GPUs do not pool VRAM automatically and add synchronization overhead. Several inexpensive GPUs are useful only for independent jobs such as OCR, parser ablations, classification, retrieval, and benchmark replicas.
+For the complete mainline, use the preferred 2 x L40S, 32-48 vCPU, 128-256 GiB
+RAM, and 4 TiB NVMe profile in
+`compute-and-deployment-budget.md`; one L40S is the lower-cost sequential-job
+option. NVIDIA specifies 48 GB per L40S and no NVLink, so two cards run
+independent workers rather than one pooled 96 GB model
+([official specification](https://www.nvidia.com/en-us/data-center/l40s/)).
+
+One 24-48 GiB GPU remains preferable to several smaller cards for each current
+encoder. Multiple GPUs are useful for independent OCR, parser, local inference,
+training, and benchmark jobs; no plan may assume that their VRAM pools
+automatically.
 
 ## Authorization Boundary
 
