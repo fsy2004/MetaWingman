@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/question_synthesis_search.schema.json",
+  "title": "MetaWingman evidence-constrained question synthesis search",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "search_id", "landscape_id", "context_id", "policy", "budget", "nodes", "edges", "observations", "portfolio", "status", "created_at_utc", "updated_at_utc"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "search_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "landscape_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "context_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "policy": {"type": "object"},
+    "budget": {"type": "object"},
+    "nodes": {"type": "array", "items": {"type": "object"}},
+    "edges": {"type": "array", "items": {"type": "object"}},
+    "observations": {"type": "array", "items": {"type": "object"}},
+    "portfolio": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "status": {"enum": ["active", "complete", "abstained", "budget_exhausted"]},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "updated_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

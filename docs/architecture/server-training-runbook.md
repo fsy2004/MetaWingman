@@ -1,6 +1,8 @@
 # MetaWingman Biomedical Component Training Runbook
 
-Status: local handoff implemented; target server is not yet preflighted.
+Status: local handoff implemented; one RTX 5090 target identified, but the
+current source/handoff/runtime combination is not server-ready until the new
+preflight receipt passes.
 Last checked: 2026-08-20
 
 ## Scope
@@ -27,6 +29,17 @@ One 24-48 GiB GPU remains preferable to several smaller cards for each current
 encoder. Multiple GPUs are useful for independent OCR, parser, local inference,
 training, and benchmark jobs; no plan may assume that their VRAM pools
 automatically.
+
+For the current single RTX 5090 target, schedule one encoder or VLM job at a
+time. Its observed 32,607 MiB is checked as one device; it is not rounded up to
+48 GiB and is not combined with any other GPU.
+
+The current hosted visual-parser route is `glm-4.6v`. It receives one rendered
+page at a time from the local coordinator and must return a schema-gated visual
+candidate. Exact native-text anchors and normalized bounding boxes are executable
+verifiers; the model response alone is not scientific acceptance. This hosted
+route uses no server GPU memory and its credential must not be copied to the
+training server.
 
 ## Authorization Boundary
 

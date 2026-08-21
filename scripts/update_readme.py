@@ -49,9 +49,9 @@ def latest_tag(root: Path) -> str:
     return next((line.strip() for line in result.stdout.splitlines() if line.strip()), "unreleased")
 
 
-def render_metrics(root: Path) -> str:
+def render_metrics(root: Path, *, version: str | None = None) -> str:
     metrics = compute_metrics(root)
-    version = latest_tag(root)
+    version = version or latest_tag(root)
     return (
         "[![license](https://img.shields.io/badge/license-MIT-15803D)](LICENSE)\n"
         f"[![release](https://img.shields.io/badge/release-{version}-2563EB)](https://github.com/fsy2004/MetaWingman/releases)\n"
@@ -61,12 +61,30 @@ def render_metrics(root: Path) -> str:
     )
 
 
+def render_inventory(root: Path) -> str:
+    metrics = compute_metrics(root)
+    return (
+        "| Repository metric | Current |\n"
+        "|---|---:|\n"
+        f"| Python entry points | {metrics['python_entrypoints']} |\n"
+        f"| JSON schemas | {metrics['schemas']} |\n"
+        f"| R analysis modules | {metrics['r_modules']} |\n"
+        f"| R adapter manifests | {metrics['manifests']} |\n"
+        f"| R adapters | {metrics['adapters']} |"
+    )
+
+
+def update_generated_blocks(root: Path, text: str, *, version: str | None = None) -> str:
+    updated = replace_block(text, "readme-metrics", render_metrics(root, version=version))
+    return replace_block(updated, "readme-inventory", render_inventory(root))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="fail instead of writing when README metrics drift")
     args = parser.parse_args()
     source = README.read_text(encoding="utf-8")
-    expected = replace_block(source, "readme-metrics", render_metrics(ROOT))
+    expected = update_generated_blocks(ROOT, source)
     missing = local_link_errors(ROOT, expected)
     if missing:
         print("README has missing local links: " + ", ".join(missing), file=sys.stderr)

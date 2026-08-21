@@ -19,6 +19,7 @@
     "api_key_required": {"type": "boolean"},
     "api_key_env": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
     "credential_target": {"type": ["string", "null"], "minLength": 1},
+    "timeout_seconds": {"type": "number", "exclusiveMinimum": 0, "maximum": 300},
     "allow_local_http": {"type": "boolean"},
     "features": {
       "type": "object",

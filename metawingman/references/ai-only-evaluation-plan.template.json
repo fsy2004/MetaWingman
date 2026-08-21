@@ -1,58 +1,99 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "2.0",
   "plan_id": "replace-before-freeze",
   "plan_version": "0.1-draft",
   "status": "draft",
   "benchmark_version": "replace-before-freeze",
+  "expected_review_case_manifest": {
+    "reviews": [
+      {
+        "benchmark_id": "replace-benchmark-id",
+        "review_id": "replace-review-id",
+        "review_family_id": "replace-review-family-id",
+        "case_ids": ["replace-case-id"]
+      }
+    ],
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
   "design": "ai_only_repeated_runs",
   "target_tasks": ["screening", "lineage", "extraction", "analysis", "end_to_end"],
   "configurations": [
     {
       "configuration_id": "general-model-baseline",
       "description": "General model without biomedical schemas, terminology, routing, or MetaWingman verification components.",
-      "model_registry_refs": ["replace-model-ref"],
+      "model_registry_refs": ["deepseek-v4-flash"],
       "pipeline_version": "replace-pipeline-version",
       "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "tool_versions": ["metawingman@replace-version"],
       "ablations": ["biomedical_schema", "biomedical_terminology", "biomedical_retrieval", "domain_routing", "evidence_graph", "document_state", "external_verifiers", "test_time_scaling", "abstention"],
-      "max_model_calls": 1,
-      "retry_budget": 0
+      "max_model_calls": 3,
+      "max_input_tokens": 16000,
+      "max_output_tokens": 4096,
+      "retry_budget": 0,
+      "wall_time_ceiling_seconds": 300
+    },
+    {
+      "configuration_id": "generic-retrieval",
+      "description": "Call-matched proposal-opposition-judge model with generic retrieval over pre-cutoff visible material; biomedical schemas, terminology-aware retrieval, routing, graph/document state, external verifiers, and abstention remain ablated.",
+      "model_registry_refs": ["deepseek-v4-flash"],
+      "pipeline_version": "replace-pipeline-version",
+      "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "tool_versions": ["metawingman@replace-version"],
+      "ablations": ["biomedical_schema", "biomedical_terminology", "domain_routing", "evidence_graph", "document_state", "external_verifiers", "abstention"],
+      "max_model_calls": 3,
+      "max_input_tokens": 16000,
+      "max_output_tokens": 4096,
+      "retry_budget": 0,
+      "wall_time_ceiling_seconds": 300
     },
     {
       "configuration_id": "biomedical-schema",
       "description": "General model with biomedical prompts and schemas but without terminology-aware retrieval or domain routing.",
-      "model_registry_refs": ["replace-model-ref"],
+      "model_registry_refs": ["deepseek-v4-flash"],
       "pipeline_version": "replace-pipeline-version",
       "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "tool_versions": ["metawingman@replace-version"],
       "ablations": ["biomedical_terminology", "biomedical_retrieval", "domain_routing", "evidence_graph", "document_state", "external_verifiers", "test_time_scaling", "abstention"],
-      "max_model_calls": 1,
-      "retry_budget": 0
+      "max_model_calls": 3,
+      "max_input_tokens": 16000,
+      "max_output_tokens": 4096,
+      "retry_budget": 0,
+      "wall_time_ceiling_seconds": 300
     },
     {
       "configuration_id": "biomedical-routing",
       "description": "Biomedical schemas, terminology, retrieval, and deterministic domain routing without the full verification stack.",
-      "model_registry_refs": ["replace-model-ref"],
+      "model_registry_refs": ["deepseek-v4-flash"],
       "pipeline_version": "replace-pipeline-version",
       "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "tool_versions": ["metawingman@replace-version"],
       "ablations": ["evidence_graph", "document_state", "external_verifiers", "test_time_scaling", "abstention"],
-      "max_model_calls": 1,
-      "retry_budget": 0
+      "max_model_calls": 3,
+      "max_input_tokens": 16000,
+      "max_output_tokens": 4096,
+      "retry_budget": 0,
+      "wall_time_ceiling_seconds": 300
     },
     {
       "configuration_id": "full-biomedical-stack",
       "description": "Full biomedical stack with evidence graph, document state, external verifiers, test-time scaling, and abstention.",
-      "model_registry_refs": ["replace-model-ref"],
+      "model_registry_refs": ["deepseek-v4-flash"],
       "pipeline_version": "replace-pipeline-version",
       "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "tool_versions": ["metawingman@replace-version"],
       "ablations": [],
-      "max_model_calls": 1,
-      "retry_budget": 0
+      "max_model_calls": 3,
+      "max_input_tokens": 16000,
+      "max_output_tokens": 4096,
+      "retry_budget": 0,
+      "wall_time_ceiling_seconds": 300
     }
   ],
   "repetitions_per_case": 3,
+  "orchestration_seeds": [20260820, 20260821, 20260822],
+  "provider_seed_supported": false,
+  "seed_scope": "orchestration_order_and_tie_breaks",
+  "same_provider_roles_are_independent_evidence": false,
   "reference_standard": {
     "source": "published_expert_reference",
     "correction_policy": "verified_corrected_version_only",

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import subprocess
 import time
 from datetime import datetime, timezone
@@ -17,6 +18,19 @@ def value_arg(value) -> str:
     return str(value)
 
 
+def resolve_rscript() -> str:
+    explicit = os.getenv("RSCRIPT", "").strip()
+    if explicit:
+        return explicit
+    discovered = shutil.which("Rscript")
+    if discovered:
+        return discovered
+    windows_default = Path(r"C:\Program Files\R\R-4.4.3\bin\Rscript.exe")
+    if os.name == "nt" and windows_default.is_file():
+        return str(windows_default)
+    raise FileNotFoundError("Rscript was not found; set RSCRIPT or add Rscript to PATH")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(); parser.add_argument("skill", type=Path); parser.add_argument("--outdir", required=True, type=Path); parser.add_argument("--timeout", type=int, default=180); parser.add_argument("--match", default=""); args = parser.parse_args()
     skill = args.skill.resolve(); outdir = args.outdir.expanduser().resolve(); base = skill / "scripts/r"; manifests = base / "manifests"; adapters = base / "adapters"
@@ -24,7 +38,7 @@ def main() -> int:
     if not toolkit.is_dir(): toolkit = skill.parent / "toolkit"
     if not (toolkit / "R").is_dir(): raise SystemExit("Toolkit not found in scripts/r/toolkit or repository-level toolkit")
     outdir.mkdir(parents=True, exist_ok=True); results = []
-    rscript = os.getenv("RSCRIPT", r"C:\Program Files\R\R-4.4.3\bin\Rscript.exe")
+    rscript = resolve_rscript()
     for manifest_path in sorted(manifests.glob("*.json")):
         if args.match and args.match not in manifest_path.name: continue
         manifest = json.loads(manifest_path.read_text(encoding="utf-8")); mid = manifest.get("id", manifest_path.stem); started = time.time()

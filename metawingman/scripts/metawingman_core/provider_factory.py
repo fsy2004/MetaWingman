@@ -41,6 +41,7 @@ def build_provider(config: dict[str, Any]) -> ModelProvider:
             base_url=config["base_url"],
             model=config["model"],
             credential_source=credential_source,
+            timeout_seconds=float(config.get("timeout_seconds", 90.0)),
         )
     return OpenAICompatibleProvider(
         provider_name=config["display_name"],
@@ -52,4 +53,5 @@ def build_provider(config: dict[str, Any]) -> ModelProvider:
         supports_json_output=config["features"]["json_output"],
         supports_reasoning_effort=config["features"]["reasoning_effort"],
         credential_source=credential_source,
+        timeout_seconds=float(config.get("timeout_seconds", 90.0)),
     )

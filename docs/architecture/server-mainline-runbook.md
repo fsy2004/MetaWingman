@@ -1,11 +1,18 @@
 # MetaWingman Server Mainline Runbook
 
-Status: configuration frozen for server selection; no target server has passed
-preflight
+Status: single-RTX-5090 execution target identified; server preflight and first
+pilot remain receipt-gated
 
 Last checked: 2026-08-20
 
 ## Rent This Configuration
+
+Current authorized pilot target (inventory observed 2026-08-20): one NVIDIA
+GeForce RTX 5090 with 32,607 MiB reported VRAM. Treat it as one 32-GB worker;
+never aggregate memory with another card. Run GPU workloads sequentially and
+reduce batch size or use gradient accumulation only through a versioned job.
+The L40S profiles below remain planning references, not descriptions of the
+current target.
 
 Preferred single-node research server:
 
@@ -122,18 +129,34 @@ The default programmatic text provider is `deepseek-v4-flash`. The retained 2026
 `validation-output/live-provider/deepseek-probe-2026-08-20.json` verifies one
 successful `deepseek-v4-flash` contract call; it does not freeze future model
 availability or scientific performance. Codex remains the main interactive
-development, source-audit, and code-review environment. The server uses one
-DeepSeek API for repeatable batch execution; no GLM balance or second commercial
-provider is required for P0-P3. Proposer, opposition, and judge roles may use
+development, source-audit, and code-review environment. Repeatable text batches
+use only DeepSeek. Scientific-document page vision uses `glm-4.6v` as a distinct
+visual parser, not as a second text judge or independent scientific witness.
+Proposer, opposition, and judge roles may use
 separate calls to this model, but source checks, schema checks, and executable
 statistics are the verifiers because same-provider calls are not independent
 scientific evidence. `deepseek-v4-pro` is reserved for an optional sensitivity
 analysis and is not the default or a release requirement.
 
+Keep hosted visual parsing on the local coordinator unless a separately approved
+server secret route exists. Hash the rendered page and prompt, require exact
+native-text anchor recovery plus bounded normalized regions, and store only the
+verified structured receipt. Never retain the raw provider response or upload a
+desktop credential file.
+
+When DeepSeek batch execution is deliberately kept on that coordinator, the
+server preflight may consume a non-secret capability receipt located under its
+configured receipt root. Set `provider_capability_receipt` and
+`expected_provider_capability_receipt_sha256`; the receipt must bind the exact
+model, UTC observation time, content hash, token accounting, and
+`execution_location: coordinator`. This proves a recent contract call only. It
+does not imply server-side secret availability or model quality.
+
 Set only the capabilities actually available:
 
 ```text
 DEEPSEEK_API_KEY       text reasoning provider
+GLM_API_KEY            local-coordinator visual parsing only
 NCBI_EMAIL             PubMed/PMC identification
 NCBI_API_KEY           optional NCBI rate capability
 CROSSREF_EMAIL         DOI metadata identification
@@ -199,9 +222,9 @@ python metawingman/scripts/preflight_component_training.py \
   --inspect-server
 ```
 
-The forthcoming `scripts/server/preflight_mainline.py` in the implementation
-plan adds distinct-root, bundle, GPU-worker, provider-capability, and storage
-checks. Until that script exists and passes, use
+`scripts/server/preflight_mainline.py` enforces distinct roots, per-GPU memory,
+active-process, source-tree, handoff, provider-capability, and storage checks.
+Until its receipt and both component preflights pass, retain
 `local_ready_pending_server_preflight`; do not hand-edit a manifest to
 `server_ready`.
 

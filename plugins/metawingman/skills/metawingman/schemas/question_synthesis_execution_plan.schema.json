@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/question_synthesis_execution_plan.schema.json",
+  "title": "Executable five-arm question-synthesis repeated-run plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "plan_id", "split", "status", "cases",
+    "configuration_ids", "seeds", "model_reference", "provider_config_path",
+    "provider_config_sha256", "provider_seed_supported", "seed_scope",
+    "same_provider_roles_are_independent_evidence",
+    "prompt_sha256_by_configuration", "tool_version_sha256",
+    "source_version_sha256", "matched_budget", "budget_enforcement",
+    "failure_policy", "slots", "command_argv",
+    "frozen_at_utc"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "plan_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "split": {"enum": ["development", "calibration", "held_out"]},
+    "status": {"enum": ["draft", "frozen", "locked"]},
+    "cases": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["case_id", "operational_case_path", "sha256"],
+        "properties": {
+          "case_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "operational_case_path": {"type": "string", "minLength": 1},
+          "sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "configuration_ids": {
+      "type": "array", "minItems": 5, "maxItems": 5,
+      "prefixItems": [
+        {"const": "general-model-baseline"},
+        {"const": "generic-retrieval"},
+        {"const": "biomedical-schema"},
+        {"const": "biomedical-routing"},
+        {"const": "full-biomedical-stack"}
+      ],
+      "items": false
+    },
+    "seeds": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "prefixItems": [
+        {"const": 20260820}, {"const": 20260821}, {"const": 20260822}
+      ],
+      "items": false
+    },
+    "model_reference": {"type": "string", "minLength": 1},
+    "provider_config_path": {"type": "string", "minLength": 1},
+    "provider_config_sha256": {"$ref": "#/$defs/sha256"},
+    "provider_seed_supported": {"const": false},
+    "seed_scope": {"const": "orchestration_order_and_tie_breaks"},
+    "same_provider_roles_are_independent_evidence": {"const": false},
+    "prompt_sha256_by_configuration": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "general-model-baseline", "generic-retrieval", "biomedical-schema",
+        "biomedical-routing", "full-biomedical-stack"
+      ],
+      "properties": {
+        "general-model-baseline": {"$ref": "#/$defs/sha256"},
+        "generic-retrieval": {"$ref": "#/$defs/sha256"},
+        "biomedical-schema": {"$ref": "#/$defs/sha256"},
+        "biomedical-routing": {"$ref": "#/$defs/sha256"},
+        "full-biomedical-stack": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "tool_version_sha256": {"$ref": "#/$defs/hashMap"},
+    "source_version_sha256": {"$ref": "#/$defs/hashMap"},
+    "matched_budget": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "max_model_calls", "max_input_tokens", "max_output_tokens",
+        "retry_budget", "wall_time_ceiling_seconds"
+      ],
+      "properties": {
+        "max_model_calls": {"type": "integer", "minimum": 1},
+        "max_input_tokens": {"type": "integer", "minimum": 1},
+        "max_output_tokens": {"type": "integer", "minimum": 1},
+        "retry_budget": {"const": 0},
+        "wall_time_ceiling_seconds": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "budget_enforcement": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "provider_timeout_seconds", "retry_policy", "wall_time_scope",
+        "single_call_overrun_policy"
+      ],
+      "properties": {
+        "provider_timeout_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "retry_policy": {"const": "no_retries"},
+        "wall_time_scope": {"const": "pre_call_between_call_and_post_hoc"},
+        "single_call_overrun_policy": {"const": "block_after_provider_returns"}
+      }
+    },
+    "failure_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["max_systemic_provider_failures", "scientific_failures_may_lock"],
+      "properties": {
+        "max_systemic_provider_failures": {"type": "integer", "minimum": 1},
+        "scientific_failures_may_lock": {"const": true}
+      }
+    },
+    "slots": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["case_id", "configuration_id", "seed", "output_path", "receipt_path"],
+        "properties": {
+          "case_id": {"type": "string", "minLength": 1},
+          "configuration_id": {
+            "enum": [
+              "general-model-baseline", "generic-retrieval", "biomedical-schema",
+              "biomedical-routing", "full-biomedical-stack"
+            ]
+          },
+          "seed": {"enum": [20260820, 20260821, 20260822]},
+          "output_path": {"type": "string", "minLength": 1},
+          "receipt_path": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "command_argv": {
+      "type": "array", "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "frozen_at_utc": {"type": ["string", "null"], "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"enum": ["frozen", "locked"]}}},
+      "then": {"properties": {"frozen_at_utc": {"type": "string", "format": "date-time"}}}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "hashMap": {
+      "type": "object", "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/sha256"}
+    }
+  }
+}

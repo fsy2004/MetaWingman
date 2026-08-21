@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from collections import defaultdict
+import hashlib
 from itertools import combinations
+import json
 from statistics import mean
 from typing import Any, Iterable
 
@@ -18,8 +20,64 @@ def _rate(numerator: int, denominator: int) -> float | None:
     return numerator / denominator if denominator else None
 
 
-def _sum(records: list[dict[str, Any]], field: str) -> float:
-    return float(sum(record[field] for record in records))
+def _optional_sum(records: list[dict[str, Any]], field: str) -> float | None:
+    values = [record[field] for record in records]
+    return None if any(value is None for value in values) else float(sum(values))
+
+
+def _optional_mean(records: list[dict[str, Any]], field: str) -> float | None:
+    values = [record[field] for record in records]
+    return None if not values or any(value is None for value in values) else mean(values)
+
+
+def _manifest_sha256(reviews: list[dict[str, Any]]) -> str:
+    raw = json.dumps(reviews, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(raw).hexdigest()
+
+
+def question_synthesis_receipt_to_run_record(
+    receipt: dict[str, Any],
+    *,
+    benchmark_id: str,
+    review_id: str,
+    review_family_id: str,
+    repetition_index: int,
+    case_result: dict[str, Any],
+) -> dict[str, Any]:
+    """Adapt one scored immutable slot without turning unknown cost into zero."""
+    required = {
+        "plan_id", "case_id", "configuration_id", "seed", "wall_time_seconds",
+        "model_calls", "input_tokens", "output_tokens", "provider_cost",
+        "provider_cost_status", "output_sha256",
+    }
+    missing = sorted(required - set(receipt))
+    if missing:
+        raise AIOnlyEvaluationError(f"question-synthesis receipt is incomplete: {missing}")
+    if case_result.get("case_id") != receipt["case_id"]:
+        raise AIOnlyEvaluationError("receipt and scored case_result case_id drift")
+    provider_cost = receipt["provider_cost"]
+    if receipt["provider_cost_status"] == "unknown":
+        provider_cost = None
+    return {
+        "schema_version": "1.0",
+        "run_id": f"{receipt['plan_id']}.{receipt['case_id']}.{receipt['configuration_id']}.{receipt['seed']}",
+        "benchmark_id": benchmark_id,
+        "review_id": review_id,
+        "review_family_id": review_family_id,
+        "configuration_id": receipt["configuration_id"],
+        "repetition_index": repetition_index,
+        "execution_mode": "ai_only",
+        "human_interventions": 0,
+        "case_results": [case_result],
+        "wall_clock_seconds": receipt["wall_time_seconds"],
+        "model_calls": receipt["model_calls"],
+        "input_tokens": receipt["input_tokens"],
+        "output_tokens": receipt["output_tokens"],
+        "api_cost": provider_cost,
+        "compute_cost": None,
+        "cost_currency": "unknown" if provider_cost is None else "USD",
+        "output_sha256": receipt["output_sha256"],
+    }
 
 
 def _threshold_results(
@@ -71,6 +129,46 @@ def aggregate_ai_only_runs(
     if len(configuration_ids) != len(set(configuration_ids)):
         raise AIOnlyEvaluationError("configuration_id values must be unique")
     configurations = set(configuration_ids)
+    manifest = plan["expected_review_case_manifest"]
+    if _manifest_sha256(manifest["reviews"]) != manifest["sha256"]:
+        raise AIOnlyEvaluationError("expected review/case manifest SHA-256 drift")
+    expected_reviews = {
+        (item["benchmark_id"], item["review_id"]): {
+            "review_family_id": item["review_family_id"],
+            "case_ids": set(item["case_ids"]),
+        }
+        for item in manifest["reviews"]
+    }
+    if len(expected_reviews) != len(manifest["reviews"]):
+        raise AIOnlyEvaluationError("duplicate expected review/case manifest entry")
+    expected_configurations = {
+        "general-model-baseline", "generic-retrieval", "biomedical-schema",
+        "biomedical-routing", "full-biomedical-stack",
+    }
+    if configurations != expected_configurations:
+        raise AIOnlyEvaluationError("Evaluation requires the exact five configurations")
+    matched_budget_fields = (
+        "max_model_calls",
+        "max_input_tokens",
+        "max_output_tokens",
+        "retry_budget",
+        "wall_time_ceiling_seconds",
+    )
+    budget_signatures = {
+        tuple(item[field] for field in matched_budget_fields)
+        for item in plan["configurations"]
+    }
+    if len(budget_signatures) != 1:
+        raise AIOnlyEvaluationError(
+            "All five configurations must use one matched budget ceiling"
+        )
+    model_signatures = {
+        tuple(item["model_registry_refs"]) for item in plan["configurations"]
+    }
+    if len(model_signatures) != 1:
+        raise AIOnlyEvaluationError(
+            "All five configurations must use the same frozen model reference"
+        )
     for item in plan["configurations"]:
         if item["prompt_sha256"] == "0" * 64:
             raise AIOnlyEvaluationError("Frozen plans cannot use a placeholder prompt SHA-256")
@@ -89,7 +187,12 @@ def aggregate_ai_only_runs(
 
     for record in runs:
         try:
-            validate_document(record, "ai_only_run_record")
+            schema_record = record
+            if record.get("api_cost") is None or record.get("compute_cost") is None:
+                schema_record = dict(record)
+                schema_record["api_cost"] = 0 if record.get("api_cost") is None else record["api_cost"]
+                schema_record["compute_cost"] = 0 if record.get("compute_cost") is None else record["compute_cost"]
+            validate_document(schema_record, "ai_only_run_record")
         except SchemaValidationError as exc:
             raise AIOnlyEvaluationError(str(exc)) from exc
         if record["run_id"] in seen_runs:
@@ -101,6 +204,8 @@ def aggregate_ai_only_runs(
             )
         if record["repetition_index"] > repeat_k:
             raise AIOnlyEvaluationError("repetition_index exceeds frozen repetitions_per_case")
+        if record["repetition_index"] < 1:
+            raise AIOnlyEvaluationError("repetition_index must begin at one")
         slot = (
             record["benchmark_id"], record["review_id"],
             record["configuration_id"], record["repetition_index"]
@@ -111,19 +216,29 @@ def aggregate_ai_only_runs(
         case_ids = [item["case_id"] for item in record["case_results"]]
         if len(case_ids) != len(set(case_ids)):
             raise AIOnlyEvaluationError(f"Duplicate case_id in run {record['run_id']}")
-        currencies.add(record["cost_currency"])
+        if record["cost_currency"] != "unknown":
+            currencies.add(record["cost_currency"])
         by_configuration[record["configuration_id"]].append(record)
-    if len(currencies) != 1:
+    if len(currencies) > 1:
         raise AIOnlyEvaluationError("All runs must use one cost currency")
 
     review_families: dict[tuple[str, str], str] = {}
     cross_configuration_cases: dict[tuple[str, str], set[str]] = {}
     for record in runs:
         review_key = (record["benchmark_id"], record["review_id"])
+        expected = expected_reviews.get(review_key)
+        case_set = {item["case_id"] for item in record["case_results"]}
+        if (
+            expected is None
+            or expected["review_family_id"] != record["review_family_id"]
+            or expected["case_ids"] != case_set
+        ):
+            raise AIOnlyEvaluationError(
+                f"run does not match expected review/case manifest: {review_key}"
+            )
         previous_family = review_families.setdefault(review_key, record["review_family_id"])
         if previous_family != record["review_family_id"]:
             raise AIOnlyEvaluationError(f"Review family changed across runs: {review_key}")
-        case_set = {item["case_id"] for item in record["case_results"]}
         previous_cases = cross_configuration_cases.setdefault(review_key, case_set)
         if previous_cases != case_set:
             raise AIOnlyEvaluationError(
@@ -131,13 +246,20 @@ def aggregate_ai_only_runs(
             )
 
     summaries: list[dict[str, Any]] = []
-    incomplete: list[str] = []
+    incomplete: list[str] = [
+        f"{configuration_id}:missing_all_repetitions"
+        for configuration_id in sorted(configurations - set(by_configuration))
+    ]
     for configuration_id in sorted(configurations):
         config_runs = by_configuration.get(configuration_id, [])
         reviews: dict[str, list[dict[str, Any]]] = defaultdict(list)
         for record in config_runs:
             reviews[record["review_id"]].append(record)
-        for review_id, review_runs in reviews.items():
+        for benchmark_id, review_id in expected_reviews:
+            review_runs = [
+                record for record in config_runs
+                if record["benchmark_id"] == benchmark_id and record["review_id"] == review_id
+            ]
             repetitions = {record["repetition_index"] for record in review_runs}
             if repetitions != set(range(1, repeat_k + 1)):
                 incomplete.append(f"{configuration_id}:{review_id}")
@@ -196,21 +318,27 @@ def aggregate_ai_only_runs(
             "unsupported_value_rate": _rate(unsupported, total_cases),
             "pairwise_run_agreement": mean(pair_agreements) if pair_agreements else None,
             "all_repeats_correct_rate": mean(all_repeat_correct) if all_repeat_correct else None,
-            "wall_clock_seconds_total": _sum(config_runs, "wall_clock_seconds"),
+            "wall_clock_seconds_total": _optional_sum(config_runs, "wall_clock_seconds"),
             "wall_clock_seconds_mean": mean(record["wall_clock_seconds"] for record in config_runs) if config_runs else None,
-            "model_calls_total": int(_sum(config_runs, "model_calls")),
-            "input_tokens_total": int(_sum(config_runs, "input_tokens")),
-            "output_tokens_total": int(_sum(config_runs, "output_tokens")),
-            "api_cost_total": _sum(config_runs, "api_cost"),
-            "api_cost_mean": mean(record["api_cost"] for record in config_runs) if config_runs else None,
-            "compute_cost_total": _sum(config_runs, "compute_cost"),
-            "compute_cost_mean": mean(record["compute_cost"] for record in config_runs) if config_runs else None,
-            "total_cost_total": _sum(config_runs, "api_cost") + _sum(config_runs, "compute_cost"),
-            "total_cost_mean": mean(
-                record["api_cost"] + record["compute_cost"] for record in config_runs
-            ) if config_runs else None,
-            "cost_currency": next(iter(currencies)),
+            "model_calls_total": int(_optional_sum(config_runs, "model_calls") or 0),
+            "input_tokens_total": int(_optional_sum(config_runs, "input_tokens") or 0),
+            "output_tokens_total": int(_optional_sum(config_runs, "output_tokens") or 0),
+            "api_cost_total": _optional_sum(config_runs, "api_cost"),
+            "api_cost_mean": _optional_mean(config_runs, "api_cost"),
+            "compute_cost_total": _optional_sum(config_runs, "compute_cost"),
+            "compute_cost_mean": _optional_mean(config_runs, "compute_cost"),
+            "total_cost_total": None,
+            "total_cost_mean": None,
+            "cost_currency": next(iter(currencies)) if currencies else "unknown",
         }
+        if summary["api_cost_total"] is not None and summary["compute_cost_total"] is not None:
+            summary["total_cost_total"] = summary["api_cost_total"] + summary["compute_cost_total"]
+            summary["total_cost_mean"] = (
+                summary["total_cost_total"] / len(config_runs) if config_runs else None
+            )
+        summary["cost_status"] = (
+            "known" if summary["total_cost_total"] is not None else "unknown"
+        )
         summary["threshold_results"] = _threshold_results(
             summary, plan["release_thresholds"]
         )

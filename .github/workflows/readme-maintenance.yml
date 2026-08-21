@@ -1,11 +1,18 @@
-name: README maintenance
+name: README continuous maintenance
 
 on:
   push:
   pull_request:
   schedule:
-    - cron: "17 2 * * 1"
+    - cron: "17 2 * * *"
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: readme-maintenance-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   check-readme:

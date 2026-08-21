@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import sys
 import tempfile
 import unittest
+from contextlib import redirect_stderr
 from pathlib import Path
 from unittest.mock import patch
 
@@ -13,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "metawingman/scripts"))
 
 import build_server_training_handoff  # noqa: E402
+import prepare_component_training  # noqa: E402
 import prepare_independent_validation_sample  # noqa: E402
 import run_ai_only_pilot  # noqa: E402
 import run_component_training  # noqa: E402
@@ -194,6 +197,53 @@ def component_job_fixture(root: Path) -> dict[str, object]:
     }
 
 
+def training_run_plan_fixture() -> dict[str, object]:
+    return {
+        "schema_version": "1.1",
+        "run_plan_id": "fixture-training-run",
+        "created_at_utc": TIMESTAMP,
+        "dataset": {
+            "manifest_path": "manifest.json",
+            "manifest_sha256": "1" * 64,
+            "examples_path": "examples.jsonl",
+            "examples_sha256": "2" * 64,
+            "train_examples": 2,
+            "development_examples": 2,
+            "held_out_examples": 0,
+            "pairs_path": "pairs.jsonl",
+            "pairs_sha256": "3" * 64,
+            "train_pairs": 2,
+            "development_pairs": 2,
+            "biomedical_strata_counts": {"oncology|intervention": 4},
+        },
+        "model_contract": {
+            "provider_neutral": True,
+            "base_model": None,
+            "revision": None,
+            "tokenizer_revision": None,
+            "license_review_required_before_training": True,
+        },
+        "objectives": ["section_role_classification", "evidence_retrieval"],
+        "evaluation": {
+            "unit": "review_family",
+            "metrics": ["macro_f1", "retrieval_recall_at_k"],
+            "selection_uses_development_only": True,
+            "scientific_claims_disabled": True,
+        },
+        "contamination_controls": {
+            "family_isolation": True,
+            "journal_feature_forbidden": True,
+            "published_answer_is_not_oracle": True,
+            "model_memory_risk_recorded": True,
+        },
+        "objective_readiness": {
+            "section_role_classification": "ready_for_server_preflight",
+            "evidence_retrieval": "ready_for_server_preflight",
+        },
+        "execution_state": "ready_for_server_preflight",
+    }
+
+
 class ReproducibleTrainingCorpusTests(unittest.TestCase):
     def test_handoff_normalizes_windows_member_paths_for_linux(self) -> None:
         result = build_server_handoff({
@@ -266,6 +316,60 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         self.assertEqual(result["precision_at_1"], 0.0)
         self.assertEqual(result["recall_at_10"], 1.0)
 
+    def test_hard_negative_batching_preserves_pair_order_scores_and_metrics(self) -> None:
+        pairs = [
+            {"pair_id": "pair-20", "query_example_id": "query-b", "query_split": "development", "query_text": "beta query", "document_example_id": "shared-document", "document_text": "shared document", "label": 1},
+            {"pair_id": "pair-21", "query_example_id": "query-b", "query_split": "development", "query_text": "beta query", "document_example_id": "beta-negative", "document_text": "beta negative", "label": 0},
+            {"pair_id": "pair-10", "query_example_id": "query-a", "query_split": "development", "query_text": "alpha query", "document_example_id": "shared-document", "document_text": "shared document", "label": 1},
+            {"pair_id": "pair-11", "query_example_id": "query-a", "query_split": "development", "query_text": "alpha query", "document_example_id": "alpha-negative", "document_text": "alpha negative", "label": 0},
+            {"pair_id": "ignored-train", "query_example_id": "query-train", "query_split": "train", "query_text": "train query", "document_example_id": "train-document", "document_text": "train document", "label": 1},
+        ]
+        vectors = {
+            "beta query": (1.0, 0.0),
+            "alpha query": (0.0, 1.0),
+            "shared document": (0.8, 0.6),
+            "beta negative": (0.8, 0.6),
+            "alpha negative": (0.0, 1.0),
+        }
+        encode_calls: list[tuple[list[str], int]] = []
+
+        def encode(texts: list[str], max_length: int) -> list[tuple[float, float]]:
+            encode_calls.append((list(texts), max_length))
+            return [vectors[text] for text in texts]
+
+        def paired_cosine(
+            query_vectors: list[tuple[float, float]],
+            document_vectors: list[tuple[float, float]],
+            query_indexes: list[int],
+            document_indexes: list[int],
+        ) -> list[float]:
+            return [
+                sum(left * right for left, right in zip(query_vectors[query_index], document_vectors[document_index]))
+                for query_index, document_index in zip(query_indexes, document_indexes)
+            ]
+
+        development_pairs, batched_scores = run_component_training._batched_candidate_scores(
+            pairs, encode, paired_cosine
+        )
+        legacy_scores = [
+            sum(left * right for left, right in zip(vectors[item["query_text"]], vectors[item["document_text"]]))
+            for item in pairs
+            if item["query_split"] == "development"
+        ]
+        self.assertEqual([item["pair_id"] for item in development_pairs], ["pair-20", "pair-21", "pair-10", "pair-11"])
+        self.assertEqual(batched_scores, legacy_scores)
+        self.assertEqual(
+            encode_calls,
+            [
+                (["beta query", "alpha query"], 256),
+                (["shared document", "beta negative", "alpha negative"], 512),
+            ],
+        )
+        self.assertEqual(
+            run_component_training._hard_negative_metrics(development_pairs, batched_scores),
+            {"mrr": 0.75, "precision_at_1": 0.5},
+        )
+
     def test_pad_id_lists_pads_to_batch_maximum(self) -> None:
         padded, masks = run_component_training._pad_id_lists([[1, 2], [3], []], 0)
         self.assertEqual(padded, [[1, 2], [3, 0], [0, 0]])
@@ -313,6 +417,52 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
             job["optimization"]["gradient_accumulation_steps"] = 0
             with self.assertRaises(SchemaValidationError):
                 validate_document(job, "component_training_job")
+
+    def _run_prepare_component_training(self, root: Path, extra_args: list[str]) -> dict[str, object]:
+        run_plan_path = root / "run-plan.json"
+        runtime_lock_path = root / "training.lock"
+        output_path = root / "job.json"
+        run_plan_path.write_text(json.dumps(training_run_plan_fixture()), encoding="utf-8")
+        runtime_lock_path.write_text("torch==2.13.0\n", encoding="utf-8")
+        argv = [
+            "prepare_component_training.py",
+            str(run_plan_path),
+            "--component", "evidence_retrieval",
+            "--model-repository", "example/model",
+            "--model-revision", "a" * 40,
+            "--tokenizer-revision", "b" * 40,
+            "--model-card-url", "https://example.org/model",
+            "--model-license", "mit",
+            "--runtime-lock", str(runtime_lock_path),
+            "--output-root", "training-output",
+            "--out", str(output_path),
+            "--created-at-utc", TIMESTAMP,
+            *extra_args,
+        ]
+        with patch.object(sys, "argv", argv):
+            self.assertEqual(prepare_component_training.main(), 0)
+        return json.loads(output_path.read_text(encoding="utf-8"))
+
+    def test_prepare_component_training_defaults_gradient_accumulation_to_one(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            job = self._run_prepare_component_training(Path(directory), [])
+        self.assertEqual(job["optimization"]["gradient_accumulation_steps"], 1)
+
+    def test_prepare_component_training_plumbs_explicit_gradient_accumulation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            job = self._run_prepare_component_training(
+                Path(directory), ["--gradient-accumulation-steps", "4"]
+            )
+        self.assertEqual(job["optimization"]["gradient_accumulation_steps"], 4)
+
+    def test_prepare_component_training_rejects_zero_gradient_accumulation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            stderr = io.StringIO()
+            with redirect_stderr(stderr), self.assertRaises(SystemExit) as raised:
+                self._run_prepare_component_training(root, ["--gradient-accumulation-steps", "0"])
+        self.assertEqual(raised.exception.code, 2)
+        self.assertIn("must be >= 1", stderr.getvalue())
 
     def test_request_bytes_enforces_wall_clock_deadline_on_slow_drip(self) -> None:
         from metawingman_core import training_corpus as corpus_module

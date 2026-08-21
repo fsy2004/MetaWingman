@@ -9,7 +9,7 @@
     "schema_version": {"const": "1.0"},
     "job_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
     "created_at_utc": {"type": "string", "format": "date-time"},
-    "component": {"enum": ["section_role_classification", "evidence_retrieval"]},
+    "component": {"enum": ["section_role_classification", "evidence_retrieval", "question_method_ranker", "source_support_verifier", "risk_cost_router"]},
     "status": {"enum": ["blocked", "ready_for_server_preflight"]},
     "reason_codes": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}, "uniqueItems": true},
     "model": {
@@ -54,7 +54,7 @@
         "weight_decay": {"type": "number", "minimum": 0},
         "warmup_ratio": {"type": "number", "minimum": 0, "maximum": 1},
         "precision": {"enum": ["fp32", "fp16", "bf16"]},
-        "selection_metric": {"enum": ["macro_f1", "retrieval_recall_at_10"]}
+        "selection_metric": {"enum": ["macro_f1", "retrieval_recall_at_10", "pairwise_accuracy", "verifier_f1", "bounded_loss"]}
       }
     },
     "resources": {
