@@ -21,7 +21,18 @@
         "tokenizer_revision": {"type": "string", "minLength": 1},
         "model_card_url": {"type": "string", "format": "uri"},
         "declared_license": {"type": ["string", "null"]},
-        "release_intent": {"enum": ["internal_research_only", "public_weights_pending_license_review"]}
+        "release_intent": {"enum": ["internal_research_only", "public_weights_pending_license_review"]},
+        "retrieval_encoders": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["query", "document", "pooling", "similarity"],
+          "properties": {
+            "query": {"$ref": "#/$defs/retrievalEncoder"},
+            "document": {"$ref": "#/$defs/retrievalEncoder"},
+            "pooling": {"enum": ["cls", "attention_mask_mean"]},
+            "similarity": {"enum": ["inner_product", "cosine"]}
+          }
+        }
       }
     },
     "dataset": {
@@ -50,6 +61,7 @@
         "epochs": {"type": "integer", "minimum": 1},
         "batch_size": {"type": "integer", "minimum": 1},
         "gradient_accumulation_steps": {"type": "integer", "minimum": 1, "default": 1},
+        "gradient_checkpointing": {"type": "boolean", "default": false},
         "learning_rate": {"type": "number", "exclusiveMinimum": 0},
         "weight_decay": {"type": "number", "minimum": 0},
         "warmup_ratio": {"type": "number", "minimum": 0, "maximum": 1},
@@ -91,5 +103,23 @@
     },
     "seed": {"type": "integer", "minimum": 0},
     "command_argv": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 2}
+  },
+  "$defs": {
+    "retrievalEncoder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository_id", "revision", "tokenizer_revision"],
+      "dependentRequired": {
+        "load_path": ["tree_sha256"],
+        "tree_sha256": ["load_path"]
+      },
+      "properties": {
+        "repository_id": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "tokenizer_revision": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "load_path": {"type": "string", "minLength": 1},
+        "tree_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
   }
 }

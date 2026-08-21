@@ -6,17 +6,20 @@ architecture style note redirects here.
 ## Reader contract
 
 The README serves a first-time researcher before it serves a contributor. A
-reader should understand the product, current evidence level, shortest install,
-human-responsibility boundary, and primary documentation path within one minute.
+reader should understand the product, its two control policies, shortest install,
+scientific evidence level, and primary documentation path within one minute.
 
 Use this order:
 
-1. product name and one-sentence value;
-2. generated release and repository metrics;
-3. English product explanation, validation status, quick start, workflow,
-   responsibility boundary, repository layout, and documentation;
-4. a Chinese section covering the same claims and actions;
-5. contribution, security, and license links.
+1. product name, one-sentence value, and primary navigation;
+2. generated release metrics;
+3. the Agent + Skill identity and the two control loops;
+4. the end-to-end review state and shortest runnable path;
+5. user goals and concrete outputs;
+6. a compact evidence section linked to dated status reports;
+7. repository map, generated inventory, and development commands;
+8. a Chinese section covering the same product, controls, and invocation;
+9. citation, contact, security, and licence links.
 
 English comes first for the public GitHub audience. Chinese follows under
 `## 中文说明`. The two sections must agree on capabilities, evidence, and
@@ -28,6 +31,10 @@ tables may be shared when duplication would make maintenance harder.
 - Write for a reader who has never seen internal plans or conversations.
 - Start sections with the conclusion. Use active voice, short paragraphs, and
   concrete nouns.
+- Distinguish the product from its mechanisms: MetaWingman is an Agent and
+  reusable Skill; decision-aware topic control and conclusion-directed evidence
+  acquisition are the two headline policies; question--method co-design,
+  provenance, R adapters, multi-role compute, and verifiers are mechanisms.
 - State what the software does, how to run it, what evidence supports it, and
   what remains unvalidated.
 - Avoid marketing adjectives, journal-prestige language, internal codenames,
@@ -40,6 +47,21 @@ tables may be shared when duplication would make maintenance harder.
   into a clinical-validity claim.
 - Keep the README concise. Put protocols, receipts, failure analyses, and full
   result tables in `docs/`.
+- Do not open with a limitation ledger. Give the positive, executable product
+  path first, then one compact evidence-status section with dated links.
+
+## Reference-driven redesign rule
+
+A material README redesign must inspect at least two live, relevant open-source
+research repositories before editing. Record the URLs, observed information
+hierarchy, adopted patterns, and rejected non-transferable claims in the task
+audit. Learn structure and user flow; never copy project-specific prose, metrics,
+screenshots, or capability claims.
+
+For MetaWingman, useful comparison classes include systematic-review software,
+scientific literature agents, reproducible analysis engines, and research-agent
+frameworks. The final README must still follow MetaWingman's own scientific
+authorities and live repository state.
 
 ## Single sources of truth
 
@@ -94,6 +116,10 @@ Manual prose review is required when any of these change:
 - human-responsibility or credential boundary;
 - current status report or primary documentation path;
 - public security, privacy, or acceptable-use policy.
+
+The same pull request or commit must update the README whenever one of these
+changes. Scheduled CI detects metric and link drift; it does not invent or
+rewrite scientific prose.
 
 ## Release checklist
 

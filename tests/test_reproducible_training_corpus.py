@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "metawingman/scripts"))
 
 import build_server_training_handoff  # noqa: E402
+import evaluate_retrieval_encoder  # noqa: E402
 import prepare_component_training  # noqa: E402
 import prepare_independent_validation_sample  # noqa: E402
 import run_ai_only_pilot  # noqa: E402
@@ -316,6 +317,69 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         self.assertEqual(result["precision_at_1"], 0.0)
         self.assertEqual(result["recall_at_10"], 1.0)
 
+    def test_rank_positions_match_metrics_and_preserve_query_order(self) -> None:
+        similarities = [
+            [0.5, 1.0, 0.9],
+            [0.4, 1.0, 0.3],
+            [0.2, 0.8, 1.0],
+        ]
+        families = ["family:a", "family:b", "family:a"]
+        positions = run_component_training._rank_positions(similarities, families)
+        self.assertEqual(positions, [2, 1, 1])
+        metrics = run_component_training._rank_metrics(similarities, families)
+        self.assertAlmostEqual(metrics["mrr"], sum(1.0 / rank for rank in positions) / 3)
+        self.assertEqual(metrics["precision_at_1"], 2 / 3)
+        self.assertEqual(metrics["recall_at_10"], 1.0)
+
+    def test_retrieval_rank_rows_bind_query_family_and_rank(self) -> None:
+        examples = [
+            {"example_id": "example:" + "a" * 20, "family_id": "family:a"},
+            {"example_id": "example:" + "b" * 20, "family_id": "family:b"},
+        ]
+        rows = evaluate_retrieval_encoder._rank_receipt_rows(examples, [2, 1])
+        self.assertEqual(
+            rows,
+            [
+                {"example_id": "example:" + "a" * 20, "family_id": "family:a", "rank": 2},
+                {"example_id": "example:" + "b" * 20, "family_id": "family:b", "rank": 1},
+            ],
+        )
+        with self.assertRaisesRegex(ValueError, "rank count"):
+            evaluate_retrieval_encoder._rank_receipt_rows(examples, [1])
+
+    def test_family_macro_recall_weights_review_families_equally(self) -> None:
+        summarizer = getattr(evaluate_retrieval_encoder, "_family_recall_summary", None)
+        self.assertIsNotNone(summarizer, "family-level retrieval inference must be explicit")
+        rows = [
+            {"family_id": "family:a", "rank": 1},
+            {"family_id": "family:a", "rank": 100},
+            {"family_id": "family:b", "rank": 1},
+        ]
+        summary = summarizer(rows, k=10, bootstrap_replicates=20, bootstrap_seed=7)
+        self.assertEqual(summary["families"], 2)
+        self.assertEqual(summary["family_query_count_min"], 1)
+        self.assertEqual(summary["family_query_count_max"], 2)
+        self.assertEqual(summary["family_macro_recall_at_10"], 0.75)
+        self.assertEqual(
+            summary,
+            summarizer(rows, k=10, bootstrap_replicates=20, bootstrap_seed=7),
+        )
+
+    def test_checkpoint_provenance_hashes_loaded_weights_and_rejects_drift(self) -> None:
+        binder = getattr(evaluate_retrieval_encoder, "_checkpoint_provenance", None)
+        self.assertIsNotNone(binder, "loaded checkpoint bytes must be hash-bound")
+        with tempfile.TemporaryDirectory() as temp:
+            checkpoint = Path(temp)
+            weights = checkpoint / "model.safetensors"
+            weights.write_bytes(b"trained-checkpoint")
+            expected = hashlib.sha256(b"trained-checkpoint").hexdigest()
+            self.assertEqual(
+                binder(checkpoint, expected_sha256=expected),
+                {"model_safetensors_sha256": expected},
+            )
+            with self.assertRaisesRegex(ValueError, "checkpoint SHA-256 mismatch"):
+                binder(checkpoint, expected_sha256="0" * 64)
+
     def test_hard_negative_batching_preserves_pair_order_scores_and_metrics(self) -> None:
         pairs = [
             {"pair_id": "pair-20", "query_example_id": "query-b", "query_split": "development", "query_text": "beta query", "document_example_id": "shared-document", "document_text": "shared document", "label": 1},
@@ -376,6 +440,141 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
         self.assertEqual(masks, [[1, 1], [1, 0], [0, 0]])
         self.assertEqual(run_component_training._pad_id_lists([], 0), ([], []))
 
+    def test_retrieval_encoder_spec_selects_asymmetric_models_and_inner_product(self) -> None:
+        job = {
+            "model": {
+                "repository_id": "legacy/model",
+                "revision": "1" * 40,
+                "tokenizer_revision": "1" * 40,
+                "retrieval_encoders": {
+                    "query": {
+                        "repository_id": "ncbi/MedCPT-Query-Encoder",
+                        "revision": "d83a36cc6b8e3a5c5e9d9d6ba156808c1643dcbc",
+                        "tokenizer_revision": "d83a36cc6b8e3a5c5e9d9d6ba156808c1643dcbc",
+                    },
+                    "document": {
+                        "repository_id": "ncbi/MedCPT-Article-Encoder",
+                        "revision": "d05a736da4bb84ee4057b7f7999485be6ed85465",
+                        "tokenizer_revision": "d05a736da4bb84ee4057b7f7999485be6ed85465",
+                    },
+                    "pooling": "cls",
+                    "similarity": "inner_product",
+                },
+            }
+        }
+        spec = run_component_training._retrieval_encoder_spec(job)
+        self.assertEqual(spec["query"]["repository_id"], "ncbi/MedCPT-Query-Encoder")
+        self.assertEqual(spec["document"]["repository_id"], "ncbi/MedCPT-Article-Encoder")
+        self.assertEqual(spec["similarity"], "inner_product")
+        self.assertFalse(spec["shared_encoder"])
+
+    def test_retrieval_encoder_spec_preserves_legacy_shared_cosine_contract(self) -> None:
+        job = {
+            "model": {
+                "repository_id": "legacy/model",
+                "revision": "1" * 40,
+                "tokenizer_revision": "2" * 40,
+            }
+        }
+        spec = run_component_training._retrieval_encoder_spec(job)
+        self.assertTrue(spec["shared_encoder"])
+        self.assertEqual(spec["similarity"], "cosine")
+        self.assertEqual(spec["query"], spec["document"])
+
+    def test_retrieval_encoder_schema_accepts_hash_bound_local_load_trees(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            job = component_job_fixture(Path(directory))
+            job["model"]["retrieval_encoders"] = {
+                "query": {
+                    "repository_id": "ncbi/MedCPT-Query-Encoder",
+                    "revision": "d83a36cc6b8e3a5c5e9d9d6ba156808c1643dcbc",
+                    "tokenizer_revision": "d83a36cc6b8e3a5c5e9d9d6ba156808c1643dcbc",
+                    "load_path": "model-transfer/query",
+                    "tree_sha256": "a" * 64,
+                },
+                "document": {
+                    "repository_id": "ncbi/MedCPT-Article-Encoder",
+                    "revision": "d05a736da4bb84ee4057b7f7999485be6ed85465",
+                    "tokenizer_revision": "d05a736da4bb84ee4057b7f7999485be6ed85465",
+                    "load_path": "model-transfer/article",
+                    "tree_sha256": "b" * 64,
+                },
+                "pooling": "cls",
+                "similarity": "inner_product",
+            }
+            validate_document(job, "component_training_job")
+
+    def test_local_encoder_tree_is_hash_bound_and_cannot_escape_root(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            model_dir = root / "model-transfer" / "query"
+            model_dir.mkdir(parents=True)
+            (model_dir / "config.json").write_text("{}\n", encoding="utf-8")
+            expected = run_component_training._hash_tree_digest(model_dir)
+            spec = {"load_path": "model-transfer/query", "tree_sha256": expected}
+            self.assertEqual(
+                run_component_training._resolve_encoder_load_source(root, spec),
+                str(model_dir.resolve()),
+            )
+            (model_dir / "config.json").write_text("{\"changed\": true}\n", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "tree hash mismatch"):
+                run_component_training._resolve_encoder_load_source(root, spec)
+            with self.assertRaisesRegex(ValueError, "escapes root"):
+                run_component_training._resolve_encoder_load_source(
+                    root, {"load_path": "../outside", "tree_sha256": "c" * 64}
+                )
+
+    def test_precision_settings_enable_the_declared_cuda_autocast(self) -> None:
+        class FakeTorch:
+            bfloat16 = "bf16-dtype"
+            float16 = "fp16-dtype"
+
+        self.assertEqual(
+            run_component_training._autocast_settings(FakeTorch, "bf16", "cuda"),
+            {"device_type": "cuda", "dtype": "bf16-dtype", "enabled": True},
+        )
+        self.assertEqual(
+            run_component_training._autocast_settings(FakeTorch, "fp16", "cuda"),
+            {"device_type": "cuda", "dtype": "fp16-dtype", "enabled": True},
+        )
+        self.assertEqual(
+            run_component_training._autocast_settings(FakeTorch, "fp32", "cuda"),
+            {"device_type": "cuda", "enabled": False},
+        )
+
+    def test_retrieval_warmup_uses_optimizer_steps_after_accumulation(self) -> None:
+        self.assertEqual(
+            run_component_training._retrieval_warmup_steps(
+                batch_count=10, accumulation_steps=4, epochs=3, warmup_ratio=0.1
+            ),
+            1,
+        )
+        self.assertEqual(
+            run_component_training._retrieval_warmup_steps(
+                batch_count=10, accumulation_steps=4, epochs=3, warmup_ratio=0.5
+            ),
+            4,
+        )
+
+    def test_gradient_checkpointing_is_explicit_and_applied_once_per_encoder(self) -> None:
+        class Model:
+            def __init__(self) -> None:
+                self.calls = 0
+
+            def gradient_checkpointing_enable(self) -> None:
+                self.calls += 1
+
+        query = Model()
+        document = Model()
+        run_component_training._configure_gradient_checkpointing(query, document, True)
+        self.assertEqual((query.calls, document.calls), (1, 1))
+        shared = Model()
+        run_component_training._configure_gradient_checkpointing(shared, shared, True)
+        self.assertEqual(shared.calls, 1)
+        disabled = Model()
+        run_component_training._configure_gradient_checkpointing(disabled, disabled, False)
+        self.assertEqual(disabled.calls, 0)
+
     def test_accumulation_steps_defaults_to_one_when_field_absent(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -415,6 +614,40 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
             job["optimization"]["gradient_accumulation_steps"] = 2
             validate_document(job, "component_training_job")
             job["optimization"]["gradient_accumulation_steps"] = 0
+            with self.assertRaises(SchemaValidationError):
+                validate_document(job, "component_training_job")
+
+    def test_job_schema_accepts_asymmetric_biomedical_retrieval_encoders(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            job = component_job_fixture(Path(directory))
+            job["model"]["retrieval_encoders"] = {
+                "query": {
+                    "repository_id": "ncbi/MedCPT-Query-Encoder",
+                    "revision": "d83a36cc6b8e3a5c5e9d9d6ba156808c1643dcbc",
+                    "tokenizer_revision": "d83a36cc6b8e3a5c5e9d9d6ba156808c1643dcbc",
+                },
+                "document": {
+                    "repository_id": "ncbi/MedCPT-Article-Encoder",
+                    "revision": "d05a736da4bb84ee4057b7f7999485be6ed85465",
+                    "tokenizer_revision": "d05a736da4bb84ee4057b7f7999485be6ed85465",
+                },
+                "pooling": "cls",
+                "similarity": "inner_product",
+            }
+            validate_document(job, "component_training_job")
+
+    def test_job_schema_rejects_incomplete_asymmetric_retrieval_encoders(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            job = component_job_fixture(Path(directory))
+            job["model"]["retrieval_encoders"] = {
+                "query": {
+                    "repository_id": "ncbi/MedCPT-Query-Encoder",
+                    "revision": "d83a36cc6b8e3a5c5e9d9d6ba156808c1643dcbc",
+                    "tokenizer_revision": "d83a36cc6b8e3a5c5e9d9d6ba156808c1643dcbc",
+                },
+                "pooling": "cls",
+                "similarity": "inner_product",
+            }
             with self.assertRaises(SchemaValidationError):
                 validate_document(job, "component_training_job")
 
@@ -721,6 +954,36 @@ class ReproducibleTrainingCorpusTests(unittest.TestCase):
             if pair["label"] == 0:
                 self.assertNotEqual(pair["query_family_id"], pair["document_family_id"])
                 self.assertTrue(pair["shared_medical_neighborhood"])
+
+    def test_hard_negative_mining_uses_the_executed_query_not_positive_text(self) -> None:
+        """Mining must not peek at the positive passage that retrieval never receives."""
+        query = retrieval_example(1, "train", "family:0000000000000001", "epmc:MED:1")
+        query["review_title"] = "rare zebrafish pathway"
+        query["input_text"] = "positive-only cytoplasmic signal"
+        candidates = [
+            retrieval_example(index, "train", f"family:{index:016x}", f"epmc:MED:{index}")
+            for index in range(2, 6)
+        ]
+        candidates[0]["input_text"] = "rare zebrafish pathway document"
+        for index, candidate in enumerate(candidates[1:], start=1):
+            candidate["input_text"] = f"positive-only cytoplasmic signal {index}"
+        examples = [query, *candidates]
+        strata = {
+            item["record_id"]: {
+                "primary_specialty": "oncology",
+                "question_type": "harms",
+            }
+            for item in examples
+        }
+
+        pairs = build_retrieval_pairs(examples, strata, seed=11)
+        query_negatives = {
+            pair["document_example_id"]
+            for pair in pairs
+            if pair["query_example_id"] == query["example_id"] and pair["label"] == 0
+        }
+
+        self.assertIn(candidates[0]["example_id"], query_negatives)
 
     def test_preflight_blocks_mutable_model_revision(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

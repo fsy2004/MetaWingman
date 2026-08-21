@@ -51,6 +51,96 @@ def _accumulation_steps(job: dict[str, Any]) -> int:
     return steps
 
 
+def _retrieval_encoder_spec(job: dict[str, Any]) -> dict[str, Any]:
+    """Resolve either the legacy tied encoder or an asymmetric IR-native pair."""
+    model = job["model"]
+    asymmetric = model.get("retrieval_encoders")
+    if asymmetric:
+        return {
+            "query": dict(asymmetric["query"]),
+            "document": dict(asymmetric["document"]),
+            "pooling": asymmetric["pooling"],
+            "similarity": asymmetric["similarity"],
+            "shared_encoder": False,
+        }
+    shared = {
+        "repository_id": model["repository_id"],
+        "revision": model["revision"],
+        "tokenizer_revision": model["tokenizer_revision"],
+    }
+    return {
+        "query": dict(shared),
+        "document": dict(shared),
+        "pooling": "cls",
+        "similarity": "cosine",
+        "shared_encoder": True,
+    }
+
+
+def _hash_tree_digest(root: Path) -> str:
+    """Hash a model directory as a canonical path/file-digest manifest."""
+    if not root.is_dir():
+        raise ValueError(f"encoder load path is not a directory: {root}")
+    digest = hashlib.sha256()
+    files = sorted(item for item in root.rglob("*") if item.is_file())
+    if not files:
+        raise ValueError(f"encoder load path contains no files: {root}")
+    for path in files:
+        relative = path.relative_to(root).as_posix().encode("utf-8")
+        digest.update(relative)
+        digest.update(b"\0")
+        file_digest = hashlib.sha256()
+        with path.open("rb") as handle:
+            for block in iter(lambda: handle.read(1024 * 1024), b""):
+                file_digest.update(block)
+        digest.update(file_digest.hexdigest().encode("ascii"))
+        digest.update(b"\n")
+    return digest.hexdigest()
+
+
+def _resolve_encoder_load_source(root: Path, spec: dict[str, Any]) -> str:
+    """Return an immutable local model tree or the declared hub identifier."""
+    load_path = spec.get("load_path")
+    if not load_path:
+        return str(spec["repository_id"])
+    root = root.resolve()
+    path = (root / str(load_path)).resolve()
+    try:
+        path.relative_to(root)
+    except ValueError as exc:
+        raise ValueError(f"encoder load path escapes root: {load_path}") from exc
+    observed = _hash_tree_digest(path)
+    if observed != spec.get("tree_sha256"):
+        raise ValueError(f"encoder tree hash mismatch: {load_path}")
+    return str(path)
+
+
+def _autocast_settings(torch_module: Any, precision: str, device_type: str) -> dict[str, Any]:
+    """Materialize the job precision into the actual Torch autocast context."""
+    if precision == "fp32" or device_type != "cuda":
+        return {"device_type": device_type, "enabled": False}
+    dtype = torch_module.bfloat16 if precision == "bf16" else torch_module.float16
+    return {"device_type": device_type, "dtype": dtype, "enabled": True}
+
+
+def _retrieval_warmup_steps(
+    *, batch_count: int, accumulation_steps: int, epochs: int, warmup_ratio: float
+) -> int:
+    total_optimizer_steps = len(_accumulation_windows(batch_count, accumulation_steps)) * epochs
+    return max(0, int(round(total_optimizer_steps * warmup_ratio)))
+
+
+def _configure_gradient_checkpointing(
+    query_model: Any, document_model: Any, enabled: bool
+) -> None:
+    """Enable activation checkpointing once on each distinct encoder."""
+    if not enabled:
+        return
+    query_model.gradient_checkpointing_enable()
+    if document_model is not query_model:
+        document_model.gradient_checkpointing_enable()
+
+
 def _accumulation_windows(batch_count: int, accumulation_steps: int) -> list[tuple[int, int]]:
     """Split one epoch's micro-batches into gradient-accumulation windows.
 
@@ -81,32 +171,36 @@ def _accumulate_losses(step_losses: list[float], accumulation_steps: int) -> lis
     ]
 
 
-def _rank_metrics(similarities: list[list[float]], families: list[str]) -> dict[str, float]:
-    """Full-corpus dev ranking metrics; each query's positive is its own document.
-
-    Documents from the same review family as the query are masked before
-    ranking (family isolation). Returns recall@10, MRR, and precision@1.
-    """
+def _rank_positions(similarities: list[list[float]], families: list[str]) -> list[int]:
+    """Return one-based own-document ranks after same-family masking."""
     queries = len(similarities)
-    if queries == 0:
-        return {"recall_at_10": 0.0, "mrr": 0.0, "precision_at_1": 0.0}
-    recall = 0.0
-    mrr = 0.0
-    precision_at_1 = 0
+    if len(families) != queries or any(len(row) != queries for row in similarities):
+        raise ValueError("similarities must be square and aligned with families")
+    positions: list[int] = []
     for index, row in enumerate(similarities):
         masked = [
             -float("inf") if j != index and families[j] == families[index] else score
             for j, score in enumerate(row)
         ]
         ranked = sorted(range(queries), key=lambda j: masked[j], reverse=True)
-        position = ranked.index(index) + 1
-        mrr += 1.0 / position
-        recall += 1.0 if position <= 10 else 0.0
-        precision_at_1 += 1 if position == 1 else 0
+        positions.append(ranked.index(index) + 1)
+    return positions
+
+
+def _rank_metrics(similarities: list[list[float]], families: list[str]) -> dict[str, float]:
+    """Full-corpus dev ranking metrics; each query's positive is its own document.
+
+    Documents from the same review family as the query are masked before
+    ranking (family isolation). Returns recall@10, MRR, and precision@1.
+    """
+    positions = _rank_positions(similarities, families)
+    queries = len(positions)
+    if queries == 0:
+        return {"recall_at_10": 0.0, "mrr": 0.0, "precision_at_1": 0.0}
     return {
-        "recall_at_10": recall / queries,
-        "mrr": mrr / queries,
-        "precision_at_1": precision_at_1 / queries,
+        "recall_at_10": sum(position <= 10 for position in positions) / queries,
+        "mrr": sum(1.0 / position for position in positions) / queries,
+        "precision_at_1": sum(position == 1 for position in positions) / queries,
     }
 
 
@@ -230,10 +324,36 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
     from transformers import AutoModel, AutoTokenizer
     pairs = _load_jsonl((root / job["dataset"]["pairs_path"]).resolve())
     examples = _load_jsonl((root / job["dataset"]["examples_path"]).resolve())
-    tokenizer = AutoTokenizer.from_pretrained(job["model"]["repository_id"], revision=job["model"]["tokenizer_revision"])
-    model = AutoModel.from_pretrained(job["model"]["repository_id"], revision=job["model"]["revision"])
+    encoder_spec = _retrieval_encoder_spec(job)
+    query_spec = encoder_spec["query"]
+    document_spec = encoder_spec["document"]
+    query_source = _resolve_encoder_load_source(root, query_spec)
+    query_load_kwargs = {} if query_spec.get("load_path") else {"revision": query_spec["tokenizer_revision"]}
+    query_tokenizer = AutoTokenizer.from_pretrained(
+        query_source, **query_load_kwargs
+    )
+    query_load_kwargs = {} if query_spec.get("load_path") else {"revision": query_spec["revision"]}
+    query_model = AutoModel.from_pretrained(
+        query_source, **query_load_kwargs
+    )
+    if encoder_spec["shared_encoder"]:
+        document_tokenizer = query_tokenizer
+        document_model = query_model
+    else:
+        document_source = _resolve_encoder_load_source(root, document_spec)
+        document_load_kwargs = {} if document_spec.get("load_path") else {"revision": document_spec["tokenizer_revision"]}
+        document_tokenizer = AutoTokenizer.from_pretrained(
+            document_source, **document_load_kwargs
+        )
+        document_load_kwargs = {} if document_spec.get("load_path") else {"revision": document_spec["revision"]}
+        document_model = AutoModel.from_pretrained(
+            document_source, **document_load_kwargs
+        )
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model.to(device)
+    query_model.to(device)
+    document_model.to(device)
+    gradient_checkpointing = bool(job["optimization"].get("gradient_checkpointing", False))
+    _configure_gradient_checkpointing(query_model, document_model, gradient_checkpointing)
     positives_by_query = {
         item["query_example_id"]: item
         for item in pairs
@@ -247,10 +367,11 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
     accumulation_steps = _accumulation_steps(job)
     query_ids = sorted(positives_by_query)
     batches = [query_ids[i:i + batch_size] for i in range(0, len(query_ids), batch_size)]
-    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else 0
+    query_pad_id = query_tokenizer.pad_token_id if query_tokenizer.pad_token_id is not None else 0
+    document_pad_id = document_tokenizer.pad_token_id if document_tokenizer.pad_token_id is not None else 0
 
     # Pre-tokenize every distinct text once (batched); the loop then pads ids.
-    def _tokenize_texts(texts: list[str], max_length: int) -> list[list[int]]:
+    def _tokenize_texts(tokenizer: Any, texts: list[str], max_length: int) -> list[list[int]]:
         output: list[list[int]] = []
         for start in range(0, len(texts), 256):
             output.extend(
@@ -259,7 +380,8 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
         return output
 
     query_texts = [positives_by_query[query_id]["query_text"] for query_id in query_ids]
-    query_cache = dict(zip(query_ids, _tokenize_texts(query_texts, 256)))
+    query_max_length = 64 if not encoder_spec["shared_encoder"] else 256
+    query_cache = dict(zip(query_ids, _tokenize_texts(query_tokenizer, query_texts, query_max_length)))
     document_texts_by_id: dict[str, str] = {}
     for query_id in query_ids:
         positive = positives_by_query[query_id]
@@ -268,12 +390,52 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
             document_texts_by_id[negative["document_example_id"]] = negative["document_text"]
     document_ids = sorted(document_texts_by_id)
     document_cache = dict(zip(
-        document_ids, _tokenize_texts([document_texts_by_id[identifier] for identifier in document_ids], 512)
+        document_ids,
+        _tokenize_texts(
+            document_tokenizer,
+            [document_texts_by_id[identifier] for identifier in document_ids],
+            512,
+        )
     ))
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=job["optimization"]["learning_rate"], weight_decay=job["optimization"]["weight_decay"])
-    model.train()
+    parameters = list(query_model.parameters())
+    if document_model is not query_model:
+        parameters.extend(document_model.parameters())
+    optimizer = torch.optim.AdamW(parameters, lr=job["optimization"]["learning_rate"], weight_decay=job["optimization"]["weight_decay"])
+    precision = job["optimization"]["precision"]
+    autocast_settings = _autocast_settings(torch, precision, device.type)
+    scaler = torch.amp.GradScaler(
+        device.type,
+        enabled=precision == "fp16" and device.type == "cuda",
+    )
+    warmup_steps = _retrieval_warmup_steps(
+        batch_count=len(batches),
+        accumulation_steps=accumulation_steps,
+        epochs=job["optimization"]["epochs"],
+        warmup_ratio=job["optimization"]["warmup_ratio"],
+    )
+    scheduler = torch.optim.lr_scheduler.LambdaLR(
+        optimizer,
+        lambda step: 1.0 if warmup_steps == 0 else min(1.0, (step + 1) / warmup_steps),
+    )
+    query_model.train()
+    document_model.train()
+
+    def _embedding(model: Any, tensors: dict[str, Any]) -> torch.Tensor:
+        hidden = model(**tensors).last_hidden_state
+        if encoder_spec["pooling"] == "attention_mask_mean":
+            mask = tensors["attention_mask"].unsqueeze(-1).to(hidden.dtype)
+            vectors = (hidden * mask).sum(dim=1) / mask.sum(dim=1).clamp_min(1.0)
+        else:
+            vectors = hidden[:, 0]
+        if encoder_spec["similarity"] == "cosine":
+            vectors = functional.normalize(vectors, dim=-1)
+        return vectors
     losses = []
+    optimizer_steps = 0
+    training_started = time.monotonic()
+    if device.type == "cuda":
+        torch.cuda.reset_peak_memory_stats(device)
     for _ in range(job["optimization"]["epochs"]):
         step_losses: list[float] = []
         for window_start, window_size in _accumulation_windows(len(batches), accumulation_steps):
@@ -289,8 +451,8 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
                     [document_cache[item["document_example_id"]] for item in positives]
                     + [document_cache[item["document_example_id"]] for item in hard_negatives]
                 )
-                padded_queries, query_masks = _pad_id_lists(query_id_lists, pad_id)
-                padded_documents, document_masks = _pad_id_lists(document_id_lists, pad_id)
+                padded_queries, query_masks = _pad_id_lists(query_id_lists, query_pad_id)
+                padded_documents, document_masks = _pad_id_lists(document_id_lists, document_pad_id)
                 query_tensors = {
                     "input_ids": torch.tensor(padded_queries, device=device),
                     "attention_mask": torch.tensor(query_masks, device=device),
@@ -299,30 +461,38 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
                     "input_ids": torch.tensor(padded_documents, device=device),
                     "attention_mask": torch.tensor(document_masks, device=device),
                 }
-                query_vectors = functional.normalize(model(**query_tensors).last_hidden_state[:, 0], dim=-1)
-                document_vectors = functional.normalize(model(**document_tensors).last_hidden_state[:, 0], dim=-1)
-                logits = query_vectors @ document_vectors.T
-                labels = torch.arange(len(positives), device=device)
-                loss = functional.cross_entropy(logits, labels)
+                with torch.autocast(**autocast_settings):
+                    query_vectors = _embedding(query_model, query_tensors)
+                    document_vectors = _embedding(document_model, document_tensors)
+                    logits = query_vectors @ document_vectors.T
+                    labels = torch.arange(len(positives), device=device)
+                    loss = functional.cross_entropy(logits, labels)
                 # Average the gradient over the effective batch: divide this
                 # micro-batch loss by the window size before backward so the summed
                 # grads equal the gradient of the window's mean cross-entropy.
-                (loss / window_size).backward()
+                scaler.scale(loss / window_size).backward()
                 step_losses.append(float(loss.detach().cpu()))
-            optimizer.step()
+            scaler.step(optimizer)
+            scaler.update()
+            scheduler.step()
             optimizer.zero_grad()
+            optimizer_steps += 1
         # Report one value per optimizer step: the mean of the window's micro-batch
         # cross-entropies (the effective-batch cross-entropy), keeping
         # train_mean_loss on the same scale as a non-accumulated run.
         losses.extend(_accumulate_losses(step_losses, accumulation_steps))
-    model.eval()
+    query_model.eval()
+    document_model.eval()
+    training_seconds = time.monotonic() - training_started
 
-    def _encode(texts: list[str], max_length: int) -> torch.Tensor:
+    def _encode(texts: list[str], max_length: int, *, side: str) -> torch.Tensor:
+        tokenizer = query_tokenizer if side == "query" else document_tokenizer
+        model = query_model if side == "query" else document_model
         vectors = []
         for start in range(0, len(texts), 32):
             batch = tokenizer(texts[start:start + 32], padding=True, truncation=True, max_length=max_length, return_tensors="pt").to(device)
             with torch.no_grad():
-                vectors.append(functional.normalize(model(**batch).last_hidden_state[:, 0], dim=-1))
+                vectors.append(_embedding(model, batch))
         return torch.cat(vectors)
 
     # (a) hard-negative candidate-set ranking (positive vs its own negatives)
@@ -343,19 +513,37 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
             scores.extend(chunk.cpu().tolist())
         return scores
 
-    development_pairs, candidate_scores = _batched_candidate_scores(pairs, _encode, _paired_cosine)
+    def _candidate_encode(texts: list[str], max_length: int) -> torch.Tensor:
+        side = "query" if max_length <= 256 else "document"
+        bounded = query_max_length if side == "query" else 512
+        return _encode(texts, bounded, side=side)
+
+    development_pairs, candidate_scores = _batched_candidate_scores(
+        pairs, _candidate_encode, _paired_cosine
+    )
     candidate_metrics = _hard_negative_metrics(development_pairs, candidate_scores)
 
     # (b) full development-corpus ranking: each query's positive is its own document
     dev_examples = [item for item in examples if item["task"] == "evidence_retrieval" and item["split"] == "development"]
-    query_vectors = _encode([_retrieval_query(item) for item in dev_examples], 256)
-    document_vectors = _encode([item["input_text"] for item in dev_examples], 512)
+    query_vectors = _encode(
+        [_retrieval_query(item) for item in dev_examples], query_max_length, side="query"
+    )
+    document_vectors = _encode(
+        [item["input_text"] for item in dev_examples], 512, side="document"
+    )
     with torch.no_grad():
         similarities = (query_vectors @ document_vectors.T).cpu().tolist()
     families = [item["family_id"] for item in dev_examples]
     corpus_metrics = _rank_metrics(similarities, families)
     final = output / "final"; final.mkdir(parents=True, exist_ok=True)
-    model.save_pretrained(final, safe_serialization=True); tokenizer.save_pretrained(final)
+    if encoder_spec["shared_encoder"]:
+        query_model.save_pretrained(final, safe_serialization=True)
+        query_tokenizer.save_pretrained(final)
+    else:
+        query_model.save_pretrained(final / "query_encoder", safe_serialization=True)
+        query_tokenizer.save_pretrained(final / "query_encoder")
+        document_model.save_pretrained(final / "document_encoder", safe_serialization=True)
+        document_tokenizer.save_pretrained(final / "document_encoder")
     return {
         "train_mean_loss": sum(losses) / len(losses),
         "development_recall_at_10": corpus_metrics["recall_at_10"],
@@ -364,6 +552,19 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
         "development_queries": len(dev_examples),
         "hard_negative_mrr": candidate_metrics["mrr"],
         "hard_negative_precision_at_1": candidate_metrics["precision_at_1"],
+        "retrieval_encoder_mode": "shared" if encoder_spec["shared_encoder"] else "asymmetric",
+        "retrieval_similarity": encoder_spec["similarity"],
+        "training_precision": precision,
+        "mixed_precision_enabled": bool(autocast_settings["enabled"]),
+        "gradient_checkpointing": gradient_checkpointing,
+        "warmup_optimizer_steps": warmup_steps,
+        "optimizer_steps": optimizer_steps,
+        "training_queries_per_second": (
+            len(query_ids) * job["optimization"]["epochs"] / training_seconds
+        ),
+        "peak_gpu_memory_bytes": (
+            int(torch.cuda.max_memory_allocated(device)) if device.type == "cuda" else None
+        ),
     }
 
 

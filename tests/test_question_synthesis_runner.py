@@ -460,6 +460,32 @@ class QuestionSynthesisRunnerContractTests(unittest.TestCase):
             },
         )
 
+    def test_all_arms_share_the_same_minimum_scoreable_output_contract(self) -> None:
+        """Capability ablations must not be confounded by an unscoreable interface."""
+        case = operational_case()
+        minimum_fields = {
+            "review_family", "synthesis_route", "population",
+            "intervention_or_exposure", "comparator", "outcomes",
+        }
+        for configuration_id in CONFIGURATION_IDS:
+            prepared = runner_module().prepare_arm_input(
+                configuration_id, case, seed=SEEDS[0]
+            )
+            self.assertEqual(
+                set(prepared["payload"]["required_output_schema"]),
+                minimum_fields | ({"evidence_anchor_ids"} if configuration_id == "full-biomedical-stack" else set()),
+            )
+            self.assertIn("question_fidelity_requirements", prepared["payload"])
+
+    def test_common_contract_does_not_grant_biomedical_routing_capabilities(self) -> None:
+        baseline = runner_module().prepare_arm_input(
+            "general-model-baseline", operational_case(), seed=SEEDS[0]
+        )
+        self.assertFalse(baseline["capabilities"]["biomedical_schema"])
+        self.assertFalse(baseline["capabilities"]["deterministic_routing"])
+        self.assertNotIn("deterministic_route", baseline["payload"])
+        self.assertNotIn("executable_method_registry", baseline["payload"])
+
     def test_operational_case_derives_context_retrieval_routes_document_state_and_verifier_inputs(self) -> None:
         case = {
             "schema_version": "1.0",
