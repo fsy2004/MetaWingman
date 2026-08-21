@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "c289dd00cf728daa1af82607b676f10143eb66d129f7938b2d2c994371ab7c84",
+  "source_tree_sha256": "7a66664acd93acbf853dd811569c80766669adf5edcac2ce524eed234db5f904",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -412,8 +412,8 @@
     },
     {
       "path": "schemas/component_training_job.schema.json",
-      "sha256": "a88c3994a1f1517a74cbec0ce40a668c8517a8d9ee93b0770e8824c5bc390311",
-      "bytes": 5353
+      "sha256": "6a1743bee5b767d2c964b280da273edae4f21a57bd31de2d70d36748d84dde9c",
+      "bytes": 6558
     },
     {
       "path": "schemas/credential_capabilities.schema.json",
@@ -891,6 +891,11 @@
       "bytes": 1330
     },
     {
+      "path": "scripts/evaluate_retrieval_encoder.py",
+      "sha256": "512170922eea407e236bb80d44f5023ef6740d5ae5eb88062ac1399f44b9fbfd",
+      "bytes": 10095
+    },
+    {
       "path": "scripts/evaluate_topic_rediscovery.py",
       "sha256": "c61ab3c508dcf78a55125f914b8b72f8351414e483e444d264776543bb6ec9cd",
       "bytes": 1074
@@ -1092,8 +1097,8 @@
     },
     {
       "path": "scripts/metawingman_core/question_synthesis_runner.py",
-      "sha256": "af397880682d3936b1d08c4ae002f7b58904bf5b3c3b5386485ff3df7f1b8812",
-      "bytes": 44529
+      "sha256": "33884c1c791f1d6d8888687fb99c5535daf47a135a20fc23ee14b96ba3a0b871",
+      "bytes": 45582
     },
     {
       "path": "scripts/metawingman_core/question_synthesis_search.py",
@@ -1167,8 +1172,8 @@
     },
     {
       "path": "scripts/metawingman_core/training_corpus.py",
-      "sha256": "52fa440092450b1aafd0c8a8cd3a34d201a9f6474a638e4e2c5c7f05e6ef461d",
-      "bytes": 68503
+      "sha256": "0414cdedfe9eb51c11bb44ee05c7430c65c9fd8594c4d7914ec7fbc1453226cf",
+      "bytes": 70520
     },
     {
       "path": "scripts/migrate_biomedical_context.py",
@@ -1957,8 +1962,8 @@
     },
     {
       "path": "scripts/run_component_training.py",
-      "sha256": "f0a5b641980825a7b705f8819dce13224a544d1e75462b4e9fd5f188cd394e99",
-      "bytes": 20402
+      "sha256": "155671edb29f3759e971320892c5d1f9d81535e923b0f3c73f34c1e1bb202a8e",
+      "bytes": 29121
     },
     {
       "path": "scripts/run_extraction_slice.py",

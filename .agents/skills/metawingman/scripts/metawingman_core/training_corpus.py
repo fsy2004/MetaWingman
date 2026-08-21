@@ -54,6 +54,22 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def sha256_tree(root: Path) -> str:
+    """Hash a directory as sorted relative paths plus per-file SHA-256 values."""
+    if not root.is_dir():
+        raise TrainingCorpusError(f"model artifact path is not a directory: {root}")
+    files = sorted(item for item in root.rglob("*") if item.is_file())
+    if not files:
+        raise TrainingCorpusError(f"model artifact directory is empty: {root}")
+    digest = hashlib.sha256()
+    for path in files:
+        digest.update(path.relative_to(root).as_posix().encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(sha256_file(path).encode("ascii"))
+        digest.update(b"\n")
+    return digest.hexdigest()
+
+
 def _normalise_license(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", " ", value.casefold()).strip()
 
@@ -1026,7 +1042,7 @@ def build_retrieval_pairs(
     retrieval = [item for item in examples if item.get("task") == "evidence_retrieval"]
     pairs: list[dict[str, Any]] = []
     query_token_sets = {
-        item["example_id"]: _tokens(item["instruction"] + " " + item["input_text"])
+        item["example_id"]: _tokens(_retrieval_query(item))
         for item in retrieval
     }
     document_token_sets = {
@@ -1113,6 +1129,13 @@ def build_component_training_job(
         reason_codes.append("model_revision_not_immutable")
     if not model.get("declared_license"):
         reason_codes.append("model_license_unresolved")
+    retrieval_encoders = model.get("retrieval_encoders")
+    if retrieval_encoders:
+        for encoder in (retrieval_encoders.get("query", {}), retrieval_encoders.get("document", {})):
+            if not re.fullmatch(r"[a-f0-9]{40}", str(encoder.get("revision") or "")):
+                reason_codes.append("model_revision_not_immutable")
+            if not re.fullmatch(r"[a-f0-9]{40}", str(encoder.get("tokenizer_revision") or "")):
+                reason_codes.append("model_revision_not_immutable")
     if dataset.get("development_examples", 0) < 1:
         reason_codes.append("development_data_missing")
     if component == "evidence_retrieval" and dataset.get("development_pairs", 0) < 1:
@@ -1170,6 +1193,13 @@ def build_component_training_job(
             ".",
         ],
     }
+    if retrieval_encoders:
+        job["model"]["retrieval_encoders"] = {
+            "query": dict(retrieval_encoders["query"]),
+            "document": dict(retrieval_encoders["document"]),
+            "pooling": retrieval_encoders["pooling"],
+            "similarity": retrieval_encoders["similarity"],
+        }
     for transient in ("checkpoint_every_steps", "maximum_checkpoints", "resume_checkpoint_hashes"):
         job["optimization"].pop(transient, None)
     validate_document(job, "component_training_job")
@@ -1210,6 +1240,16 @@ def preflight_component_training(
         reason_codes.append("model_revision_not_immutable")
     if not job["model"]["declared_license"]:
         reason_codes.append("model_license_unresolved")
+    retrieval_encoders = job["model"].get("retrieval_encoders") or {}
+    for side in ("query", "document"):
+        encoder = retrieval_encoders.get(side) or {}
+        if encoder.get("load_path"):
+            try:
+                path = _resolve_job_path(root, encoder["load_path"])
+                if sha256_tree(path) != encoder["tree_sha256"]:
+                    reason_codes.append(f"{side}_encoder_tree_hash_mismatch")
+            except (OSError, TrainingCorpusError):
+                reason_codes.append(f"{side}_encoder_artifact_invalid")
     for key in ("run_plan", "examples", "pairs"):
         path = _resolve_job_path(root, job["dataset"][f"{key}_path"])
         if not path.is_file():
