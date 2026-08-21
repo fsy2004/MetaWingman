@@ -1,0 +1,65 @@
+{
+  "all_tasks_unique_families": {
+    "development": 2211,
+    "held_out": 0,
+    "train": 8798
+  },
+  "evidence_retrieval": {
+    "hard_negatives_per_query_distribution": {
+      "3": 54514
+    },
+    "pairs_by_split": {
+      "development": 43528,
+      "held_out": 0,
+      "train": 174528
+    },
+    "pairs_per_query_distribution": {
+      "4": 54514
+    },
+    "positives_per_query_distribution": {
+      "1": 54514
+    },
+    "queries": 54514,
+    "unique_families": {
+      "development": 2211,
+      "held_out": 0,
+      "train": 8798
+    }
+  },
+  "family_isolation": {
+    "development_held_out_overlap": 0,
+    "train_development_overlap": 0,
+    "train_held_out_overlap": 0
+  },
+  "privacy_scope": "aggregate_only_no_training_text_or_identifiers",
+  "receipt_id": "metawingman-retrieval-v4-aggregate-only-corpus-audit",
+  "schema_version": "1.0",
+  "source_artifacts": {
+    "examples": {
+      "path": "data/training-examples.jsonl",
+      "rows": 109028,
+      "sha256": "647e11b9aadbc3c9e4e721b53b36305685a9bd9963444f57c39058325f6fbb51"
+    },
+    "export_manifest": {
+      "path": "data/exports-v4/training-export-manifest.json",
+      "sha256": "53df0028c98621cf07c5d4cea20669669b875e791e0f06c8c5c2eb6e8be31207"
+    },
+    "pairs": {
+      "path": "data/exports-v4/evidence-retrieval.pairs.jsonl",
+      "rows": 218056,
+      "sha256": "95aed5b7cb5b6b3f60f53972190f64621828e2c7991d18f6e049aa1fe2b6d0ee"
+    }
+  },
+  "task_by_split_queries": {
+    "evidence_retrieval": {
+      "development": 10882,
+      "held_out": 0,
+      "train": 43632
+    },
+    "section_role_classification": {
+      "development": 10882,
+      "held_out": 0,
+      "train": 43632
+    }
+  }
+}

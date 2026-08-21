@@ -23,6 +23,7 @@ notes.
 ## Evaluation and results
 
 - [R5 question–method feasibility report](architecture/question-synthesis-r5-feasibility-report-2026-08-21.md)
+- [V4 asymmetric MedCPT retrieval results](architecture/retrieval-v4-asymmetric-medcpt-results-2026-08-21.md)
 - [AI-only benchmark protocol](architecture/ai-only-benchmark-protocol.md)
 - [AI-only pilot preregistration](architecture/ai-only-pilot-preregistration.md)
 - [Training run report](architecture/training-run-report-2026-08-17.md)

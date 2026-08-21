@@ -27,13 +27,15 @@ ORCHESTRATION_SEEDS = (20260820, 20260821, 20260822)
 PROMPT_TEMPLATES = {
     "general-model-baseline": (
         "Generate one clinically answerable review-question candidate from clinical_context only. "
+        "Preserve the named clinical concepts and satisfy required_output_schema. "
         "Return one JSON object. Do not infer hidden or sealed benchmark material."
     ),
     "generic-retrieval": (
         "Generate one clinically answerable review-question candidate using only clinical_context and "
         "retrieved_visible_material. For role=proposal return a complete candidate object; for role=opposition "
         "return a critique object; for role=judge return exactly one object containing a complete revised "
-        "candidate under the candidate key. Return JSON only. Do not infer hidden or sealed benchmark material."
+        "candidate under the candidate key. Preserve the named clinical concepts and satisfy "
+        "required_output_schema. Return JSON only. Do not infer hidden or sealed benchmark material."
     ),
     "biomedical-schema": (
         "Generate one clinically answerable review-question candidate using only the declared visible inputs and "
@@ -66,6 +68,19 @@ SECRET_VALUE_PATTERNS = (
         re.IGNORECASE,
     ),
 )
+COMMON_OUTPUT_SCHEMA = {
+    "review_family": "string",
+    "synthesis_route": "string",
+    "population": "string",
+    "intervention_or_exposure": "string",
+    "comparator": "string",
+    "outcomes": "array[string]",
+}
+QUESTION_FIDELITY_REQUIREMENTS = [
+    "preserve named population and condition concepts from visible input",
+    "preserve named intervention, exposure, comparator, and outcome concepts when present",
+    "do not replace a specific visible concept with an unsupported generic category",
+]
 
 
 class QuestionSynthesisRunError(ValueError):
@@ -438,6 +453,11 @@ def prepare_arm_input(
     payload: dict[str, Any] = {
         "case_id": case["case_id"],
         "clinical_context": _clinical_context(case),
+        # This is the common scoring interface, not a biomedical capability.
+        # Every arm must be able to emit the same endpoint fields; otherwise an
+        # apparent ablation effect can be caused solely by JSON shape drift.
+        "required_output_schema": dict(COMMON_OUTPUT_SCHEMA),
+        "question_fidelity_requirements": list(QUESTION_FIDELITY_REQUIREMENTS),
     }
     if visible:
         payload["retrieved_visible_material"] = [
@@ -445,16 +465,13 @@ def prepare_arm_input(
             for item in visible
         ]
     if capabilities["biomedical_schema"]:
-        payload["required_output_schema"] = {
-            "review_family": "string",
-            "synthesis_route": "string",
-            "population": "string",
-            "intervention_or_exposure": "string",
-            "comparator": "string",
-            "outcomes": "array[string]",
+        payload["biomedical_design_contract"] = {
+            "question_structure": "PICO/PECO or family-appropriate analogue",
+            "estimand_alignment": "population, contrast, outcome definition, and time horizon",
+            "poolability_action": "pool, split, SWiM, or no-pooling",
         }
-        if capabilities["external_verifier"]:
-            payload["required_output_schema"]["evidence_anchor_ids"] = "array[string]"
+    if capabilities["external_verifier"]:
+        payload["required_output_schema"]["evidence_anchor_ids"] = "array[string]"
     if capabilities["deterministic_routing"]:
         payload["deterministic_route"] = _deterministic_route(case)
         payload["executable_method_registry"] = [
