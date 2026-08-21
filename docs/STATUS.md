@@ -14,9 +14,13 @@ are maintained in this repository.
   development, calibration, and held-out splits. It supports a bounded
   capability-enablement signal, not end-to-end review efficacy. See the
   [R5 feasibility report](architecture/question-synthesis-r5-feasibility-report-2026-08-21.md).
-- A section-role component reproduced weak labels accurately. An
-  evidence-retrieval component failed global development retrieval despite
-  strong hard-negative performance; the negative result is retained.
+- A section-role component reproduced weak labels accurately. After retaining
+  the earlier full-pool retrieval failure, a frozen asymmetric MedCPT V4 run
+  increased family-macro development Recall@10 from 0.4119 zero shot to a
+  three-seed mean of 0.6836 across 2,211 families; the secondary query-micro
+  result was 0.3764 to 0.6549 over 10,882 queries. This is component evidence,
+  not database-search or complete-review recall. See the
+  [V4 retrieval report](architecture/retrieval-v4-asymmetric-medcpt-results-2026-08-21.md).
 - A real PDF page passed a `glm-4.6v` representation and anchor-verification
   pilot. This does not validate scientific interpretation of the document.
 
