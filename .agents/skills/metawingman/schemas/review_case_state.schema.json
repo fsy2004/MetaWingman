@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/review_case_state.schema.json",
+  "title": "MetaWingman persistent full-review case state",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "case_id", "active_stage", "completed_gates", "selected_joint_design", "protocol_sha256", "lineage_node_ids", "unresolved_conflicts", "abstentions", "pending_permissions", "budget", "revision", "created_at_utc", "updated_at_utc"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "case_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "active_stage": {"enum": ["topic", "protocol", "search", "screening", "documents", "extraction", "appraisal", "analysis", "certainty", "writing", "review", "living"]},
+    "completed_gates": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "selected_joint_design": {"type": "object"},
+    "protocol_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "lineage_node_ids": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record", "report", "study", "arm", "result", "estimand", "synthesis", "certainty", "claim"],
+      "properties": {
+        "record": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "report": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "study": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "arm": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "result": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "estimand": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "synthesis": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "certainty": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "claim": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "unresolved_conflicts": {"type": "array", "items": {"type": "string"}},
+    "abstentions": {"type": "array", "items": {"type": "string"}},
+    "pending_permissions": {"type": "array", "items": {"type": "string"}},
+    "budget": {"type": "object"},
+    "revision": {"type": "integer", "minimum": 0},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "updated_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

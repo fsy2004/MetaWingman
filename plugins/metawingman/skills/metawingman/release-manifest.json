@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "cba979ffe03616f92cb403747e66079190273ec9c55d1aac51921b98844a57f2",
+  "source_tree_sha256": "c289dd00cf728daa1af82607b676f10143eb66d129f7938b2d2c994371ab7c84",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -47,8 +47,8 @@
   "files": [
     {
       "path": "SKILL.md",
-      "sha256": "f527a895b84673b01ebcdfee8fe993d3e2b54db902d7dccbfff3c8b92ab989be",
-      "bytes": 27748
+      "sha256": "42de6635d1162f0abbf32837da71abb58279de8d9ec4b4441cf9259645d005b3",
+      "bytes": 28204
     },
     {
       "path": "agents/openai.yaml",
@@ -122,8 +122,8 @@
     },
     {
       "path": "references/ai-only-evaluation-plan.template.json",
-      "sha256": "13131dd64c56780a445d3fa8116c60ebd68e01d37236da2d55e158e251f55db7",
-      "bytes": 4417
+      "sha256": "eb0bd0ab7b8727e93219aae54bd3292d4060168bf548470092458a16ba8b122e",
+      "bytes": 6280
     },
     {
       "path": "references/analysis-methods.md",
@@ -209,6 +209,11 @@
       "path": "references/methodology-source-registry.md",
       "sha256": "064ca19a69c32addc545f540a7b6f451f7c764f95864fe58452fa36b8c4b28b8",
       "bytes": 65518
+    },
+    {
+      "path": "references/question-synthesis-methods.json",
+      "sha256": "06bd470f08b44b4f4c891b9c05da8d37161e3a29a3dd94ee6a417a1f324dd055",
+      "bytes": 7185
     },
     {
       "path": "references/review-types.md",
@@ -327,8 +332,8 @@
     },
     {
       "path": "schemas/ai_only_evaluation_plan.schema.json",
-      "sha256": "89931743adf375c56b257000a654ea2c99174062f4198aa11d465b80f419fd9c",
-      "bytes": 6795
+      "sha256": "daf272f4ecf1386fcd0a4621199be4c664a4dffeb31fff45235eb7f36703ef6d",
+      "bytes": 8793
     },
     {
       "path": "schemas/ai_only_run_record.schema.json",
@@ -401,9 +406,14 @@
       "bytes": 4831
     },
     {
+      "path": "schemas/clinical_decision_context.schema.json",
+      "sha256": "73a61c5d6ead7351aae4d93bc7d5db1bf10fea41f0df90e187811c41448a7f1e",
+      "bytes": 1871
+    },
+    {
       "path": "schemas/component_training_job.schema.json",
-      "sha256": "20fefe18716ea08a5e116fcb9ab0b518d76ddea1368d86021585b745c25578b7",
-      "bytes": 5228
+      "sha256": "a88c3994a1f1517a74cbec0ce40a668c8517a8d9ee93b0770e8824c5bc390311",
+      "bytes": 5353
     },
     {
       "path": "schemas/credential_capabilities.schema.json",
@@ -501,6 +511,11 @@
       "bytes": 2106
     },
     {
+      "path": "schemas/method_route_decision.schema.json",
+      "sha256": "1c91672e9f3225966c00c3b0b17508ae44f61936c9ea1456f8691610aebbcca3",
+      "bytes": 1608
+    },
+    {
       "path": "schemas/missing_evidence_matrix.schema.json",
       "sha256": "c12e4717046879d5e98e433befa52470420ea680dae8d376258ef8afc6ef3790",
       "bytes": 5225
@@ -552,8 +567,33 @@
     },
     {
       "path": "schemas/provider_config.schema.json",
-      "sha256": "90258a4c826fdf1dd2dd9a0fbbf9129f41e4b97aecbaffdffc3df2b2f6708918",
-      "bytes": 1616
+      "sha256": "a107638312080eacefbf16ebcda55e352749ea4e3d9c1df2cc3dfdc9c2d441f8",
+      "bytes": 1698
+    },
+    {
+      "path": "schemas/question_synthesis_benchmark_case.schema.json",
+      "sha256": "ba07d73413cea010ea39277689ea772b508ea3f219d019ab861338d570292619",
+      "bytes": 4973
+    },
+    {
+      "path": "schemas/question_synthesis_candidate.schema.json",
+      "sha256": "11345459aa974dacd0ca98f16c261013998d99be8f4c0e7a6c4dbe835664fdfe",
+      "bytes": 3921
+    },
+    {
+      "path": "schemas/question_synthesis_execution_plan.schema.json",
+      "sha256": "d467711fc1e78cca23b1ee80a3bee90bae1b2e41529b80e66467fbf92697395d",
+      "bytes": 5824
+    },
+    {
+      "path": "schemas/question_synthesis_search.schema.json",
+      "sha256": "afff225df9c95a5732109d9d920a7f7cc348b88f28e156d18110731ea72704d1",
+      "bytes": 1290
+    },
+    {
+      "path": "schemas/question_synthesis_training_example.schema.json",
+      "sha256": "2b4f1291d77e9969cf4b75cc4f3133bafec9cd76c7111e03bc4a016dbb5d286e",
+      "bytes": 1808
     },
     {
       "path": "schemas/reconstruction_case.schema.json",
@@ -569,6 +609,11 @@
       "path": "schemas/retrieval_selection_prediction.schema.json",
       "sha256": "49dd2d158c89d53898a401ba6821d2c809f03789b4d3de17a3203aef7925a52b",
       "bytes": 415
+    },
+    {
+      "path": "schemas/review_case_state.schema.json",
+      "sha256": "186083f3fc9f2dfadc30bc1a37ee7261506437d2291a3ea2117b11ee275698cf",
+      "bytes": 2488
     },
     {
       "path": "schemas/review_family_registry.schema.json",
@@ -599,6 +644,11 @@
       "path": "schemas/scientific_action.schema.json",
       "sha256": "9c2f1a08d96cd2752f8bed337e81aefae5c4e9b218679dda398fdbb810d952ac",
       "bytes": 2182
+    },
+    {
+      "path": "schemas/scientific_reflection.schema.json",
+      "sha256": "d42b527026361bb8559aefd35cbe5a3ead40917d555313b16f036176e346f4f4",
+      "bytes": 1124
     },
     {
       "path": "schemas/screening_assessment.schema.json",
@@ -791,6 +841,11 @@
       "bytes": 1064
     },
     {
+      "path": "scripts/compile_clinical_question.py",
+      "sha256": "ae91970e5125d0f2660be876221e8bf568d65e3eb1978aa567bacdbe2d696298",
+      "bytes": 1127
+    },
+    {
       "path": "scripts/compile_pipeline.py",
       "sha256": "fcd19a5bf608e1f678cf7ce09fb67b35493a329bd3ae220891f37a6515860d63",
       "bytes": 1209
@@ -804,6 +859,11 @@
       "path": "scripts/deduplicate_records.py",
       "sha256": "496e3b8c0e5cc58c6f6131f8a2ecb4247bf49378615e55d0855398a2cd281fcc",
       "bytes": 5368
+    },
+    {
+      "path": "scripts/design_review_question.py",
+      "sha256": "8f5d35de657c6a075768d0b9aa0d46bf2fadd01190450e16eaaa78c020ba75ed",
+      "bytes": 1824
     },
     {
       "path": "scripts/download_open_access.py",
@@ -824,6 +884,11 @@
       "path": "scripts/evaluate_pipeline.py",
       "sha256": "8c7b8d094950305096a08f74d1c1a28f558795bf4a6650a5f31cd4cbc71f6deb",
       "bytes": 1684
+    },
+    {
+      "path": "scripts/evaluate_question_synthesis.py",
+      "sha256": "77b7a41d052f1d2c1fb3e99a7ff1ac4d2cc12457cd9c30937ccb34a458d9c487",
+      "bytes": 1330
     },
     {
       "path": "scripts/evaluate_topic_rediscovery.py",
@@ -912,8 +977,8 @@
     },
     {
       "path": "scripts/metawingman_core/ai_only_evaluator.py",
-      "sha256": "1199033373c50cdfca552078e78a903f126c688666a99f04aa3582d9eb5fa479",
-      "bytes": 11217
+      "sha256": "7d62c15455ad104322fb71a592d23621de34bb9dbe25ef95a49d6262f6d6b926",
+      "bytes": 16794
     },
     {
       "path": "scripts/metawingman_core/benchmark_packager.py",
@@ -939,6 +1004,11 @@
       "path": "scripts/metawingman_core/claim_compiler.py",
       "sha256": "5f504cc4362bf6e5abeedc08286cb8479531354c802a60c9badf02671f52fdbb",
       "bytes": 6292
+    },
+    {
+      "path": "scripts/metawingman_core/clinical_question.py",
+      "sha256": "156d6e68e6c3919f92c0154b5dc4991287eea5ebfd3471156e5a5f68744220b3",
+      "bytes": 2583
     },
     {
       "path": "scripts/metawingman_core/coverage_audit.py",
@@ -1006,9 +1076,54 @@
       "bytes": 15021
     },
     {
+      "path": "scripts/metawingman_core/question_synthesis_agents.py",
+      "sha256": "5fbfc3a407b984956feaf4f9e285ef10f281f9443129ceb418068208d7a9c3f2",
+      "bytes": 3402
+    },
+    {
+      "path": "scripts/metawingman_core/question_synthesis_design.py",
+      "sha256": "fba8e7a1e86fef32ca46f1c0f0788d3c871384db86ecd34d3b914c49a4581184",
+      "bytes": 5122
+    },
+    {
+      "path": "scripts/metawingman_core/question_synthesis_evaluator.py",
+      "sha256": "e0787ce7acdd8a2b31dde2b3f0157cc25e39eb2b4fb7dcfda6d61d0d258ae2a6",
+      "bytes": 7402
+    },
+    {
+      "path": "scripts/metawingman_core/question_synthesis_runner.py",
+      "sha256": "af397880682d3936b1d08c4ae002f7b58904bf5b3c3b5386485ff3df7f1b8812",
+      "bytes": 44529
+    },
+    {
+      "path": "scripts/metawingman_core/question_synthesis_search.py",
+      "sha256": "dab33227d63a9513b21bbe3b7e84446c30628472701a6cb5893325c860ecbab9",
+      "bytes": 7606
+    },
+    {
+      "path": "scripts/metawingman_core/question_synthesis_training.py",
+      "sha256": "95a6e443162b76cdb109f005995da238c4535a3359eac42680a63290e0f8f841",
+      "bytes": 4922
+    },
+    {
+      "path": "scripts/metawingman_core/question_synthesis_verifier.py",
+      "sha256": "4f6756df3d328437813955099c759fa55f450d0bb6910d9f8f943b3406d0b817",
+      "bytes": 5012
+    },
+    {
+      "path": "scripts/metawingman_core/reflection_engine.py",
+      "sha256": "94a02a7dc2f590e3988bad30d3b184add2f1d96131d492778dd4b82482063480",
+      "bytes": 1664
+    },
+    {
       "path": "scripts/metawingman_core/reliability.py",
       "sha256": "f72dd3c1e1a86329e9a4ccbf536e2dc84b0f2b6734710fe5cb37b3ffb62585be",
       "bytes": 4990
+    },
+    {
+      "path": "scripts/metawingman_core/review_case.py",
+      "sha256": "6a0a15ee3b92abcc60c768a8eba9a5236feef5b9a84e6ac6c066a6fdd7507734",
+      "bytes": 3986
     },
     {
       "path": "scripts/metawingman_core/review_family.py",
@@ -1034,6 +1149,11 @@
       "path": "scripts/metawingman_core/state_store.py",
       "sha256": "de7de8253286b8065f703036634d5fc30932ab2ae767baa1b84ccb29b3c25de6",
       "bytes": 7673
+    },
+    {
+      "path": "scripts/metawingman_core/synthesis_method_router.py",
+      "sha256": "31920b019607af775be04e5ddf3887226d799da2feabf06bed845536f0ed625b",
+      "bytes": 3639
     },
     {
       "path": "scripts/metawingman_core/topic_opportunity.py",
@@ -1077,13 +1197,18 @@
     },
     {
       "path": "scripts/prepare_component_training.py",
-      "sha256": "2cf929d0f70c1340e5eb538f50b1e7b444b54b55c034503fc654fdd6d399ea50",
-      "bytes": 4633
+      "sha256": "6465586d928be8764407e6fd4aef26ba184fd01ded44198a054f858b2411adc6",
+      "bytes": 4960
     },
     {
       "path": "scripts/prepare_independent_validation_sample.py",
       "sha256": "22e7b0b298b1b2696cf2ade6bcd23b0f11519d6dc8779c12f16bc6d94a96274c",
       "bytes": 6523
+    },
+    {
+      "path": "scripts/prepare_question_synthesis_training.py",
+      "sha256": "5c7c3b087cbaa5f56d08c862ec01063360a834f519da2dc95c67bea16a2c44f2",
+      "bytes": 6277
     },
     {
       "path": "scripts/prepare_training_annotation_tasks.py",
@@ -1811,6 +1936,11 @@
       "bytes": 192
     },
     {
+      "path": "scripts/route_synthesis_method.py",
+      "sha256": "bda8b404fe95494b495ba0a2aa912c025ab91db1c1355a1f0aac57b8f1bfbead",
+      "bytes": 1443
+    },
+    {
       "path": "scripts/run_ai_only_pilot.py",
       "sha256": "a6bc04ef32b61fb64b396b5debec2dd1281d74f4eb954347a7a6c69ea8339637",
       "bytes": 13532
@@ -1827,13 +1957,18 @@
     },
     {
       "path": "scripts/run_component_training.py",
-      "sha256": "428af06185784098424895e9dbe4e563d8be8714385a50cbf3cca24189c5c5e7",
-      "bytes": 18048
+      "sha256": "f0a5b641980825a7b705f8819dce13224a544d1e75462b4e9fd5f188cd394e99",
+      "bytes": 20402
     },
     {
       "path": "scripts/run_extraction_slice.py",
       "sha256": "3126d8653b8d0f1571139af91f7d7ad0f108f4585dc0eb1835ac6d83b6331acb",
       "bytes": 5068
+    },
+    {
+      "path": "scripts/run_question_synthesis_benchmark.py",
+      "sha256": "428161ba61be1cbf73206fa4f19fccb848d6ad42461597e76d62678856893c6f",
+      "bytes": 2832
     },
     {
       "path": "scripts/run_r2_ai_validation.py",
@@ -1882,8 +2017,13 @@
     },
     {
       "path": "scripts/test_r_adapters.py",
-      "sha256": "09ed6c7566411684c557ca6245db61cfa59084d8f125ccf1a849a36a69092d8d",
-      "bytes": 4029
+      "sha256": "a7e82866bbdf0be8ca9cdf247b6f0898c8ed204033f597c6df94865697825f06",
+      "bytes": 4453
+    },
+    {
+      "path": "scripts/train_question_synthesis_component.py",
+      "sha256": "a34fa085aefe41da0ca63affc967166d1aca2613be9eb10126115991b3e82c8c",
+      "bytes": 10173
     },
     {
       "path": "scripts/validate_project.py",

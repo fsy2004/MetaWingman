@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/question_synthesis_candidate.schema.json",
+  "title": "MetaWingman joint clinical-question and synthesis candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "candidate_id", "context_id", "parent_candidate_id", "mutation", "question_framework", "review_family", "estimand", "synthesis_route", "data_requirements", "evidence_anchor_ids", "assumption_checks", "feasibility", "overlap", "uncertainty", "disposition", "created_at_utc"],
+  "$defs": {
+    "strings": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "status_reasons": {
+      "type": "object", "additionalProperties": false, "required": ["status", "reasons"],
+      "properties": {"status": {"type": "string", "minLength": 1}, "reasons": {"$ref": "#/$defs/strings"}}
+    }
+  },
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "candidate_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "context_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "parent_candidate_id": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9._-]+$"},
+    "mutation": {
+      "type": "object", "additionalProperties": false, "required": ["type", "rationale"],
+      "properties": {"type": {"type": "string", "minLength": 1}, "rationale": {"type": "string", "minLength": 1}}
+    },
+    "question_framework": {
+      "type": "object", "additionalProperties": false,
+      "required": ["population", "intervention_or_exposure", "comparator", "outcome", "study_design"],
+      "properties": {
+        "population": {"$ref": "#/$defs/strings"},
+        "intervention_or_exposure": {"$ref": "#/$defs/strings"},
+        "comparator": {"$ref": "#/$defs/strings"},
+        "outcome": {"$ref": "#/$defs/strings"},
+        "study_design": {"$ref": "#/$defs/strings"}
+      }
+    },
+    "review_family": {"enum": ["intervention", "network", "diagnostic", "prognostic", "prediction-model", "etiology", "prevalence", "incidence", "harms", "dose-response", "ipd", "measurement", "scoping", "qualitative", "mixed-methods", "economic", "umbrella", "rapid", "living", "prospective", "other"]},
+    "estimand": {
+      "type": "object", "additionalProperties": false,
+      "required": ["population", "treatment_condition", "variable", "population_summary", "intercurrent_event_strategy"],
+      "properties": {
+        "population": {"type": "string", "minLength": 1},
+        "treatment_condition": {"type": "string", "minLength": 1},
+        "variable": {"type": "string", "minLength": 1},
+        "population_summary": {"type": "string", "minLength": 1},
+        "intercurrent_event_strategy": {"type": "string", "minLength": 1}
+      }
+    },
+    "synthesis_route": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "data_requirements": {"$ref": "#/$defs/strings"},
+    "evidence_anchor_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}},
+    "assumption_checks": {
+      "type": "array", "items": {
+        "type": "object", "additionalProperties": false, "required": ["check_id", "status", "reason"],
+        "properties": {"check_id": {"type": "string", "minLength": 1}, "status": {"enum": ["passed", "failed", "unknown"]}, "reason": {"type": "string", "minLength": 1}}
+      }
+    },
+    "feasibility": {"$ref": "#/$defs/status_reasons"},
+    "overlap": {"$ref": "#/$defs/status_reasons"},
+    "uncertainty": {
+      "type": "object", "additionalProperties": false, "required": ["level", "reasons"],
+      "properties": {"level": {"enum": ["low", "moderate", "high", "unknown"]}, "reasons": {"$ref": "#/$defs/strings"}}
+    },
+    "disposition": {"enum": ["frontier", "selected", "reserve", "rejected", "abstained"]},
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

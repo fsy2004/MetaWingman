@@ -10,6 +10,7 @@ import math
 import os
 import random
 import time
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -106,6 +107,54 @@ def _rank_metrics(similarities: list[list[float]], families: list[str]) -> dict[
         "recall_at_10": recall / queries,
         "mrr": mrr / queries,
         "precision_at_1": precision_at_1 / queries,
+    }
+
+
+def _batched_candidate_scores(
+    pairs: list[dict[str, Any]],
+    encode: Callable[[list[str], int], Any],
+    paired_cosine: Callable[[Any, Any, list[int], list[int]], list[float]],
+) -> tuple[list[dict[str, Any]], list[float]]:
+    """Encode each distinct development text once and restore pair-order scores."""
+    development_pairs = [item for item in pairs if item["query_split"] == "development"]
+    if not development_pairs:
+        return [], []
+    query_texts = list(dict.fromkeys(item["query_text"] for item in development_pairs))
+    document_texts = list(dict.fromkeys(item["document_text"] for item in development_pairs))
+    query_indexes_by_text = {text: index for index, text in enumerate(query_texts)}
+    document_indexes_by_text = {text: index for index, text in enumerate(document_texts)}
+    query_vectors = encode(query_texts, 256)
+    document_vectors = encode(document_texts, 512)
+    scores = paired_cosine(
+        query_vectors,
+        document_vectors,
+        [query_indexes_by_text[item["query_text"]] for item in development_pairs],
+        [document_indexes_by_text[item["document_text"]] for item in development_pairs],
+    )
+    if len(scores) != len(development_pairs):
+        raise ValueError("paired cosine scorer returned the wrong number of scores")
+    return development_pairs, [float(score) for score in scores]
+
+
+def _hard_negative_metrics(
+    development_pairs: list[dict[str, Any]], scores: list[float]
+) -> dict[str, float]:
+    """Reproduce the legacy stable per-query hard-negative ranking metrics."""
+    if len(development_pairs) != len(scores):
+        raise ValueError("hard-negative pairs and scores must have equal lengths")
+    grouped: dict[str, list[tuple[float, int]]] = {}
+    for item, score in zip(development_pairs, scores, strict=True):
+        grouped.setdefault(item["query_example_id"], []).append((score, item["label"]))
+    mrr = 0.0
+    precision_at_1 = 0
+    for items in grouped.values():
+        ordered = sorted(items, key=lambda pair: pair[0], reverse=True)
+        rank = next(index + 1 for index, (_, label) in enumerate(ordered) if label == 1)
+        mrr += 1.0 / rank
+        precision_at_1 += 1 if rank == 1 else 0
+    return {
+        "mrr": mrr / max(1, len(grouped)),
+        "precision_at_1": precision_at_1 / max(1, len(grouped)),
     }
 
 
@@ -277,21 +326,25 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
         return torch.cat(vectors)
 
     # (a) hard-negative candidate-set ranking (positive vs its own negatives)
-    grouped: dict[str, list[tuple[float, int]]] = {}
-    with torch.no_grad():
-        for item in (item for item in pairs if item["query_split"] == "development"):
-            query_vector = _encode([item["query_text"]], 256)
-            document_vector = _encode([item["document_text"]], 512)
-            grouped.setdefault(item["query_example_id"], []).append((float((query_vector * document_vector).sum().cpu()), item["label"]))
-    candidate_mrr = 0.0
-    candidate_p1 = 0
-    for items in grouped.values():
-        ordered = sorted(items, key=lambda pair: pair[0], reverse=True)
-        rank = next(index + 1 for index, (_, label) in enumerate(ordered) if label == 1)
-        candidate_mrr += 1.0 / rank
-        candidate_p1 += 1 if rank == 1 else 0
-    candidate_mrr /= max(1, len(grouped))
-    candidate_p1 /= max(1, len(grouped))
+    def _paired_cosine(
+        query_vectors: torch.Tensor,
+        document_vectors: torch.Tensor,
+        query_indexes: list[int],
+        document_indexes: list[int],
+    ) -> list[float]:
+        scores: list[float] = []
+        for start in range(0, len(query_indexes), 4096):
+            stop = start + 4096
+            with torch.no_grad():
+                chunk = (
+                    query_vectors[query_indexes[start:stop]]
+                    * document_vectors[document_indexes[start:stop]]
+                ).sum(dim=-1)
+            scores.extend(chunk.cpu().tolist())
+        return scores
+
+    development_pairs, candidate_scores = _batched_candidate_scores(pairs, _encode, _paired_cosine)
+    candidate_metrics = _hard_negative_metrics(development_pairs, candidate_scores)
 
     # (b) full development-corpus ranking: each query's positive is its own document
     dev_examples = [item for item in examples if item["task"] == "evidence_retrieval" and item["split"] == "development"]
@@ -309,8 +362,8 @@ def _run_retrieval(job: dict[str, Any], root: Path, output: Path) -> dict[str, A
         "development_mrr": corpus_metrics["mrr"],
         "development_precision_at_1": corpus_metrics["precision_at_1"],
         "development_queries": len(dev_examples),
-        "hard_negative_mrr": candidate_mrr,
-        "hard_negative_precision_at_1": candidate_p1,
+        "hard_negative_mrr": candidate_metrics["mrr"],
+        "hard_negative_precision_at_1": candidate_metrics["precision_at_1"],
     }
 
 

@@ -1,26 +1,103 @@
-# README 写作与持续更新规范
+# README writing and continuous-maintenance standard
 
-MetaWingman 的主页先服务第一次到访的研究者，再服务安装者和贡献者。读者应在一分钟内看懂：产品定位、最短安装、十阶段工作流、人工责任边界和验证证据在哪。
+This file is the single authority for MetaWingman's root README. The older
+architecture style note redirects here.
 
-## 固定结构
+## Reader contract
 
-1. 名称、单句价值、动态徽章。
-2. 三行内说明“是什么”和“适合谁”。
-3. 可复制的安装与调用示例。
-4. 工作流与能力地图。
-5. 安全边界、验证状态和人类检查点。
-6. 仓库结构、开发命令、核心文档、贡献和许可。
+The README serves a first-time researcher before it serves a contributor. A
+reader should understand the product, current evidence level, shortest install,
+human-responsibility boundary, and primary documentation path within one minute.
 
-正文采用中文，保留关键英文术语；不维护一份逐段重复的英文镜像。段落写一个主题，主动句优先，数字紧邻其证据链接。
+Use this order:
 
-## 单一事实来源
+1. product name and one-sentence value;
+2. generated release and repository metrics;
+3. English product explanation, validation status, quick start, workflow,
+   responsibility boundary, repository layout, and documentation;
+4. a Chinese section covering the same claims and actions;
+5. contribution, security, and license links.
 
-- `metawingman/` 是 Skill 的 canonical source；`.agents/skills/` 与 `plugins/` 是生成物。
-- `<!-- readme-metrics:* -->` 区块由 `scripts/update_readme.py` 从 canonical source、`toolkit/R` 和 Git 标签生成。
-- 训练/验证数字来自 `docs/architecture/` 中的冻结报告，README 只保留理解边界所需的摘要。
-- 新能力先更新源码、schema、测试和报告，再更新 README；主页不能先于实现宣布完成。
+English comes first for the public GitHub audience. Chinese follows under
+`## 中文说明`. The two sections must agree on capabilities, evidence, and
+limitations; they need not translate every sentence literally. Commands and
+tables may be shared when duplication would make maintenance harder.
 
-## 更新流程
+## Writing rules
+
+- Write for a reader who has never seen internal plans or conversations.
+- Start sections with the conclusion. Use active voice, short paragraphs, and
+  concrete nouns.
+- State what the software does, how to run it, what evidence supports it, and
+  what remains unvalidated.
+- Avoid marketing adjectives, journal-prestige language, internal codenames,
+  server credentials, local absolute paths, and operational history that does
+  not help a user.
+- Keep numbers next to a dated evidence link. Distinguish interface tests,
+  weak-label reconstruction, component evaluation, AI-only feasibility, and
+  external scientific validation.
+- Never turn a passing test, generated bundle, or successful model response
+  into a clinical-validity claim.
+- Keep the README concise. Put protocols, receipts, failure analyses, and full
+  result tables in `docs/`.
+
+## Single sources of truth
+
+| Claim | Authority |
+|---|---|
+| Skill behavior | `metawingman/` |
+| Deterministic R analysis | `toolkit/R/` and adapter manifests |
+| Generated distributions | `.agents/skills/` and `plugins/`, rebuilt from canonical sources |
+| Current supported boundary | `docs/STATUS.md` |
+| Dated validation result | reviewed report under `docs/architecture/` |
+| Release version | Git tag and plugin manifest |
+| Repository counts | `scripts/update_readme.py` |
+
+README prose must not announce a capability before its canonical source,
+contract, tests, and evidence report exist.
+
+## Generated blocks
+
+`scripts/update_readme.py` owns exactly two marked blocks:
+
+- `readme-metrics`: license, release, R-module, manifest, and schema badges;
+- `readme-inventory`: canonical Python, schema, R-module, manifest, and adapter
+  counts.
+
+Edit text outside those markers by hand. Run the updater after adding or
+removing canonical entry points, schemas, R modules, adapter manifests,
+adapters, or tags.
+
+```powershell
+python .\scripts\update_readme.py
+python .\scripts\update_readme.py --check
+python -m unittest discover -s .\tests -p "test_readme_update.py" -v
+```
+
+The updater also rejects missing repository-relative links. It reads canonical
+sources only and ignores generated bundles, preventing triple-counted metrics.
+
+## Continuous update policy
+
+GitHub Actions runs the drift check and focused tests on every push and pull
+request, on a scheduled audit, and on manual dispatch. A drift failure blocks a
+clean status and prints the local command that repairs the README. The workflow
+does not auto-commit because this repository mirrors the same default-branch
+commit to GitHub and Gitee; maintainers update both remotes from one reviewed
+commit.
+
+Manual prose review is required when any of these change:
+
+- installation or invocation;
+- supported review stage or method family;
+- validation level or scientific claim boundary;
+- human-responsibility or credential boundary;
+- current status report or primary documentation path;
+- public security, privacy, or acceptable-use policy.
+
+## Release checklist
+
+Before committing a README change:
 
 ```powershell
 python .\scripts\update_readme.py
@@ -28,18 +105,11 @@ python .\scripts\update_readme.py --check
 python -m unittest discover -s .\tests -p "test_readme_update.py" -v
 python .\scripts\build_skill_bundle.py
 python .\scripts\verify_skill_bundle.py .\.agents\skills\metawingman
+python .\scripts\verify_skill_bundle.py .\plugins\metawingman\skills\metawingman
+python .\scripts\verify_dependency_locks.py
 git diff --check
 ```
 
-CI 在 push、pull request 与每周计划任务中检查派生指标。发布、安装命令、canonical source、验证等级或主线文档变化时，维护者必须同步检查 README 的人工段落。
-
-## 结构参照
-
-本规范只借鉴信息架构：nf-core/rnaseq 的用法与输出导航、Scanpy 的短首屏、Snakemake 的文档入口、OpenAI Skills 的安装路径、metafor 的可运行示例、revtools 的任务导向说明。
-
-- https://github.com/nf-core/rnaseq/blob/master/README.md
-- https://github.com/scverse/scanpy/blob/main/README.md
-- https://github.com/snakemake/snakemake/blob/main/README.md
-- https://github.com/openai/skills/blob/main/README.md
-- https://github.com/wviechtb/metafor/blob/master/README.md
-- https://github.com/mjwestgate/revtools/blob/master/README.md
+Then inspect the rendered GitHub Markdown, verify every local link, confirm the
+status wording against its dated report, inspect staged paths, and scan tracked
+text for secrets and author-specific absolute paths.

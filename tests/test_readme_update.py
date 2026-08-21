@@ -4,7 +4,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.update_readme import compute_metrics, local_link_errors, replace_block
+from scripts.update_readme import (
+    compute_metrics,
+    local_link_errors,
+    render_inventory,
+    update_generated_blocks,
+)
 
 
 class ReadmeUpdateTests(unittest.TestCase):
@@ -28,7 +33,63 @@ class ReadmeUpdateTests(unittest.TestCase):
                 {"r_modules": 2, "manifests": 1, "adapters": 1, "python_entrypoints": 1, "schemas": 1},
             )
 
+    def test_update_generated_blocks_refreshes_metrics_and_inventory_together(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            for relative in (
+                "toolkit/R/01_effect.R",
+                "metawingman/scripts/r/manifests/pairwise.json",
+                "metawingman/scripts/r/adapters/run_pairwise.R",
+                "metawingman/scripts/run_review.py",
+                "metawingman/schemas/review.json",
+            ):
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("x", encoding="utf-8")
+            source = (
+                "intro\n"
+                "<!-- readme-metrics:start -->\nstale badge\n<!-- readme-metrics:end -->\n"
+                "manual\n"
+                "<!-- readme-inventory:start -->\nstale table\n<!-- readme-inventory:end -->\n"
+                "tail\n"
+            )
+            updated = update_generated_blocks(root, source, version="v9.9.9")
+        self.assertIn("release-v9.9.9", updated)
+        self.assertIn("| JSON schemas | 1 |", updated)
+        self.assertIn("| R adapters | 1 |", updated)
+        self.assertIn("manual", updated)
+        self.assertTrue(updated.endswith("tail\n"))
+
+    def test_render_inventory_uses_only_canonical_sources(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            for relative in (
+                "toolkit/R/01_effect.R",
+                "toolkit/R/02_model.R",
+                "metawingman/scripts/r/manifests/a.json",
+                "metawingman/scripts/r/adapters/run_pairwise.R",
+                "metawingman/scripts/run_review.py",
+                "metawingman/schemas/review.json",
+                ".agents/skills/metawingman/scripts/generated.py",
+            ):
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("x", encoding="utf-8")
+            inventory = render_inventory(root)
+        self.assertEqual(
+            inventory,
+            "| Repository metric | Current |\n"
+            "|---|---:|\n"
+            "| Python entry points | 1 |\n"
+            "| JSON schemas | 1 |\n"
+            "| R analysis modules | 2 |\n"
+            "| R adapter manifests | 1 |\n"
+            "| R adapters | 1 |",
+        )
+
     def test_replace_block_preserves_surrounding_manual_content(self):
+        from scripts.update_readme import replace_block
+
         source = "intro\n<!-- readme-metrics:start -->\nstale\n<!-- readme-metrics:end -->\nmanual\n"
         self.assertEqual(
             replace_block(source, "readme-metrics", "fresh"),

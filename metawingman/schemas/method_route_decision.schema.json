@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/method_route_decision.schema.json",
+  "title": "MetaWingman synthesis method routing decision",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "decision_id", "candidate_id", "compatible_routes", "rejected_routes", "selected_route_id", "fallback_route_id", "required_checks", "evidence_anchor_ids", "status", "created_at_utc"],
+  "$defs": {
+    "route": {
+      "type": "object", "additionalProperties": false, "required": ["route_id", "failed_checks"],
+      "properties": {"route_id": {"type": "string", "minLength": 1}, "failed_checks": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}
+    }
+  },
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "decision_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "candidate_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "compatible_routes": {"type": "array", "items": {"$ref": "#/$defs/route"}},
+    "rejected_routes": {"type": "array", "items": {"$ref": "#/$defs/route"}},
+    "selected_route_id": {"type": ["string", "null"]},
+    "fallback_route_id": {"type": ["string", "null"]},
+    "required_checks": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "evidence_anchor_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "status": {"enum": ["selected", "requires_choice", "abstained"]},
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

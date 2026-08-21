@@ -16,6 +16,13 @@ from metawingman_core.training_corpus import (
 )
 
 
+def _positive_int(value: str) -> int:
+    parsed = int(value)
+    if parsed < 1:
+        raise argparse.ArgumentTypeError("must be >= 1")
+    return parsed
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("run_plan", type=Path)
@@ -30,6 +37,7 @@ def main() -> int:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=16)
+    parser.add_argument("--gradient-accumulation-steps", type=_positive_int, default=1)
     parser.add_argument("--learning-rate", type=float, default=2e-5)
     parser.add_argument("--weight-decay", type=float, default=0.01)
     parser.add_argument("--warmup-ratio", type=float, default=0.1)
@@ -62,6 +70,7 @@ def main() -> int:
             {
                 "epochs": args.epochs,
                 "batch_size": args.batch_size,
+                "gradient_accumulation_steps": args.gradient_accumulation_steps,
                 "learning_rate": args.learning_rate,
                 "weight_decay": args.weight_decay,
                 "warmup_ratio": args.warmup_ratio,
