@@ -1,5 +1,11 @@
 # MetaWingman 方法学创新白皮书：从"执行者"到"提问-推导-验证-反思-进化"的科学协作者（2026-08-18）
 
+> 历史设计文档。2026-08-22 起，RQC、Socratic reflection、step verifier 和
+> meta-update 被映射为 TOPIC/REVIEW 两项主创新的 enabling mechanisms，不再分别称为核心创新。
+> 当前权威创新、直接证据上限、十阶段联合执行与病例/蒸馏方案见
+> `dual-innovation-evidence-and-full-workflow-plan-2026-08-22.md` 和
+> `../../research/innovation-evidence-ledger-v1.json`。本文中的能力与文献表述须经当前证据账本复核。
+
 ## 0. 理念总纲
 
 顶刊趋势（本白皮书依据，均下载/精读）：AI 在科学中的角色正从"执行流水线"

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_topic_stage_config.schema.json",
+  "title": "Frozen configuration for direct topic-feasibility execution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "adapter_id", "provider_config",
+    "maximum_input_tokens_per_call", "maximum_proposals",
+    "maximum_prompt_characters", "thinking", "external_search_lower_date",
+    "external_search_maximum_records", "auditor_id"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "topic_feasibility"},
+    "adapter_id": {"const": "joint-topic-feasibility-v1"},
+    "provider_config": {"$ref": "#/$defs/fileBinding"},
+    "maximum_input_tokens_per_call": {"type": "integer", "minimum": 1},
+    "maximum_proposals": {"type": "integer", "minimum": 1, "maximum": 20},
+    "maximum_prompt_characters": {"type": "integer", "minimum": 1},
+    "thinking": {"type": "boolean"},
+    "external_search_lower_date": {"type": "string", "format": "date"},
+    "external_search_maximum_records": {"type": "integer", "minimum": 1, "maximum": 5000},
+    "auditor_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "relativePath": {
+      "type": "string", "minLength": 1,
+      "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}
+    },
+    "fileBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/relativePath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

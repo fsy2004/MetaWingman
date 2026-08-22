@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_appraisal_stage_config.schema.json",
+  "title": "Frozen appraisal and missing-evidence configuration",
+  "type": "object", "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "adapter_id", "provider_config", "framework_adapter", "question_manifest",
+    "review_family", "maximum_input_tokens_per_call", "maximum_output_tokens_per_call", "thinking"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "appraisal"},
+    "adapter_id": {"const": "joint-appraisal-missing-evidence-v1"},
+    "provider_config": {"$ref": "#/$defs/fileBinding"},
+    "framework_adapter": {"$ref": "#/$defs/fileBinding"},
+    "question_manifest": {"$ref": "#/$defs/fileBinding"},
+    "review_family": {"type": "string", "minLength": 1},
+    "maximum_input_tokens_per_call": {"type": "integer", "minimum": 1},
+    "maximum_output_tokens_per_call": {"type": "integer", "minimum": 1},
+    "thinking": {"type": "boolean"}
+  },
+  "$defs": {
+    "fileBinding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1, "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_lifecycle_stage_output.schema.json",
+  "title": "Scientific stage adapter output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "status", "state_artifact_id", "artifacts",
+    "scientific_checks", "terminal_reason"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"$ref": "#/$defs/stageId"},
+    "status": {"enum": ["completed", "abstained", "failed"]},
+    "state_artifact_id": {"$ref": "#/$defs/identifier"},
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "scientific_checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/check"}
+    },
+    "terminal_reason": {"type": ["string", "null"], "minLength": 1}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "completed"}}},
+      "then": {"properties": {"terminal_reason": {"type": "null"}}},
+      "else": {"properties": {"terminal_reason": {"type": "string", "minLength": 1}}}
+    }
+  ],
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "stageId": {
+      "enum": [
+        "topic_feasibility", "protocol_registration", "search_retrieval",
+        "selection", "data_lineage", "appraisal", "freeze_synthesis",
+        "certainty_interpretation", "reporting_review", "living_update"
+      ]
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "path", "sha256", "media_type", "role"],
+      "properties": {
+        "artifact_id": {"$ref": "#/$defs/identifier"},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "media_type": {"type": "string", "minLength": 1},
+        "role": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["check_id", "status", "evidence_artifact_ids"],
+      "properties": {
+        "check_id": {"$ref": "#/$defs/identifier"},
+        "status": {"enum": ["passed", "failed", "abstained"]},
+        "evidence_artifact_ids": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    }
+  }
+}

@@ -11,6 +11,11 @@ from .capability_router import RoutingDecision, route_models
 from .causal_replay import CausalReplayError, evaluate_causal_replay
 from .coverage_audit import CoverageAuditError, audit_capability_matrix
 from .evidence_acquisition import EvidenceAcquisitionError, plan_evidence_acquisition
+from .evidence_acquisition_loop import execute_evidence_acquisition_loop
+from .evidence_semantic_verifier import (
+    EvidenceSemanticVerifierError,
+    verify_evidence_bindings,
+)
 from .method_contract import inspect_method_contract, inspect_protocol_freeze_readiness
 from .protocol_compiler import CompileResult, compile_protocol
 from .schema_guard import SchemaValidationError, validate_document
@@ -32,6 +37,7 @@ __all__ = [
     "CausalReplayError",
     "CoverageAuditError",
     "EvidenceAcquisitionError",
+    "EvidenceSemanticVerifierError",
     "EventLedger",
     "LedgerError",
     "StateStoreError",
@@ -46,6 +52,7 @@ __all__ = [
     "evaluate_action",
     "evaluate_causal_replay",
     "evaluate_topic_rediscovery",
+    "execute_evidence_acquisition_loop",
     "inspect_method_contract",
     "inspect_protocol_freeze_readiness",
     "load_domain_packs",
@@ -56,4 +63,5 @@ __all__ = [
     "select_topic_portfolio",
     "sha256_json",
     "validate_document",
+    "verify_evidence_bindings",
 ]

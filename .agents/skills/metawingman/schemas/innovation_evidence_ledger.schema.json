@@ -1,0 +1,287 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/innovation_evidence_ledger.schema.json",
+  "title": "MetaWingman dual-innovation and lifecycle evidence ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "ledger_id",
+    "assessed_at_utc",
+    "policy",
+    "lifecycle_stages",
+    "cases",
+    "evidence_items"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "ledger_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "assessed_at_utc": {"type": "string", "format": "date-time"},
+    "policy": {"$ref": "#/$defs/policy"},
+    "lifecycle_stages": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {"$ref": "#/$defs/stage"}
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/case"}
+    },
+    "evidence_items": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/evidence"}
+    }
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "stageId": {
+      "enum": [
+        "topic_feasibility",
+        "protocol_registration",
+        "search_retrieval",
+        "selection",
+        "data_lineage",
+        "appraisal",
+        "freeze_synthesis",
+        "certainty_interpretation",
+        "reporting_review",
+        "living_update"
+      ]
+    },
+    "claimId": {
+      "enum": [
+        "topic_opportunity_control",
+        "conclusion_directed_acquisition",
+        "joint_lifecycle_control",
+        "agent_distillation"
+      ]
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_provenance",
+        "journal_prestige_is_admission_only",
+        "same_provider_is_not_independent",
+        "negative_results_must_be_retained",
+        "full_lifecycle_requires_same_case",
+        "required_profile_strata"
+      ],
+      "properties": {
+        "policy_provenance": {"const": "project_calibrated_not_normative"},
+        "journal_prestige_is_admission_only": {"const": true},
+        "same_provider_is_not_independent": {"const": true},
+        "negative_results_must_be_retained": {"const": true},
+        "full_lifecycle_requires_same_case": {"const": true},
+        "canonical_case_registry_path": {"$ref": "#/$defs/relativePath"},
+        "canonical_case_registry_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "required_profile_strata": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_id",
+        "implementation_level",
+        "highest_direct_evidence",
+        "artifact_paths"
+      ],
+      "properties": {
+        "stage_id": {"$ref": "#/$defs/stageId"},
+        "implementation_level": {
+          "enum": ["documented", "executable_component", "workflow_integrated"]
+        },
+        "highest_direct_evidence": {
+          "enum": [
+            "not_tested",
+            "schema",
+            "fixture",
+            "component",
+            "development_case",
+            "single_held_out_family",
+            "replicated_held_out_families",
+            "prospective",
+            "external_replication"
+          ]
+        },
+        "artifact_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/relativePath"}
+        }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "review_family_id",
+        "split",
+        "profile_strata",
+        "authority_identity_verified",
+        "broad_decision_relevance",
+        "common_or_high_burden",
+        "representativeness_sources",
+        "training_use"
+      ],
+      "properties": {
+        "case_id": {"$ref": "#/$defs/identifier"},
+        "review_family_id": {"$ref": "#/$defs/identifier"},
+        "split": {
+          "enum": ["development", "held_out", "prospective", "diagnostic_only"]
+        },
+        "profile_strata": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "authority_identity_verified": {"type": "boolean"},
+        "broad_decision_relevance": {"type": "boolean"},
+        "common_or_high_burden": {"type": "boolean"},
+        "representativeness_sources": {
+          "type": "array",
+          "items": {"type": "string", "format": "uri"}
+        },
+        "training_use": {
+          "enum": ["stage_verified_only", "negative_or_abstention_only", "audit_only", "forbidden"]
+        }
+      }
+    },
+    "resourceAudit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_calls",
+        "input_tokens",
+        "output_tokens",
+        "wall_seconds",
+        "cost",
+        "cost_status"
+      ],
+      "properties": {
+        "provider_calls": {"type": "integer", "minimum": 0},
+        "input_tokens": {"type": "integer", "minimum": 0},
+        "output_tokens": {"type": "integer", "minimum": 0},
+        "wall_seconds": {"type": ["number", "null"], "minimum": 0},
+        "cost": {"type": ["number", "null"], "minimum": 0},
+        "cost_status": {"enum": ["known", "unknown", "not_applicable"]}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_id",
+        "claim_ids",
+        "evaluation_kind",
+        "result_direction",
+        "case_ids",
+        "review_family_ids",
+        "covered_stage_ids",
+        "full_mechanism_executed",
+        "direct_baseline_passed",
+        "predicted_ablation_degradation_observed",
+        "frozen_before_reference",
+        "reference_opened_after_complete_lock",
+        "provider_relation",
+        "independent_verification_claimed",
+        "same_case_full_lifecycle",
+        "artifact_paths",
+        "resource_audit",
+        "limitations"
+      ],
+      "properties": {
+        "evidence_id": {"$ref": "#/$defs/identifier"},
+        "claim_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/claimId"}
+        },
+        "evaluation_kind": {
+          "enum": [
+            "contract",
+            "fixture",
+            "component",
+            "development_case",
+            "historical_held_out",
+            "partial_pipeline_reconstruction",
+            "full_lifecycle_reconstruction",
+            "prospective",
+            "external_replication",
+            "governance_contract",
+            "student_comparison"
+          ]
+        },
+        "result_direction": {"enum": ["positive", "negative", "mixed", "diagnostic", "not_run"]},
+        "case_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "review_family_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "covered_stage_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/stageId"}
+        },
+        "construct_validity_status": {
+          "enum": [
+            "confirmed",
+            "partial",
+            "failed_current_contract",
+            "not_evaluated",
+            "not_applicable"
+          ]
+        },
+        "full_mechanism_executed": {"type": "boolean"},
+        "direct_baseline_passed": {"type": "boolean"},
+        "predicted_ablation_degradation_observed": {"type": "boolean"},
+        "frozen_before_reference": {"type": "boolean"},
+        "reference_opened_after_complete_lock": {"type": "boolean"},
+        "provider_relation": {
+          "enum": [
+            "same_provider_roles",
+            "different_provider",
+            "deterministic_external_verifier",
+            "human_or_external_adjudication",
+            "not_applicable"
+          ]
+        },
+        "independent_verification_claimed": {"type": "boolean"},
+        "same_case_full_lifecycle": {"type": "boolean"},
+        "artifact_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/relativePath"}
+        },
+        "resource_audit": {"$ref": "#/$defs/resourceAudit"},
+        "limitations": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

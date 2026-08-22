@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/direct_evidence_case_registry.schema.json",
+  "title": "Representative authoritative direct-evidence case registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "frozen_at_utc", "selection_policy", "required_profile_strata", "pragmatic_scale_floors", "cases"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "frozen_at_utc": {"type": "string", "format": "date-time"},
+    "selection_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["authority_is_admission_only", "authority_is_never_a_score_feature", "family_isolation_required", "exact_cutoff_required_for_run_ready", "representativeness_required"],
+      "properties": {
+        "authority_is_admission_only": {"const": true},
+        "authority_is_never_a_score_feature": {"const": true},
+        "family_isolation_required": {"const": true},
+        "exact_cutoff_required_for_run_ready": {"const": true},
+        "representativeness_required": {"const": true}
+      }
+    },
+    "required_profile_strata": {
+      "type": "array", "minItems": 8, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/profile_stratum"}
+    },
+    "pragmatic_scale_floors": {"type": "object"},
+    "cases": {"type": "array", "minItems": 4, "items": {"$ref": "#/$defs/case"}}
+  },
+  "$defs": {
+    "case": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_id", "title", "doi", "review_family_id", "split", "training_use", "execution_status", "review_profile", "profile_strata", "authority", "decision_relevance", "evidence_scale", "historical_cutoff", "operational_materials", "verification_sources", "blockers"],
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "title": {"type": "string", "minLength": 1},
+        "doi": {"type": "string", "pattern": "^10\\."},
+        "review_family_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "split": {"enum": ["development", "held_out", "diagnostic_only"]},
+        "training_use": {"enum": ["stage_verified_only", "negative_or_abstention_only", "audit_only", "forbidden"]},
+        "execution_status": {"enum": ["methods_only", "blocked_material_audit", "held_out_candidate", "run_ready", "diagnostic_only"]},
+        "review_profile": {"type": "string", "minLength": 1},
+        "profile_strata": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/profile_stratum"}
+        },
+        "authority": {
+          "type": "object", "additionalProperties": false,
+          "required": ["primary_identity_verified", "venue", "authority_basis"],
+          "properties": {
+            "primary_identity_verified": {"type": "boolean"},
+            "venue": {"type": "string", "minLength": 1},
+            "authority_basis": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+          }
+        },
+        "decision_relevance": {
+          "type": "object", "additionalProperties": false,
+          "required": ["broad_population_or_system_relevance", "decision_domain", "why_representative"],
+          "properties": {
+            "broad_population_or_system_relevance": {"type": "boolean"},
+            "decision_domain": {"type": "string", "minLength": 1},
+            "why_representative": {"type": "string", "minLength": 1}
+          }
+        },
+        "evidence_scale": {
+          "type": "object", "additionalProperties": false,
+          "required": ["route", "studies", "participants", "countries"],
+          "properties": {
+            "route": {"enum": ["network_or_living_nma", "broad_intervention_meta_analysis", "broad_public_health_exposure", "diagnostic_accuracy_review", "prognosis_or_prediction_review", "prevalence_incidence_review", "structured_narrative_review"]},
+            "studies": {"type": ["integer", "null"], "minimum": 0},
+            "participants": {"type": ["integer", "null"], "minimum": 0},
+            "countries": {"type": ["integer", "null"], "minimum": 0},
+            "records": {"type": ["integer", "null"], "minimum": 0},
+            "diagnostic_tests": {"type": ["integer", "null"], "minimum": 0},
+            "scale_unit_note": {"type": "string", "minLength": 1}
+          }
+        },
+        "reference_version_graph": {
+          "type": "object", "additionalProperties": false,
+          "required": ["binding_status", "target_version_id", "versions"],
+          "properties": {
+            "binding_status": {"enum": ["resolved", "unresolved", "version_mixed_invalid"]},
+            "target_version_id": {"type": "string", "minLength": 1},
+            "versions": {
+              "type": "array", "minItems": 1,
+              "items": {
+                "type": "object", "additionalProperties": false,
+                "required": ["version_id", "doi", "role", "cutoff", "article_url", "artifact_binding_status", "artifact_note"],
+                "properties": {
+                  "version_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+                  "doi": {"type": "string", "pattern": "^10\\."},
+                  "role": {"enum": ["target", "correction", "predecessor", "postcutoff_descendant"]},
+                  "cutoff": {"type": ["string", "null"]},
+                  "article_url": {"type": "string", "format": "uri"},
+                  "artifact_binding_status": {"enum": ["verified", "unresolved", "mismatched"]},
+                  "artifact_note": {"type": "string", "minLength": 1}
+                }
+              }
+            }
+          }
+        },
+        "historical_cutoff": {
+          "type": "object", "additionalProperties": false,
+          "required": ["exact", "value", "source_state"],
+          "properties": {
+            "exact": {"type": "boolean"},
+            "value": {"type": ["string", "null"]},
+            "source_state": {"enum": ["verified_primary", "unresolved"]}
+          }
+        },
+        "operational_materials": {
+          "type": "object", "additionalProperties": false,
+          "required": ["search_strategy", "search_export", "screening_reference", "extraction_reference", "lawful_source_route"],
+          "properties": {
+            "search_strategy": {"enum": ["verified", "partial", "unresolved"]},
+            "search_export": {"enum": ["verified", "partial", "unresolved"]},
+            "screening_reference": {"enum": ["verified", "partial", "unresolved"]},
+            "extraction_reference": {"enum": ["verified", "partial", "unresolved"]},
+            "lawful_source_route": {"enum": ["verified", "partial", "unresolved"]}
+          }
+        },
+        "material_snapshot_receipt": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^research/[A-Za-z0-9._/-]+\\.json$"
+            },
+            "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+          }
+        },
+        "training_stage_readiness": {
+          "type": "object",
+          "propertyNames": {"enum": ["topic_proposal", "protocol", "evidence_acquisition", "screening", "extraction", "appraisal", "synthesis", "certainty", "reporting", "living_update", "verification", "abstention"]},
+          "additionalProperties": {
+            "type": "object", "additionalProperties": false,
+            "required": ["status", "sources", "limitations"],
+            "properties": {
+              "status": {"enum": ["verified", "blocked"]},
+              "sources": {"type": "array", "items": {"type": "string", "format": "uri"}},
+              "limitations": {"type": "array", "items": {"type": "string", "minLength": 1}}
+            },
+            "allOf": [{
+              "if": {"properties": {"status": {"const": "verified"}}},
+              "then": {"properties": {"sources": {"minItems": 1}}}
+            }]
+          }
+        },
+        "verification_sources": {"type": "array", "minItems": 1, "items": {"type": "string", "format": "uri"}},
+        "blockers": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "profile_stratum": {
+      "enum": ["intervention_pairwise", "intervention_network", "diagnostic_accuracy", "prognostic_prediction", "prevalence_incidence", "public_health_exposure", "living_review", "structured_no_pooling"]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_living_stage_config.schema.json",
+  "title": "Frozen living-update search configuration",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "stage_id", "adapter_id", "source_id", "engine", "update_cutoff", "maximum_records"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "living_update"},
+    "adapter_id": {"const": "joint-living-update-v1"},
+    "source_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "engine": {"enum": ["pubmed", "europe_pmc"]},
+    "update_cutoff": {"type": "string", "format": "date"},
+    "maximum_records": {"type": "integer", "minimum": 1}
+  },
+  "$defs": {
+    "fileBinding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1, "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

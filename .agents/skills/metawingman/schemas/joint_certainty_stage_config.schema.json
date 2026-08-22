@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_certainty_stage_config.schema.json",
+  "title": "Frozen conservative certainty and claim compilation configuration",
+  "type": "object", "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "adapter_id", "initial_certainty",
+    "inconsistency_i2_threshold", "decision_threshold", "framework_label"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "certainty_interpretation"},
+    "adapter_id": {"const": "joint-conservative-certainty-claims-v1"},
+    "initial_certainty": {"enum": ["high", "low"]},
+    "inconsistency_i2_threshold": {"type": "number", "minimum": 0, "maximum": 100},
+    "decision_threshold": {"type": "number"},
+    "framework_label": {"const": "GRADE-informed preregistered evaluation rubric v1"}
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/evidence_acquisition_loop_receipt.schema.json",
+  "title": "One executed acquisition action and risk-state transition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "iteration", "action_id", "decision_sha256", "prior_state_sha256", "next_state_sha256", "risk_state_recomputed", "semantic_verification_status", "artifact", "usage", "created_at_utc"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "iteration": {"type": "integer", "minimum": 1},
+    "action_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "decision_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "prior_state_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "next_state_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "risk_state_recomputed": {"const": true},
+    "semantic_verification_status": {"enum": ["passed", "not_applicable"]},
+    "artifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "usage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["model_calls", "input_tokens", "output_tokens", "wall_seconds", "cost_status", "cost_value"],
+      "properties": {
+        "model_calls": {"type": "integer", "minimum": 0},
+        "input_tokens": {"type": "integer", "minimum": 0},
+        "output_tokens": {"type": "integer", "minimum": 0},
+        "wall_seconds": {"type": "number", "minimum": 0},
+        "cost_status": {"enum": ["known", "unknown", "not_applicable"]},
+        "cost_value": {"type": ["number", "null"], "minimum": 0}
+      },
+      "allOf": [
+        {"if": {"properties": {"cost_status": {"const": "known"}}}, "then": {"properties": {"cost_value": {"type": "number"}}, "required": ["cost_value"]}},
+        {"if": {"properties": {"cost_status": {"enum": ["unknown", "not_applicable"]}}}, "then": {"properties": {"cost_value": {"type": "null"}}}}
+      ]
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}

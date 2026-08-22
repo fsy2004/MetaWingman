@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_synthesis_stage_state.schema.json",
+  "title": "Frozen analysis and synthesis state",
+  "type": "object", "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "case_id", "arm_id", "seed", "appraisal_state_artifact",
+    "protocol_artifact", "analysis_input_artifact", "analysis_input_frozen_before_execution",
+    "requested_route_id", "executed_route_id", "effect_estimates", "synthesis_result",
+    "software_bindings", "published_reference_accessed"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "freeze_synthesis"},
+    "case_id": {"type": "string", "minLength": 1},
+    "arm_id": {"type": "string", "minLength": 1},
+    "seed": {"type": "integer"},
+    "appraisal_state_artifact": {"$ref": "#/$defs/fileBinding"},
+    "protocol_artifact": {"$ref": "#/$defs/fileBinding"},
+    "analysis_input_artifact": {"$ref": "#/$defs/fileBinding"},
+    "analysis_input_frozen_before_execution": {"const": true},
+    "requested_route_id": {"type": "string", "minLength": 1},
+    "executed_route_id": {"type": "string", "minLength": 1},
+    "effect_estimates": {"type": "array", "items": {"type": "object"}},
+    "synthesis_result": {"type": "object"},
+    "software_bindings": {"type": "object"},
+    "published_reference_accessed": {"const": false}
+  },
+  "$defs": {
+    "fileBinding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

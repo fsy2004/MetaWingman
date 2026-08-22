@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_living_stage_state.schema.json",
+  "title": "Living update delta and impact state",
+  "type": "object", "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "case_id", "arm_id", "seed", "reporting_state_artifact",
+    "previous_snapshot", "current_snapshot", "delta", "update_search_audit",
+    "published_reference_accessed"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "living_update"},
+    "case_id": {"type": "string", "minLength": 1},
+    "arm_id": {"type": "string", "minLength": 1},
+    "seed": {"type": "integer"},
+    "reporting_state_artifact": {"$ref": "#/$defs/fileBinding"},
+    "previous_snapshot": {"type": "object"},
+    "current_snapshot": {"type": "object"},
+    "delta": {"type": "object"},
+    "update_search_audit": {"type": "object"},
+    "published_reference_accessed": {"const": false}
+  },
+  "$defs": {
+    "fileBinding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

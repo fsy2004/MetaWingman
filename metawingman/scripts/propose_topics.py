@@ -22,6 +22,12 @@ def main() -> int:
     parser.add_argument("--max-prompt-characters", type=int, default=250_000)
     parser.add_argument("--thinking", action="store_true")
     parser.add_argument(
+        "--generation-mode",
+        choices=("decision_aware", "generic_direct"),
+        default="decision_aware",
+        help="Run the decision-aware proposer or the independent generic direct baseline.",
+    )
+    parser.add_argument(
         "--allow-hosted-data-transfer",
         action="store_true",
         help="Confirm that the validated landscape may be sent to the selected provider.",
@@ -53,6 +59,7 @@ def main() -> int:
             maximum_proposals=args.max_proposals,
             maximum_prompt_characters=args.max_prompt_characters,
             thinking=args.thinking,
+            generation_mode=args.generation_mode,
         )
     except (OSError, json.JSONDecodeError, ProviderRequestError, TopicProposalError) as exc:
         print(json.dumps({"status": "error", "error": str(exc)}, indent=2))

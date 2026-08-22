@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/case_material_snapshot_receipt.schema.json",
+  "title": "Representative case material snapshot receipts",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "collection_id",
+    "correct_server_host_key_prefix",
+    "snapshots"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "collection_id": {"type": "string", "minLength": 1},
+    "correct_server_host_key_prefix": {"const": "7d79b1266d43faef"},
+    "snapshots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/snapshot"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "doi",
+        "pmcid",
+        "server_root",
+        "snapshot_at_utc",
+        "verification_status",
+        "license",
+        "retracted",
+        "source_urls",
+        "files",
+        "archive_members",
+        "scientific_boundary",
+        "retrieval_notes"
+      ],
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "doi": {"type": "string", "pattern": "^10\\."},
+        "pmcid": {"type": "string", "pattern": "^PMC[0-9]+$"},
+        "server_root": {
+          "type": "string",
+          "pattern": "^/root/autodl-tmp/metawingman-direct-materials/representative-cases/"
+        },
+        "snapshot_at_utc": {"type": "string", "format": "date-time"},
+        "verification_status": {"const": "created_and_reverified"},
+        "license": {"enum": ["CC BY", "CC BY-NC"]},
+        "retracted": {"const": "no"},
+        "source_urls": {
+          "type": "object",
+          "minProperties": 2,
+          "additionalProperties": {"type": "string", "format": "uri"}
+        },
+        "files": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["oa_record", "oa_package"],
+          "properties": {
+            "oa_record": {"$ref": "#/$defs/file"},
+            "oa_package": {"$ref": "#/$defs/file"},
+            "external_inventory": {"$ref": "#/$defs/file"}
+          }
+        },
+        "archive_members": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/file"}
+        },
+        "external_repositories": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["repository", "project_id", "source_url", "public", "license_status", "license", "inventory_scope", "total_file_count", "files"],
+            "properties": {
+              "repository": {"type": "string", "minLength": 1},
+              "project_id": {"type": "string", "minLength": 1},
+              "source_url": {"type": "string", "format": "uri"},
+              "public": {"type": "boolean"},
+              "license_status": {"enum": ["declared", "no_license_selected", "unresolved"]},
+              "license": {"type": ["object", "string", "null"]},
+              "inventory_scope": {"enum": ["complete", "selected_materials"]},
+              "total_file_count": {"type": "integer", "minimum": 0},
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "object", "additionalProperties": false,
+                  "required": ["id", "name", "kind", "bytes", "materialized_path", "date_modified"],
+                  "properties": {
+                    "id": {"type": "string", "minLength": 1},
+                    "name": {"type": "string", "minLength": 1},
+                    "kind": {"const": "file"},
+                    "bytes": {"type": "integer", "minimum": 1},
+                    "materialized_path": {"type": "string", "minLength": 1},
+                    "date_modified": {"type": "string", "format": "date-time"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "scientific_boundary": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "retrieval_notes": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

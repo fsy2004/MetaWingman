@@ -1,0 +1,438 @@
+{
+  "schema_version": "1.0",
+  "plan_id": "joint-dual-innovation-ten-stage-v1",
+  "plan_status": "blocked_not_run",
+  "frozen_at_utc": "2026-08-22T02:06:53Z",
+  "operating_mode": "evaluation",
+  "runtime_policy": {
+    "text_model_id": "deepseek-v4-flash",
+    "vision_model_id": "glm-4.6v",
+    "human_intervention_during_run": false
+  },
+  "innovation_ledger_reference": {
+    "status": "locked",
+    "path": "research/innovation-evidence-ledger-v1.json",
+    "sha256": "da45e9b1116dd856bec8bcd78cd8594155d6969aba844a1317db0064897dacc6"
+  },
+  "lifecycle_stages": [
+    {"ordinal": 0, "stage_id": "topic_feasibility", "receipt_required": true},
+    {"ordinal": 1, "stage_id": "protocol_registration", "receipt_required": true},
+    {"ordinal": 2, "stage_id": "search_retrieval", "receipt_required": true},
+    {"ordinal": 3, "stage_id": "selection", "receipt_required": true},
+    {"ordinal": 4, "stage_id": "data_lineage", "receipt_required": true},
+    {"ordinal": 5, "stage_id": "appraisal", "receipt_required": true},
+    {"ordinal": 6, "stage_id": "freeze_synthesis", "receipt_required": true},
+    {"ordinal": 7, "stage_id": "certainty_interpretation", "receipt_required": true},
+    {"ordinal": 8, "stage_id": "reporting_review", "receipt_required": true},
+    {"ordinal": 9, "stage_id": "living_update", "receipt_required": true}
+  ],
+  "seeds": [20260820, 20260821, 20260822],
+  "topic_protocol_inputs": [
+    {
+      "binding_id": "temporal_evidence_landscape",
+      "status": "missing",
+      "path": null,
+      "sha256": null,
+      "protocol_role": "stage_0_frozen_input"
+    },
+    {
+      "binding_id": "topic_generation_protocol",
+      "status": "missing",
+      "path": null,
+      "sha256": null,
+      "protocol_role": "stage_0_frozen_input"
+    },
+    {
+      "binding_id": "topic_signal_audit_protocol",
+      "status": "missing",
+      "path": null,
+      "sha256": null,
+      "protocol_role": "stage_0_frozen_input"
+    },
+    {
+      "binding_id": "topic_scoring_protocol",
+      "status": "missing",
+      "path": null,
+      "sha256": null,
+      "protocol_role": "stage_0_frozen_input"
+    }
+  ],
+  "mechanism_bindings": [
+    {
+      "binding_id": "topic_candidate_generator",
+      "cli": {
+        "status": "locked",
+        "path": "metawingman/scripts/propose_topics.py",
+        "sha256": "2b263c0ac104beb6ca440aa55374441d4cc1cd225477c9ea9a07deeb868f0e56"
+      },
+      "implementation": {
+        "status": "locked",
+        "path": "metawingman/scripts/metawingman_core/topic_proposer.py",
+        "sha256": "a62a30e735ecb4ff1580175e548331d042bfeec79af7dd6aa389e7d4f90edddf"
+      },
+      "command_template": [
+        "python",
+        "metawingman/scripts/propose_topics.py",
+        "{landscape}",
+        "--provider-config",
+        "{provider_config}",
+        "--max-proposals",
+        "{candidate_budget}",
+        "--allow-hosted-data-transfer",
+        "--out",
+        "{proposal_batch}"
+      ]
+    },
+    {
+      "binding_id": "topic_opportunity_controller",
+      "cli": {
+        "status": "locked",
+        "path": "metawingman/scripts/select_topics.py",
+        "sha256": "b72eb69d054395be6177d55b4a2fe7bb3cd454bf6300f6be06fc0ded633f23ce"
+      },
+      "implementation": {
+        "status": "locked",
+        "path": "metawingman/scripts/metawingman_core/topic_opportunity.py",
+        "sha256": "a36f72c46f1911fb870253b157ac1aacea1732159a82cb1231cc4213129a76c0"
+      },
+      "command_template": [
+        "python",
+        "metawingman/scripts/select_topics.py",
+        "{landscape}",
+        "{candidate_set}",
+        "--out",
+        "{topic_decision}"
+      ]
+    },
+    {
+      "binding_id": "conclusion_risk_impact_controller",
+      "cli": {
+        "status": "locked",
+        "path": "metawingman/scripts/run_evidence_acquisition_loop.py",
+        "sha256": "a4aa496aeb3d5a59e90030e235e890e4d4ab26fb4407e1af5023f5407d23c8ec"
+      },
+      "implementation": {
+        "status": "locked",
+        "path": "metawingman/scripts/metawingman_core/evidence_acquisition_loop.py",
+        "sha256": "4f237447a23b0ba397b27a2f25924c09c15bd9732af004c47cefa738db18299e"
+      },
+      "command_template": [
+        "python",
+        "metawingman/scripts/run_evidence_acquisition_loop.py",
+        "{initial_evidence_acquisition_state}",
+        "{loop_plan}",
+        "--executor",
+        "{executor_module_function}",
+        "--created-at-utc",
+        "{created_at_utc}",
+        "--out",
+        "{loop_result}"
+      ]
+    }
+  ],
+  "scientific_prerequisites": [
+    {
+      "prerequisite_id": "topic_signal_construct_validity",
+      "status": "blocked",
+      "basis": "Decision relevance, source-family, cross-domain, uncertainty, contamination, and known-item signals require independent construct repair and calibration before confirmatory use.",
+      "required_for": "both"
+    },
+    {
+      "prerequisite_id": "independent_false_opportunity_labels",
+      "status": "blocked",
+      "basis": "Current false-opportunity labels are not independent of the full policy gates and cannot validate specificity.",
+      "required_for": "confirmatory_claim"
+    },
+    {
+      "prerequisite_id": "direct_generic_candidate_generation_baseline",
+      "status": "blocked",
+      "basis": "Existing controls rerank one shared candidate set; an independently generated generic comparator does not yet have a frozen executable runner.",
+      "required_for": "both"
+    },
+    {
+      "prerequisite_id": "joint_ten_stage_runner",
+      "status": "blocked",
+      "basis": "No runner currently executes both innovations on one case through all ten lifecycle stages.",
+      "required_for": "both"
+    },
+    {
+      "prerequisite_id": "new_confirmatory_family_freeze",
+      "status": "blocked",
+      "basis": "The one previously used Lancet family is a one-time component diagnostic and cannot be reused as a new confirmatory held-out family; at least two new authoritative representative families must be frozen after method lock.",
+      "required_for": "both"
+    },
+    {
+      "prerequisite_id": "historical_model_memory_boundary",
+      "status": "blocked",
+      "basis": "Historical target memorization cannot yet be excluded for the fixed hosted model; claims must remain agreement-with-reference unless prospective or memory-bounded cases are used.",
+      "required_for": "confirmatory_claim"
+    },
+    {
+      "prerequisite_id": "risk_impact_controller_direct_evaluation",
+      "status": "blocked",
+      "basis": "The hash-bound action-execute-replan loop is fixture-tested and uses metawingman/scripts/metawingman_core/evidence_acquisition.py as its supporting single-step planner, but no case-specific scientific executor adapter or direct held-out run exists; the earlier negative result tested only an axis-prompt proxy.",
+      "required_for": "both"
+    },
+    {
+      "prerequisite_id": "case_material_version_binding",
+      "status": "blocked",
+      "basis": "No confirmatory case currently has one cutoff-bound corpus, workbook, article, and conclusion reference graph with real hashes.",
+      "required_for": "execution"
+    },
+    {
+      "prerequisite_id": "checkpoint_and_family_closure",
+      "status": "blocked",
+      "basis": "Seed-specific checkpoint lineage and review-family dependency closure have not been locked.",
+      "required_for": "execution"
+    }
+  ],
+  "evaluation_design": {
+    "design": "two_by_two_joint_factorial",
+    "candidate_comparison_scope": "direct_candidate_generation_per_arm",
+    "shared_candidate_reranking_only_prohibited": true,
+    "matched_budget": {
+      "budget_id": "joint-matched-budget-v1",
+      "status": "unfrozen",
+      "max_provider_calls": null,
+      "max_input_tokens": null,
+      "max_output_tokens": null,
+      "wall_seconds": null,
+      "cost_reporting": "known_value_or_explicit_unknown_never_imputed_zero"
+    },
+    "arms": [
+      {
+        "arm_id": "generic-topic__fixed-acquisition",
+        "topic_opportunity_control": false,
+        "conclusion_risk_impact_control": false,
+        "candidate_generation_mode": "generic_direct_generation",
+        "acquisition_mode": "fixed_generic",
+        "runner_binding": {"status": "missing", "path": null, "sha256": null},
+        "resource_usage": {
+          "provider_calls": {"status": "not_run", "value": null},
+          "input_tokens": {"status": "not_run", "value": null},
+          "output_tokens": {"status": "not_run", "value": null},
+          "wall_seconds": {"status": "not_run", "value": null},
+          "cost": {"status": "not_run", "value": null, "currency": null}
+        }
+      },
+      {
+        "arm_id": "decision-topic__fixed-acquisition",
+        "topic_opportunity_control": true,
+        "conclusion_risk_impact_control": false,
+        "candidate_generation_mode": "decision_aware_direct_generation",
+        "acquisition_mode": "fixed_generic",
+        "runner_binding": {"status": "missing", "path": null, "sha256": null},
+        "resource_usage": {
+          "provider_calls": {"status": "not_run", "value": null},
+          "input_tokens": {"status": "not_run", "value": null},
+          "output_tokens": {"status": "not_run", "value": null},
+          "wall_seconds": {"status": "not_run", "value": null},
+          "cost": {"status": "not_run", "value": null, "currency": null}
+        }
+      },
+      {
+        "arm_id": "generic-topic__risk-impact-acquisition",
+        "topic_opportunity_control": false,
+        "conclusion_risk_impact_control": true,
+        "candidate_generation_mode": "generic_direct_generation",
+        "acquisition_mode": "risk_times_impact",
+        "runner_binding": {"status": "missing", "path": null, "sha256": null},
+        "resource_usage": {
+          "provider_calls": {"status": "not_run", "value": null},
+          "input_tokens": {"status": "not_run", "value": null},
+          "output_tokens": {"status": "not_run", "value": null},
+          "wall_seconds": {"status": "not_run", "value": null},
+          "cost": {"status": "not_run", "value": null, "currency": null}
+        }
+      },
+      {
+        "arm_id": "decision-topic__risk-impact-acquisition",
+        "topic_opportunity_control": true,
+        "conclusion_risk_impact_control": true,
+        "candidate_generation_mode": "decision_aware_direct_generation",
+        "acquisition_mode": "risk_times_impact",
+        "runner_binding": {"status": "missing", "path": null, "sha256": null},
+        "resource_usage": {
+          "provider_calls": {"status": "not_run", "value": null},
+          "input_tokens": {"status": "not_run", "value": null},
+          "output_tokens": {"status": "not_run", "value": null},
+          "wall_seconds": {"status": "not_run", "value": null},
+          "cost": {"status": "not_run", "value": null, "currency": null}
+        }
+      }
+    ]
+  },
+  "checkpoint_records": [
+    {
+      "checkpoint_id": "query-encoder-20260820",
+      "seed": 20260820,
+      "role": "query_encoder",
+      "status": "missing",
+      "artifact_path": null,
+      "artifact_sha256": null,
+      "training_manifest_sha256": null,
+      "family_manifest_sha256": null
+    },
+    {
+      "checkpoint_id": "document-encoder-20260820",
+      "seed": 20260820,
+      "role": "document_encoder",
+      "status": "missing",
+      "artifact_path": null,
+      "artifact_sha256": null,
+      "training_manifest_sha256": null,
+      "family_manifest_sha256": null
+    },
+    {
+      "checkpoint_id": "query-encoder-20260821",
+      "seed": 20260821,
+      "role": "query_encoder",
+      "status": "missing",
+      "artifact_path": null,
+      "artifact_sha256": null,
+      "training_manifest_sha256": null,
+      "family_manifest_sha256": null
+    },
+    {
+      "checkpoint_id": "document-encoder-20260821",
+      "seed": 20260821,
+      "role": "document_encoder",
+      "status": "missing",
+      "artifact_path": null,
+      "artifact_sha256": null,
+      "training_manifest_sha256": null,
+      "family_manifest_sha256": null
+    },
+    {
+      "checkpoint_id": "query-encoder-20260822",
+      "seed": 20260822,
+      "role": "query_encoder",
+      "status": "missing",
+      "artifact_path": null,
+      "artifact_sha256": null,
+      "training_manifest_sha256": null,
+      "family_manifest_sha256": null
+    },
+    {
+      "checkpoint_id": "document-encoder-20260822",
+      "seed": 20260822,
+      "role": "document_encoder",
+      "status": "missing",
+      "artifact_path": null,
+      "artifact_sha256": null,
+      "training_manifest_sha256": null,
+      "family_manifest_sha256": null
+    }
+  ],
+  "case_admission_policy": {
+    "minimum_confirmatory_cases": 2,
+    "materially_different_review_profiles_required": true,
+    "new_family_after_method_freeze_required": true,
+    "prior_target_exposure_prohibited": true,
+    "authority_and_representativeness_required": true,
+    "common_or_high_burden_required": true,
+    "journal_prestige_is_admission_only": true,
+    "journal_prestige_is_not_a_score_feature": true,
+    "training_family_overlap_prohibited": true
+  },
+  "cases": [
+    {
+      "case_slot_id": "confirmatory-heldout-slot-01",
+      "case_id": null,
+      "review_family_id": null,
+      "split": "held_out",
+      "training_use": "forbidden",
+      "admission_status": "not_selected",
+      "profile_strata": [],
+      "authority_status": "pending",
+      "representativeness_status": "pending",
+      "prior_target_exposure_status": "unverified",
+      "version_graph": {
+        "status": "unbound",
+        "nodes": [
+          {"role": "historical_cutoff", "exposure": "operational", "status": "missing", "path": null, "sha256": null, "cutoff_value": null, "cutoff_exact": null},
+          {"role": "operational_corpus", "exposure": "operational", "status": "missing", "path": null, "sha256": null, "cutoff_value": null, "cutoff_exact": null},
+          {"role": "screening_workbook", "exposure": "operational", "status": "missing", "path": null, "sha256": null, "cutoff_value": null, "cutoff_exact": null},
+          {"role": "published_article", "exposure": "sealed_controller_only", "status": "missing", "path": null, "sha256": null, "cutoff_value": null, "cutoff_exact": null},
+          {"role": "published_conclusions", "exposure": "sealed_controller_only", "status": "missing", "path": null, "sha256": null, "cutoff_value": null, "cutoff_exact": null}
+        ],
+        "edges": [
+          {"from_role": "historical_cutoff", "to_role": "operational_corpus", "relation": "same_review_version"},
+          {"from_role": "historical_cutoff", "to_role": "screening_workbook", "relation": "same_review_version"},
+          {"from_role": "historical_cutoff", "to_role": "published_article", "relation": "same_review_version"},
+          {"from_role": "historical_cutoff", "to_role": "published_conclusions", "relation": "same_review_version"}
+        ]
+      }
+    },
+    {
+      "case_slot_id": "confirmatory-heldout-slot-02",
+      "case_id": null,
+      "review_family_id": null,
+      "split": "held_out",
+      "training_use": "forbidden",
+      "admission_status": "not_selected",
+      "profile_strata": [],
+      "authority_status": "pending",
+      "representativeness_status": "pending",
+      "prior_target_exposure_status": "unverified",
+      "version_graph": {
+        "status": "unbound",
+        "nodes": [
+          {"role": "historical_cutoff", "exposure": "operational", "status": "missing", "path": null, "sha256": null, "cutoff_value": null, "cutoff_exact": null},
+          {"role": "operational_corpus", "exposure": "operational", "status": "missing", "path": null, "sha256": null, "cutoff_value": null, "cutoff_exact": null},
+          {"role": "screening_workbook", "exposure": "operational", "status": "missing", "path": null, "sha256": null, "cutoff_value": null, "cutoff_exact": null},
+          {"role": "published_article", "exposure": "sealed_controller_only", "status": "missing", "path": null, "sha256": null, "cutoff_value": null, "cutoff_exact": null},
+          {"role": "published_conclusions", "exposure": "sealed_controller_only", "status": "missing", "path": null, "sha256": null, "cutoff_value": null, "cutoff_exact": null}
+        ],
+        "edges": [
+          {"from_role": "historical_cutoff", "to_role": "operational_corpus", "relation": "same_review_version"},
+          {"from_role": "historical_cutoff", "to_role": "screening_workbook", "relation": "same_review_version"},
+          {"from_role": "historical_cutoff", "to_role": "published_article", "relation": "same_review_version"},
+          {"from_role": "historical_cutoff", "to_role": "published_conclusions", "relation": "same_review_version"}
+        ]
+      }
+    }
+  ],
+  "family_closures": [
+    {
+      "case_slot_id": "confirmatory-heldout-slot-01",
+      "review_family_id": null,
+      "status": "open",
+      "training_family_manifest_sha256": null,
+      "dependency_closure_sha256": null,
+      "closed_at_utc": null
+    },
+    {
+      "case_slot_id": "confirmatory-heldout-slot-02",
+      "review_family_id": null,
+      "status": "open",
+      "training_family_manifest_sha256": null,
+      "dependency_closure_sha256": null,
+      "closed_at_utc": null
+    }
+  ],
+  "stage_receipts": [],
+  "published_reference_gate": {
+    "state": "sealed",
+    "unlock_condition": "all_expected_stage_receipts_locked_and_all_review_family_closures_locked",
+    "reference_locator_in_operational_plan": false,
+    "unsealed_at_utc": null
+  },
+  "resource_accounting_policy": {
+    "required_fields": ["provider_calls", "input_tokens", "output_tokens", "wall_seconds", "cost"],
+    "null_cost_policy": "explicit_unknown_or_not_applicable_never_zero_imputation",
+    "wall_time_policy": "observed_or_explicit_not_applicable"
+  },
+  "declared_blockers": [
+    "Topic opportunity signal constructs and independent false-opportunity labels are not confirmatory-ready.",
+    "An actual generic candidate-generation direct baseline and four ten-stage arm runners are not implemented and hash-bound.",
+    "The matched calls, token, wall-time, and cost-reporting budget is not frozen.",
+    "The prior Lancet shared-candidate result predates and fails the current construct contract and cannot serve as an untouched confirmatory family.",
+    "Two new authoritative, representative, common-or-high-burden, methodologically different confirmatory review families have not been selected and sealed; the two newly registered profile cases are development-only.",
+    "No case has a single-version cutoff, corpus, screening workbook, published article, and published-conclusions hash graph.",
+    "Seed-specific checkpoint lineage and review-family dependency closure are open.",
+    "The action-execute-replan risk-times-impact loop is fixture-tested but lacks a scientific executor adapter and direct held-out evaluation.",
+    "No stage receipts exist; the published expert reference must remain sealed.",
+    "Historical hosted-model memory contamination remains unresolved and limits any independent-discovery claim."
+  ]
+}

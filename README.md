@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="plugins/metawingman/.codex-plugin/assets/logo.png" width="112" alt="MetaWingman logo"/>
-</p>
-
 <h1 align="center">MetaWingman</h1>
 
 <p align="center"><b>A systematic-review and meta-analysis Agent + Skill for choosing consequential review questions and directing evidence work toward conclusion risk.</b></p>
@@ -18,7 +14,7 @@
 [![release](https://img.shields.io/badge/release-v0.1.6-2563EB)](https://github.com/fsy2004/MetaWingman/releases)
 ![R toolkit](https://img.shields.io/badge/R_modules-26-276DC3)
 ![manifests](https://img.shields.io/badge/manifests-61-7C3AED)
-![schemas](https://img.shields.io/badge/schemas-87-0F766E)
+![schemas](https://img.shields.io/badge/schemas-124-0F766E)
 <!-- readme-metrics:end -->
 
 ## Why MetaWingman
@@ -61,7 +57,7 @@ These policies share an executable substrate:
 - a bundled R engine for reproducible meta-analysis;
 - sealed evaluation plans, receipts, locks, and family-isolated training.
 
-## One review state, end to end
+## One review state across the lifecycle
 
 ```mermaid
 flowchart LR
@@ -83,14 +79,33 @@ blocked or returned for accountable human action instead of being silently accep
 
 ## Start in 60 seconds
 
-### Install as a Codex plugin
+Choose either route. Both use the same versioned methodology and deterministic
+tooling; the difference is how the host discovers and runs MetaWingman.
+
+### Agent route: install the Codex plugin
+
+Use this route when you want a Codex Agent to discover MetaWingman, inspect the
+live review state, call its tools, enforce gates, and continue the workflow.
 
 ```powershell
 codex plugin marketplace add fsy2004/MetaWingman
 codex plugin add metawingman@metawingman-local
 ```
 
-### Or clone the repository
+Then give the Agent the review objective and available material:
+
+```text
+Use $metawingman to continue this systematic review from its live project state.
+Review question: ...
+Available material: protocol, searches, RIS/CSV, PDFs, extraction tables, or analysis data
+Required output: decision record, reproducible project, tables, figures, GRADE, manuscript, or audit
+```
+
+### Skill route: install the portable Skill bundle
+
+Use this route for Codex or another Agent Skills-compatible host when you want the
+auditable instructions, schemas, scripts, R engine, and responsibility gates as a
+local reusable Skill.
 
 ```powershell
 git clone https://github.com/fsy2004/MetaWingman.git
@@ -98,7 +113,7 @@ cd MetaWingman
 .\install.ps1
 ```
 
-Invoke the Skill with the scientific state you already have:
+Invoke the installed Skill with the scientific state you already have:
 
 ```text
 $metawingman
@@ -109,9 +124,9 @@ Available material: protocol, searches, RIS/CSV, PDFs, extraction tables, or ana
 Required output: decision record, reproducible project, tables, figures, GRADE, manuscript, or audit
 ```
 
-You can start at any stage. MetaWingman inspects the live project state, identifies
-the next gate, and produces auditable work that can be resumed by another compatible
-Agent.
+You can start at any stage through either route. MetaWingman inspects the live
+project state, identifies the next gate, and produces auditable work that can be
+resumed by another compatible Agent.
 
 ## What you can build
 
@@ -141,13 +156,45 @@ evidence levels. The current dated evidence includes:
 - a locked 225-run question-and-method feasibility benchmark;
 - deterministic R adapter reconstruction and change-impact replay;
 - family-isolated component training with immutable server receipts, including
-  the [three-seed full-pool retrieval evaluation](docs/architecture/retrieval-v4-asymmetric-medcpt-results-2026-08-21.md).
+  the [three-seed full-pool retrieval evaluation](docs/architecture/retrieval-v4-asymmetric-medcpt-results-2026-08-21.md); and
+- a frozen representative-case registry plus an agent-trajectory **export
+  governance** contract that restricts future training exports to development
+  cases and explicitly verified stages, separates positive demonstrations,
+  scientific negative decisions, justified abstentions, and audit-only
+  infrastructure quarantines, retains failures and abstentions, and forbids
+  published-reference fields; and a [three-seed protocol-agent development
+  bootstrap](docs/architecture/protocol-agent-distillation-bootstrap-results-2026-08-22.md)
+  in one authoritative adult-depression review family. The unadapted base scored
+  0.000 mean complete-action accuracy on four action-group-held-out spans and the
+  LoRA students scored 0.917, with JSON validity 1.000 for both. This is a
+  same-article development signal, not unseen-family or complete-agent evidence;
+- a [broad-query topic-opportunity diagnostic](docs/architecture/topic-opportunity-direct-results-2026-08-22.md)
+  that retains the negative concept-contaminated runs, blocks their topic-stage
+  distillation, and adds a 100%-coverage JAMA Pediatrics development run whose
+  locked screen-use candidate passed the corrected study-design-adaptive audit
+  only in an explicitly post-lock calibration replay, plus a locked Lancet
+  antidepressant held-out **legacy shared-candidate ranking-and-gating** result
+  that predates and fails the current record-level construct contract. The
+  full policy hit the target at Top-1/Top-3 while three direct rankings missed
+  at Top-3; candidate generation was common to all arms and therefore untested,
+  false opportunities were defined by gates that also belong to the full
+  policy, and the old corpus lacks complete record-level domain, study/source-
+  family, and verified pre-cutoff decision-anchor mappings; and
+- a [locked two-case metadata/abstract three-stage reconstruction](docs/architecture/two-case-direct-evidence-results-2026-08-22.md)
+  that preserves all frozen results but is not an end-to-end review. The Ag-RDT
+  rows are a version-mixed invalid diagnostic. The suicide/self-harm development
+  case is negative only for a conclusion-axis prompt/reranking proxy; checkpoint
+  and review-family closure remain unresolved, and the full residual-risk x
+  downstream-impact controller was not tested.
 
-Read the [scientific status](docs/STATUS.md),
+Read the [machine-audited innovation evidence ledger](research/innovation-evidence-ledger-v1.json),
+[canonical dual-innovation and full-workflow plan](docs/architecture/dual-innovation-evidence-and-full-workflow-plan-2026-08-22.md),
+[scientific status](docs/STATUS.md),
 [evaluation contract](docs/architecture/methodology-grounded-evaluation-contract.md),
 and [R5 feasibility report](docs/architecture/question-synthesis-r5-feasibility-report-2026-08-21.md)
-before citing a performance claim. Interface tests and software breadth do not by
-themselves establish end-to-end review accuracy or clinical validity.
+before citing a performance claim. No blind case has executed and passed all ten
+lifecycle stages. Interface tests and software breadth do not establish
+complete-review accuracy or clinical validity.
 
 ## Repository map
 
@@ -166,11 +213,11 @@ MetaWingman/
 <!-- readme-inventory:start -->
 | Repository metric | Current |
 |---|---:|
-| Python entry points | 88 |
-| JSON schemas | 87 |
+| Python entry points | 116 |
+| JSON schemas | 124 |
 | R analysis modules | 26 |
 | R adapter manifests | 61 |
-| R adapters | 15 |
+| R adapters | 16 |
 <!-- readme-inventory:end -->
 
 `metawingman/` and `toolkit/` are the authoritative sources. Rebuild
@@ -180,7 +227,8 @@ MetaWingman/
 
 ```powershell
 python -m unittest discover -s .\tests -p "test_*.py" -v
-python .\metawingman\scripts\test_r_adapters.py .\metawingman
+$rValidation = Join-Path $env:TEMP "metawingman-r-adapters"
+python .\metawingman\scripts\test_r_adapters.py .\metawingman --outdir $rValidation
 python .\scripts\build_skill_bundle.py
 python .\scripts\verify_skill_bundle.py .\.agents\skills\metawingman
 python .\scripts\verify_skill_bundle.py .\plugins\metawingman\skills\metawingman

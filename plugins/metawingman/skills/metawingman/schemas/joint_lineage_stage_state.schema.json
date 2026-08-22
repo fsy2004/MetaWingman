@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_lineage_stage_state.schema.json",
+  "title": "Source-span-bound report-study-result-estimand lineage state",
+  "type": "object", "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "case_id", "arm_id", "seed", "selection_state_artifact",
+    "protocol_artifact", "documents", "anchors", "reports", "studies", "results", "estimands",
+    "extraction_candidates", "lineage_edges", "full_text_assessments",
+    "full_text_include_record_ids", "full_text_exclude_record_ids", "full_text_abstain_record_ids",
+    "full_text_exclusion_citations", "all_full_text_records_accounted_for", "unresolved_record_ids",
+    "complete_verified_lineage_count", "model_provenance", "published_reference_accessed"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "data_lineage"},
+    "case_id": {"type": "string", "minLength": 1},
+    "arm_id": {"type": "string", "minLength": 1},
+    "seed": {"type": "integer"},
+    "selection_state_artifact": {"$ref": "#/$defs/fileBinding"},
+    "protocol_artifact": {"$ref": "#/$defs/fileBinding"},
+    "documents": {"type": "array", "items": {"type": "object"}},
+    "anchors": {"type": "array", "items": {"type": "object"}},
+    "reports": {"type": "array", "items": {"type": "object"}},
+    "studies": {"type": "array", "items": {"type": "object"}},
+    "results": {"type": "array", "items": {"type": "object"}},
+    "estimands": {"type": "array", "items": {"type": "object"}},
+    "extraction_candidates": {"type": "array", "items": {"type": "object"}},
+    "lineage_edges": {"type": "array", "items": {"type": "object"}},
+    "full_text_assessments": {"type": "array", "items": {"type": "object"}},
+    "full_text_include_record_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "full_text_exclude_record_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "full_text_abstain_record_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "full_text_exclusion_citations": {"type": "array", "items": {"type": "object"}},
+    "all_full_text_records_accounted_for": {"const": true},
+    "unresolved_record_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "complete_verified_lineage_count": {"type": "integer", "minimum": 0},
+    "model_provenance": {"type": "array", "items": {"type": "object"}},
+    "published_reference_accessed": {"const": false}
+  },
+  "$defs": {
+    "fileBinding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

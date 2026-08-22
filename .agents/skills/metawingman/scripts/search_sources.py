@@ -12,7 +12,7 @@ import time
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 from metawingman_core.network_security import (
@@ -20,15 +20,48 @@ from metawingman_core.network_security import (
     public_https_opener,
     validate_public_https_url,
 )
+from metawingman_core.pubmed_constructs import pubmed_construct_annotations
 
 
-FIELDS = ["record_id", "source", "source_record_id", "title", "abstract", "authors", "year", "journal", "doi", "pmid", "pmcid", "nct_id", "url", "publication_type", "is_open_access", "retrieved_at", "query_hash"]
+FIELDS = ["record_id", "source", "source_record_id", "title", "abstract", "authors", "year", "first_publication_date", "journal", "doi", "pmid", "pmcid", "nct_id", "url", "publication_type", "mesh_terms", "registry_ids", "study_family_ids", "decision_anchor_type", "construct_annotation_basis", "is_open_access", "retrieved_at", "query_hash"]
 UA = "MetaWingman/1.0"
 MAX_RAW_RESPONSE_BYTES = 100 * 1024 * 1024
 
 
 class SearchIntegrityError(ValueError):
     """Raised when an API response cannot prove a complete bounded retrieval."""
+
+
+_MONTH_NUMBERS = {
+    "jan": 1, "january": 1, "feb": 2, "february": 2, "mar": 3, "march": 3,
+    "apr": 4, "april": 4, "may": 5, "jun": 6, "june": 6, "jul": 7, "july": 7,
+    "aug": 8, "august": 8, "sep": 9, "sept": 9, "september": 9,
+    "oct": 10, "october": 10, "nov": 11, "november": 11, "dec": 12, "december": 12,
+}
+
+
+def _exact_xml_date(node: ET.Element | None) -> str:
+    if node is None:
+        return ""
+    year_text = node.findtext("Year")
+    month_text = node.findtext("Month")
+    day_text = node.findtext("Day")
+    if not (year_text and month_text and day_text):
+        return ""
+    month = int(month_text) if month_text.isdigit() else _MONTH_NUMBERS.get(month_text.casefold())
+    try:
+        return date(int(year_text), int(month), int(day_text)).isoformat()
+    except (TypeError, ValueError):
+        return ""
+
+
+def publication_date_from_article(article: ET.Element) -> str:
+    """Return an exact PubMed publication date; never invent month/day precision."""
+    for node in article.findall(".//Article/ArticleDate"):
+        exact = _exact_xml_date(node)
+        if exact:
+            return exact
+    return _exact_xml_date(article.find(".//Article/Journal/JournalIssue/PubDate"))
 
 
 def now() -> str:
@@ -124,11 +157,17 @@ def pubmed(query: str, limit: int, raw_dir: Path) -> tuple[list[dict], dict]:
                     if kind == "doi": doi = (aid.text or "").strip()
                     if kind == "pmc": pmcid = (aid.text or "").strip()
                 year = text(article, ".//Article/Journal/JournalIssue/PubDate/Year") or text(article, ".//Article/Journal/JournalIssue/PubDate/MedlineDate")[:4]
+                annotations = pubmed_construct_annotations(article)
                 records.append({
                     "record_id": f"pubmed:{pmid}", "source": "PubMed", "source_record_id": pmid,
                     "title": title, "abstract": abstract, "authors": "; ".join(authors), "year": year,
+                    "first_publication_date": publication_date_from_article(article),
                     "journal": text(article, ".//Article/Journal/Title"), "doi": doi, "pmid": pmid, "pmcid": pmcid,
                     "nct_id": "", "url": f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/", "publication_type": "; ".join(x.text or "" for x in article.findall(".//Article/PublicationTypeList/PublicationType")),
+                    "mesh_terms": annotations["mesh_terms"], "registry_ids": annotations["registry_ids"],
+                    "study_family_ids": annotations["study_family_ids"],
+                    "decision_anchor_type": annotations.get("decision_anchor_type", ""),
+                    "construct_annotation_basis": annotations["construct_annotation_basis"],
                     "is_open_access": "", "retrieved_at": now(), "query_hash": qhash,
                 })
             time.sleep(delay)
@@ -153,6 +192,7 @@ def europe_pmc(query: str, limit: int, raw_dir: Path) -> tuple[list[dict], dict]
                 "record_id": f"europepmc:{source_id}", "source": "Europe PMC", "source_record_id": source_id,
                 "title": item.get("title", ""), "abstract": item.get("abstractText", ""),
                 "authors": item.get("authorString", ""), "year": item.get("pubYear", ""),
+                "first_publication_date": item.get("firstPublicationDate", ""),
                 "journal": item.get("journalTitle", ""), "doi": item.get("doi", ""),
                 "pmid": item.get("pmid", ""), "pmcid": item.get("pmcid", ""), "nct_id": "",
                 "url": f"https://europepmc.org/article/{item.get('source','')}/{item.get('id','')}",
@@ -186,10 +226,12 @@ def clinical_trials(query: str, limit: int, raw_dir: Path) -> tuple[list[dict], 
             desc = proto.get("descriptionModule", {})
             nct = ident.get("nctId", "")
             sponsor = proto.get("sponsorCollaboratorsModule", {}).get("leadSponsor", {}).get("name", "")
+            first_post = proto.get("statusModule", {}).get("studyFirstPostDateStruct", {}).get("date", "")
             records.append({
                 "record_id": f"ctg:{nct}", "source": "ClinicalTrials.gov", "source_record_id": nct,
                 "title": ident.get("briefTitle", ""), "abstract": desc.get("briefSummary", ""), "authors": sponsor,
-                "year": "", "journal": "ClinicalTrials.gov", "doi": "", "pmid": "", "pmcid": "", "nct_id": nct,
+                "year": first_post[:4], "first_publication_date": first_post,
+                "journal": "ClinicalTrials.gov", "doi": "", "pmid": "", "pmcid": "", "nct_id": nct,
                 "url": f"https://clinicaltrials.gov/study/{nct}", "publication_type": "trial registry",
                 "is_open_access": "Y", "retrieved_at": now(), "query_hash": qhash,
             })

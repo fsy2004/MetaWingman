@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/agent_distillation_export.schema.json",
+  "title": "MetaWingman governed agent trajectory candidate export",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "created_at_utc", "governance_status", "policy",
+    "case_registry_sha256", "canonical_case_registry_sha256",
+    "revocation_binding", "summary", "examples", "examples_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "created_at_utc": {"type": "string", "minLength": 1},
+    "governance_status": {"const": "governance_only_no_student_trained"},
+    "case_registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "canonical_case_registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "examples_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "revocation_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revision", "case_registry_sha256", "manifest_sha256",
+        "revoked_trace_ids_sha256", "forbidden_value_aliases_sha256"
+      ],
+      "properties": {
+        "revision": {"type": "string", "minLength": 1},
+        "case_registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "revoked_trace_ids_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "forbidden_value_aliases_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": {"type": "boolean"},
+      "minProperties": 10
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "examples", "families", "failures_retained", "abstentions_retained",
+        "trainable_examples", "quarantined_examples"
+      ],
+      "properties": {
+        "examples": {"type": "integer", "minimum": 1},
+        "families": {"type": "integer", "minimum": 1},
+        "failures_retained": {"type": "integer", "minimum": 0},
+        "abstentions_retained": {"type": "integer", "minimum": 0},
+        "trainable_examples": {"type": "integer", "minimum": 0},
+        "quarantined_examples": {"type": "integer", "minimum": 0}
+      }
+    },
+    "examples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/example"}
+    }
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_id", "model_id", "canonical_provider_id", "canonical_model_id"
+      ],
+      "properties": {
+        "provider_id": {"type": "string", "minLength": 1},
+        "model_id": {"type": "string", "minLength": 1},
+        "canonical_provider_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "canonical_model_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"}
+      }
+    },
+    "artifact_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "artifact_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_artifacts", "audit_artifacts"],
+      "properties": {
+        "source_artifacts": {
+          "type": "array", "minItems": 1,
+          "items": {"$ref": "#/$defs/artifact_binding"}
+        },
+        "audit_artifacts": {
+          "type": "array", "minItems": 1,
+          "items": {"$ref": "#/$defs/artifact_binding"}
+        }
+      }
+    },
+    "reproducibility_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset_sha256", "prompt_sha256", "tool_sha256", "checkpoint_sha256"
+      ],
+      "properties": {
+        "dataset_sha256": {
+          "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"
+        },
+        "prompt_sha256": {
+          "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"
+        },
+        "tool_sha256": {
+          "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"
+        },
+        "checkpoint_sha256": {
+          "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "complete_reproducibility_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset_sha256", "prompt_sha256", "tool_sha256", "checkpoint_sha256"
+      ],
+      "properties": {
+        "dataset_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "prompt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "tool_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "checkpoint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "source_anchor": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["source_id", "anchor"],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "anchor": {"type": "string", "minLength": 1}
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status", "verifier_kind", "verifier_id", "checks"],
+      "properties": {
+        "status": {"const": "verified"},
+        "verifier_kind": {"enum": ["deterministic_guard", "provider", "human"]},
+        "verifier_id": {"type": "string", "minLength": 1},
+        "provider_identity": {"$ref": "#/$defs/identity"},
+        "checks": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "allOf": [{
+        "if": {"properties": {"verifier_kind": {"const": "provider"}}},
+        "then": {"required": ["provider_identity"]}
+      }]
+    },
+    "example": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "example_id", "case_id", "family_id", "split", "stage", "canonical_stage",
+        "input_state", "target_action", "target_decision", "source_anchors",
+        "artifact_bindings", "reproducibility_bindings", "verification",
+        "outcome", "training_disposition",
+        "label_authority", "teacher_provider_id", "teacher_identity", "created_at_utc"
+      ],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "example_id": {"type": "string", "pattern": "^distill-[A-Za-z0-9._-]+$"},
+        "case_id": {"type": "string", "minLength": 1},
+        "family_id": {"type": "string", "minLength": 1},
+        "split": {"const": "train"},
+        "stage": {"enum": [
+          "topic_feasibility", "protocol_registration", "search_retrieval", "selection",
+          "data_lineage", "appraisal", "freeze_synthesis", "certainty_interpretation",
+          "reporting_review", "living_update", "topic_proposal", "protocol",
+          "evidence_acquisition", "screening", "extraction", "synthesis",
+          "verification", "abstention"
+        ]},
+        "canonical_stage": {"enum": [
+          "topic_feasibility", "protocol_registration", "search_retrieval", "selection",
+          "data_lineage", "appraisal", "freeze_synthesis", "certainty_interpretation",
+          "reporting_review", "living_update"
+        ]},
+        "input_state": {"type": "object"},
+        "target_action": {"type": "object"},
+        "target_decision": {"type": "object"},
+        "source_anchors": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source_anchor"}},
+        "artifact_bindings": {"$ref": "#/$defs/artifact_bindings"},
+        "reproducibility_bindings": {"$ref": "#/$defs/reproducibility_bindings"},
+        "verification": {"$ref": "#/$defs/verification"},
+        "outcome": {"enum": ["success", "failure", "abstention"]},
+        "training_disposition": {
+          "enum": [
+            "positive_demonstration", "negative_decision",
+            "abstention_demonstration", "audit_only_quarantine"
+          ]
+        },
+        "label_authority": {"const": "verified_teacher_trajectory_not_gold"},
+        "teacher_provider_id": {"type": "string", "minLength": 1},
+        "teacher_identity": {"$ref": "#/$defs/identity"},
+        "created_at_utc": {"type": "string", "minLength": 1}
+      },
+      "allOf": [{
+        "if": {
+          "properties": {
+            "training_disposition": {
+              "enum": [
+                "positive_demonstration", "negative_decision", "abstention_demonstration"
+              ]
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "reproducibility_bindings": {
+              "$ref": "#/$defs/complete_reproducibility_bindings"
+            }
+          }
+        }
+      }]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "teacher_id": "deterministic-protocol-section-compiler-v1",
+  "teacher_kind": "deterministic_rule",
+  "source_scope": "methods_sections_only",
+  "published_results_and_conclusions_forbidden": true,
+  "section_to_action": {
+    "eligibility criteria": "compile_eligibility_criteria",
+    "information sources": "compile_information_source_plan",
+    "study selection and data collection": "compile_selection_and_collection_process",
+    "data items": "compile_data_item_specification",
+    "risk of bias in individual studies": "compile_appraisal_plan",
+    "summary measures and synthesis": "compile_synthesis_plan",
+    "additional analyses": "compile_sensitivity_and_subgroup_plan",
+    "credibility assessment": "compile_certainty_plan",
+    "patient and public involvement": "compile_stakeholder_involvement_statement"
+  }
+}

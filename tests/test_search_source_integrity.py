@@ -5,6 +5,7 @@ import json
 import sys
 import tempfile
 import unittest
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -17,6 +18,30 @@ import search_sources  # noqa: E402
 
 
 class SearchIntegrityTests(unittest.TestCase):
+    def test_pubmed_publication_date_prefers_exact_article_date(self) -> None:
+        article = ET.fromstring("""
+        <PubmedArticle><MedlineCitation><Article>
+          <ArticleDate DateType="Electronic"><Year>2020</Year><Month>06</Month><Day>03</Day></ArticleDate>
+          <Journal><JournalIssue><PubDate><Year>2020</Year><Month>Jun</Month><Day>09</Day></PubDate></JournalIssue></Journal>
+        </Article></MedlineCitation></PubmedArticle>
+        """)
+        self.assertEqual(search_sources.publication_date_from_article(article), "2020-06-03")
+
+    def test_pubmed_construct_annotations_are_exported_from_source_xml(self) -> None:
+        article = ET.fromstring("""
+        <PubmedArticle><MedlineCitation><Article>
+          <ArticleTitle>Health technology assessment of treatment</ArticleTitle>
+          <PublicationTypeList><PublicationType>Journal Article</PublicationType></PublicationTypeList>
+          <DataBankList><DataBank><AccessionNumberList><AccessionNumber>ISRCTN12345678</AccessionNumber></AccessionNumberList></DataBank></DataBankList>
+        </Article><MeshHeadingList><MeshHeading><DescriptorName>Treatment Outcome</DescriptorName></MeshHeading></MeshHeadingList>
+        </MedlineCitation></PubmedArticle>
+        """)
+        value = search_sources.pubmed_construct_annotations(article)
+        self.assertEqual(value["registry_ids"], ["ISRCTN12345678"])
+        self.assertEqual(value["study_family_ids"], ["ISRCTN12345678"])
+        self.assertEqual(value["decision_anchor_type"], "health_technology_assessment")
+        self.assertEqual(value["mesh_terms"], ["Treatment Outcome"])
+
     def test_count_mismatch_and_duplicates_fail(self) -> None:
         with self.assertRaises(search_sources.SearchIntegrityError):
             search_sources.assert_complete([{"record_id": "one"}], 2, 0, "fixture")

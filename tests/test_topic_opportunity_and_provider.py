@@ -5,6 +5,7 @@ import os
 import sys
 import tempfile
 import unittest
+import subprocess
 from copy import deepcopy
 from pathlib import Path
 from unittest.mock import patch
@@ -35,7 +36,11 @@ from metawingman_core.topic_opportunity import (  # noqa: E402
 )
 from metawingman_core.topic_rediscovery import (  # noqa: E402
     TopicRediscoveryError,
+    _set_similarity,
     evaluate_topic_rediscovery,
+)
+from metawingman_core.topic_opportunity_controls import (  # noqa: E402
+    evaluate_topic_control_arms,
 )
 from metawingman_core.topic_proposer import (  # noqa: E402
     TopicProposalError,
@@ -233,6 +238,52 @@ class TopicOpportunityTests(unittest.TestCase):
         with self.assertRaises(TopicOpportunityError):
             select_topic_portfolio(state, [candidate("topic", "drug alpha")])
 
+    def test_direct_controls_expose_overlap_and_diversity_mechanisms(self) -> None:
+        target = candidate("target", "drug alpha", 0.84)
+        saturated = candidate("saturated", "drug beta", 0.99)
+        saturated["feasibility_evidence"]["primary_study_count"] = 50
+        saturated["overlap_evidence"]["maximum_existing_review_overlap"] = 0.95
+        duplicate = candidate("target-copy", "drug alpha", 0.80)
+        result = evaluate_topic_control_arms(
+            landscape(),
+            [saturated, target, duplicate],
+            target_candidate_ids={"target"},
+            false_opportunity_candidate_ids={"saturated"},
+            created_at_utc=TIMESTAMP,
+        )
+        self.assertEqual(result["arms"]["full-decision-aware"]["selected_candidate_ids"], ["target"])
+        self.assertEqual(result["arms"]["bibliometric-count"]["selected_candidate_ids"][0], "saturated")
+        self.assertIn("saturated", result["arms"]["without-overlap-opposition"]["selected_candidate_ids"])
+        self.assertEqual(result["arms"]["full-decision-aware"]["false_opportunity_rate"], 0.0)
+        self.assertGreater(result["arms"]["without-overlap-opposition"]["false_opportunity_rate"], 0.0)
+        self.assertEqual(result["provider_calls"], 0)
+
+    def test_direct_control_cli_writes_a_replayable_report(self) -> None:
+        target = candidate("target", "drug alpha", 0.84)
+        saturated = candidate("saturated", "drug beta", 0.99)
+        saturated["overlap_evidence"]["maximum_existing_review_overlap"] = 0.95
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            landscape_path = root / "landscape.json"
+            candidates_path = root / "candidates.json"
+            labels_path = root / "labels.json"
+            output_path = root / "report.json"
+            landscape_path.write_text(json.dumps(landscape()), encoding="utf-8")
+            candidates_path.write_text(json.dumps([saturated, target]), encoding="utf-8")
+            labels_path.write_text(json.dumps({
+                "target_candidate_ids": ["target"],
+                "false_opportunity_candidate_ids": ["saturated"],
+            }), encoding="utf-8")
+            script = ROOT / "metawingman/scripts/evaluate_topic_opportunity_controls.py"
+            completed = subprocess.run([
+                sys.executable, str(script), str(landscape_path), str(candidates_path),
+                str(labels_path), "--out", str(output_path),
+            ], capture_output=True, text=True)
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            report = json.loads(output_path.read_text(encoding="utf-8"))
+        self.assertEqual(report["provider_calls"], 0)
+        self.assertIn("full-decision-aware", report["arms"])
+
 
 def rediscovery_case() -> dict[str, object]:
     return {
@@ -314,6 +365,27 @@ def rediscovery_case() -> dict[str, object]:
 
 
 class TopicRediscoveryTests(unittest.TestCase):
+    def test_field_similarity_is_order_invariant_within_framework_terms(self) -> None:
+        self.assertEqual(
+            _set_similarity(["adults with depression"], ["depression in adults"]),
+            1.0,
+        )
+
+    def test_prefrozen_accepted_terms_handle_hierarchy_without_title_matching(self) -> None:
+        case = rediscovery_case()
+        case["ranked_predictions"][1]["question_framework"]["intervention_or_exposure"] = ["portable digital devices"]
+        case["sealed_reference"]["question_framework"]["intervention_or_exposure"] = ["screen media access or use"]
+        case["sealed_reference"]["accepted_term_sets"] = {
+            "population": ["adults"],
+            "intervention_or_exposure": ["portable digital devices"],
+            "comparator": ["usual care"],
+            "outcome": ["mortality"],
+            "study_design": ["randomized trial"],
+            "synthesis_route": ["pairwise meta-analysis"],
+        }
+        report = evaluate_topic_rediscovery(case)
+        self.assertEqual(report["best_field_similarities"]["intervention_or_exposure"], 1.0)
+
     def test_reports_top_k_framework_concordance_not_human_superiority(self) -> None:
         report = evaluate_topic_rediscovery(rediscovery_case())
         self.assertFalse(report["top_k_hits"]["1"])
@@ -674,6 +746,22 @@ class TopicProposerTests(unittest.TestCase):
         sent = provider.chat.call_args.args[0]
         self.assertIn("numeric_scores_prohibited", sent[1]["content"])
 
+    def test_generic_direct_generation_uses_an_independent_non_decision_prompt(self) -> None:
+        proposal = self._proposal()
+        proposal["generation_method"] = "model_proposal"
+        provider = unittest.mock.Mock(spec=DeepSeekProvider)
+        provider.chat.return_value = self._provider_result({"proposals": [proposal]})
+        batch = propose_topics(
+            landscape(), provider, generation_mode="generic_direct",
+            created_at_utc=TIMESTAMP,
+        )
+        self.assertEqual(batch["status"], "proposals_generated")
+        self.assertIn("generic_direct_generation_baseline", batch["reason_codes"])
+        prompt = json.loads(provider.chat.call_args.args[0][1]["content"])
+        self.assertEqual(prompt["output_contract"]["generation_methods"], ["model_proposal"])
+        self.assertNotIn("decision value", prompt["task"].casefold())
+        self.assertNotIn("cross-domain", prompt["task"].casefold())
+
     def test_abstains_when_unknown_evidence_node_survives_repair(self) -> None:
         proposal = self._proposal()
         proposal["evidence_node_ids"] = ["study-1", "unknown-study"]
@@ -698,6 +786,24 @@ class TopicProposerTests(unittest.TestCase):
         self.assertEqual(batch["model_provenance"]["call_count"], 2)
         self.assertTrue(batch["model_provenance"]["repair_attempted"])
         self.assertNotIn("opportunity_score", batch["proposals"][0])
+        repair_messages = provider.chat.call_args_list[1].args[0]
+        self.assertEqual(len(repair_messages), 2)
+        self.assertIn("allowed_node_ids", repair_messages[1]["content"])
+        self.assertNotIn('"edges"', repair_messages[1]["content"])
+
+    def test_retains_valid_proposals_when_a_sibling_references_unknown_nodes(self) -> None:
+        invalid = self._proposal()
+        invalid["evidence_node_ids"] = ["unknown-study"]
+        provider = unittest.mock.Mock(spec=DeepSeekProvider)
+        provider.chat.return_value = self._provider_result(
+            {"proposals": [self._proposal(), invalid]}
+        )
+        batch = propose_topics(landscape(), provider, created_at_utc=TIMESTAMP)
+        self.assertEqual(batch["status"], "proposals_generated")
+        self.assertEqual(len(batch["proposals"]), 1)
+        self.assertEqual(batch["model_provenance"]["call_count"], 1)
+        self.assertIn("provider_invalid_proposals_dropped", batch["reason_codes"])
+        self.assertIn("provider_repair_failed_unknown_node", batch["reason_codes"])
 
     def test_refuses_implicit_large_hosted_transfer(self) -> None:
         provider = unittest.mock.Mock(spec=DeepSeekProvider)

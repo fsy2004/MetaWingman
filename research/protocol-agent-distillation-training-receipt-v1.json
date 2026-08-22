@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "receipt_id": "protocol-agent-distillation-development-bootstrap-20260822",
+  "status": "completed_development_bootstrap",
+  "scientific_claim_status": "development_only_student_gain_not_generalization",
+  "case_id": "bmj-exercise-depression-nma",
+  "review_family_id": "adult-depression-exercise-treatment",
+  "canonical_stage": "protocol_registration",
+  "source": {
+    "article_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10870815/",
+    "article_jats_sha256": "01a4b69271df51d9e68f2b4ebd27be531d41ab5ed32222e2e4a9b759be5fcff7",
+    "license": "CC BY-NC",
+    "published_answer_used_as_gold": false
+  },
+  "governance": {
+    "eligible_examples": 19,
+    "training_examples_per_seed": 15,
+    "development_examples_per_seed": 4,
+    "training_dispositions": {
+      "positive_demonstration": 19,
+      "negative_decision": 0,
+      "abstention_demonstration": 0
+    },
+    "export_sha256": "e184f8e627d60d002fd7fb8799355518184c92c2596a95af72959f835d7ffa54",
+    "readiness_sha256": "15d65126155947ff4c95637e814396eec3c02e8e5d5de31247fbfe015b0d05ce",
+    "canonical_case_registry_json_sha256": "f0b6b1fa9ddaf3dda66a33f9eae35ea385e5d4f7294e30facda5067184c123aa",
+    "ready_for_student_training": true,
+    "blockers": []
+  },
+  "model": {
+    "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "base_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "license": "Apache-2.0",
+    "peft_version": "0.20.0",
+    "lora": {
+      "rank": 8,
+      "alpha": 16,
+      "dropout": 0.05
+    },
+    "epochs": 8,
+    "learning_rate": 0.0002
+  },
+  "evaluation": {
+    "split_policy": "one deterministic held-out example per repeated action type",
+    "metric": "complete action accuracy requires exact action type, source section, and decision status",
+    "baseline_mean_complete_action_accuracy": 0.0,
+    "student_mean_complete_action_accuracy": 0.9166666666666666,
+    "baseline_mean_json_valid_rate": 1.0,
+    "student_mean_json_valid_rate": 1.0,
+    "seeds": [
+      {
+        "seed": 20260822,
+        "baseline_complete_action_accuracy": 0.0,
+        "student_complete_action_accuracy": 1.0,
+        "baseline_json_valid_rate": 1.0,
+        "student_json_valid_rate": 1.0,
+        "first_loss": 0.33744487166404724,
+        "last_loss": 0.00008347789844265208,
+        "wall_seconds": 1530.5537510998547,
+        "receipt_sha256": "57ec0abb727f8b8a057ecacb5a0c8c03f59e5badd9707ce72ec1f258253a59ce",
+        "adapter_sha256": "996dd68314a796a3d7b46461c1356532ce3e3cba08c49e4e87c89665fb4dfe6d"
+      },
+      {
+        "seed": 20260823,
+        "baseline_complete_action_accuracy": 0.0,
+        "student_complete_action_accuracy": 1.0,
+        "baseline_json_valid_rate": 1.0,
+        "student_json_valid_rate": 1.0,
+        "first_loss": 0.4458215534687042,
+        "last_loss": 0.00008188060746761039,
+        "wall_seconds": 41.39239863678813,
+        "receipt_sha256": "6b4debf07302da88cae38728e862344862cccfa911dd679c55beb38fb5136581",
+        "adapter_sha256": "4cd3125f29514fe0bff03ecd419e470978806607c42415df35b01439ab50c135"
+      },
+      {
+        "seed": 20260824,
+        "baseline_complete_action_accuracy": 0.0,
+        "student_complete_action_accuracy": 0.75,
+        "baseline_json_valid_rate": 1.0,
+        "student_json_valid_rate": 1.0,
+        "first_loss": 1.2397509813308716,
+        "last_loss": 0.00008394279575441033,
+        "wall_seconds": 42.31678552553058,
+        "receipt_sha256": "cb529ae656181718c2f936d10bdbab44b1e90954d9abeb19599dd6c79c9c12b4",
+        "adapter_sha256": "38ccd2eeb047b275d473850b801ebbac8cf2be47846f61e17e9ddcfbc1eed27c"
+      }
+    ],
+    "repeat_aggregate_receipt_sha256": "7f5537a457ed629121ae602233ca29e650880c409f11bbe5805a7eaa9edaabb7"
+  },
+  "resource_audit": {
+    "provider_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "wall_seconds": 1614.2629352621734,
+    "cost": null,
+    "cost_status": "unknown",
+    "note": "The first seed includes model download time; monetary server cost was not available."
+  },
+  "limitations": [
+    "All examples come from one authoritative development review and one protocol stage.",
+    "The four development examples are action-group-held-out spans from the same article, not an unseen review family.",
+    "The result does not establish complete-agent improvement, held-out generalization, or scientific review accuracy.",
+    "Adapter weights remain on the controlled server and are not redistributed in Git."
+  ]
+}

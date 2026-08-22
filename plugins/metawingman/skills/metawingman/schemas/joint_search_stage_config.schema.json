@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_search_stage_config.schema.json",
+  "title": "Frozen search and conclusion-risk acquisition configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "adapter_id", "historical_cutoff",
+    "calibration_manifest", "sources", "fixed_action_count", "thresholds",
+    "loop_budget", "risk_formula_version"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "search_retrieval"},
+    "adapter_id": {"const": "joint-search-risk-impact-v1"},
+    "historical_cutoff": {"type": "string", "format": "date"},
+    "calibration_manifest": {"$ref": "#/$defs/fileBinding"},
+    "sources": {
+      "type": "array", "minItems": 1,
+      "items": {"$ref": "#/$defs/source"}
+    },
+    "fixed_action_count": {"type": "integer", "minimum": 1},
+    "thresholds": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "known_item_recall_floor", "residual_omission_risk_ceiling",
+        "downstream_claim_impact_ceiling", "hard_negative_error_ceiling",
+        "minimum_independent_sources", "minimum_source_families"
+      ],
+      "properties": {
+        "known_item_recall_floor": {"type": "number", "minimum": 0, "maximum": 1},
+        "residual_omission_risk_ceiling": {"type": "number", "minimum": 0, "maximum": 1},
+        "downstream_claim_impact_ceiling": {"type": "number", "minimum": 0, "maximum": 1},
+        "hard_negative_error_ceiling": {"type": "number", "minimum": 0, "maximum": 1},
+        "minimum_independent_sources": {"type": "integer", "minimum": 1},
+        "minimum_source_families": {"type": "integer", "minimum": 1}
+      }
+    },
+    "loop_budget": {
+      "type": "object", "additionalProperties": false,
+      "required": ["max_actions", "max_estimated_cost_units", "max_wall_seconds"],
+      "properties": {
+        "max_actions": {"type": "integer", "minimum": 1},
+        "max_estimated_cost_units": {"type": "number", "exclusiveMinimum": 0},
+        "max_wall_seconds": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "risk_formula_version": {"const": "observed-sentinel-source-coverage-v1"}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "relativePath": {"type": "string", "minLength": 1, "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}},
+    "fileBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {"path": {"$ref": "#/$defs/relativePath"}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "action_id", "source_id", "source_family", "engine",
+        "maximum_records", "target_criterion_ids", "expected_risk_reduction",
+        "expected_claim_impact", "estimated_cost_units"
+      ],
+      "properties": {
+        "action_id": {"$ref": "#/$defs/identifier"},
+        "source_id": {"$ref": "#/$defs/identifier"},
+        "source_family": {"$ref": "#/$defs/identifier"},
+        "engine": {"enum": ["pubmed", "europe_pmc", "clinical_trials", "frozen_export"]},
+        "maximum_records": {"type": "integer", "minimum": 1},
+        "target_criterion_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "expected_risk_reduction": {"type": "number", "minimum": 0, "maximum": 1},
+        "expected_claim_impact": {"type": "number", "minimum": 0, "maximum": 1},
+        "estimated_cost_units": {"type": "number", "exclusiveMinimum": 0}
+      }
+    }
+  }
+}

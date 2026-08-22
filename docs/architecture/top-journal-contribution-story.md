@@ -3,6 +3,12 @@
 Status: internal architecture and evaluation contract, not manuscript prose
 Last checked: 2026-08-13
 
+> 2026-08-22 canonicalization：本文的 four-contribution packaging 已被
+> `dual-innovation-evidence-and-full-workflow-plan-2026-08-22.md` 收束为两项主创新：
+> TOPIC decision-aware topic opportunity control 与 REVIEW conclusion-risk-controlled execution。
+> lifecycle compiler、sealed reconstruction/counterfactual evaluation 和 distillation 是支撑层，不再作为独立创新主张。
+> 本文保留用于追溯早期叙事，不得单独决定当前 claim wording。
+
 ## One Scientific Story
 
 Current scientific agents show that a strong paper can be organized around an entire research loop rather than a collection of isolated tools. The AI Scientist packages conception-to-publication automation; Co-Scientist packages test-time search over scientific hypotheses; the Virtual Lab packages differentiated specialists, scientific tools, human direction, and external experimental validation; Robin packages literature, analysis, observation, and hypothesis revision as a continuous state. AI-Researcher adds a benchmark spanning guided and open-ended computational research. These systems do not validate unattended evidence synthesis, but their contribution structure is transferable.
