@@ -1,0 +1,566 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_lifecycle_evaluation_plan.schema.json",
+  "title": "Preregistered blind joint dual-innovation ten-stage evaluation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "plan_id",
+    "plan_status",
+    "frozen_at_utc",
+    "operating_mode",
+    "runtime_policy",
+    "innovation_ledger_reference",
+    "lifecycle_stages",
+    "seeds",
+    "topic_protocol_inputs",
+    "mechanism_bindings",
+    "scientific_prerequisites",
+    "evaluation_design",
+    "checkpoint_records",
+    "case_admission_policy",
+    "cases",
+    "family_closures",
+    "stage_receipts",
+    "published_reference_gate",
+    "resource_accounting_policy",
+    "declared_blockers"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "plan_id": {"$ref": "#/$defs/identifier"},
+    "plan_status": {
+      "enum": [
+        "blocked_not_run",
+        "ready_to_execute",
+        "execution_in_progress",
+        "all_stage_receipts_locked"
+      ]
+    },
+    "frozen_at_utc": {"type": "string", "format": "date-time"},
+    "operating_mode": {"const": "evaluation"},
+    "runtime_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text_model_id", "vision_model_id", "human_intervention_during_run"],
+      "properties": {
+        "text_model_id": {"const": "deepseek-v4-flash"},
+        "vision_model_id": {"const": "glm-4.6v"},
+        "human_intervention_during_run": {"const": false}
+      }
+    },
+    "innovation_ledger_reference": {"$ref": "#/$defs/fileBinding"},
+    "lifecycle_stages": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {"$ref": "#/$defs/stage"}
+    },
+    "seeds": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {"type": "integer"}
+    },
+    "topic_protocol_inputs": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/topicInput"}
+    },
+    "mechanism_bindings": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/mechanismBinding"}
+    },
+    "scientific_prerequisites": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/prerequisite"}
+    },
+    "evaluation_design": {"$ref": "#/$defs/evaluationDesign"},
+    "checkpoint_records": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/checkpointRecord"}
+    },
+    "case_admission_policy": {"$ref": "#/$defs/caseAdmissionPolicy"},
+    "cases": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"$ref": "#/$defs/case"}
+    },
+    "family_closures": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"$ref": "#/$defs/familyClosure"}
+    },
+    "stage_receipts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/stageReceipt"}
+    },
+    "published_reference_gate": {"$ref": "#/$defs/publishedReferenceGate"},
+    "resource_accounting_policy": {"$ref": "#/$defs/resourceAccountingPolicy"},
+    "declared_blockers": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "nullableIdentifier": {
+      "oneOf": [
+        {"$ref": "#/$defs/identifier"},
+        {"type": "null"}
+      ]
+    },
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nullableSha256": {
+      "oneOf": [
+        {"$ref": "#/$defs/sha256"},
+        {"type": "null"}
+      ]
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}
+    },
+    "nullablePath": {
+      "oneOf": [
+        {"$ref": "#/$defs/relativePath"},
+        {"type": "null"}
+      ]
+    },
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "path", "sha256"],
+      "properties": {
+        "status": {"enum": ["missing", "locked"]},
+        "path": {"$ref": "#/$defs/nullablePath"},
+        "sha256": {"$ref": "#/$defs/nullableSha256"}
+      }
+    },
+    "stageId": {
+      "enum": [
+        "topic_feasibility",
+        "protocol_registration",
+        "search_retrieval",
+        "selection",
+        "data_lineage",
+        "appraisal",
+        "freeze_synthesis",
+        "certainty_interpretation",
+        "reporting_review",
+        "living_update"
+      ]
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "stage_id", "receipt_required"],
+      "properties": {
+        "ordinal": {"type": "integer", "minimum": 0, "maximum": 9},
+        "stage_id": {"$ref": "#/$defs/stageId"},
+        "receipt_required": {"const": true}
+      }
+    },
+    "topicInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["binding_id", "status", "path", "sha256", "protocol_role"],
+      "properties": {
+        "binding_id": {
+          "enum": [
+            "temporal_evidence_landscape",
+            "topic_generation_protocol",
+            "topic_signal_audit_protocol",
+            "topic_scoring_protocol"
+          ]
+        },
+        "status": {"enum": ["missing", "locked"]},
+        "path": {"$ref": "#/$defs/nullablePath"},
+        "sha256": {"$ref": "#/$defs/nullableSha256"},
+        "protocol_role": {"const": "stage_0_frozen_input"}
+      }
+    },
+    "mechanismBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["binding_id", "cli", "implementation", "command_template"],
+      "properties": {
+        "binding_id": {
+          "enum": [
+            "topic_candidate_generator",
+            "topic_opportunity_controller",
+            "conclusion_risk_impact_controller"
+          ]
+        },
+        "cli": {"$ref": "#/$defs/fileBinding"},
+        "implementation": {"$ref": "#/$defs/fileBinding"},
+        "command_template": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "prerequisite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prerequisite_id", "status", "basis", "required_for"],
+      "properties": {
+        "prerequisite_id": {"$ref": "#/$defs/identifier"},
+        "status": {"enum": ["blocked", "pending", "satisfied"]},
+        "basis": {"type": "string", "minLength": 1},
+        "required_for": {"enum": ["execution", "confirmatory_claim", "both"]}
+      }
+    },
+    "nullableInteger": {"type": ["integer", "null"], "minimum": 0},
+    "nullableNumber": {"type": ["number", "null"], "minimum": 0},
+    "countResource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value"],
+      "properties": {
+        "status": {"enum": ["not_run", "planned", "observed", "not_applicable"]},
+        "value": {"$ref": "#/$defs/nullableInteger"}
+      }
+    },
+    "timeResource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value"],
+      "properties": {
+        "status": {"enum": ["not_run", "planned", "observed", "not_applicable"]},
+        "value": {"$ref": "#/$defs/nullableNumber"}
+      }
+    },
+    "costResource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value", "currency"],
+      "properties": {
+        "status": {"enum": ["not_run", "planned", "known", "unknown", "not_applicable"]},
+        "value": {"$ref": "#/$defs/nullableNumber"},
+        "currency": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"}
+      }
+    },
+    "resourceUsage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider_calls", "input_tokens", "output_tokens", "wall_seconds", "cost"],
+      "properties": {
+        "provider_calls": {"$ref": "#/$defs/countResource"},
+        "input_tokens": {"$ref": "#/$defs/countResource"},
+        "output_tokens": {"$ref": "#/$defs/countResource"},
+        "wall_seconds": {"$ref": "#/$defs/timeResource"},
+        "cost": {"$ref": "#/$defs/costResource"}
+      }
+    },
+    "matchedBudget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "budget_id",
+        "status",
+        "max_provider_calls",
+        "max_input_tokens",
+        "max_output_tokens",
+        "wall_seconds",
+        "cost_reporting"
+      ],
+      "properties": {
+        "budget_id": {"$ref": "#/$defs/identifier"},
+        "status": {"enum": ["unfrozen", "frozen"]},
+        "max_provider_calls": {"$ref": "#/$defs/nullableInteger"},
+        "max_input_tokens": {"$ref": "#/$defs/nullableInteger"},
+        "max_output_tokens": {"$ref": "#/$defs/nullableInteger"},
+        "wall_seconds": {"$ref": "#/$defs/nullableNumber"},
+        "cost_reporting": {"const": "known_value_or_explicit_unknown_never_imputed_zero"}
+      }
+    },
+    "arm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "arm_id",
+        "topic_opportunity_control",
+        "conclusion_risk_impact_control",
+        "candidate_generation_mode",
+        "acquisition_mode",
+        "runner_binding",
+        "resource_usage"
+      ],
+      "properties": {
+        "arm_id": {"$ref": "#/$defs/identifier"},
+        "topic_opportunity_control": {"type": "boolean"},
+        "conclusion_risk_impact_control": {"type": "boolean"},
+        "candidate_generation_mode": {
+          "enum": ["generic_direct_generation", "decision_aware_direct_generation"]
+        },
+        "acquisition_mode": {"enum": ["fixed_generic", "risk_times_impact"]},
+        "runner_binding": {"$ref": "#/$defs/fileBinding"},
+        "resource_usage": {"$ref": "#/$defs/resourceUsage"}
+      }
+    },
+    "evaluationDesign": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "design",
+        "candidate_comparison_scope",
+        "shared_candidate_reranking_only_prohibited",
+        "matched_budget",
+        "arms"
+      ],
+      "properties": {
+        "design": {"const": "two_by_two_joint_factorial"},
+        "candidate_comparison_scope": {
+          "enum": ["direct_candidate_generation_per_arm", "shared_candidate_reranking"]
+        },
+        "shared_candidate_reranking_only_prohibited": {"const": true},
+        "matched_budget": {"$ref": "#/$defs/matchedBudget"},
+        "arms": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {"$ref": "#/$defs/arm"}
+        }
+      }
+    },
+    "checkpointRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_id",
+        "seed",
+        "role",
+        "status",
+        "artifact_path",
+        "artifact_sha256",
+        "training_manifest_sha256",
+        "family_manifest_sha256"
+      ],
+      "properties": {
+        "checkpoint_id": {"$ref": "#/$defs/identifier"},
+        "seed": {"type": "integer"},
+        "role": {"enum": ["query_encoder", "document_encoder"]},
+        "status": {"enum": ["missing", "locked"]},
+        "artifact_path": {"$ref": "#/$defs/nullablePath"},
+        "artifact_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "training_manifest_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "family_manifest_sha256": {"$ref": "#/$defs/nullableSha256"}
+      }
+    },
+    "caseAdmissionPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimum_confirmatory_cases",
+        "materially_different_review_profiles_required",
+        "new_family_after_method_freeze_required",
+        "prior_target_exposure_prohibited",
+        "authority_and_representativeness_required",
+        "common_or_high_burden_required",
+        "journal_prestige_is_admission_only",
+        "journal_prestige_is_not_a_score_feature",
+        "training_family_overlap_prohibited"
+      ],
+      "properties": {
+        "minimum_confirmatory_cases": {"type": "integer", "minimum": 2},
+        "materially_different_review_profiles_required": {"const": true},
+        "new_family_after_method_freeze_required": {"const": true},
+        "prior_target_exposure_prohibited": {"const": true},
+        "authority_and_representativeness_required": {"const": true},
+        "common_or_high_burden_required": {"const": true},
+        "journal_prestige_is_admission_only": {"const": true},
+        "journal_prestige_is_not_a_score_feature": {"const": true},
+        "training_family_overlap_prohibited": {"const": true}
+      }
+    },
+    "versionNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "exposure",
+        "status",
+        "path",
+        "sha256",
+        "cutoff_value",
+        "cutoff_exact"
+      ],
+      "properties": {
+        "role": {
+          "enum": [
+            "historical_cutoff",
+            "operational_corpus",
+            "screening_workbook",
+            "published_article",
+            "published_conclusions"
+          ]
+        },
+        "exposure": {"enum": ["operational", "sealed_controller_only"]},
+        "status": {"enum": ["missing", "operational_locked", "sealed_locked"]},
+        "path": {"$ref": "#/$defs/nullablePath"},
+        "sha256": {"$ref": "#/$defs/nullableSha256"},
+        "cutoff_value": {"type": ["string", "null"], "format": "date"},
+        "cutoff_exact": {"type": ["boolean", "null"]}
+      }
+    },
+    "versionEdge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from_role", "to_role", "relation"],
+      "properties": {
+        "from_role": {"const": "historical_cutoff"},
+        "to_role": {
+          "enum": [
+            "operational_corpus",
+            "screening_workbook",
+            "published_article",
+            "published_conclusions"
+          ]
+        },
+        "relation": {"const": "same_review_version"}
+      }
+    },
+    "versionGraph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "nodes", "edges"],
+      "properties": {
+        "status": {"enum": ["unbound", "locked"]},
+        "nodes": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {"$ref": "#/$defs/versionNode"}
+        },
+        "edges": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {"$ref": "#/$defs/versionEdge"}
+        }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_slot_id",
+        "case_id",
+        "review_family_id",
+        "split",
+        "training_use",
+        "admission_status",
+        "profile_strata",
+        "authority_status",
+        "representativeness_status",
+        "prior_target_exposure_status",
+        "version_graph"
+      ],
+      "properties": {
+        "case_slot_id": {"$ref": "#/$defs/identifier"},
+        "case_id": {"$ref": "#/$defs/nullableIdentifier"},
+        "review_family_id": {"$ref": "#/$defs/nullableIdentifier"},
+        "split": {"enum": ["held_out", "prospective"]},
+        "training_use": {"const": "forbidden"},
+        "admission_status": {"enum": ["not_selected", "pending_material_binding", "admitted"]},
+        "profile_strata": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "authority_status": {"enum": ["pending", "verified_primary"]},
+        "representativeness_status": {"enum": ["pending", "verified"]},
+        "prior_target_exposure_status": {"enum": ["unverified", "none", "exposed"]},
+        "version_graph": {"$ref": "#/$defs/versionGraph"}
+      }
+    },
+    "familyClosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_slot_id",
+        "review_family_id",
+        "status",
+        "training_family_manifest_sha256",
+        "dependency_closure_sha256",
+        "closed_at_utc"
+      ],
+      "properties": {
+        "case_slot_id": {"$ref": "#/$defs/identifier"},
+        "review_family_id": {"$ref": "#/$defs/nullableIdentifier"},
+        "status": {"enum": ["open", "locked"]},
+        "training_family_manifest_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "dependency_closure_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "closed_at_utc": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "stageReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_slot_id",
+        "arm_id",
+        "seed",
+        "stage_id",
+        "status",
+        "checkpoint_sha256",
+        "input_manifest_sha256",
+        "output_manifest_sha256",
+        "resource_usage"
+      ],
+      "properties": {
+        "case_slot_id": {"$ref": "#/$defs/identifier"},
+        "arm_id": {"$ref": "#/$defs/identifier"},
+        "seed": {"type": "integer"},
+        "stage_id": {"$ref": "#/$defs/stageId"},
+        "status": {"enum": ["not_started", "blocked", "failed", "abstained", "locked"]},
+        "checkpoint_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "input_manifest_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "output_manifest_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "resource_usage": {"$ref": "#/$defs/resourceUsage"}
+      }
+    },
+    "publishedReferenceGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "unlock_condition",
+        "reference_locator_in_operational_plan",
+        "unsealed_at_utc"
+      ],
+      "properties": {
+        "state": {"enum": ["sealed", "unsealed"]},
+        "unlock_condition": {
+          "const": "all_expected_stage_receipts_locked_and_all_review_family_closures_locked"
+        },
+        "reference_locator_in_operational_plan": {"const": false},
+        "unsealed_at_utc": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "resourceAccountingPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_fields", "null_cost_policy", "wall_time_policy"],
+      "properties": {
+        "required_fields": {
+          "const": ["provider_calls", "input_tokens", "output_tokens", "wall_seconds", "cost"]
+        },
+        "null_cost_policy": {"const": "explicit_unknown_or_not_applicable_never_zero_imputation"},
+        "wall_time_policy": {"const": "observed_or_explicit_not_applicable"}
+      }
+    }
+  }
+}

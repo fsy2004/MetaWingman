@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_topic_stage_state.schema.json",
+  "title": "Direct topic-stage state passed to protocol registration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "case_id", "arm_id", "seed",
+    "generation_mode", "proposal_batch_sha256", "selection_policy",
+    "selected_proposals", "status", "reason_codes", "published_reference_accessed"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "topic_feasibility"},
+    "case_id": {"$ref": "#/$defs/identifier"},
+    "arm_id": {"$ref": "#/$defs/identifier"},
+    "seed": {"type": "integer"},
+    "generation_mode": {"enum": ["generic_direct_generation", "decision_aware_direct_generation"]},
+    "proposal_batch_sha256": {"$ref": "#/$defs/sha256"},
+    "selection_policy": {"enum": ["generic_llm_order", "decision_opportunity_control"]},
+    "selected_proposals": {"type": "array", "items": {"$ref": "#/$defs/selectedProposal"}},
+    "status": {"enum": ["selected", "abstained"]},
+    "reason_codes": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}
+    },
+    "published_reference_accessed": {"const": false}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "termSet": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "questionFramework": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "population", "intervention_or_exposure", "comparator", "outcome",
+        "study_design", "synthesis_route"
+      ],
+      "properties": {
+        "population": {"$ref": "#/$defs/termSet"},
+        "intervention_or_exposure": {"$ref": "#/$defs/termSet"},
+        "comparator": {"$ref": "#/$defs/termSet"},
+        "outcome": {"$ref": "#/$defs/termSet"},
+        "study_design": {"$ref": "#/$defs/termSet"},
+        "synthesis_route": {"type": "string", "minLength": 1}
+      }
+    },
+    "selectedProposal": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "proposal_id", "candidate_id", "question_framework", "evidence_node_ids",
+        "selection_basis"
+      ],
+      "properties": {
+        "proposal_id": {"$ref": "#/$defs/identifier"},
+        "candidate_id": {"oneOf": [{"$ref": "#/$defs/identifier"}, {"type": "null"}]},
+        "question_framework": {"$ref": "#/$defs/questionFramework"},
+        "evidence_node_ids": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "selection_basis": {"enum": ["generic_llm_order", "decision_opportunity_control"]}
+      }
+    }
+  }
+}

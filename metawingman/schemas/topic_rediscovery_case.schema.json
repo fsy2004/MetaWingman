@@ -22,6 +22,19 @@
         "study_design": {"$ref": "#/$defs/term_set"},
         "synthesis_route": {"type": "string", "minLength": 1}
       }
+    },
+    "accepted_terms": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["population", "intervention_or_exposure", "comparator", "outcome", "study_design", "synthesis_route"],
+      "properties": {
+        "population": {"$ref": "#/$defs/term_set"},
+        "intervention_or_exposure": {"$ref": "#/$defs/term_set"},
+        "comparator": {"$ref": "#/$defs/term_set"},
+        "outcome": {"$ref": "#/$defs/term_set"},
+        "study_design": {"$ref": "#/$defs/term_set"},
+        "synthesis_route": {"$ref": "#/$defs/term_set"}
+      }
     }
   },
   "properties": {
@@ -88,7 +101,8 @@
         "reference_status": {"enum": ["published_expert_reference", "published_corrected_reference"]},
         "published_identity_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
         "venue_stratum": {"enum": ["top_general", "top_field", "other_peer_reviewed", "prospective_not_published"]},
-        "question_framework": {"$ref": "#/$defs/question"}
+        "question_framework": {"$ref": "#/$defs/question"},
+        "accepted_term_sets": {"$ref": "#/$defs/accepted_terms"}
       }
     },
     "evaluation_policy": {

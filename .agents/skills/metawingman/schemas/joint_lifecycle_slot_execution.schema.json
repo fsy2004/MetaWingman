@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_lifecycle_slot_execution.schema.json",
+  "title": "One frozen case-arm-seed execution across the exact ten review stages",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "execution_id", "evaluation_plan", "case_slot_id",
+    "arm_id", "seed", "created_at_utc", "stages"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "execution_id": {"$ref": "#/$defs/identifier"},
+    "evaluation_plan": {"$ref": "#/$defs/fileBinding"},
+    "case_slot_id": {"$ref": "#/$defs/identifier"},
+    "arm_id": {"$ref": "#/$defs/identifier"},
+    "seed": {"type": "integer"},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "stages": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {"$ref": "#/$defs/stageExecution"}
+    }
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}
+    },
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/relativePath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "adapterBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module_function", "path", "sha256"],
+      "properties": {
+        "module_function": {
+          "type": "string",
+          "pattern": "^[A-Za-z_][A-Za-z0-9_.]*:[A-Za-z_][A-Za-z0-9_]*$"
+        },
+        "path": {"$ref": "#/$defs/relativePath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "stageId": {
+      "enum": [
+        "topic_feasibility", "protocol_registration", "search_retrieval",
+        "selection", "data_lineage", "appraisal", "freeze_synthesis",
+        "certainty_interpretation", "reporting_review", "living_update"
+      ]
+    },
+    "budgetAllocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_provider_calls", "max_input_tokens", "max_output_tokens", "wall_seconds"
+      ],
+      "properties": {
+        "max_provider_calls": {"type": "integer", "minimum": 0},
+        "max_input_tokens": {"type": "integer", "minimum": 0},
+        "max_output_tokens": {"type": "integer", "minimum": 0},
+        "wall_seconds": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "stageExecution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "stage_id", "adapter", "config", "budget_allocation"],
+      "properties": {
+        "ordinal": {"type": "integer", "minimum": 0, "maximum": 9},
+        "stage_id": {"$ref": "#/$defs/stageId"},
+        "adapter": {"$ref": "#/$defs/adapterBinding"},
+        "config": {"$ref": "#/$defs/fileBinding"},
+        "budget_allocation": {"$ref": "#/$defs/budgetAllocation"}
+      }
+    }
+  }
+}

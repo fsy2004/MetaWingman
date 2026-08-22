@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_protocol_stage_config.schema.json",
+  "title": "Frozen method template for deterministic protocol registration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "adapter_id", "profile_id", "historical_cutoff",
+    "allowed_synthesis_routes", "decision_context", "effect_measure",
+    "time_window", "population_summary", "analysis_unit", "decision_threshold",
+    "poolability_rule", "source_plan", "amendment_policy"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "protocol_registration"},
+    "adapter_id": {"const": "joint-protocol-registration-v1"},
+    "profile_id": {"$ref": "#/$defs/identifier"},
+    "historical_cutoff": {"type": "string", "format": "date"},
+    "allowed_synthesis_routes": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "decision_context": {
+      "type": "object", "additionalProperties": false,
+      "required": ["decision", "stakeholders", "setting", "intended_use"],
+      "properties": {
+        "decision": {"type": "string", "minLength": 1},
+        "stakeholders": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "setting": {"type": "string", "minLength": 1},
+        "intended_use": {"type": "string", "minLength": 1}
+      }
+    },
+    "effect_measure": {"type": "string", "minLength": 1},
+    "time_window": {"type": "string", "minLength": 1},
+    "population_summary": {"type": "string", "minLength": 1},
+    "analysis_unit": {"type": "string", "minLength": 1},
+    "decision_threshold": {"$ref": "#/$defs/decisionThreshold"},
+    "poolability_rule": {"type": "string", "minLength": 1},
+    "source_plan": {
+      "type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source"}
+    },
+    "amendment_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["freeze_trigger", "prospective_change_rule", "post_hoc_label_required", "rerun_impact_analysis"],
+      "properties": {
+        "freeze_trigger": {"type": "string", "minLength": 1},
+        "prospective_change_rule": {"type": "string", "minLength": 1},
+        "post_hoc_label_required": {"type": "boolean"},
+        "rerun_impact_analysis": {"type": "boolean"}
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "relativePath": {"type": "string", "minLength": 1, "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}},
+    "fileBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {"path": {"$ref": "#/$defs/relativePath"}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "decisionThreshold": {
+      "type": "object", "additionalProperties": false,
+      "required": ["threshold_id", "type", "value", "unit", "direction", "rationale"],
+      "properties": {
+        "threshold_id": {"$ref": "#/$defs/identifier"},
+        "type": {"enum": ["minimal_importance", "equivalence", "noninferiority", "decision", "probability", "other"]},
+        "value": {"not": {"type": "null"}},
+        "unit": {"type": ["string", "null"]},
+        "direction": {"enum": ["greater", "less", "inside", "outside", "two_sided", "not_applicable"]},
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_id", "source_type", "database", "platform", "access_route", "required", "query_template_id", "coverage"],
+      "properties": {
+        "source_id": {"$ref": "#/$defs/identifier"},
+        "source_type": {"enum": ["bibliographic_database", "trial_registry", "grey_literature", "citation_search", "website", "other"]},
+        "database": {"type": "string", "minLength": 1},
+        "platform": {"type": "string"},
+        "access_route": {"enum": ["public_api", "user_export", "credentialed_browser_handoff", "manual", "other"]},
+        "required": {"type": "boolean"},
+        "query_template_id": {"enum": ["pubmed_pico_date_v1", "europe_pmc_pico_date_v1", "clinical_trials_pico_v1"]},
+        "coverage": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

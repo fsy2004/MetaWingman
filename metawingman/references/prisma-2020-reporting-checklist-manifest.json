@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "prisma-2020-official-ccby4-v1",
+  "guideline": "PRISMA 2020 statement checklist",
+  "version": "2020",
+  "source_url": "https://www.prisma-statement.org/prisma-2020-checklist",
+  "license_or_permission": "CC BY 4.0 as stated on the official PRISMA checklist page; requirements below are concise paraphrases and the unmodified official source artifacts are hash-bound.",
+  "source_artifacts": [
+    {
+      "path": "research/method-artifacts/prisma-2020/PRISMA_2020_checklist.docx",
+      "sha256": "fba382ec9fa4b5594697444c3ee555f805c86a3d1093d4633f25a7653ad60e5e"
+    },
+    {
+      "path": "research/method-artifacts/prisma-2020/PRISMA_2020_checklist.pdf",
+      "sha256": "2eedbd5452741f9615307a0bce21a8198c0597ce2a0a8a0fd7e140d64b08c625"
+    }
+  ],
+  "items": [
+    {"item_id": "1", "required_section": "title", "requirement": "Identify the report as a systematic review.", "coverage_rule_id": "title"},
+    {"item_id": "2", "required_section": "abstract", "requirement": "Provide a structured systematic-review abstract.", "coverage_rule_id": "abstract"},
+    {"item_id": "3", "required_section": "introduction", "requirement": "Explain the rationale in the context of existing knowledge.", "coverage_rule_id": "rationale"},
+    {"item_id": "4", "required_section": "introduction", "requirement": "State explicit review objectives or questions.", "coverage_rule_id": "objectives"},
+    {"item_id": "5", "required_section": "methods_protocol", "requirement": "Specify eligibility criteria and synthesis grouping rules.", "coverage_rule_id": "eligibility"},
+    {"item_id": "6", "required_section": "methods_search", "requirement": "Identify every information source and its last search date.", "coverage_rule_id": "information_sources"},
+    {"item_id": "7", "required_section": "methods_search", "requirement": "Provide complete source-specific search strategies, filters, and limits.", "coverage_rule_id": "search_strategy"},
+    {"item_id": "8", "required_section": "methods_selection", "requirement": "Describe selection methods, reviewer independence, and automation.", "coverage_rule_id": "selection_process"},
+    {"item_id": "9", "required_section": "methods_data", "requirement": "Describe data collection, confirmation, independence, and automation.", "coverage_rule_id": "data_collection_process"},
+    {"item_id": "10a", "required_section": "methods_data", "requirement": "Define sought outcomes and result-selection rules.", "coverage_rule_id": "outcome_data_items"},
+    {"item_id": "10b", "required_section": "methods_data", "requirement": "Define other variables and assumptions for missing information.", "coverage_rule_id": "other_data_items"},
+    {"item_id": "11", "required_section": "methods_appraisal", "requirement": "Describe risk-of-bias tools, independence, and automation.", "coverage_rule_id": "risk_of_bias_methods"},
+    {"item_id": "12", "required_section": "methods_synthesis", "requirement": "Specify effect measures for each outcome.", "coverage_rule_id": "effect_measures"},
+    {"item_id": "13a", "required_section": "methods_synthesis", "requirement": "Describe how studies were assigned to syntheses.", "coverage_rule_id": "synthesis_eligibility"},
+    {"item_id": "13b", "required_section": "methods_synthesis", "requirement": "Describe data preparation and conversions.", "coverage_rule_id": "data_preparation"},
+    {"item_id": "13c", "required_section": "methods_synthesis", "requirement": "Describe tabular or visual display methods.", "coverage_rule_id": "display_methods"},
+    {"item_id": "13d", "required_section": "methods_synthesis", "requirement": "Describe and justify synthesis models, heterogeneity assessment, and software.", "coverage_rule_id": "synthesis_methods"},
+    {"item_id": "13e", "required_section": "methods_synthesis", "requirement": "Describe planned exploration of heterogeneity.", "coverage_rule_id": "heterogeneity_methods"},
+    {"item_id": "13f", "required_section": "methods_synthesis", "requirement": "Describe sensitivity-analysis methods.", "coverage_rule_id": "sensitivity_methods"},
+    {"item_id": "14", "required_section": "methods_appraisal", "requirement": "Describe assessment of bias from missing results.", "coverage_rule_id": "reporting_bias_methods"},
+    {"item_id": "15", "required_section": "methods_certainty", "requirement": "Describe certainty-assessment methods.", "coverage_rule_id": "certainty_methods"},
+    {"item_id": "16a", "required_section": "results_selection", "requirement": "Report record-to-study selection counts.", "coverage_rule_id": "selection_results"},
+    {"item_id": "16b", "required_section": "results_selection", "requirement": "Cite plausibly eligible excluded studies and their reasons.", "coverage_rule_id": "excluded_studies"},
+    {"item_id": "17", "required_section": "results_studies", "requirement": "Cite included studies and report their characteristics.", "coverage_rule_id": "study_characteristics"},
+    {"item_id": "18", "required_section": "results_studies", "requirement": "Report risk-of-bias judgments for each included study.", "coverage_rule_id": "risk_of_bias_results"},
+    {"item_id": "19", "required_section": "results_studies", "requirement": "Report study-level group summaries, effects, and precision.", "coverage_rule_id": "individual_study_results"},
+    {"item_id": "20a", "required_section": "results_synthesis", "requirement": "Summarize characteristics and bias of studies contributing to each synthesis.", "coverage_rule_id": "synthesis_characteristics"},
+    {"item_id": "20b", "required_section": "results_synthesis", "requirement": "Report every synthesis estimate, precision, heterogeneity, and direction.", "coverage_rule_id": "synthesis_results"},
+    {"item_id": "20c", "required_section": "results_synthesis", "requirement": "Report investigations of heterogeneity.", "coverage_rule_id": "heterogeneity_results"},
+    {"item_id": "20d", "required_section": "results_synthesis", "requirement": "Report sensitivity-analysis results.", "coverage_rule_id": "sensitivity_results"},
+    {"item_id": "21", "required_section": "results_synthesis", "requirement": "Report assessments of bias from missing results.", "coverage_rule_id": "reporting_bias_results"},
+    {"item_id": "22", "required_section": "results_certainty", "requirement": "Report certainty for every assessed outcome.", "coverage_rule_id": "certainty_results"},
+    {"item_id": "23a", "required_section": "discussion", "requirement": "Interpret results in relation to other evidence.", "coverage_rule_id": "interpretation"},
+    {"item_id": "23b", "required_section": "discussion", "requirement": "Discuss limitations of the included evidence.", "coverage_rule_id": "evidence_limitations"},
+    {"item_id": "23c", "required_section": "discussion", "requirement": "Discuss limitations of review methods.", "coverage_rule_id": "review_process_limitations"},
+    {"item_id": "23d", "required_section": "discussion", "requirement": "Discuss implications for practice, policy, and research.", "coverage_rule_id": "implications"},
+    {"item_id": "24a", "required_section": "registration_support", "requirement": "Provide registration details or declare non-registration.", "coverage_rule_id": "registration"},
+    {"item_id": "24b", "required_section": "registration_support", "requirement": "Provide protocol access or state that none exists.", "coverage_rule_id": "protocol_access"},
+    {"item_id": "24c", "required_section": "registration_support", "requirement": "Describe and explain amendments.", "coverage_rule_id": "amendments"},
+    {"item_id": "25", "required_section": "registration_support", "requirement": "Declare financial and non-financial support and sponsor roles.", "coverage_rule_id": "support"},
+    {"item_id": "26", "required_section": "registration_support", "requirement": "Declare competing interests.", "coverage_rule_id": "competing_interests"},
+    {"item_id": "27", "required_section": "data_availability", "requirement": "Report availability of forms, extracted data, analysis data, code, and other materials.", "coverage_rule_id": "data_code_availability"}
+  ]
+}

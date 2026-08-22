@@ -1,0 +1,9 @@
+arm,arm_group,target_hit_at_1,target_hit_at_3,false_opportunity_rate,selected_count
+Full decision-aware,primary,1,1,0.0,3
+Semantic gap,primary,0,1,0.3333333333333333,3
+Bibliometric count,primary,0,0,0.0,3
+Graph only,primary,0,0,1.0,3
+LLM proposal order,primary,0,0,1.0,3
+Without decision relevance,ablation,1,1,0.0,3
+Without overlap opposition,ablation,1,1,0.0,3
+Without portfolio diversity,ablation,1,1,0.0,3

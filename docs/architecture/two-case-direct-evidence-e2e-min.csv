@@ -1,0 +1,25 @@
+case,configuration,seed,end_to_end_min_stage_score
+Ag-RDT,Conclusion-directed acquisition,20260820,0
+Ag-RDT,Conclusion-directed acquisition,20260821,0.0546875
+Ag-RDT,Conclusion-directed acquisition,20260822,0.09375
+Ag-RDT,Decision-aware topic control,20260820,0
+Ag-RDT,Decision-aware topic control,20260821,0.0703125
+Ag-RDT,Decision-aware topic control,20260822,0
+Ag-RDT,Full MetaWingman,20260820,0
+Ag-RDT,Full MetaWingman,20260821,0
+Ag-RDT,Full MetaWingman,20260822,0
+Ag-RDT,Generic fixed acquisition,20260820,0.1015625
+Ag-RDT,Generic fixed acquisition,20260821,0.0859375
+Ag-RDT,Generic fixed acquisition,20260822,0
+Suicide/self-harm,Conclusion-directed acquisition,20260820,0
+Suicide/self-harm,Conclusion-directed acquisition,20260821,0
+Suicide/self-harm,Conclusion-directed acquisition,20260822,0
+Suicide/self-harm,Decision-aware topic control,20260820,0
+Suicide/self-harm,Decision-aware topic control,20260821,0
+Suicide/self-harm,Decision-aware topic control,20260822,0
+Suicide/self-harm,Full MetaWingman,20260820,0.2
+Suicide/self-harm,Full MetaWingman,20260821,0
+Suicide/self-harm,Full MetaWingman,20260822,0
+Suicide/self-harm,Generic fixed acquisition,20260820,0
+Suicide/self-harm,Generic fixed acquisition,20260821,0.23809523809523808
+Suicide/self-harm,Generic fixed acquisition,20260822,0

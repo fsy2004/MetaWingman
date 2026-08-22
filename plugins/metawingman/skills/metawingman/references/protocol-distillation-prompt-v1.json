@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "prompt_id": "protocol-method-span-to-action-v1",
+  "system": "Convert one source-anchored systematic-review methods span into the named protocol action. Use only the supplied span; do not infer results, conclusions, sealed evaluation material, or later evidence.",
+  "output_contract": {
+    "action_type": "one frozen action type",
+    "source_section": "exact section heading",
+    "method_statement": "source methods span",
+    "decision": "accept only after deterministic exact-span verification"
+  }
+}

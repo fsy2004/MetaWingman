@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_selection_stage_state.schema.json",
+  "title": "Complete record-level selection state",
+  "type": "object", "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "case_id", "arm_id", "seed", "search_state_artifact",
+    "protocol_artifact", "criteria_artifact", "record_ids", "assessments",
+    "include_record_ids", "exclude_record_ids", "abstain_record_ids", "all_records_accounted_for",
+    "model_provenance", "published_reference_accessed"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "selection"},
+    "case_id": {"type": "string", "minLength": 1},
+    "arm_id": {"type": "string", "minLength": 1},
+    "seed": {"type": "integer"},
+    "search_state_artifact": {"$ref": "#/$defs/fileBinding"},
+    "protocol_artifact": {"$ref": "#/$defs/fileBinding"},
+    "criteria_artifact": {"$ref": "#/$defs/fileBinding"},
+    "record_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "assessments": {"type": "array", "items": {"type": "object"}},
+    "include_record_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "exclude_record_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "abstain_record_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "all_records_accounted_for": {"const": true},
+    "model_provenance": {"type": "array", "items": {"type": "object"}},
+    "published_reference_accessed": {"const": false}
+  },
+  "$defs": {
+    "fileBinding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

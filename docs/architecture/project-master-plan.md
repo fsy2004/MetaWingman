@@ -104,4 +104,16 @@ metadata intake（4,098 篇顶刊优先语料）
 
 ## 7. 声明边界（始终遵守）
 
-当前可声明既有架构、类型化契约、fixture/组件测试，以及已记录的两个有界编码器训练结果；结果与限制以 `final-status-2026-08-18.md`、`training-run-report-2026-08-17.md` 和 README 为准。新的临床问题—综合方法联合引擎尚未实现或训练。不得声称 first / 全自动 / 人类水平 / 超人类 / 全面验证 / 节省人工，除非有直接、适当功效且预先冻结的评价。
+当前可声明既有架构、类型化契约、fixture/组件测试、已记录的两个有界编码器训练结果，以及证据账本允许的有界直接结果；实时声明上限由 `../../research/innovation-evidence-ledger-v1.json` 和 `dual-innovation-evidence-and-full-workflow-plan-2026-08-22.md` 控制。不得声称 first / 全自动 / 人类水平 / 超人类 / 全面验证 / 节省人工，除非有直接、适当功效且预先冻结的评价。
+
+## 8. Live-evidence addendum（2026-08-22）
+
+- **病例准入**：训练/开发病例必须来自权威期刊或权威 living-review 平台，能恢复精确历史截止日、published answer 与可审计输入；优先覆盖常见重大健康问题和方法学差异明显的综述类型。罕见或小众病例只能作为补充压力测试，不能单独支撑训练有效性或主科学结论。
+- **开发—留出隔离**：Ag-RDT 与 COVID-19 自伤/自杀 living review 用于端到端和采集机制开发；JAMA Pediatrics 儿童睡眠病例仅用于选题机制校准；Lancet 成人重度抑郁症 21 种抗抑郁药 network meta-analysis 作为权威代表性 held-out，不允许按其结果调参。
+- **选题直接证据**：时间图候选必须覆盖冻结历史池；候选生成、外部审计、锁定和评分分开。记录 mapping ceiling、known-item recall、假机会率、provider calls、tokens、wall time 与 cost；缺失成本/时间必须写 `null`/`unknown`，不得估算补值。
+- **Agent 蒸馏准入**：只蒸馏来源清洁、目标无泄漏、阶段输入/输出/证据锚点/决策理由齐全、锁定后独立评分通过的轨迹。目标知情词表、事后修复、诊断性反事实和失败轨迹可保留作拒答/错误分类训练或审计，不得标为正向 gold demonstration。
+- **结果处理**：预注册或锁定结果不佳时保留原结果，先定位覆盖、层级聚合、检索截断、验证器或决策门的机制性失败；改进只在 development case 上完成并重新冻结，再进入新的 held-out family。不得降低阈值、删候选或按已见留出答案挑参。
+- **当前直接证据**：JAMA Pediatrics development calibration 暴露并修复了研究设计硬编码、检索截断和层级别名问题；随后冻结的 Lancet 成人抑郁症抗抑郁药 NMA held-out 中，旧完整 control 在 Top-1/Top-3 命中，而 bibliometric、graph-only 和 LLM-order controls 在 Top-3 均未命中。该历史结果早于并不满足当前 record-level domain、显式 study/source-family 和 verified pre-cutoff decision-anchor 构念合同，现只保留为 legacy shared-candidate diagnostic，不是当前控制器阳性证据。
+- **2026-08-22 全项目纠偏**：Lancet 结果只比较共享候选集上的排序/门控，未测试 unbiased candidate generation；其 false-opportunity 标签由同一 frozen gates 定义，不能作为独立临床效度；按当前构念重算应 incomplete/abstain。两病例旧 runner 只完成 protocol、metadata/abstract screening/extraction 和 free-text synthesis，不得称十阶段端到端。
+- **版本与 split**：Ag-RDT 旧运行把 2022 workbook/2021-08-31 cutoff 与 2021 report/axes 混配，科学评分降为 invalid diagnostic；June-7 自伤/自杀目标绑定 version 1，version 2 是 post-cutoff descendant。两例均为 development，不能支撑 held-out 泛化。
+- **统一总案**：两项主创新固定为 TOPIC decision-aware opportunity control 与 REVIEW conclusion-risk-controlled execution。完整 typed landscape、真实 risk × impact action loop、联合十阶段盲态协议、12-family 分层确认集和 agent distillation 证据链见 `dual-innovation-evidence-and-full-workflow-plan-2026-08-22.md`。

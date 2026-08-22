@@ -1,0 +1,610 @@
+{
+  "schema_version": "1.0",
+  "frozen_at_utc": "2026-08-22T01:30:00Z",
+  "selection_policy": {
+    "authority_is_admission_only": true,
+    "authority_is_never_a_score_feature": true,
+    "family_isolation_required": true,
+    "exact_cutoff_required_for_run_ready": true,
+    "representativeness_required": true
+  },
+  "required_profile_strata": [
+    "intervention_pairwise",
+    "intervention_network",
+    "diagnostic_accuracy",
+    "prognostic_prediction",
+    "prevalence_incidence",
+    "public_health_exposure",
+    "living_review",
+    "structured_no_pooling"
+  ],
+  "pragmatic_scale_floors": {
+    "status": "project_frozen_admission_policy_not_universal_methodology_standard",
+    "network_or_living_nma": "at least 30 studies or 10000 participants",
+    "broad_intervention_meta_analysis": "at least 30 studies or 5000 participants",
+    "broad_public_health_exposure": "at least 100 studies, 20 countries, or 50000 participants",
+    "diagnostic_accuracy_review": "at least 30 studies or 10000 diagnostic tests",
+    "prognosis_or_prediction_review": "at least 30 studies or 5000 participants",
+    "prevalence_incidence_review": "at least 30 studies or 10000 participants",
+    "structured_narrative_review": "at least 20 studies, 20 expert-included records, or 5 countries",
+    "note": "Scale alone never admits a case; broad decision relevance, primary identity, lawful materials, cutoff audit, and family isolation are also mandatory."
+  },
+  "cases": [
+    {
+      "case_id": "bmj-covid-therapies-living-nma",
+      "title": "Drug treatments for covid-19: living systematic review and network meta-analysis",
+      "doi": "10.1136/bmj.m2980",
+      "review_family_id": "covid-therapeutics-living-nma",
+      "split": "development",
+      "training_use": "audit_only",
+      "execution_status": "blocked_material_audit",
+      "review_profile": "living network meta-analysis of interventions",
+      "profile_strata": ["intervention_network", "living_review"],
+      "authority": {
+        "primary_identity_verified": true,
+        "venue": "BMJ",
+        "authority_basis": [
+          "primary publisher record",
+          "living review linked to a major international clinical recommendation program",
+          "large multi-intervention randomized evidence network"
+        ]
+      },
+      "decision_relevance": {
+        "broad_population_or_system_relevance": true,
+        "decision_domain": "global treatment choices during a pandemic",
+        "why_representative": "tests living updates, competing interventions, network synthesis, and rapidly changing clinical decisions"
+      },
+      "evidence_scale": {"route": "network_or_living_nma", "studies": 463, "participants": 166581, "countries": null},
+      "historical_cutoff": {"exact": false, "value": null, "source_state": "unresolved"},
+      "operational_materials": {
+        "search_strategy": "partial", "search_export": "unresolved", "screening_reference": "unresolved",
+        "extraction_reference": "partial", "lawful_source_route": "partial"
+      },
+      "verification_sources": ["https://www.bmj.com/content/370/bmj.m2980"],
+      "blockers": [
+        "bind evidence scale to one historical iteration rather than the current living page",
+        "verify exact cutoff-specific search exports, screening decisions, extraction, and lawful artifact routes"
+      ]
+    },
+    {
+      "case_id": "nature-psychological-wellbeing-interventions",
+      "title": "A systematic review and meta-analysis of psychological interventions to improve mental wellbeing",
+      "doi": "10.1038/s41562-021-01093-w",
+      "review_family_id": "psychological-wellbeing-interventions",
+      "split": "development",
+      "training_use": "audit_only",
+      "execution_status": "methods_only",
+      "review_profile": "broad intervention effectiveness meta-analysis",
+      "profile_strata": ["intervention_pairwise"],
+      "authority": {
+        "primary_identity_verified": true,
+        "venue": "Nature Human Behaviour",
+        "authority_basis": [
+          "primary publisher record",
+          "large randomized evidence base across clinical and non-clinical populations",
+          "multiple psychological intervention families and moderator structure"
+        ]
+      },
+      "decision_relevance": {
+        "broad_population_or_system_relevance": true,
+        "decision_domain": "mental wellbeing interventions across clinical and general populations",
+        "why_representative": "tests broad eligibility, heterogeneous interventions, population moderators, and nonpharmacological evidence synthesis"
+      },
+      "evidence_scale": {"route": "broad_intervention_meta_analysis", "studies": 419, "participants": 53288, "countries": null},
+      "historical_cutoff": {"exact": false, "value": null, "source_state": "unresolved"},
+      "operational_materials": {
+        "search_strategy": "unresolved", "search_export": "unresolved", "screening_reference": "unresolved",
+        "extraction_reference": "unresolved", "lawful_source_route": "partial"
+      },
+      "verification_sources": ["https://www.nature.com/articles/s41562-021-01093-w"],
+      "blockers": [
+        "verify the exact final search date from full methods or supplement",
+        "locate lawful cutoff-specific operational and sealed reference artifacts"
+      ]
+    },
+    {
+      "case_id": "bmj-exercise-depression-nma",
+      "title": "Effect of exercise for depression: systematic review and network meta-analysis of randomised controlled trials",
+      "doi": "10.1136/bmj-2023-075847",
+      "review_family_id": "adult-depression-exercise-treatment",
+      "split": "development",
+      "training_use": "stage_verified_only",
+      "execution_status": "methods_only",
+      "review_profile": "network meta-analysis of nonpharmacological interventions",
+      "profile_strata": ["intervention_network"],
+      "authority": {
+        "primary_identity_verified": true,
+        "venue": "BMJ",
+        "authority_basis": [
+          "primary publisher record",
+          "large randomized evidence network in a common disabling condition",
+          "open project materials include search methods, exclusions, extraction data, risk of bias, and analysis code"
+        ]
+      },
+      "decision_relevance": {
+        "broad_population_or_system_relevance": true,
+        "decision_domain": "exercise modality and dose choices for adults with major depression",
+        "why_representative": "tests a common condition, nonpharmacological treatment comparisons, heterogeneous exercise nodes, moderators, acceptability, and certainty"
+      },
+      "evidence_scale": {"route": "network_or_living_nma", "studies": 218, "participants": 14170, "countries": null},
+      "historical_cutoff": {"exact": true, "value": "2023-06-03", "source_state": "verified_primary"},
+      "operational_materials": {
+        "search_strategy": "verified", "search_export": "unresolved", "screening_reference": "partial",
+        "extraction_reference": "verified", "lawful_source_route": "verified"
+      },
+      "material_snapshot_receipt": {
+        "path": "research/case-material-snapshots-v1.json",
+        "sha256": "1361d4e2c65bdeae1f12a3e984a1fba40edd330c462b946cdda59f6219735c83"
+      },
+      "training_stage_readiness": {
+        "topic_proposal": {
+          "status": "blocked",
+          "sources": [
+            "https://www.bmj.com/content/384/bmj-2023-075847.full",
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC10870815/",
+            "https://osf.io/nzw6u/"
+          ],
+          "limitations": [
+            "historical model-memory contamination cannot be excluded",
+            "the manual concept vocabulary was target-informed; these are architecture-debug trajectories, not blinded topic-discovery gold",
+            "teacher labels come only from cutoff, leakage, external-search, and frozen opportunity hard gates; published target similarity is evaluation-only and is excluded from training",
+            "this run yielded two proposal-batch abstentions and two audited candidates, so it is a small stage-specific trajectory set rather than evidence of student improvement",
+            "topic-proposal distillation is blocked until a target-independent development family passes the same verification contract"
+          ]
+        },
+        "protocol": {
+          "status": "verified",
+          "sources": ["https://www.bmj.com/content/384/bmj-2023-075847.full", "https://osf.io/nzw6u/"],
+          "limitations": ["development-family method supervision only; no target-conditioned topic examples"]
+        },
+        "evidence_acquisition": {
+          "status": "blocked", "sources": [],
+          "limitations": ["complete cutoff-specific database search export is not verified"]
+        },
+        "screening": {
+          "status": "blocked", "sources": ["https://osf.io/nzw6u/"],
+          "limitations": ["full-text consensus exclusions are open but the complete title-abstract decision ledger is not verified"]
+        },
+        "extraction": {
+          "status": "verified", "sources": ["https://osf.io/nzw6u/"],
+          "limitations": ["teacher traces require independent row and analysis consistency checks before export"]
+        },
+        "appraisal": {
+          "status": "verified", "sources": ["https://osf.io/nzw6u/"],
+          "limitations": ["teacher traces require deterministic domain and study identity checks"]
+        },
+        "synthesis": {
+          "status": "verified", "sources": ["https://osf.io/nzw6u/"],
+          "limitations": ["training labels are independently replayed computations, never prose conclusions copied as gold"]
+        }
+      },
+      "verification_sources": [
+        "https://www.bmj.com/content/384/bmj-2023-075847.full",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC10870815/",
+        "https://osf.io/nzw6u/"
+      ],
+      "blockers": [
+        "locate or reconstruct a lawful complete cutoff-specific search export and title-abstract screening ledger before end-to-end execution",
+        "keep all trajectory exports restricted to explicitly verified stages"
+      ]
+    },
+    {
+      "case_id": "nature-obesity-pharmacotherapy-nma",
+      "title": "A systematic review and meta-analysis of the efficacy and safety of pharmacological treatments for obesity in adults",
+      "doi": "10.1038/s41591-025-03978-z",
+      "review_family_id": "adult-obesity-pharmacotherapy",
+      "split": "diagnostic_only",
+      "training_use": "audit_only",
+      "execution_status": "diagnostic_only",
+      "review_profile": "network meta-analysis of interventions",
+      "profile_strata": ["intervention_network"],
+      "authority": {
+        "primary_identity_verified": true,
+        "venue": "Nature Medicine",
+        "authority_basis": [
+          "primary publisher record",
+          "large adult randomized evidence network",
+          "clinically consequential efficacy and safety comparisons"
+        ]
+      },
+      "decision_relevance": {
+        "broad_population_or_system_relevance": true,
+        "decision_domain": "adult obesity pharmacotherapy choice",
+        "why_representative": "tests comparative benefit-harm conclusions across widely used and emerging anti-obesity medicines"
+      },
+      "evidence_scale": {"route": "network_or_living_nma", "studies": 56, "participants": 60307, "countries": null},
+      "historical_cutoff": {"exact": true, "value": "2025-01-31", "source_state": "verified_primary"},
+      "operational_materials": {
+        "search_strategy": "partial", "search_export": "unresolved", "screening_reference": "unresolved",
+        "extraction_reference": "partial", "lawful_source_route": "partial"
+      },
+      "verification_sources": ["https://www.nature.com/articles/s41591-025-03978-z"],
+      "blockers": [
+        "keep title, authors, DOI, abstract, citations, descendants, and post-cutoff evidence sealed during development",
+        "verify complete operational and reference artifacts before preregistration"
+      ]
+    },
+    {
+      "case_id": "nature-heat-maternal-neonatal",
+      "title": "A systematic review and meta-analysis of heat exposure impacts on maternal, fetal and neonatal health",
+      "doi": "10.1038/s41591-024-03395-8",
+      "review_family_id": "heat-maternal-fetal-neonatal",
+      "split": "held_out",
+      "training_use": "forbidden",
+      "execution_status": "held_out_candidate",
+      "review_profile": "public-health exposure review with meta-analysis and synthesis without meta-analysis",
+      "profile_strata": ["public_health_exposure", "structured_no_pooling"],
+      "authority": {
+        "primary_identity_verified": true,
+        "venue": "Nature Medicine",
+        "authority_basis": [
+          "primary open publisher record with methods",
+          "large geographically diverse exposure evidence base",
+          "policy-relevant maternal and neonatal climate-health outcomes"
+        ]
+      },
+      "decision_relevance": {
+        "broad_population_or_system_relevance": true,
+        "decision_domain": "climate-health protection for pregnant people and newborns",
+        "why_representative": "tests nonrandomized exposure evidence, multiple outcomes, geographic diversity, mixed synthesis routes, and heterogeneous metrics"
+      },
+      "evidence_scale": {"route": "broad_public_health_exposure", "studies": 198, "participants": null, "countries": 66},
+      "historical_cutoff": {"exact": false, "value": "2023-07", "source_state": "verified_primary"},
+      "operational_materials": {
+        "search_strategy": "verified", "search_export": "unresolved", "screening_reference": "partial",
+        "extraction_reference": "partial", "lawful_source_route": "partial"
+      },
+      "verification_sources": ["https://www.nature.com/articles/s41591-024-03395-8"],
+      "blockers": [
+        "resolve the exact July 2023 execution day or freeze a defensible month-end cutoff rule prospectively",
+        "verify complete search export and record-level reference artifacts before preregistration"
+      ]
+    },
+    {
+      "case_id": "lancet-antidepressants-acute-mdd-nma",
+      "title": "Comparative efficacy and acceptability of 21 antidepressant drugs for the acute treatment of adults with major depressive disorder: a systematic review and network meta-analysis",
+      "doi": "10.1016/S0140-6736(17)32802-7",
+      "review_family_id": "adult-acute-mdd-antidepressants",
+      "split": "held_out",
+      "training_use": "forbidden",
+      "execution_status": "held_out_candidate",
+      "review_profile": "large randomized intervention network meta-analysis",
+      "profile_strata": ["intervention_network"],
+      "authority": {
+        "primary_identity_verified": true,
+        "venue": "The Lancet",
+        "authority_basis": [
+          "open primary journal article in PubMed Central",
+          "522 double-blind randomized trials",
+          "globally consequential comparative treatment decision"
+        ]
+      },
+      "decision_relevance": {
+        "broad_population_or_system_relevance": true,
+        "decision_domain": "acute antidepressant choice for adults with major depressive disorder",
+        "why_representative": "tests a common disorder, 21 active treatments plus placebo, efficacy and acceptability, and a very large randomized evidence network"
+      },
+      "evidence_scale": {"route": "network_or_living_nma", "studies": 522, "participants": 116477, "countries": null},
+      "historical_cutoff": {"exact": true, "value": "2016-01-08", "source_state": "verified_primary"},
+      "operational_materials": {
+        "search_strategy": "verified", "search_export": "partial", "screening_reference": "partial",
+        "extraction_reference": "verified", "lawful_source_route": "verified"
+      },
+      "verification_sources": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC5889788/"],
+      "blockers": [
+        "keep the target identity and post-cutoff evidence sealed during any held-out execution",
+        "freeze broad retrieval and all evaluation aliases before model calls",
+        "do not use this family for method tuning or distillation"
+      ]
+    },
+    {
+      "case_id": "jama-pediatrics-portable-screen-sleep",
+      "title": "Association Between Portable Screen-Based Media Device Access or Use and Sleep Outcomes: A Systematic Review and Meta-analysis",
+      "doi": "10.1001/jamapediatrics.2016.2341",
+      "review_family_id": "child-portable-screen-sleep",
+      "split": "diagnostic_only",
+      "training_use": "audit_only",
+      "execution_status": "diagnostic_only",
+      "review_profile": "public-health exposure meta-analysis of observational studies",
+      "profile_strata": ["public_health_exposure"],
+      "authority": {
+        "primary_identity_verified": true,
+        "venue": "JAMA Pediatrics",
+        "authority_basis": [
+          "primary PubMed-indexed journal record",
+          "12-database systematic search with an a priori protocol",
+          "large school-age population and a ubiquitous exposure"
+        ]
+      },
+      "decision_relevance": {
+        "broad_population_or_system_relevance": true,
+        "decision_domain": "portable media access and sleep health in school-age children",
+        "why_representative": "tests a common pediatric public-health exposure, multiple sleep outcomes, observational synthesis, and a large population"
+      },
+      "evidence_scale": {"route": "broad_public_health_exposure", "studies": 20, "participants": 125198, "countries": null},
+      "historical_cutoff": {"exact": true, "value": "2015-06-15", "source_state": "verified_primary"},
+      "operational_materials": {
+        "search_strategy": "partial", "search_export": "unresolved", "screening_reference": "unresolved",
+        "extraction_reference": "partial", "lawful_source_route": "partial"
+      },
+      "verification_sources": [
+        "https://pubmed.ncbi.nlm.nih.gov/27802500/",
+        "https://doi.org/10.1001/jamapediatrics.2016.2341"
+      ],
+      "blockers": [
+        "keep title, authors, DOI, abstract, citations, descendants, and post-cutoff evidence sealed during execution",
+        "use only corpus-derived concept nodes for blinded topic evaluation",
+        "do not treat the iteratively diagnosed trajectory as held-out evidence or distillation gold"
+      ]
+    },
+    {
+      "case_id": "ag-rdt-living-dta",
+      "title": "Accuracy of rapid point-of-care antigen-based diagnostics for SARS-CoV-2: An updated systematic review and meta-analysis with meta-regression analyzing influencing factors",
+      "doi": "10.1371/journal.pmed.1004011",
+      "review_family_id": "covid19-antigen-dta-living",
+      "split": "development",
+      "training_use": "stage_verified_only",
+      "execution_status": "blocked_material_audit",
+      "review_profile": "living diagnostic test accuracy review with bivariate synthesis and meta-regression",
+      "profile_strata": ["diagnostic_accuracy", "living_review"],
+      "authority": {
+        "primary_identity_verified": true,
+        "venue": "PLOS Medicine",
+        "authority_basis": [
+          "primary publisher record",
+          "registered living diagnostic-accuracy review",
+          "large multi-database evidence base with openly linked supporting data"
+        ]
+      },
+      "decision_relevance": {
+        "broad_population_or_system_relevance": true,
+        "decision_domain": "SARS-CoV-2 rapid diagnostic testing policy and test selection",
+        "why_representative": "development stress case for diagnostic accuracy, living updates, report-study-result lineage, QUADAS-2, bivariate synthesis, and meta-regression"
+      },
+      "evidence_scale": {
+        "route": "diagnostic_accuracy_review",
+        "studies": 194,
+        "participants": null,
+        "countries": null,
+        "records": null,
+        "diagnostic_tests": 221878,
+        "scale_unit_note": "The primary 2022 report states 194 studies and 221878 Ag-RDTs performed; diagnostic tests are not assumed to equal unique participants."
+      },
+      "historical_cutoff": {"exact": true, "value": "2021-08-31", "source_state": "verified_primary"},
+      "reference_version_graph": {
+        "binding_status": "version_mixed_invalid",
+        "target_version_id": "ag-rdt-2022-update",
+        "versions": [
+          {
+            "version_id": "ag-rdt-2021-report",
+            "doi": "10.1371/journal.pmed.1003735",
+            "role": "predecessor",
+            "cutoff": "2021-04-30",
+            "article_url": "https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1003735",
+            "artifact_binding_status": "mismatched",
+            "artifact_note": "The prior direct run labeled its reference and conclusion axes as this report while using the 2022 update workbook and 2021-08-31 corpus cutoff."
+          },
+          {
+            "version_id": "ag-rdt-2021-correction",
+            "doi": "10.1371/journal.pmed.1003825",
+            "role": "correction",
+            "cutoff": null,
+            "article_url": "https://doi.org/10.1371/journal.pmed.1003825",
+            "artifact_binding_status": "unresolved",
+            "artifact_note": "Correction identity is known; its relationship to any sealed reference rows has not been audited."
+          },
+          {
+            "version_id": "ag-rdt-2022-update",
+            "doi": "10.1371/journal.pmed.1004011",
+            "role": "target",
+            "cutoff": "2021-08-31",
+            "article_url": "https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1004011",
+            "artifact_binding_status": "mismatched",
+            "artifact_note": "The sealed workbook is from the 2022 update, but the prior scorer bound 2021 article metadata and conclusion axes; the old score is an invalid diagnostic until a version-consistent rerun."
+          }
+        ]
+      },
+      "operational_materials": {
+        "search_strategy": "verified", "search_export": "partial", "screening_reference": "partial",
+        "extraction_reference": "partial", "lawful_source_route": "verified"
+      },
+      "verification_sources": [
+        "https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1004011",
+        "https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1003735"
+      ],
+      "blockers": [
+        "bind the cutoff, corpus, workbook rows, article version, correction, and conclusion axes to one version graph before rerun",
+        "audit the operational corpus against the report's Web of Science and FIND routes rather than treating the current PubMed/preprint subset as a complete search",
+        "retain this family as development because it was used throughout method development"
+      ]
+    },
+    {
+      "case_id": "covid-suicide-self-harm-living",
+      "title": "The impact of the COVID-19 pandemic on self-harm and suicidal behaviour: a living systematic review",
+      "doi": "10.12688/f1000research.25522.1",
+      "review_family_id": "covid19-self-harm-suicide-living",
+      "split": "development",
+      "training_use": "negative_or_abstention_only",
+      "execution_status": "blocked_material_audit",
+      "review_profile": "living public-health review with observational, modelling, service-utilisation, and qualitative narrative synthesis",
+      "profile_strata": ["public_health_exposure", "living_review", "structured_no_pooling"],
+      "authority": {
+        "primary_identity_verified": true,
+        "venue": "F1000Research",
+        "authority_basis": [
+          "prospectively registered living systematic review",
+          "open versioned publisher record and public review data",
+          "broad public-health and mental-health decision scope"
+        ]
+      },
+      "decision_relevance": {
+        "broad_population_or_system_relevance": true,
+        "decision_domain": "population mental-health surveillance and suicide-prevention response during a public-health emergency",
+        "why_representative": "development stress case for living surveillance, heterogeneous nonrandomized evidence, version succession, narrative synthesis, and justified non-pooling"
+      },
+      "evidence_scale": {
+        "route": "structured_narrative_review",
+        "studies": null,
+        "participants": null,
+        "countries": null,
+        "records": 30,
+        "diagnostic_tests": null,
+        "scale_unit_note": "Thirty is the sealed screening workbook's expert-included record count; it is not asserted to be a verified unique-study count."
+      },
+      "historical_cutoff": {"exact": true, "value": "2020-06-07", "source_state": "verified_primary"},
+      "reference_version_graph": {
+        "binding_status": "resolved",
+        "target_version_id": "suicide-lsr-june7-v1",
+        "versions": [
+          {
+            "version_id": "suicide-lsr-june7-v1",
+            "doi": "10.12688/f1000research.25522.1",
+            "role": "target",
+            "cutoff": "2020-06-07",
+            "article_url": "https://f1000research.com/articles/9-1097/v1",
+            "artifact_binding_status": "verified",
+            "artifact_note": "The target is the first report with evidence through 7 June 2020 and the sealed screening workbook is bound to that cutoff."
+          },
+          {
+            "version_id": "suicide-lsr-october-v2",
+            "doi": "10.12688/f1000research.25522.2",
+            "role": "postcutoff_descendant",
+            "cutoff": "2020-10-19",
+            "article_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7871358/",
+            "artifact_binding_status": "unresolved",
+            "artifact_note": "This later update is a sealed post-cutoff descendant and must never supply the June-7 published answer during execution."
+          }
+        ]
+      },
+      "operational_materials": {
+        "search_strategy": "verified", "search_export": "partial", "screening_reference": "verified",
+        "extraction_reference": "partial", "lawful_source_route": "verified"
+      },
+      "verification_sources": [
+        "https://f1000research.com/articles/9-1097/v1",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7871358/",
+        "https://doi.org/10.7910/DVN/7WZXZK"
+      ],
+      "blockers": [
+        "audit checkpoint-record and review-family closure because the target family appears in the upstream training-corpus plan",
+        "replace the current PubMed-only operational subset with the pre-registered multi-source search or declare the mapping ceiling as the primary search ceiling",
+        "do not use published conclusions as positive distillation labels; retain verified failures and abstentions only until family closure is proven"
+      ]
+    },
+    {
+      "case_id": "bmj-type2-diabetes-risk-models-2011",
+      "title": "Risk models and scores for type 2 diabetes: systematic review",
+      "doi": "10.1136/bmj.d7163",
+      "review_family_id": "type2-diabetes-risk-prediction-models",
+      "split": "development",
+      "training_use": "audit_only",
+      "execution_status": "blocked_material_audit",
+      "review_profile": "prognosis and risk-prediction model systematic review with realist synthesis",
+      "profile_strata": ["prognostic_prediction", "structured_no_pooling"],
+      "authority": {
+        "primary_identity_verified": true,
+        "venue": "The BMJ",
+        "authority_basis": [
+          "primary publisher and PubMed Central records",
+          "large international prediction-model evidence base",
+          "methodologically distinct model-performance and realist-synthesis case"
+        ]
+      },
+      "decision_relevance": {
+        "broad_population_or_system_relevance": true,
+        "decision_domain": "population identification of people at high risk of type 2 diabetes",
+        "why_representative": "common high-burden disease and a distinct prediction-model review family covering transportability, model versions, and context-dependent implementation"
+      },
+      "evidence_scale": {
+        "route": "prognosis_or_prediction_review",
+        "studies": 43,
+        "participants": null,
+        "countries": 17,
+        "records": 8864,
+        "diagnostic_tests": null,
+        "scale_unit_note": "The report included 43 papers describing 145 risk models, of which 94 were fully extracted; the 8864 figure is the deduplicated title/abstract screening count."
+      },
+      "historical_cutoff": {"exact": false, "value": null, "source_state": "unresolved"},
+      "operational_materials": {
+        "search_strategy": "verified",
+        "search_export": "unresolved",
+        "screening_reference": "unresolved",
+        "extraction_reference": "partial",
+        "lawful_source_route": "verified"
+      },
+      "material_snapshot_receipt": {
+        "path": "research/case-material-snapshots-v1.json",
+        "sha256": "1361d4e2c65bdeae1f12a3e984a1fba40edd330c462b946cdda59f6219735c83"
+      },
+      "verification_sources": [
+        "https://www.bmj.com/content/343/bmj.d7163",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC3225074/",
+        "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC3225074"
+      ],
+      "blockers": [
+        "the final citation-tracking cutoff is unreported and differs from the February 2011 database-search checkpoint",
+        "no author record-level search export, title/abstract decisions, full-text exclusion ledger, or extraction workbook is publicly available",
+        "known-item seeding and overlapping sibling/successor reviews require an explicit family-contamination graph",
+        "official CC BY-NC material is frozen only for stage-limited development audit and must not be counted as run-ready or held-out"
+      ]
+    },
+    {
+      "case_id": "jama-global-child-obesity-prevalence-2024",
+      "title": "Global Prevalence of Overweight and Obesity in Children and Adolescents: A Systematic Review and Meta-Analysis",
+      "doi": "10.1001/jamapediatrics.2024.1576",
+      "review_family_id": "global-child-adolescent-obesity-prevalence",
+      "split": "development",
+      "training_use": "audit_only",
+      "execution_status": "blocked_material_audit",
+      "review_profile": "global prevalence meta-analysis with large-scale subgroup and temporal analyses",
+      "profile_strata": ["prevalence_incidence", "public_health_exposure"],
+      "authority": {
+        "primary_identity_verified": true,
+        "venue": "JAMA Pediatrics",
+        "authority_basis": [
+          "primary publisher, PubMed, and PubMed Central records",
+          "global general-population evidence base across 154 countries and regions",
+          "large high-burden prevalence synthesis with public CC BY supplements"
+        ]
+      },
+      "decision_relevance": {
+        "broad_population_or_system_relevance": true,
+        "decision_domain": "global childhood and adolescent obesity surveillance and prevention policy",
+        "why_representative": "common high-burden outcome, global population coverage, and a prevalence route methodologically distinct from intervention, diagnostic, and narrative reviews"
+      },
+      "evidence_scale": {
+        "route": "prevalence_incidence_review",
+        "studies": 2033,
+        "participants": 45890555,
+        "countries": 154,
+        "records": 65448,
+        "diagnostic_tests": null,
+        "scale_unit_note": "The primary report gives 2033 included studies, 45890555 participants, 154 countries or regions, and 65448 identified records before deduplication."
+      },
+      "historical_cutoff": {"exact": true, "value": "2023-03-31", "source_state": "verified_primary"},
+      "operational_materials": {
+        "search_strategy": "verified",
+        "search_export": "unresolved",
+        "screening_reference": "unresolved",
+        "extraction_reference": "partial",
+        "lawful_source_route": "verified"
+      },
+      "material_snapshot_receipt": {
+        "path": "research/case-material-snapshots-v1.json",
+        "sha256": "1361d4e2c65bdeae1f12a3e984a1fba40edd330c462b946cdda59f6219735c83"
+      },
+      "verification_sources": [
+        "https://jamanetwork.com/journals/jamapediatrics/fullarticle/2819322",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC11165417/",
+        "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC11165417",
+        "https://www.crd.york.ac.uk/PROSPERO/view/483885"
+      ],
+      "blockers": [
+        "Supplement 2 states that underlying data are not available; no record-level screening export, full-text exclusion ledger, original extraction workbook, or analysis inputs are public",
+        "PROSPERO and final-report date range, appraisal tool, software, and analysis plan differ and require explicit protocol-deviation nodes",
+        "database-record redistribution rights remain unresolved even though the article and supplements are CC BY",
+        "official materials are frozen only for stage-limited development audit and must not be counted as run-ready or held-out"
+      ]
+    }
+  ]
+}

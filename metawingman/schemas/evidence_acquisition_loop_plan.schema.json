@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/evidence_acquisition_loop_plan.schema.json",
+  "title": "Risk-impact evidence acquisition execution loop plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "loop_id", "mode", "max_iterations", "artifact_root", "budget", "stop_authority"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "loop_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "mode": {"enum": ["production", "evaluation"]},
+    "max_iterations": {"type": "integer", "minimum": 1, "maximum": 100},
+    "artifact_root": {"type": "string", "minLength": 1},
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_actions", "max_estimated_cost_units", "max_model_calls", "max_input_tokens", "max_output_tokens", "max_wall_seconds", "cost_accounting_policy"],
+      "properties": {
+        "max_actions": {"type": "integer", "minimum": 1},
+        "max_estimated_cost_units": {"type": "number", "exclusiveMinimum": 0},
+        "max_model_calls": {"type": "integer", "minimum": 0},
+        "max_input_tokens": {"type": "integer", "minimum": 0},
+        "max_output_tokens": {"type": "integer", "minimum": 0},
+        "max_wall_seconds": {"type": "number", "minimum": 0},
+        "cost_accounting_policy": {"enum": ["report_unknown", "require_known"]}
+      }
+    },
+    "stop_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_id", "preregistration_sha256", "signature_status"],
+      "properties": {
+        "actor_id": {"type": "string", "minLength": 1},
+        "preregistration_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "signature_status": {"enum": ["pending", "verified"]}
+      }
+    }
+  }
+}

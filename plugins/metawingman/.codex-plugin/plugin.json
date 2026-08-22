@@ -21,8 +21,6 @@
     "websiteURL": "https://github.com/fsy2004/MetaWingman",
     "privacyPolicyURL": "https://github.com/fsy2004/MetaWingman/blob/main/docs/privacy.md",
     "termsOfServiceURL": "https://github.com/fsy2004/MetaWingman/blob/main/docs/terms.md",
-    "brandColor": "#276DC3",
-    "logo": "./assets/logo.png",
-    "logoDark": "./assets/logo.png"
+    "brandColor": "#276DC3"
   }
 }

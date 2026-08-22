@@ -1,16 +1,17 @@
 {
   "schema_version": "1.0",
   "matrix_id": "metawingman-system-coverage-v1",
-  "as_of": "2026-08-20",
+  "as_of": "2026-08-22",
   "claim_policy": {
     "lifecycle_coverage": "Coverage means that every stage has an explicit state, gate, artifact route, and responsibility boundary. It does not mean every stage has passed a real-review validation.",
     "profile_coverage": "Every declared review family can enter the shared lifecycle, but profile-specific methods and native synthesis depth are reported separately.",
-    "validation_boundary": "Schema or fixture tests establish technical behavior only. Published reconstruction and prospective performance require separately frozen evidence.",
+    "validation_boundary": "Schema or fixture tests establish technical behavior only. The 2026-08-22 direct evidence adds one held-out shared-candidate topic ranking-and-gating result and one development metadata/abstract three-stage reconstruction; neither upgrades a lifecycle stage to published-reconstruction validation. Published reconstruction and prospective performance require separately frozen evidence.",
     "prohibited_shortcuts": [
       "Do not infer scientific validation from a schema or smoke test.",
       "Do not infer native statistical support from workflow coverage.",
       "Do not infer autonomous validity from AI-first execution.",
-      "Do not claim first, comprehensive validation, human equivalence, or labor savings without direct evidence."
+      "Do not claim first, comprehensive validation, human equivalence, or labor savings without direct evidence.",
+      "Do not call a metadata/abstract three-stage reconstruction an end-to-end review."
     ]
   },
   "biomedical_coverage": {
@@ -237,6 +238,13 @@
         "schemas/topic_proposal_batch.schema.json",
         "schemas/topic_candidate.schema.json",
         "schemas/topic_opportunity_decision.schema.json",
+        "schemas/topic_rediscovery_case.schema.json",
+        "scripts/build_temporal_evidence_landscape.py",
+        "scripts/build_topic_proposal_subgraph.py",
+        "scripts/compute_deterministic_topic_signal_audit.py",
+        "scripts/metawingman_core/deterministic_topic_signal_audit.py",
+        "scripts/audit_topic_opportunity_signals.py",
+        "scripts/evaluate_topic_opportunity_controls.py",
         "scripts/propose_topics.py",
         "scripts/select_topics.py",
         "scripts/evaluate_topic_rediscovery.py",
@@ -244,12 +252,16 @@
       ],
       "validation_level": "fixture_tested",
       "validation_evidence": [
-        "time-boundary, target-leakage, false-opportunity, deterministic-ranking, diversity, and sealed-rediscovery fixtures"
+        "time-boundary, target-leakage, false-opportunity, deterministic-ranking, diversity, and sealed-rediscovery fixtures",
+        "construct-manipulation fixtures require verified pre-cutoff decision anchors, record-level domains, and explicit study/source families; partial annotations fail closed",
+        "one held-out shared-candidate ranking-and-gating result; all arms reused one generated set and the false-opportunity outcome was defined by gates in the full policy"
       ],
       "human_boundary": "AI builds and ranks the evidence-grounded portfolio by default; accountable stakeholders own value choices and the final production topic signature, while historical AI-only evaluation uses sealed published expert references after run lock.",
       "known_gaps": [
         "Automatic source-complete landscape construction and calibrated overlap/freshness signals remain pending.",
-        "No held-out historical or prospective topic-opportunity validation has passed."
+        "Existing broad-query corpora lack complete record-level domain, study/source-family, and decision-anchor mappings and therefore have incomplete signal operationalization.",
+        "No held-out candidate-generation comparison or prospective topic-opportunity validation has passed.",
+        "The single held-out ranking-and-gating result does not establish cross-family generalization or component necessity."
       ]
     },
     {
@@ -270,15 +282,19 @@
         "schemas/protocol.schema.json",
         "schemas/protocol_criteria.schema.json",
         "scripts/compile_protocol.py",
-        "scripts/metawingman_core/method_contract.py"
+        "scripts/metawingman_core/method_contract.py",
+        "scripts/metawingman_core/end_to_end_runner.py",
+        "scripts/run_end_to_end_reconstruction.py"
       ],
       "validation_level": "fixture_tested",
       "validation_evidence": [
-        "tests/test_ai_control_plane.py protocol compiler and freeze-readiness fixtures"
+        "tests/test_ai_control_plane.py protocol compiler and freeze-readiness fixtures",
+        "development metadata/abstract three-stage reconstruction; 9 of 24 protocol outputs abstained for schema invalidity and registration was not executed"
       ],
       "human_boundary": "Protocol freeze, registration, and material amendments require an accountable human signature.",
       "known_gaps": [
-        "Registry submission remains a credentialed human action."
+        "Registry submission remains a credentialed human action.",
+        "No same-case protocol-to-registration published reconstruction has passed."
       ]
     },
     {
@@ -299,16 +315,25 @@
         "scripts/deduplicate_records.py",
         "scripts/download_open_access.py",
         "scripts/plan_evidence_acquisition.py",
+        "schemas/evidence_acquisition_loop_plan.schema.json",
+        "schemas/evidence_acquisition_loop_receipt.schema.json",
+        "schemas/evidence_acquisition_loop_result.schema.json",
+        "scripts/metawingman_core/evidence_acquisition_loop.py",
+        "scripts/run_conclusion_directed_acquisition.py",
+        "scripts/replay_acquisition_verifier_counterfactual.py",
+        "scripts/metawingman_core/conclusion_directed_acquisition.py",
         "references/search-retrieval-and-apis.md"
       ],
       "validation_level": "fixture_tested",
       "validation_evidence": [
-        "local command and source-adapter validation; published end-to-end recall pending"
+        "local command and source-adapter validation; published end-to-end recall pending",
+        "development conclusion-axis prompt/reranking proxy and corpus-membership/date counterfactual; the full residual-risk x downstream-impact loop is fixture-tested but has no scientific direct run"
       ],
       "human_boundary": "Institutional logins, licensed exports, and unresolved access rights remain user-controlled handoffs.",
       "known_gaps": [
         "No end-to-end recall validation across all required licensed databases.",
-        "Conclusion-directed acquisition controller requires domain calibration."
+        "The full residual-risk x downstream-impact controller now has a typed action/replan/budget loop, but no lawful source adapter has executed it on held-out review families.",
+        "Checkpoint-to-record and review-family closure remain unresolved for the development proxy run."
       ]
     },
     {
@@ -327,15 +352,18 @@
       "evidence_paths": [
         "schemas/screening_assessment.schema.json",
         "scripts/screen_record.py",
-        "scripts/metawingman_core/screening_engine.py"
+        "scripts/metawingman_core/screening_engine.py",
+        "scripts/metawingman_core/end_to_end_runner.py"
       ],
       "validation_level": "fixture_tested",
       "validation_evidence": [
-        "tests/test_p1_vertical_slices.py screening fixtures"
+        "tests/test_p1_vertical_slices.py screening fixtures",
+        "development title/abstract screening within the metadata/abstract three-stage reconstruction; not held-out full-text selection"
       ],
       "human_boundary": "Production-review eligibility follows the selected authority; AI-only replacement is restricted to preregistered evaluation mode.",
       "known_gaps": [
-        "Held-out hard-negative and full-text false-exclusion calibration pending."
+        "Held-out hard-negative and full-text false-exclusion calibration pending.",
+        "No quantitative closure gate proves that every deduplicated record and included full text received a final decision."
       ]
     },
     {
@@ -355,15 +383,18 @@
         "schemas/lineage_edge.schema.json",
         "schemas/extraction_candidate.schema.json",
         "scripts/ingest_document.py",
-        "scripts/recalculate_effect.py"
+        "scripts/recalculate_effect.py",
+        "scripts/metawingman_core/evidence_semantic_verifier.py"
       ],
       "validation_level": "fixture_tested",
       "validation_evidence": [
-        "tests/test_p1_vertical_slices.py document and effect fixtures"
+        "tests/test_p1_vertical_slices.py document and effect fixtures",
+        "tests/test_semantic_evidence_verifier.py identity, version, study-family, arm, timepoint, value, denominator, and source-span counterfactual fixtures"
       ],
       "human_boundary": "Unresolved documents, inaccessible supplements, conflicting numbers, and final accepted extraction follow the profile/mode responsibility rule.",
       "known_gaps": [
-        "Global multimodal result-state solver and diverse real-PDF benchmark remain pending."
+        "Global multimodal result-state solver and diverse real-PDF benchmark remain pending.",
+        "No real-case report-study-result lineage benchmark has passed; deterministic semantic counterfactuals and free-text abstract findings do not supply real-case accuracy evidence."
       ]
     },
     {
@@ -391,7 +422,8 @@
       ],
       "human_boundary": "The dossier may be AI-generated; final RoB, certainty inputs, and poolability are accountable scientific judgments.",
       "known_gaps": [
-        "Only selected appraisal frameworks have typed adapters; domain-specific real-case agreement is pending."
+        "Only selected appraisal frameworks have typed adapters; domain-specific real-case agreement is pending.",
+        "Real-case missing-evidence detection and result-level risk-of-bias agreement remain unvalidated."
       ]
     },
     {
@@ -421,7 +453,8 @@
       ],
       "human_boundary": "The accountable analyst approves the estimand, pooling decision, deviations, and final analysis freeze.",
       "known_gaps": [
-        "Published reconstruction across all synthesis families and clean environment lockfiles remain pending."
+        "Published reconstruction across all synthesis families and clean environment lockfiles remain pending.",
+        "No blind same-case chain connects accepted extracted results to deterministic synthesis and conclusions."
       ]
     },
     {
@@ -448,7 +481,8 @@
       ],
       "human_boundary": "Final certainty and clinical or policy interpretation require accountable domain judgment.",
       "known_gaps": [
-        "Profile-specific certainty adapters beyond the current shared dossier route are incomplete."
+        "Profile-specific certainty adapters beyond the current shared dossier route are incomplete.",
+        "No real-case GRADE dossier has been validated through source-linked result, appraisal, synthesis, and claim lineage."
       ]
     },
     {
@@ -476,7 +510,8 @@
       ],
       "human_boundary": "External submission, authorship, disclosure, response to reviewers, and release require human responsibility.",
       "known_gaps": [
-        "End-to-end changed-artifact verifier and journal-specific reporting adapters need expansion."
+        "End-to-end changed-artifact verifier and journal-specific reporting adapters need expansion.",
+        "No real-case PRISMA package or semantic claim-entailment benchmark has passed."
       ]
     },
     {
@@ -504,7 +539,8 @@
       ],
       "human_boundary": "Publication-trigger, conclusion-change, notification, and retirement decisions remain accountable decisions.",
       "known_gaps": [
-        "Scheduled provider integrations and prospective full-rerun equivalence are pending."
+        "Scheduled provider integrations and prospective full-rerun equivalence are pending.",
+        "No real living-review update has shown impact-scoped equivalence to a complete frozen rerun."
       ]
     }
   ],
@@ -1329,15 +1365,20 @@
       "evidence_paths": [
         "schemas/evidence_acquisition_state.schema.json",
         "schemas/evidence_acquisition_decision.schema.json",
+        "schemas/evidence_acquisition_loop_plan.schema.json",
+        "schemas/evidence_acquisition_loop_receipt.schema.json",
+        "schemas/evidence_acquisition_loop_result.schema.json",
         "scripts/plan_evidence_acquisition.py",
-        "scripts/metawingman_core/evidence_acquisition.py"
+        "scripts/metawingman_core/evidence_acquisition.py",
+        "scripts/metawingman_core/evidence_acquisition_loop.py"
       ],
       "validation_level": "fixture_tested",
       "validation_evidence": [
-        "continue, stop-candidate, lawful-action abstention, and leakage fixtures"
+        "continue, stop-candidate, lawful-action abstention, leakage, action execution, risk-state replan, artifact binding, and budget fixtures"
       ],
       "known_gaps": [
-        "Residual omission-risk and expected-impact calibration require held-out review families."
+        "Residual omission-risk and expected-impact calibration require held-out review families.",
+        "No scientific run has yet connected the loop to source, full-text, semantic verification, and synthesis adapters."
       ]
     },
     {

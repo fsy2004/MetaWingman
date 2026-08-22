@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0",
+  "collection_id": "representative-case-material-snapshots-20260822",
+  "correct_server_host_key_prefix": "7d79b1266d43faef",
+  "snapshots": [
+    {
+      "case_id": "bmj-type2-diabetes-risk-models-2011",
+      "doi": "10.1136/bmj.d7163",
+      "pmcid": "PMC3225074",
+      "server_root": "/root/autodl-tmp/metawingman-direct-materials/representative-cases/bmj-d7163-prognosis",
+      "snapshot_at_utc": "2026-08-22T02:52:16.181500+00:00",
+      "verification_status": "created_and_reverified",
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "source_urls": {
+        "oa_api": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC3225074",
+        "oa_package": "https://ftp.ncbi.nlm.nih.gov/pub/pmc/deprecated/oa_package/b6/dd/PMC3225074.tar.gz"
+      },
+      "files": {
+        "oa_record": {"path": "PMC3225074-oa-record.xml", "bytes": 444, "sha256": "b2d4a4343b1e2e21a1b706c02f09f09491fe65e70e850670b0d5b760a6c68bec"},
+        "oa_package": {"path": "PMC3225074.tar.gz", "bytes": 218301, "sha256": "ec0e27104f1d7a8f76fd8bc7b7a5836f8131476204c9403be06c26f78092bd6f"}
+      },
+      "archive_members": [
+        {"path": "PMC3225074/nobd889725.f2_default.jpg", "bytes": 36231, "sha256": "f6b9460e394cc80a4c0e42d912edc849d214e6c5ef4fa0f7bba61968ecec9d0e"},
+        {"path": "PMC3225074/nobd889725.f1_default.jpg", "bytes": 105373, "sha256": "aff723236f26ba7bc5a8be727fa38db948813484299752a0b78c97f97c83c953"},
+        {"path": "PMC3225074/nobd889725.ww1_default.pdf", "bytes": 48287, "sha256": "932a8ba56ea4e430a585def12fdc8d0faec322f8e9fa6c3cf46764f817ec09b2"},
+        {"path": "PMC3225074/nobd889725.f2_default.gif", "bytes": 1950, "sha256": "fb1c8d5ac63c9443e4b7e50941b20d1c472418a4fe7c979b02f534f6fb3dd0ea"},
+        {"path": "PMC3225074/bmj.d7163.nxml", "bytes": 268932, "sha256": "803f4ad9608be4ab54dc99cb62cba66a34716e4475eb3e778415e28169b1bd40"},
+        {"path": "PMC3225074/nobd889725.f1_default.gif", "bytes": 4631, "sha256": "12c5826efcaf231d22b9581a5bc682de2fecefcc7365db40834ea723fb1ae5c0"}
+      ],
+      "scientific_boundary": [
+        "The official package contains article XML, figures, and one search-strategy supplement.",
+        "No record-level screening export or author extraction workbook is asserted.",
+        "The final citation-tracking cutoff is unresolved; this is stage-limited development material only."
+      ],
+      "retrieval_notes": [
+        "The snapshot helper was rerun without mutation and reverified both top-level file hashes."
+      ]
+    },
+    {
+      "case_id": "jama-global-child-obesity-prevalence-2024",
+      "doi": "10.1001/jamapediatrics.2024.1576",
+      "pmcid": "PMC11165417",
+      "server_root": "/root/autodl-tmp/metawingman-direct-materials/representative-cases/jama-obesity-prevalence-2024",
+      "snapshot_at_utc": "2026-08-22T02:54:53.562806+00:00",
+      "verification_status": "created_and_reverified",
+      "license": "CC BY",
+      "retracted": "no",
+      "source_urls": {
+        "oa_api": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC11165417",
+        "oa_package_api_value": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/d8/dc/PMC11165417.tar.gz",
+        "oa_package_resolved": "https://ftp.ncbi.nlm.nih.gov/pub/pmc/deprecated/oa_package/d8/dc/PMC11165417.tar.gz"
+      },
+      "files": {
+        "oa_record": {"path": "PMC11165417-oa-record.xml", "bytes": 459, "sha256": "4cf30eb63faa9e8a28bc2f74f3d25285d265d5886534f5baaa93389ecf245076"},
+        "oa_package": {"path": "PMC11165417.tar.gz", "bytes": 12842451, "sha256": "b4cb982da2225aa86f3cda5b9cafdaff1257409697a2ab780df3b3b23c3c2852"}
+      },
+      "archive_members": [
+        {"path": "PMC11165417/jamapediatr-e241576-s001.pdf", "bytes": 20068084, "sha256": "17a01728c1999b1005d6e57e3f923a1aa14e0c992e44de3fb48998af13560434"},
+        {"path": "PMC11165417/jamapediatr-e241576-g002.gif", "bytes": 4958, "sha256": "2a04532545960dff6f946db5e085256c44d85a199c75624322c7738f1de19124"},
+        {"path": "PMC11165417/jamapediatr-e241576-s002.pdf", "bytes": 13462, "sha256": "fed0003e68ce4c7043974787b68280becf09e72483ad9ca03959901f35bc0736"},
+        {"path": "PMC11165417/jamapediatr-e241576-g001.jpg", "bytes": 97045, "sha256": "5736ffe8a9171ff9be06d4d7694fe52cce5d7e43ed0e408769b1804481347326"},
+        {"path": "PMC11165417/jamapediatr-e241576.nxml", "bytes": 261666, "sha256": "c0442c6ed938fe9475e1ab926726833e746820bd78b5db72035f7eb3f1459578"},
+        {"path": "PMC11165417/jamapediatr-e241576-g002.jpg", "bytes": 108903, "sha256": "790db4c666734908f97a0ac208886034629765aad22a9e4cf36421cbfe6f2e65"},
+        {"path": "PMC11165417/jamapediatr-e241576-g001.gif", "bytes": 2998, "sha256": "69d03f5a1e1143cab74f110542cb303691de5c83b87c2228c7b195e7166f0ff5"}
+      ],
+      "scientific_boundary": [
+        "The official package contains the article XML and both publisher supplements, including the 14-eTable supplement.",
+        "No record-level screening export, full-text exclusion ledger, original extraction workbook, or analysis input is asserted.",
+        "PROSPERO-to-publication deviations require explicit version nodes; this is development material only."
+      ],
+      "retrieval_notes": [
+        "The OA API returned a retired FTP path that failed with server status 550; the helper resumed without overwriting metadata and used the official deprecated HTTPS package path.",
+        "The snapshot helper was rerun without mutation and reverified both top-level file hashes."
+      ]
+    },
+    {
+      "case_id": "bmj-exercise-depression-nma",
+      "doi": "10.1136/bmj-2023-075847",
+      "pmcid": "PMC10870815",
+      "server_root": "/root/autodl-tmp/metawingman-direct-materials/representative-cases/bmj-exercise-depression-nma",
+      "snapshot_at_utc": "2026-08-22T08:54:59.233652+00:00",
+      "verification_status": "created_and_reverified",
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "source_urls": {
+        "oa_api": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC10870815",
+        "oa_package": "https://ftp.ncbi.nlm.nih.gov/pub/pmc/deprecated/oa_package/ca/03/PMC10870815.tar.gz",
+        "osf_project": "https://osf.io/nzw6u/",
+        "osf_api": "https://api.osf.io/v2/nodes/nzw6u/"
+      },
+      "files": {
+        "oa_record": {"path": "PMC10870815-oa-record.xml", "bytes": 450, "sha256": "7005808d9fe64bed0a7caa7335fcfc3fb7c6d2f4794261a0d8d4b25922a7569a"},
+        "oa_package": {"path": "PMC10870815.tar.gz", "bytes": 2892692, "sha256": "b277c9ccab06f5fc1f510f6d599f2b46d605b56ca4ea2208f4abc60a05d7d5ae"},
+        "external_inventory": {"path": "osf-node-and-file-inventory.json", "bytes": 9317, "sha256": "a7c8db9638aa696f019f7c235061944f476b0e29207e4aea117924567587f80d"}
+      },
+      "archive_members": [
+        {"path": "PMC10870815/bmj-2023-075847.nxml", "bytes": 134662, "sha256": "01a4b69271df51d9e68f2b4ebd27be531d41ab5ed32222e2e4a9b759be5fcff7"},
+        {"path": "PMC10870815/noem075847.ww.pdf", "bytes": 2162503, "sha256": "f169f531be794381299d91510eff199ff5b4ab74a6af6ba89d0e33cbfdf65c28"}
+      ],
+      "external_repositories": [
+        {
+          "repository": "OSF",
+          "project_id": "nzw6u",
+          "source_url": "https://osf.io/nzw6u/",
+          "public": true,
+          "license_status": "no_license_selected",
+          "license": null,
+          "inventory_scope": "selected_materials",
+          "total_file_count": 30,
+          "files": [
+            {"id": "6541a3988a28b11a2bffc9dd", "name": "S1 Search Strategy Exercise Depression Network Meta.docx", "kind": "file", "bytes": 26703, "materialized_path": "/S1 Search Strategy Exercise Depression Network Meta.docx", "date_modified": "2023-11-01T01:02:16.443592Z"},
+            {"id": "6541a39728274519b9b8641e", "name": "S2 Consensus reasons for exclusion.xlsx", "kind": "file", "bytes": 1281381, "materialized_path": "/S2 Consensus reasons for exclusion.xlsx", "date_modified": "2023-11-01T01:02:15.294914Z"},
+            {"id": "63fc9af840cecd071b76ea0b", "name": "depression_data_analysis.Rmd", "kind": "file", "bytes": 83051, "materialized_path": "/depression_data_analysis.Rmd", "date_modified": "2023-11-01T01:06:03.305144Z"},
+            {"id": "65b2beacb1f2b50786b0f60e", "name": "cleaned_deprex.RDS", "kind": "file", "bytes": 87690, "materialized_path": "/data/cleaned_deprex.RDS", "date_modified": "2024-01-25T20:03:56.998526Z"},
+            {"id": "6541a5c78a28b11a2bffcae9", "name": "Risk_of_Bias_in_Individual_Studies.docx", "kind": "file", "bytes": 46959, "materialized_path": "/S5 Risk of bias ratings for individual studies/Risk_of_Bias_in_Individual_Studies.docx", "date_modified": "2023-11-01T01:11:35.355833Z"}
+          ]
+        }
+      ],
+      "scientific_boundary": [
+        "The official PMC package is CC BY-NC and contains the article XML and publisher supplement.",
+        "The article identifies OSF nzw6u as its data and code repository, but the OSF node has no selected license; only its public metadata inventory is recorded here and its contents are not redistributed.",
+        "The public inventory contains search strategy, consensus full-text exclusions, extraction/analysis data, risk-of-bias materials, and analysis code.",
+        "A complete cutoff-specific title-abstract decision ledger and database search export remain unverified, so this is stage-limited development material only."
+      ],
+      "retrieval_notes": [
+        "The PMC OA API returned a retired package location; the snapshot used the verified official deprecated HTTPS path.",
+        "The OSF inventory contains 30 files; five stage-relevant entries are summarized here and the complete inventory is hash-bound on the server."
+      ]
+    }
+  ]
+}

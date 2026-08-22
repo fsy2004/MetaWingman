@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_search_stage_state.schema.json",
+  "title": "Joint lifecycle search stage state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "case_id", "arm_id", "seed", "acquisition_policy",
+    "historical_cutoff", "protocol_artifact", "criteria_artifact",
+    "records", "quarantined_records", "search_audits",
+    "known_item_recall", "source_family_count", "risk_loop_result",
+    "published_reference_accessed"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "search_retrieval"},
+    "case_id": {"type": "string", "minLength": 1},
+    "arm_id": {"type": "string", "minLength": 1},
+    "seed": {"type": "integer"},
+    "acquisition_policy": {"enum": ["fixed_generic", "risk_impact_action_execute_replan"]},
+    "historical_cutoff": {"type": "string", "format": "date"},
+    "protocol_artifact": {"$ref": "#/$defs/fileBinding"},
+    "criteria_artifact": {"$ref": "#/$defs/fileBinding"},
+    "records": {"type": "array", "items": {"type": "object"}},
+    "quarantined_records": {"type": "array", "items": {"type": "object"}},
+    "search_audits": {"type": "array", "items": {"type": "object"}},
+    "known_item_recall": {"type": "number", "minimum": 0, "maximum": 1},
+    "source_family_count": {"type": "integer", "minimum": 0},
+    "risk_loop_result": {"type": ["object", "null"]},
+    "published_reference_accessed": {"const": false}
+  },
+  "$defs": {
+    "fileBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

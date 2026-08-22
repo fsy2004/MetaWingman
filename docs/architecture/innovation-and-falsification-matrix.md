@@ -3,6 +3,11 @@
 Status: candidate contributions, not established claims
 Last checked: 2026-08-13
 
+> 2026-08-22 mapping：external novelty story 只保留 TOPIC（下文 discovery）与
+> REVIEW（下文 execution）两项。system lifecycle 与 sealed/counterfactual evaluation
+> 是实现和证据基础设施；I1-I5/I7-I8 是 enabling/evaluation mechanisms。
+> 当前 promotion ceiling 以 `../../research/innovation-evidence-ledger-v1.json` 派生结果为准。
+
 ## Claim Discipline
 
 MetaWingman reuses proven mechanisms including ReAct-style tool use, proposal-opposition-judge panels, retrieval-grounded generation, semantic-uncertainty signals, conformal risk control, multimodal document parsing, and model routing. Reuse is infrastructure, not novelty. A contribution may be claimed only when its MetaWingman-specific mechanism is implemented, compared against a credible baseline, and survives the prespecified ablation and held-out review-family evaluation.

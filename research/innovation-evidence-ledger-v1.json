@@ -1,0 +1,526 @@
+{
+  "schema_version": "1.0",
+  "ledger_id": "metawingman-dual-innovation-evidence-20260822",
+  "assessed_at_utc": "2026-08-22T18:00:00Z",
+  "policy": {
+    "policy_provenance": "project_calibrated_not_normative",
+    "journal_prestige_is_admission_only": true,
+    "same_provider_is_not_independent": true,
+    "negative_results_must_be_retained": true,
+    "full_lifecycle_requires_same_case": true,
+    "canonical_case_registry_path": "research/direct-evidence-case-registry-v1.json",
+    "canonical_case_registry_sha256": "d113734b0abfad5b873362c40f0435a784be14fac78d5a4346128a019fa43ef9",
+    "required_profile_strata": [
+      "intervention_pairwise",
+      "intervention_network",
+      "diagnostic_accuracy",
+      "prognostic_prediction",
+      "prevalence_incidence",
+      "public_health_exposure",
+      "living_review",
+      "structured_no_pooling"
+    ]
+  },
+  "lifecycle_stages": [
+    {
+      "stage_id": "topic_feasibility",
+      "implementation_level": "executable_component",
+      "highest_direct_evidence": "single_held_out_family",
+      "artifact_paths": [
+        "docs/architecture/topic-opportunity-direct-results-2026-08-22.md"
+      ]
+    },
+    {
+      "stage_id": "protocol_registration",
+      "implementation_level": "workflow_integrated",
+      "highest_direct_evidence": "development_case",
+      "artifact_paths": [
+        "metawingman/schemas/protocol.schema.json",
+        "docs/architecture/two-case-direct-evidence-results-2026-08-22.md"
+      ]
+    },
+    {
+      "stage_id": "search_retrieval",
+      "implementation_level": "executable_component",
+      "highest_direct_evidence": "development_case",
+      "artifact_paths": [
+        "docs/architecture/two-case-direct-evidence-results-2026-08-22.md"
+      ]
+    },
+    {
+      "stage_id": "selection",
+      "implementation_level": "workflow_integrated",
+      "highest_direct_evidence": "development_case",
+      "artifact_paths": [
+        "docs/architecture/two-case-direct-evidence-results-2026-08-22.md"
+      ]
+    },
+    {
+      "stage_id": "data_lineage",
+      "implementation_level": "workflow_integrated",
+      "highest_direct_evidence": "fixture",
+      "artifact_paths": [
+        "tests/test_p1_vertical_slices.py"
+      ]
+    },
+    {
+      "stage_id": "appraisal",
+      "implementation_level": "workflow_integrated",
+      "highest_direct_evidence": "fixture",
+      "artifact_paths": [
+        "tests/test_p2_judgment_workbench.py"
+      ]
+    },
+    {
+      "stage_id": "freeze_synthesis",
+      "implementation_level": "workflow_integrated",
+      "highest_direct_evidence": "component",
+      "artifact_paths": [
+        "metawingman/scripts/test_r_adapters.py"
+      ]
+    },
+    {
+      "stage_id": "certainty_interpretation",
+      "implementation_level": "workflow_integrated",
+      "highest_direct_evidence": "fixture",
+      "artifact_paths": [
+        "tests/test_p2_judgment_workbench.py"
+      ]
+    },
+    {
+      "stage_id": "reporting_review",
+      "implementation_level": "executable_component",
+      "highest_direct_evidence": "fixture",
+      "artifact_paths": [
+        "metawingman/references/reviewer-and-integrity.md"
+      ]
+    },
+    {
+      "stage_id": "living_update",
+      "implementation_level": "workflow_integrated",
+      "highest_direct_evidence": "fixture",
+      "artifact_paths": [
+        "tests/test_p3_living_benchmark.py"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "bmj-covid-therapies-living-nma",
+      "review_family_id": "covid-therapeutics-living-nma",
+      "split": "development",
+      "profile_strata": ["intervention_network", "living_review"],
+      "authority_identity_verified": true,
+      "broad_decision_relevance": true,
+      "common_or_high_burden": true,
+      "representativeness_sources": ["https://www.bmj.com/content/370/bmj.m2980"],
+      "training_use": "audit_only"
+    },
+    {
+      "case_id": "nature-psychological-wellbeing-interventions",
+      "review_family_id": "psychological-wellbeing-interventions",
+      "split": "development",
+      "profile_strata": ["intervention_pairwise"],
+      "authority_identity_verified": true,
+      "broad_decision_relevance": true,
+      "common_or_high_burden": true,
+      "representativeness_sources": ["https://www.nature.com/articles/s41562-021-01093-w"],
+      "training_use": "audit_only"
+    },
+    {
+      "case_id": "bmj-exercise-depression-nma",
+      "review_family_id": "adult-depression-exercise-treatment",
+      "split": "development",
+      "profile_strata": ["intervention_network"],
+      "authority_identity_verified": true,
+      "broad_decision_relevance": true,
+      "common_or_high_burden": true,
+      "representativeness_sources": ["https://www.bmj.com/content/384/bmj-2023-075847.full"],
+      "training_use": "stage_verified_only"
+    },
+    {
+      "case_id": "nature-obesity-pharmacotherapy-nma",
+      "review_family_id": "adult-obesity-pharmacotherapy",
+      "split": "diagnostic_only",
+      "profile_strata": ["intervention_network"],
+      "authority_identity_verified": true,
+      "broad_decision_relevance": true,
+      "common_or_high_burden": true,
+      "representativeness_sources": ["https://www.nature.com/articles/s41591-025-03978-z"],
+      "training_use": "audit_only"
+    },
+    {
+      "case_id": "nature-heat-maternal-neonatal",
+      "review_family_id": "heat-maternal-fetal-neonatal",
+      "split": "held_out",
+      "profile_strata": ["public_health_exposure", "structured_no_pooling"],
+      "authority_identity_verified": true,
+      "broad_decision_relevance": true,
+      "common_or_high_burden": true,
+      "representativeness_sources": ["https://www.nature.com/articles/s41591-024-03395-8"],
+      "training_use": "forbidden"
+    },
+    {
+      "case_id": "lancet-antidepressants-acute-mdd-nma",
+      "review_family_id": "adult-acute-mdd-antidepressants",
+      "split": "held_out",
+      "profile_strata": ["intervention_network"],
+      "authority_identity_verified": true,
+      "broad_decision_relevance": true,
+      "common_or_high_burden": true,
+      "representativeness_sources": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC5889788/"],
+      "training_use": "forbidden"
+    },
+    {
+      "case_id": "jama-pediatrics-portable-screen-sleep",
+      "review_family_id": "child-portable-screen-sleep",
+      "split": "diagnostic_only",
+      "profile_strata": ["public_health_exposure"],
+      "authority_identity_verified": true,
+      "broad_decision_relevance": true,
+      "common_or_high_burden": true,
+      "representativeness_sources": ["https://pubmed.ncbi.nlm.nih.gov/27802500/"],
+      "training_use": "audit_only"
+    },
+    {
+      "case_id": "ag-rdt-living-dta",
+      "review_family_id": "covid19-antigen-dta-living",
+      "split": "development",
+      "profile_strata": ["diagnostic_accuracy", "living_review"],
+      "authority_identity_verified": true,
+      "broad_decision_relevance": true,
+      "common_or_high_burden": true,
+      "representativeness_sources": ["https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1004011"],
+      "training_use": "stage_verified_only"
+    },
+    {
+      "case_id": "covid-suicide-self-harm-living",
+      "review_family_id": "covid19-self-harm-suicide-living",
+      "split": "development",
+      "profile_strata": ["living_review", "public_health_exposure", "structured_no_pooling"],
+      "authority_identity_verified": true,
+      "broad_decision_relevance": true,
+      "common_or_high_burden": true,
+      "representativeness_sources": ["https://f1000research.com/articles/9-1097/v1"],
+      "training_use": "negative_or_abstention_only"
+    },
+    {
+      "case_id": "bmj-type2-diabetes-risk-models-2011",
+      "review_family_id": "type2-diabetes-risk-prediction-models",
+      "split": "development",
+      "profile_strata": ["prognostic_prediction", "structured_no_pooling"],
+      "authority_identity_verified": true,
+      "broad_decision_relevance": true,
+      "common_or_high_burden": true,
+      "representativeness_sources": ["https://www.bmj.com/content/343/bmj.d7163"],
+      "training_use": "audit_only"
+    },
+    {
+      "case_id": "jama-global-child-obesity-prevalence-2024",
+      "review_family_id": "global-child-adolescent-obesity-prevalence",
+      "split": "development",
+      "profile_strata": ["prevalence_incidence", "public_health_exposure"],
+      "authority_identity_verified": true,
+      "broad_decision_relevance": true,
+      "common_or_high_burden": true,
+      "representativeness_sources": ["https://jamanetwork.com/journals/jamapediatrics/fullarticle/2819322"],
+      "training_use": "audit_only"
+    }
+  ],
+  "evidence_items": [
+    {
+      "evidence_id": "lancet-shared-candidate-control-20260822",
+      "claim_ids": ["topic_opportunity_control"],
+      "evaluation_kind": "historical_held_out",
+      "result_direction": "positive",
+      "case_ids": ["lancet-antidepressants-acute-mdd-nma"],
+      "review_family_ids": ["adult-acute-mdd-antidepressants"],
+      "covered_stage_ids": ["topic_feasibility"],
+      "construct_validity_status": "failed_current_contract",
+      "full_mechanism_executed": false,
+      "direct_baseline_passed": true,
+      "predicted_ablation_degradation_observed": false,
+      "frozen_before_reference": true,
+      "reference_opened_after_complete_lock": true,
+      "provider_relation": "same_provider_roles",
+      "independent_verification_claimed": false,
+      "same_case_full_lifecycle": false,
+      "artifact_paths": [
+        "docs/architecture/topic-opportunity-direct-results-2026-08-22.md",
+        "docs/architecture/lancet-topic-opportunity-controls.csv"
+      ],
+      "resource_audit": {
+        "provider_calls": 37,
+        "input_tokens": 1684498,
+        "output_tokens": 53265,
+        "wall_seconds": null,
+        "cost": null,
+        "cost_status": "unknown"
+      },
+      "limitations": [
+        "The run predates the current construct contract; its corpus lacks complete record-level domain, explicit study/source-family, and verified pre-cutoff decision-anchor mappings, so current signal operationalization is incomplete.",
+        "Controls reranked one shared LLM-generated candidate set and did not compare candidate generation.",
+        "The false-opportunity label was derived from the same gates applied by the full policy.",
+        "Historical model-memory contamination remains unresolved.",
+        "Three named ablations had the same Top-3 result as the full policy."
+      ]
+    },
+    {
+      "evidence_id": "two-development-case-axis-acquisition-20260822",
+      "claim_ids": ["conclusion_directed_acquisition"],
+      "evaluation_kind": "development_case",
+      "result_direction": "negative",
+      "case_ids": ["covid-suicide-self-harm-living"],
+      "review_family_ids": ["covid19-self-harm-suicide-living"],
+      "covered_stage_ids": ["search_retrieval"],
+      "full_mechanism_executed": false,
+      "direct_baseline_passed": false,
+      "predicted_ablation_degradation_observed": false,
+      "frozen_before_reference": true,
+      "reference_opened_after_complete_lock": true,
+      "provider_relation": "same_provider_roles",
+      "independent_verification_claimed": false,
+      "same_case_full_lifecycle": false,
+      "artifact_paths": [
+        "docs/architecture/two-case-direct-evidence-results-2026-08-22.md",
+        "docs/architecture/two-case-direct-evidence-e2e-min.csv"
+      ],
+      "resource_audit": {
+        "provider_calls": 72,
+        "input_tokens": 128787,
+        "output_tokens": 26239,
+        "wall_seconds": 207.02321537956595,
+        "cost": null,
+        "cost_status": "unknown"
+      },
+      "limitations": [
+        "The evaluated factor was conclusion-axis prompting and reranking, not the risk-times-impact action controller.",
+        "The generic fixed-acquisition baseline had the highest mean weakest-stage score in the suicide/self-harm case.",
+        "Checkpoint-record and family closure are unresolved, so this is development rather than held-out evidence."
+      ]
+    },
+    {
+      "evidence_id": "two-development-case-metadata-abstract-reconstruction-20260822",
+      "claim_ids": ["joint_lifecycle_control"],
+      "evaluation_kind": "partial_pipeline_reconstruction",
+      "result_direction": "diagnostic",
+      "case_ids": ["covid-suicide-self-harm-living"],
+      "review_family_ids": ["covid19-self-harm-suicide-living"],
+      "covered_stage_ids": ["protocol_registration", "search_retrieval", "selection"],
+      "full_mechanism_executed": false,
+      "direct_baseline_passed": false,
+      "predicted_ablation_degradation_observed": false,
+      "frozen_before_reference": true,
+      "reference_opened_after_complete_lock": true,
+      "provider_relation": "same_provider_roles",
+      "independent_verification_claimed": false,
+      "same_case_full_lifecycle": false,
+      "artifact_paths": [
+        "docs/architecture/two-case-direct-evidence-results-2026-08-22.md",
+        "metawingman/scripts/metawingman_core/end_to_end_runner.py"
+      ],
+      "resource_audit": {
+        "provider_calls": 72,
+        "input_tokens": 128787,
+        "output_tokens": 26239,
+        "wall_seconds": 207.02321537956595,
+        "cost": null,
+        "cost_status": "unknown"
+      },
+      "limitations": [
+        "The runner covers protocol, title/abstract screening with free-text extraction, and free-text synthesis only.",
+        "It does not execute full text, report-study-result lineage, appraisal, deterministic meta-analysis, certainty, reporting, or living update.",
+        "The nominal topic factor did not instantiate the topic-opportunity mechanism."
+      ]
+    },
+    {
+      "evidence_id": "ag-rdt-version-mixed-reference-diagnostic-20260822",
+      "claim_ids": ["conclusion_directed_acquisition", "joint_lifecycle_control"],
+      "evaluation_kind": "partial_pipeline_reconstruction",
+      "result_direction": "diagnostic",
+      "case_ids": ["ag-rdt-living-dta"],
+      "review_family_ids": ["covid19-antigen-dta-living"],
+      "covered_stage_ids": ["protocol_registration", "search_retrieval", "selection"],
+      "full_mechanism_executed": false,
+      "direct_baseline_passed": false,
+      "predicted_ablation_degradation_observed": false,
+      "frozen_before_reference": true,
+      "reference_opened_after_complete_lock": true,
+      "provider_relation": "same_provider_roles",
+      "independent_verification_claimed": false,
+      "same_case_full_lifecycle": false,
+      "artifact_paths": [
+        "docs/architecture/two-case-direct-evidence-results-2026-08-22.md",
+        "research/ag-rdt-heidata-inventory-2026-08-18.md"
+      ],
+      "resource_audit": {
+        "provider_calls": 72,
+        "input_tokens": 161285,
+        "output_tokens": 34368,
+        "wall_seconds": 258.02403791993856,
+        "cost": null,
+        "cost_status": "unknown"
+      },
+      "limitations": [
+        "The sealed included-study workbook and 2021-08-31 cutoff belong to the 2022 update, but the scored reference metadata and conclusion axes named the 2021 article.",
+        "The version-mixed gold invalidates scientific interpretation of the Ag-RDT reconstruction until cutoff, workbook, article version, and conclusion axes are rebound and rescored.",
+        "The nominal topic factor did not instantiate the topic-opportunity mechanism."
+      ]
+    },
+    {
+      "evidence_id": "suicide-membership-date-verifier-counterfactual-20260822",
+      "claim_ids": ["conclusion_directed_acquisition"],
+      "evaluation_kind": "component",
+      "result_direction": "positive",
+      "case_ids": ["covid-suicide-self-harm-living"],
+      "review_family_ids": ["covid19-self-harm-suicide-living"],
+      "covered_stage_ids": ["search_retrieval"],
+      "full_mechanism_executed": false,
+      "direct_baseline_passed": false,
+      "predicted_ablation_degradation_observed": true,
+      "frozen_before_reference": true,
+      "reference_opened_after_complete_lock": true,
+      "provider_relation": "deterministic_external_verifier",
+      "independent_verification_claimed": true,
+      "same_case_full_lifecycle": false,
+      "artifact_paths": [
+        "docs/architecture/two-case-direct-evidence-results-2026-08-22.md",
+        "tests/test_verifier_counterfactual_replay.py"
+      ],
+      "resource_audit": {
+        "provider_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "wall_seconds": null,
+        "cost": null,
+        "cost_status": "not_applicable"
+      },
+      "limitations": [
+        "This validates deterministic rejection of injected unknown and post-cutoff identifiers only."
+      ]
+    },
+    {
+      "evidence_id": "agent-distillation-export-governance-20260822",
+      "claim_ids": ["agent_distillation"],
+      "evaluation_kind": "governance_contract",
+      "result_direction": "diagnostic",
+      "case_ids": ["bmj-exercise-depression-nma"],
+      "review_family_ids": ["adult-depression-exercise-treatment"],
+      "covered_stage_ids": ["protocol_registration"],
+      "full_mechanism_executed": true,
+      "direct_baseline_passed": false,
+      "predicted_ablation_degradation_observed": false,
+      "frozen_before_reference": true,
+      "reference_opened_after_complete_lock": false,
+      "provider_relation": "deterministic_external_verifier",
+      "independent_verification_claimed": true,
+      "same_case_full_lifecycle": false,
+      "artifact_paths": [
+        "metawingman/scripts/metawingman_core/agent_distillation.py",
+        "metawingman/scripts/metawingman_core/distillation_readiness.py",
+        "metawingman/scripts/audit_distillation_readiness.py",
+        "metawingman/schemas/agent_distillation_export.schema.json",
+        "tests/test_agent_trajectory_distillation.py",
+        "tests/test_distillation_readiness.py"
+      ],
+      "resource_audit": {
+        "provider_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "wall_seconds": null,
+        "cost": null,
+        "cost_status": "not_applicable"
+      },
+      "limitations": [
+        "A governed protocol-stage export now contains 19 trainable positive demonstrations from one development review family.",
+        "The contaminated BMJ topic trajectory remains audit-only and was not reused for protocol training.",
+        "No held-out base-versus-student-versus-teacher comparison exists."
+      ]
+    },
+    {
+      "evidence_id": "protocol-agent-development-student-comparison-20260822",
+      "claim_ids": ["agent_distillation"],
+      "evaluation_kind": "student_comparison",
+      "result_direction": "positive",
+      "case_ids": ["bmj-exercise-depression-nma"],
+      "review_family_ids": ["adult-depression-exercise-treatment"],
+      "covered_stage_ids": ["protocol_registration"],
+      "full_mechanism_executed": true,
+      "direct_baseline_passed": true,
+      "predicted_ablation_degradation_observed": false,
+      "frozen_before_reference": true,
+      "reference_opened_after_complete_lock": false,
+      "provider_relation": "deterministic_external_verifier",
+      "independent_verification_claimed": true,
+      "same_case_full_lifecycle": false,
+      "artifact_paths": [
+        "research/protocol-agent-distillation-training-receipt-v1.json",
+        "docs/architecture/protocol-agent-distillation-bootstrap-results-2026-08-22.md",
+        "metawingman/scripts/run_agent_distillation_training.py",
+        "tests/test_agent_distillation_training.py"
+      ],
+      "resource_audit": {
+        "provider_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "wall_seconds": 1614.2629352621734,
+        "cost": null,
+        "cost_status": "unknown"
+      },
+      "limitations": [
+        "All training and development spans come from one authoritative development review and one protocol stage.",
+        "The four development spans are held out by action group within the same article, not by review family.",
+        "Three student seeds scored 1.0, 1.0, and 0.75 complete-action accuracy versus 0.0 for the unadapted base model; this is a development-only learning signal.",
+        "No unseen-family student comparison, full-agent evaluation, or scientific review outcome has been completed."
+      ]
+    },
+    {
+      "evidence_id": "joint-ten-stage-adapter-fixtures-20260822",
+      "claim_ids": ["joint_lifecycle_control", "topic_opportunity_control", "conclusion_directed_acquisition"],
+      "evaluation_kind": "fixture",
+      "result_direction": "diagnostic",
+      "case_ids": [],
+      "review_family_ids": [],
+      "covered_stage_ids": [
+        "topic_feasibility", "protocol_registration", "search_retrieval", "selection",
+        "data_lineage", "appraisal", "freeze_synthesis", "certainty_interpretation",
+        "reporting_review", "living_update"
+      ],
+      "construct_validity_status": "not_evaluated",
+      "full_mechanism_executed": false,
+      "direct_baseline_passed": false,
+      "predicted_ablation_degradation_observed": false,
+      "frozen_before_reference": true,
+      "reference_opened_after_complete_lock": false,
+      "provider_relation": "not_applicable",
+      "independent_verification_claimed": false,
+      "same_case_full_lifecycle": false,
+      "artifact_paths": [
+        "metawingman/scripts/metawingman_core/joint_topic_stage_adapter.py",
+        "metawingman/scripts/metawingman_core/joint_protocol_stage_adapter.py",
+        "metawingman/scripts/metawingman_core/joint_search_stage_adapter.py",
+        "metawingman/scripts/metawingman_core/joint_selection_stage_adapter.py",
+        "metawingman/scripts/metawingman_core/joint_lineage_stage_adapter.py",
+        "metawingman/scripts/metawingman_core/joint_appraisal_stage_adapter.py",
+        "metawingman/scripts/metawingman_core/joint_synthesis_stage_adapter.py",
+        "metawingman/scripts/metawingman_core/joint_certainty_stage_adapter.py",
+        "metawingman/scripts/metawingman_core/joint_reporting_stage_adapter.py",
+        "metawingman/scripts/metawingman_core/joint_living_stage_adapter.py",
+        "tests/test_joint_reporting_and_living_adapters.py"
+      ],
+      "resource_audit": {
+        "provider_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "wall_seconds": null,
+        "cost": null,
+        "cost_status": "not_applicable"
+      },
+      "limitations": [
+        "The adapters are tested separately and through runner fixtures; no scientific case-arm-seed has completed all ten stages.",
+        "Fixture completion cannot establish review efficacy, controller benefit, or end-to-end reconstruction accuracy.",
+        "Published-reference scoring, family closure, representative-case execution, and matched 2 x 2 comparison remain not run."
+      ]
+    }
+  ]
+}

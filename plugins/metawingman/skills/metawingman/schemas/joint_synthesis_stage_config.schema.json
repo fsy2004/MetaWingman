@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_synthesis_stage_config.schema.json",
+  "title": "Frozen deterministic synthesis configuration",
+  "type": "object", "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "adapter_id", "route_id", "effect_measure", "direction",
+    "minimum_effects_for_pooling", "method", "knha", "r_adapter", "toolkit_manifest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "freeze_synthesis"},
+    "adapter_id": {"const": "joint-analysis-freeze-synthesis-v1"},
+    "route_id": {"enum": ["pairwise_random_effects", "no_pooling", "swim_structured_synthesis"]},
+    "effect_measure": {"enum": ["log_risk_ratio", "log_odds_ratio", "risk_difference", "mean_difference", "standardized_mean_difference", "fisher_z", "logit_proportion"]},
+    "direction": {"enum": ["higher_favors_intervention", "lower_favors_intervention", "higher_is_harm", "lower_is_harm", "descriptive", "other"]},
+    "minimum_effects_for_pooling": {"type": "integer", "minimum": 2},
+    "method": {"const": "REML"},
+    "knha": {"const": true},
+    "r_adapter": {"$ref": "#/$defs/fileBinding"},
+    "toolkit_manifest": {"$ref": "#/$defs/fileBinding"}
+  },
+  "$defs": {
+    "fileBinding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1, "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

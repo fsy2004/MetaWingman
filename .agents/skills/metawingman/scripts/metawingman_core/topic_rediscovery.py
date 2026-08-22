@@ -27,8 +27,15 @@ def _normalise(value: str) -> str:
 
 
 def _set_similarity(left: list[str], right: list[str]) -> float:
-    left_set = {_normalise(item) for item in left}
-    right_set = {_normalise(item) for item in right}
+    stopwords = {"a", "an", "and", "for", "in", "of", "or", "the", "to", "with"}
+    def tokens(values: list[str]) -> set[str]:
+        output = {
+            token for item in values for token in re.findall(r"[a-z0-9]+", _normalise(item))
+            if token not in stopwords
+        }
+        return output or {_normalise(item) for item in values if _normalise(item)}
+    left_set = tokens(left)
+    right_set = tokens(right)
     union = left_set | right_set
     return len(left_set & right_set) / len(union) if union else 0.0
 
@@ -36,14 +43,20 @@ def _set_similarity(left: list[str], right: list[str]) -> float:
 def _field_similarities(
     predicted: dict[str, Any],
     reference: dict[str, Any],
+    accepted: dict[str, list[str]] | None = None,
 ) -> dict[str, float]:
     output = {
-        field: round(_set_similarity(predicted[field], reference[field]), 8)
+        field: round(max(
+            [_set_similarity(predicted[field], reference[field])]
+            + ([_set_similarity(predicted[field], [term]) for term in accepted[field]] if accepted else [])
+        ), 8)
         for field in FIELDS if field != "synthesis_route"
     }
-    output["synthesis_route"] = float(
-        _normalise(predicted["synthesis_route"]) == _normalise(reference["synthesis_route"])
-    )
+    accepted_routes = [reference["synthesis_route"], *(accepted["synthesis_route"] if accepted else [])]
+    output["synthesis_route"] = float(any(
+        _normalise(predicted["synthesis_route"]) == _normalise(route)
+        for route in accepted_routes
+    ))
     return output
 
 
@@ -62,9 +75,10 @@ def evaluate_topic_rediscovery(case: dict[str, Any]) -> dict[str, Any]:
         raise TopicRediscoveryError("field weights must sum to 1.0")
 
     reference = case["sealed_reference"]["question_framework"]
+    accepted = case["sealed_reference"].get("accepted_term_sets")
     scored: list[tuple[float, int, str, dict[str, float]]] = []
     for prediction in case["ranked_predictions"]:
-        similarities = _field_similarities(prediction["question_framework"], reference)
+        similarities = _field_similarities(prediction["question_framework"], reference, accepted)
         score = round(sum(weights[field] * similarities[field] for field in FIELDS), 8)
         scored.append((score, prediction["rank"], prediction["candidate_id"], similarities))
     scored.sort(key=lambda item: (-item[0], item[1], item[2]))

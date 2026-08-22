@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/distillation_lineage_manifest.schema.json",
+  "title": "MetaWingman distillation input and checkpoint lineage manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "manifest_id", "case_registry_sha256",
+    "dataset_bindings", "prompt_bindings", "tool_bindings", "checkpoint_bindings"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "manifest_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+    "case_registry_sha256": {"$ref": "#/$defs/sha256"},
+    "dataset_bindings": {
+      "type": "array", "items": {"$ref": "#/$defs/artifactBinding"}
+    },
+    "prompt_bindings": {
+      "type": "array", "items": {"$ref": "#/$defs/artifactBinding"}
+    },
+    "tool_bindings": {
+      "type": "array", "items": {"$ref": "#/$defs/artifactBinding"}
+    },
+    "checkpoint_bindings": {
+      "type": "array", "items": {"$ref": "#/$defs/checkpointBinding"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "identifierList": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "stageList": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {
+        "enum": [
+          "topic_feasibility", "protocol_registration", "search_retrieval", "selection",
+          "data_lineage", "appraisal", "freeze_synthesis", "certainty_interpretation",
+          "reporting_review", "living_update"
+        ]
+      }
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_id", "artifact_path", "sha256", "case_ids", "family_ids", "stages"
+      ],
+      "properties": {
+        "binding_id": {"type": "string", "minLength": 1},
+        "artifact_path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "case_ids": {"$ref": "#/$defs/identifierList"},
+        "family_ids": {"$ref": "#/$defs/identifierList"},
+        "stages": {"$ref": "#/$defs/stageList"}
+      }
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_id", "model_id", "canonical_provider_id", "canonical_model_id"
+      ],
+      "properties": {
+        "provider_id": {"type": "string", "minLength": 1},
+        "model_id": {"type": "string", "minLength": 1},
+        "canonical_provider_id": {
+          "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "canonical_model_id": {
+          "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        }
+      }
+    },
+    "familyClosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status", "case_registry_sha256", "artifact_path", "sha256"
+      ],
+      "properties": {
+        "status": {"const": "verified_target_family_absent"},
+        "case_registry_sha256": {"$ref": "#/$defs/sha256"},
+        "artifact_path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "checkpointBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_id", "artifact_path", "sha256", "case_ids", "family_ids", "stages",
+        "teacher_identity", "training_family_ids", "family_closure"
+      ],
+      "properties": {
+        "binding_id": {"type": "string", "minLength": 1},
+        "artifact_path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "case_ids": {"$ref": "#/$defs/identifierList"},
+        "family_ids": {"$ref": "#/$defs/identifierList"},
+        "stages": {"$ref": "#/$defs/stageList"},
+        "teacher_identity": {"$ref": "#/$defs/identity"},
+        "training_family_ids": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "family_closure": {"$ref": "#/$defs/familyClosure"}
+      }
+    }
+  }
+}

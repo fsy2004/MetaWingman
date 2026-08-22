@@ -22,7 +22,7 @@ def _missing(value: Any) -> bool:
 def _normalize(value: Any, rule: str) -> Any:
     if rule in {"none", "identity", ""}:
         return value
-    if rule in {"casefold", "lowercase"}:
+    if rule in {"casefold", "lowercase", "casefold_whitespace"}:
         if isinstance(value, str):
             return " ".join(value.casefold().split())
         if isinstance(value, list):

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_reporting_stage_config.schema.json",
+  "title": "Frozen reporting and deterministic review configuration",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "stage_id", "adapter_id", "checklist_manifest", "report_title_prefix"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "reporting_review"},
+    "adapter_id": {"const": "joint-reporting-review-v1"},
+    "checklist_manifest": {"$ref": "#/$defs/fileBinding"},
+    "report_title_prefix": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "fileBinding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1, "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

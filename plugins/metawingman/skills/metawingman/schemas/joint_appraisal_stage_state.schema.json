@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metawingman.local/schemas/joint_appraisal_stage_state.schema.json",
+  "title": "Appraisal and missing-evidence stage state",
+  "type": "object", "additionalProperties": false,
+  "required": [
+    "schema_version", "stage_id", "case_id", "arm_id", "seed", "lineage_state_artifact",
+    "protocol_artifact", "framework_adapter_sha256", "appraisal_dossiers",
+    "missing_evidence_matrix", "deterministic_opposition_policy", "ready_dossier_count",
+    "published_reference_accessed"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage_id": {"const": "appraisal"},
+    "case_id": {"type": "string", "minLength": 1},
+    "arm_id": {"type": "string", "minLength": 1},
+    "seed": {"type": "integer"},
+    "lineage_state_artifact": {"$ref": "#/$defs/fileBinding"},
+    "protocol_artifact": {"$ref": "#/$defs/fileBinding"},
+    "framework_adapter_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "appraisal_dossiers": {"type": "array", "items": {"type": "object"}},
+    "missing_evidence_matrix": {"type": "object"},
+    "deterministic_opposition_policy": {"const": "exact-span-plus-conservative-domain-logic-v1"},
+    "ready_dossier_count": {"type": "integer", "minimum": 0},
+    "published_reference_accessed": {"const": false}
+  },
+  "$defs": {
+    "fileBinding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

@@ -64,6 +64,7 @@
           "access_route": {"enum": ["public_api", "user_export", "credentialed_browser_handoff", "manual", "other"]},
           "required": {"type": "boolean"},
           "query_file": {"type": "string"},
+          "query_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
           "coverage": {"type": "string"}
         }
       }
