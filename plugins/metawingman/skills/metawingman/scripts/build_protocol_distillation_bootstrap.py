@@ -66,6 +66,31 @@ def _method_rows(article_xml: Path, teacher: dict[str, object]) -> list[dict[str
     return rows
 
 
+def _method_trace(row: dict[str, str]) -> dict[str, str]:
+    section = row["source_section"]
+    action = row["action_type"]
+    return {
+        "review_question_certificate_link": (
+            f"The {section} span operationalizes one protocol primitive or assumption "
+            "that must trace back to the Review Question Certificate before registration."
+        ),
+        "socratic_stage_reflection": (
+            f"Before accepting {action}, ask whether this methods span answers the "
+            "stage question that a protocol reviewer would use to challenge scope, "
+            "eligibility, bias, synthesis, or certainty."
+        ),
+        "step_verification": (
+            "Train the action only because the statement is an exact methods-section "
+            "span, mapped by a frozen section-action compiler and checked without "
+            "using results, conclusions, or sealed evaluation material."
+        ),
+        "meta_update": (
+            f"Retain the verified {action} pattern as a reusable Skill/prompt/verifier "
+            "lesson for future protocol-stage agent behavior."
+        ),
+    }
+
+
 def build_bootstrap(
     *, article_xml: Path, case_registry_path: Path, teacher_path: Path,
     prompt_path: Path, output_dir: Path, created_at_utc: str,
@@ -118,6 +143,7 @@ def build_bootstrap(
             "action": {
                 "type": row["action_type"], "source_section": row["source_section"],
                 "method_statement": row["method_statement"],
+                "method_trace": _method_trace(row),
             },
             "decision": {"status": "accept", "reason_codes": ["licensed_methods_exact_span_verified"]},
             "source_anchors": [{"source_id": row["source_id"], "anchor": row["anchor"]}],

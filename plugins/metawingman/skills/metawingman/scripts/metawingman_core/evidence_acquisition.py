@@ -10,6 +10,28 @@ from .state_store import sha256_json
 
 
 POLICY_VERSION = "1.0"
+COMPUTE_OR_VERIFIER_ACTION_TYPES = {
+    "verify_screening_decision",
+    "verify_extraction",
+    "verify_claim_consistency",
+    "recompute_synthesis",
+}
+ACTION_REASON_CODES = {
+    "known_item_audit": "known_item_audit_action",
+    "query_expansion": "query_action",
+    "add_source": "source_action",
+    "citation_chasing": "source_action",
+    "registry_search": "source_action",
+    "retrieve_full_text": "fulltext_action",
+    "screen_priority_batch": "screen_action",
+    "resolve_metadata": "verifier_action",
+    "resolve_lineage": "verifier_action",
+    "author_contact": "source_action",
+    "verify_screening_decision": "compute_or_verifier_action",
+    "verify_extraction": "compute_or_verifier_action",
+    "verify_claim_consistency": "compute_or_verifier_action",
+    "recompute_synthesis": "compute_or_verifier_action",
+}
 
 
 class EvidenceAcquisitionError(ValueError):
@@ -165,11 +187,20 @@ def plan_evidence_acquisition(
             selected_actions = [
                 {
                     "action_id": item["action_id"],
+                    "action_type": item["action_type"],
+                    "target_criterion_ids": list(item["target_criterion_ids"]),
                     "utility_score": score,
                     "reason_codes": [
                         "expected_residual_risk_reduction",
                         "downstream_claim_impact_weighted",
-                    ] + (["source_diversity_gain"] if item["source_family_gain"] else []),
+                        ACTION_REASON_CODES[item["action_type"]],
+                    ]
+                    + (["source_diversity_gain"] if item["source_family_gain"] else [])
+                    + (
+                        ["asymmetric_harm_weighted"]
+                        if item["expected_claim_impact"] > state["thresholds"]["downstream_claim_impact_ceiling"]
+                        else []
+                    ),
                 }
                 for item, score in ranked[: state["thresholds"]["max_selected_actions"]]
             ]

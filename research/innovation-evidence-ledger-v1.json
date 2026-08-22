@@ -9,7 +9,7 @@
     "negative_results_must_be_retained": true,
     "full_lifecycle_requires_same_case": true,
     "canonical_case_registry_path": "research/direct-evidence-case-registry-v1.json",
-    "canonical_case_registry_sha256": "d113734b0abfad5b873362c40f0435a784be14fac78d5a4346128a019fa43ef9",
+    "canonical_case_registry_sha256": "ad4469088c79971ff52e79d9e45e349c5160dd81a4ba5753eb69e450f8d46cbb",
     "required_profile_strata": [
       "intervention_pairwise",
       "intervention_network",
@@ -152,7 +152,7 @@
     {
       "case_id": "nature-heat-maternal-neonatal",
       "review_family_id": "heat-maternal-fetal-neonatal",
-      "split": "held_out",
+      "split": "diagnostic_only",
       "profile_strata": ["public_health_exposure", "structured_no_pooling"],
       "authority_identity_verified": true,
       "broad_decision_relevance": true,
@@ -163,7 +163,7 @@
     {
       "case_id": "lancet-antidepressants-acute-mdd-nma",
       "review_family_id": "adult-acute-mdd-antidepressants",
-      "split": "held_out",
+      "split": "diagnostic_only",
       "profile_strata": ["intervention_network"],
       "authority_identity_verified": true,
       "broad_decision_relevance": true,
@@ -475,6 +475,65 @@
       ]
     },
     {
+      "evidence_id": "skill-method-agent-multifamily-development-20260822",
+      "claim_ids": ["agent_distillation", "joint_lifecycle_control"],
+      "evaluation_kind": "student_comparison",
+      "result_direction": "positive",
+      "case_ids": [],
+      "review_family_ids": [],
+      "covered_stage_ids": ["protocol_registration"],
+      "full_mechanism_executed": true,
+      "direct_baseline_passed": true,
+      "predicted_ablation_degradation_observed": true,
+      "frozen_before_reference": true,
+      "reference_opened_after_complete_lock": false,
+      "provider_relation": "base_vs_student_same_open_weight_model",
+      "independent_verification_claimed": false,
+      "same_case_full_lifecycle": false,
+      "artifact_paths": [
+        "docs/architecture/method-agent-training-results-2026-08-22.md",
+        "docs/manuscript/metawingman-method-agent-draft.md",
+        "research/manuscript-evidence-table-v1.csv",
+        "metawingman/scripts/build_multifamily_protocol_corpus.py",
+        "metawingman/scripts/run_multifamily_protocol_training.py",
+        "tests/test_multifamily_protocol_distillation.py"
+      ],
+      "resource_audit": {
+        "provider_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "wall_seconds": 1634.6590086817741,
+        "cost": null,
+        "cost_status": "unknown"
+      },
+      "metrics": {
+        "source_build_id": "4804d7935605b4c4",
+        "receipt_sha256": "c3eee98cd1cab8c8c93daca57ec76a93d453f6c9b21910f9cbad88ba8fca387f",
+        "corpus_manifest_sha256": "291e463a79a7248a3ebd211c46524390119c32395f74167559a95c26e505d0bf",
+        "raw_training_examples": 1130,
+        "balanced_training_examples": 3033,
+        "training_families": 157,
+        "development_examples": 357,
+        "development_families": 55,
+        "scored_development_examples": 200,
+        "scored_development_families": 53,
+        "base_complete_method_action_accuracy": 0.0,
+        "student_complete_method_action_accuracy": 0.975,
+        "base_json_valid_rate": 0.575,
+        "student_json_valid_rate": 1.0,
+        "base_method_trace_complete_rate": 0.0,
+        "student_method_trace_complete_rate": 1.0,
+        "base_decision_accuracy": 0.0,
+        "student_decision_accuracy": 1.0
+      },
+      "limitations": [
+        "This is protocol-action-stage development evidence rather than all-ten-stage systematic-review efficacy.",
+        "The development set is family-disjoint from training in this corpus, but it is not a frozen external confirmatory case set.",
+        "Qwen2.5-1.5B is used only as a reproducible student bootstrap; the paper contribution remains the Skill-driven method and MetaAgent workflow.",
+        "No matched-budget full baseline versus full Skill-method agent evaluation has completed across all lifecycle stages."
+      ]
+    },
+    {
       "evidence_id": "joint-ten-stage-adapter-fixtures-20260822",
       "claim_ids": ["joint_lifecycle_control", "topic_opportunity_control", "conclusion_directed_acquisition"],
       "evaluation_kind": "fixture",
@@ -520,6 +579,43 @@
         "The adapters are tested separately and through runner fixtures; no scientific case-arm-seed has completed all ten stages.",
         "Fixture completion cannot establish review efficacy, controller benefit, or end-to-end reconstruction accuracy.",
         "Published-reference scoring, family closure, representative-case execution, and matched 2 x 2 comparison remain not run."
+      ]
+    },
+    {
+      "evidence_id": "frozen-unseen-family-test-attempt-20260822",
+      "claim_ids": ["agent_distillation", "joint_lifecycle_control"],
+      "evaluation_kind": "development_case",
+      "result_direction": "diagnostic",
+      "case_ids": [],
+      "review_family_ids": [],
+      "covered_stage_ids": ["protocol_registration"],
+      "construct_validity_status": "not_evaluated",
+      "full_mechanism_executed": false,
+      "direct_baseline_passed": false,
+      "predicted_ablation_degradation_observed": false,
+      "frozen_before_reference": true,
+      "reference_opened_after_complete_lock": false,
+      "provider_relation": "not_applicable",
+      "independent_verification_claimed": false,
+      "same_case_full_lifecycle": false,
+      "artifact_paths": [
+        "metawingman/scripts/build_frozen_test_corpus.py",
+        "tests/test_frozen_test_corpus.py",
+        "research/manuscript-evidence-table-v1.csv"
+      ],
+      "resource_audit": {
+        "provider_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "wall_seconds": null,
+        "cost": null,
+        "cost_status": "not_applicable"
+      },
+      "limitations": [
+        "A frozen, family-held-out, matched-budget test set was attempted by building a method-action test corpus from review families not used for training or development.",
+        "The corpus plan exposes 11,771 remaining families and Europe PMC full text is reachable, but the deterministic extraction (extract_method_examples) returns zero examples for these families because most use flat JATS structure (method subsections are siblings of the Methods container, not nested under it); the training corpus was built only from nested-method articles (~212 families).",
+        "Under the exact training extraction the same plan cannot supply a fresh frozen method-action test set, so no new confirmatory set was produced.",
+        "The existing family-held-out result (receipt c3eee98cd1cab8c8c93daca57ec76a93d453f6c9b21910f9cbad88ba8fca387f) remains the primary frozen, matched-budget, family-isolated evidence; this item records the negative structural finding rather than adding a claim."
       ]
     }
   ]

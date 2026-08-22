@@ -33,9 +33,33 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["action_id", "utility_score", "reason_codes"],
+        "required": ["action_id", "action_type", "target_criterion_ids", "utility_score", "reason_codes"],
         "properties": {
           "action_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "action_type": {
+            "enum": [
+              "known_item_audit",
+              "query_expansion",
+              "add_source",
+              "citation_chasing",
+              "registry_search",
+              "retrieve_full_text",
+              "screen_priority_batch",
+              "resolve_metadata",
+              "resolve_lineage",
+              "author_contact",
+              "verify_screening_decision",
+              "verify_extraction",
+              "verify_claim_consistency",
+              "recompute_synthesis"
+            ]
+          },
+          "target_criterion_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+          },
           "utility_score": {"type": "number", "minimum": 0},
           "reason_codes": {
             "type": "array",

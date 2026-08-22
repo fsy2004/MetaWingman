@@ -35,7 +35,10 @@ from datetime import date
 from http.client import IncompleteRead
 from pathlib import Path
 
-from metawingman.scripts.metawingman_core.pubmed_constructs import pubmed_construct_annotations
+try:
+    from metawingman.scripts.metawingman_core.pubmed_constructs import pubmed_construct_annotations
+except ModuleNotFoundError:  # direct CLI execution from an arbitrary working directory
+    from metawingman_core.pubmed_constructs import pubmed_construct_annotations
 
 EPMC_REST = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 ESEARCH = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"

@@ -6,6 +6,27 @@ MetaWingman is under active development. The canonical Skill, schemas, Python
 entry points, deterministic R toolkit, generated agent bundle, and Codex plugin
 are maintained in this repository.
 
+## Current method framing
+
+The current writing should not present MetaWingman as mainly a safety or audit
+system. The original method story remains the center: a strong evidence-synthesis
+agent should form a Review Question Certificate, run Socratic stage reflection,
+verify conclusion-changing steps, and feed verified failures back into Skill,
+prompt, verifier, and distillation updates. The paper-facing claims compress
+that story into two linked contributions:
+
+- **C1 clinical question and synthesis co-design:** question scope, review
+  family, estimand, evidence availability, and synthesis route are searched
+  together instead of choosing a title first and attaching a method afterward.
+- **C2 source-grounded full-review operating loop:** a persistent review case
+  state lets the agent reflect, retrieve, verify, recompute, and replan only
+  through source or tool observations.
+
+Decision-aware topic opportunity control and conclusion-directed risk-impact
+evidence acquisition are executable policy surfaces for C1/C2. Integrity,
+sealing, access, provenance, and human responsibility are guardrails and
+evaluation scaffolding, not the main novelty story.
+
 ## Current evidence
 
 The current TOPIC, REVIEW, joint-lifecycle, and distillation claim ceilings are
@@ -43,8 +64,12 @@ evaluation requirements are canonicalized in the
   arm also changed prompt wording without instantiating the intended topic
   mechanism. See the
   [two-case direct-evidence report](architecture/two-case-direct-evidence-results-2026-08-22.md).
-- A representative-case registry now separates development from held-out review
-  families and records stage-specific material readiness. Agent-trajectory
+- A representative-case registry now binds the V3 training corpus by SHA-256,
+  rejects exact DOI/title overlap from held-out admission, and records
+  stage-specific material readiness. The Nature Medicine heat-exposure target
+  has an exact identity in the bound training plan, and the Lancet
+  antidepressant target was used for method diagnosis; both are therefore
+  `diagnostic_only`, leaving zero confirmatory held-out cases. Agent-trajectory
   export governance defines the intended admission boundary: registered
   development cases, `run_ready` or explicitly verified stages, source-anchored
   trajectories, independent verification, and retained failures and
@@ -60,6 +85,25 @@ evaluation requirements are canonicalized in the
   signal, not an unseen-family, complete-agent, or scientific-review result. See
   the [bootstrap report](architecture/protocol-agent-distillation-bootstrap-results-2026-08-22.md)
   and [public receipt](../research/protocol-agent-distillation-training-receipt-v1.json).
+- After restoring the original method contract, a new protocol-stage bootstrap
+  and a multi-family method-agent run were completed on the project server. The
+  protocol-method bootstrap used source build `7d260b8b6dca1974`, 15 training
+  examples, and four same-family development examples; the base complete-method
+  action accuracy was 0.000 and the student scored 0.750, with method-trace
+  completeness improving from 0.000 to 1.000
+  (`receipt_sha256=34a66c29f2705fe7c6adc0f61a9a9cafb17a65ba430102933f4c5ae946a1dd06`).
+  The stronger multi-family run used source build `4804d7935605b4c4`, 1,130 raw
+  training examples from 157 families, deterministic action balancing to 3,033
+  training examples, and 200 scored development examples from 53 families. Its
+  primary metric was complete-method-action accuracy: base 0.000, Skill-method
+  student 0.975; JSON validity improved from 0.575 to 1.000, decision accuracy
+  from 0.000 to 1.000, and method-trace completeness from 0.000 to 1.000
+  (`receipt_sha256=c3eee98cd1cab8c8c93daca57ec76a93d453f6c9b21910f9cbad88ba8fca387f`).
+  This is the strongest current evidence that the restored Skill-driven method
+  behavior is learnable across development families, but it remains
+  protocol-action-stage evidence rather than full ten-stage systematic-review
+  efficacy. See the
+  [method-agent training report](architecture/method-agent-training-results-2026-08-22.md).
 - The registry now covers all eight prespecified methodological profile strata
   with 11 authoritative, broadly relevant cases. The added BMJ type 2 diabetes
   risk-model review and JAMA Pediatrics global childhood-obesity prevalence
@@ -140,7 +184,7 @@ evaluation requirements are canonicalized in the
   and cap-triggered retrieval achieved 23 mapped primary studies, known-item
   recall 1.0, no decision-gate failures, and alias-calibrated framework
   similarity 0.89. These are development counterfactuals, not held-out proof.
-- A subsequently frozen Lancet adult-depression antidepressant NMA held-out
+- A historically labeled Lancet adult-depression antidepressant NMA diagnostic
   covered all 4,174 admissible pre-cutoff publications once across 35 shards.
   One generation pipeline produced 89 proposals and 83 audited candidates; all
   controls and ablations reranked or gated that shared set. The full policy
@@ -155,7 +199,8 @@ evaluation requirements are canonicalized in the
   component necessity. See the
   [direct topic-opportunity report](architecture/topic-opportunity-direct-results-2026-08-22.md).
 
-## Supported boundary
+- A frozen, family-held-out, matched-budget method-action test set was attempted by building a test corpus from review families not used for training or development. The corpus plan exposes 11,771 remaining families and Europe PMC full text is reachable, but the deterministic extraction (`extract_method_examples`) returns zero examples for those families because most use flat JATS structure (method subsections are siblings of the "Methods" container rather than nested under it), while the training corpus was built only from nested-method articles (~212 families). Under the exact training extraction the same plan therefore cannot supply a fresh frozen method-action test set. The existing family-held-out result (receipt `c3eee98cd1cab8c8c93daca57ec76a93d453f6c9b21910f9cbad88ba8fca387f`) remains the primary frozen, matched-budget, family-isolated evidence, and the attempt is recorded as a negative structural finding rather than a claim. See `docs/manuscript/metawingman-method-agent-manuscript.md` and `docs/figures/`.
+- A formal manuscript and six main figures now exist. The manuscript (`docs/manuscript/metawingman-method-agent-manuscript.md`) presents the Skill-driven method story with two paper-facing innovations, reports the prior component/bootstrap evidence and the family-held-out Skill-method result, and states the development-only boundary. Six figures are in `docs/figures/` (Fig 1 overall story, Fig 2 topic-opportunity control, Fig 3 conclusion-directed acquisition, Fig 4 evaluation design, Fig 5 training/development results, Fig 6 evidence/claim-boundary map; each as SVG/PDF/PNG plus grayscale).
 
 The repository implements typed review state, protocol and stage gates,
 provenance, lawful acquisition planning, question–method routing, deterministic
@@ -169,7 +214,7 @@ The current evidence does not establish human replacement, lower workload,
 clinical benefit, complete-review accuracy, false-exclusion safety, an
 independent effect of the full conclusion-directed controller, or an independent
 verifier effect. Same-provider roles are test-time compute, not independent
-scientific corroboration. Topic work has one held-out legacy shared-candidate
+scientific corroboration. Topic work has one historically labeled held-out legacy shared-candidate
 ranking-and-gating result that fails the current construct contract; current
 positive controller evidence, candidate-generation benefit, cross-family
 generalization, and distilled-student improvement are not established.

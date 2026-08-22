@@ -24,7 +24,9 @@ def _sha(path: Path) -> str:
 def _load_rows(path: Path) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     try:
-        for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        # JSONL records are separated by physical LF bytes. ``str.splitlines`` also
+        # splits U+2028/U+2029, which are legal characters inside JSON strings.
+        for number, line in enumerate(path.read_text(encoding="utf-8-sig").split("\n"), start=1):
             if not line.strip():
                 continue
             row = json.loads(line)

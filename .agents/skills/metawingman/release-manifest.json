@@ -7,7 +7,7 @@
     "version": "1.0"
   },
   "source_revision_policy": "bind the published bundle hash to a release tag or attestation",
-  "source_tree_sha256": "fc28ea315cb36e86ab8f8d414ec1b1c5874a751b5eda043f3d0e6d2c1b2a3afe",
+  "source_tree_sha256": "c26c4042d555d331f9dc655ba39e474313a577787188f54b35ef3f764b83aa3e",
   "requirements": {
     "python": ">=3.10",
     "python_required": [
@@ -47,13 +47,13 @@
   "files": [
     {
       "path": "SKILL.md",
-      "sha256": "42de6635d1162f0abbf32837da71abb58279de8d9ec4b4441cf9259645d005b3",
-      "bytes": 28204
+      "sha256": "7698995393f51966887192225a6d789b24aad112de523783d3324a2089f10a47",
+      "bytes": 30965
     },
     {
       "path": "agents/openai.yaml",
-      "sha256": "8dcdb75c44381a3d22c067e2db591876c68c6bf8eacc31676b1808d8eae6312d",
-      "bytes": 270
+      "sha256": "7fc696b92b62f1ba7786e11019215320c0bf9a7d711725b377b440086e6ec141",
+      "bytes": 385
     },
     {
       "path": "fixtures/reconstruction-v2/ag-rdt-criterion-anchors.draft.json",
@@ -217,8 +217,8 @@
     },
     {
       "path": "references/protocol-distillation-prompt-v1.json",
-      "sha256": "a331447443d7e2fe598d1988c3141806dba9e075a688da1eb926a5d2dda88432",
-      "bytes": 539
+      "sha256": "52ecb1cde414388e7bd80cfb3fc439e6025e90c479a8e10922be90dac7982a78",
+      "bytes": 1139
     },
     {
       "path": "references/protocol-distillation-teacher-v1.json",
@@ -447,8 +447,8 @@
     },
     {
       "path": "schemas/direct_evidence_case_registry.schema.json",
-      "sha256": "69c7101d14d3d17b19ce1204f7bfeb191547bff552b57a8518e21359d2708870",
-      "bytes": 8511
+      "sha256": "f323c07e05ba6fe22948e8708b1bb7aa152df8408c983a31866dcf34450711c5",
+      "bytes": 8929
     },
     {
       "path": "schemas/distillation_lineage_manifest.schema.json",
@@ -497,8 +497,8 @@
     },
     {
       "path": "schemas/evidence_acquisition_decision.schema.json",
-      "sha256": "8f7bdf5043b19021b3d5ad5a8ad081fe5bb21d9e0bd1445f866812c94f24ebf0",
-      "bytes": 2592
+      "sha256": "5c6be3ff5e0f6966d3acde1f7b6bd925cbb59d55745c5f339cae744e8fcd09a9",
+      "bytes": 3409
     },
     {
       "path": "schemas/evidence_acquisition_loop_plan.schema.json",
@@ -517,8 +517,8 @@
     },
     {
       "path": "schemas/evidence_acquisition_state.schema.json",
-      "sha256": "9a9b7648183a29cc813c18e64e8b738d3c407c09f9c79bf386accb8d0389d7b8",
-      "bytes": 5577
+      "sha256": "20fea96cbb921826195c02fe11276b644c6259e7273f757316af7c3314644ad3",
+      "bytes": 5734
     },
     {
       "path": "schemas/evidence_anchor.schema.json",
@@ -557,8 +557,8 @@
     },
     {
       "path": "schemas/innovation_evidence_ledger.schema.json",
-      "sha256": "434e90c685b00204aa8b37fd84dfd1638855280fa9a5702c080895c0c20bcfb5",
-      "bytes": 8815
+      "sha256": "741cf84fb97cc428dec984740da000439fb22a14e7fc9dc45f7f53315d8397e3",
+      "bytes": 8968
     },
     {
       "path": "schemas/joint_appraisal_question_manifest.schema.json",
@@ -897,8 +897,8 @@
     },
     {
       "path": "schemas/topic_proposal_batch.schema.json",
-      "sha256": "6d2bc386bfc565c1d2c0bd45d8978f269d8605f089890c48a16ca2771c522e10",
-      "bytes": 7614
+      "sha256": "6bbd2174f2053655d2a63669a75e76e5d0aeeb29f23caa1336bd26ef4858ce84",
+      "bytes": 9740
     },
     {
       "path": "schemas/topic_rediscovery_case.schema.json",
@@ -1011,6 +1011,21 @@
       "bytes": 4254
     },
     {
+      "path": "scripts/build_csmed_fulltext_agent_corpus.py",
+      "sha256": "371085763e7b41a572f70ee47798dd4dcb7803bd7691d8d3a4246f99194ea013",
+      "bytes": 4794
+    },
+    {
+      "path": "scripts/build_evidence_inference_agent_corpus.py",
+      "sha256": "c00327212f0689dcfea748055422c14cc8a6774d19a9075cf4fd71cdf9ef4097",
+      "bytes": 8723
+    },
+    {
+      "path": "scripts/build_frozen_test_corpus.py",
+      "sha256": "5503879ddc72b7995dcd7c9b4225a04131404576be515e8331a2e49e38b84a0d",
+      "bytes": 6361
+    },
+    {
       "path": "scripts/build_human_blind_spotcheck.py",
       "sha256": "3206a1871fcb7496d4cb953f49c7e5a9e5e0629f1fef9a32a91a3570fd7213d2",
       "bytes": 7375
@@ -1021,19 +1036,24 @@
       "bytes": 1695
     },
     {
+      "path": "scripts/build_multifamily_protocol_corpus.py",
+      "sha256": "12d0232e06c3f8aaaafdead4687c24ebcbcd14133375812734ce3a728384cca4",
+      "bytes": 10958
+    },
+    {
       "path": "scripts/build_poolability_matrix.py",
       "sha256": "bdbc402e9b1a16d0e9be31bb6eaadd5ec7bb23502ce5ddd939cd193dd87a5af1",
       "bytes": 1135
     },
     {
       "path": "scripts/build_preupdate_corpus.py",
-      "sha256": "ba5159616907616884ff684b9bef7d4eaeb4e9c0dc8576c756dd4eac5442763b",
-      "bytes": 12156
+      "sha256": "8ad2601d84d9eebbc5854f4c7ad7327226b10479accfa7158463a6abe1d2f056",
+      "bytes": 12333
     },
     {
       "path": "scripts/build_protocol_distillation_bootstrap.py",
-      "sha256": "21ad08da0bd597488445312f53efcf013360396d2e9b4305956e734d1dc3ffd9",
-      "bytes": 10002
+      "sha256": "14c3711b3a355687e71487993cd21b2546e393f68b406c1c49ec4cbb32f9b3f2",
+      "bytes": 11189
     },
     {
       "path": "scripts/build_server_training_handoff.py",
@@ -1141,6 +1161,16 @@
       "bytes": 1179
     },
     {
+      "path": "scripts/evaluate_constrained_agent_actions.py",
+      "sha256": "237705e145182ee25605765cfa1a3a8f4d37a25521c32733fa4197fe45dc47de",
+      "bytes": 8462
+    },
+    {
+      "path": "scripts/evaluate_fulltext_acquisition_loop.py",
+      "sha256": "9b9aac0ad2be631d8a09249f4a507b1d11f175165a93fe259067f38c4130d965",
+      "bytes": 10751
+    },
+    {
       "path": "scripts/evaluate_pipeline.py",
       "sha256": "8c7b8d094950305096a08f74d1c1a28f558795bf4a6650a5f31cd4cbc71f6deb",
       "bytes": 1684
@@ -1154,6 +1184,11 @@
       "path": "scripts/evaluate_retrieval_encoder.py",
       "sha256": "512170922eea407e236bb80d44f5023ef6740d5ae5eb88062ac1399f44b9fbfd",
       "bytes": 10095
+    },
+    {
+      "path": "scripts/evaluate_risk_impact_fulltext_policy.py",
+      "sha256": "28b992a2ee524471c105327ce42b280ed9a1f865d3f8ec9717c6fccdbca6740d",
+      "bytes": 6533
     },
     {
       "path": "scripts/evaluate_topic_opportunity_controls.py",
@@ -1282,8 +1317,8 @@
     },
     {
       "path": "scripts/metawingman_core/case_admission.py",
-      "sha256": "a79de15f51589c99bff5bfc91cf1f56fd7a0f2040e44bcdc858937925890b585",
-      "bytes": 6387
+      "sha256": "944d516099a045ed8422c190638e54dc3371282ebf82be32364a9a68cebfdd92",
+      "bytes": 8714
     },
     {
       "path": "scripts/metawingman_core/causal_replay.py",
@@ -1342,8 +1377,8 @@
     },
     {
       "path": "scripts/metawingman_core/evidence_acquisition.py",
-      "sha256": "3aa8ee26e6da87343a3db120f6d427c43a619c1ed80aded0f670d6d10d5cd74c",
-      "bytes": 9730
+      "sha256": "7cb3e4deea1583ad844584b7c45311631c82ef3ec7b336402ff4056f3d840780",
+      "bytes": 11037
     },
     {
       "path": "scripts/metawingman_core/evidence_acquisition_loop.py",
@@ -1567,8 +1602,8 @@
     },
     {
       "path": "scripts/metawingman_core/topic_construct_annotation.py",
-      "sha256": "46a81b4eb3d893e5d2a665e74895cef9ad5052173c3051ff552e72a34e2c85ac",
-      "bytes": 5045
+      "sha256": "3b1e94d3cc4908c82d024edf7e4a2a99af13dd3f49d0d200a33226e310f77385",
+      "bytes": 5212
     },
     {
       "path": "scripts/metawingman_core/topic_external_search.py",
@@ -2407,8 +2442,8 @@
     },
     {
       "path": "scripts/run_agent_distillation_training.py",
-      "sha256": "5bd3ca3cdd0e97664a0056291884540d2b7bc46f6b5680a0798f166e0ca9525e",
-      "bytes": 11428
+      "sha256": "fe212c9a49d609a8bbc39b323bfd0a338e560895255268378cbed84a0c72da9e",
+      "bytes": 12338
     },
     {
       "path": "scripts/run_ai_only_pilot.py",
@@ -2454,6 +2489,11 @@
       "path": "scripts/run_joint_lifecycle_slot.py",
       "sha256": "58a6a9aa1401eb46345bf0aa61076f5ac70e4b9afdb98680a8515fc696e0ccca",
       "bytes": 1640
+    },
+    {
+      "path": "scripts/run_multifamily_protocol_training.py",
+      "sha256": "5fad3f1b8d71aa894312cb44851b06017ab006ba680bad1e0f7ee3a21268c4e0",
+      "bytes": 16514
     },
     {
       "path": "scripts/run_question_synthesis_benchmark.py",

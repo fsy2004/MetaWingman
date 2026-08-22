@@ -90,6 +90,22 @@ class SkillDistributionTests(unittest.TestCase):
             self.assertIn("biomedical evidence synthesis", skill_text)
             self.assertEqual(manifest["requirements"]["direct_model_api"], "not bundled")
 
+    def test_bundle_frontloads_skill_method_innovations_not_safety_as_the_headline(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            bundle = Path(directory) / "metawingman"
+            _stage(ROOT, bundle)
+            skill_text = (bundle / "SKILL.md").read_text(encoding="utf-8").casefold()
+            self.assertIn("decision-aware topic opportunity control", skill_text)
+            self.assertIn("conclusion-directed risk-impact evidence acquisition", skill_text)
+            self.assertLess(
+                skill_text.index("decision-aware topic opportunity control"),
+                skill_text.index("non-negotiable integrity rules"),
+            )
+            prompt = (bundle / "agents/openai.yaml").read_text(encoding="utf-8").casefold()
+            self.assertIn("skill-driven", prompt)
+            self.assertIn("decision-aware topic", prompt)
+            self.assertIn("risk-impact evidence acquisition", prompt)
+
     def test_release_archive_is_deterministic_and_rooted(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

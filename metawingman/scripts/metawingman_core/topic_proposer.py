@@ -50,6 +50,12 @@ CHECK_TYPES = {
     "model_memory",
     "other",
 }
+METHOD_DERIVATION_FIELDS = {
+    "decision_tension",
+    "minimal_decisive_question",
+    "evidence_missingness_anchors",
+    "portfolio_cluster",
+}
 CONCEPT_NODE_TYPES = {
     "concept",
     "population",
@@ -80,6 +86,57 @@ def _build_prompt(landscape: dict[str, Any], maximum_proposals: int) -> str:
             "identify evidence interpretations and concrete searches that could disconfirm "
             "novelty, feasibility, decision value, or temporal independence. Return JSON only."
         ),
+        "method_workflow": [
+            {
+                "step": "identify_decision_tension",
+                "instruction": (
+                    "Identify a concrete decision in the supplied population where competing "
+                    "actions, thresholds, exposures, tests, or care strategies could change "
+                    "patient-important outcomes."
+                ),
+            },
+            {
+                "step": "triangulate_opportunity",
+                "instruction": (
+                    "Require joint support from decision need, unresolved or conflicting evidence, "
+                    "and enough primary-study maturity to make a lawful synthesis feasible; do not "
+                    "treat publication volume alone as opportunity."
+                ),
+            },
+            {
+                "step": "derive_minimal_decisive_question",
+                "instruction": (
+                    "Derive the narrowest question whose answer could change the downstream decision, "
+                    "and choose a synthesis route that is executable for the represented study designs."
+                ),
+            },
+            {
+                "step": "bind_evidence_and_missingness",
+                "instruction": (
+                    "Bind every material interpretation to supplied node IDs and state the evidence "
+                    "gap or disagreement that the proposed synthesis would resolve."
+                ),
+            },
+            {
+                "step": "design_disconfirmation",
+                "instruction": (
+                    "Write concrete independent searches that could falsify novelty, feasibility, "
+                    "decision relevance, source coverage, or temporal independence."
+                ),
+            },
+            {
+                "step": "diversify_portfolio",
+                "instruction": (
+                    "When returning multiple proposals, prefer distinct decision problems and evidence "
+                    "paths instead of paraphrases of the same framework."
+                ),
+            },
+        ],
+        "anti_shortcut_rules": [
+            "Do not imitate a likely published-review title or optimize for resemblance to a hidden target.",
+            "Do not infer opportunity from journal prestige, citation volume, or fluent rationale alone.",
+            "Do not self-certify novelty, feasibility, or decision relevance; those signals require independent audit.",
+        ],
         "output_contract": {
             "top_level_key": "proposals",
             "generation_methods": sorted(GENERATION_METHODS),
@@ -108,6 +165,44 @@ def _build_prompt(landscape: dict[str, Any], maximum_proposals: int) -> str:
                                 "interpretation": "why this node supports the stated role",
                             }
                         ],
+                        "decision_tension": {
+                            "decision_context": "the concrete downstream decision or uncertainty",
+                            "competing_options": [
+                                "one plausible decision option",
+                                "a real alternative option",
+                            ],
+                            "why_current_evidence_is_decision_relevant": (
+                                "how the supplied cutoff evidence creates a decision tension"
+                            ),
+                            "consequence_if_wrong": (
+                                "the patient, policy, equity, or methodological harm if this "
+                                "topic is pursued or ignored incorrectly"
+                            ),
+                        },
+                        "minimal_decisive_question": {
+                            "question": "the narrowest answerable question that could change the decision",
+                            "decision_trigger": "what answer would change the downstream action",
+                            "method_or_estimand_guardrail": (
+                                "the design, estimand, comparator, subgroup, or synthesis guardrail "
+                                "needed to avoid a misleading answer"
+                            ),
+                        },
+                        "evidence_missingness_anchors": [
+                            {
+                                "node_id": "one ID declared above",
+                                "missing_or_conflicting_element": (
+                                    "the missing, inaccessible, conflicting, or under-specified evidence"
+                                ),
+                                "why_it_matters_to_decision": (
+                                    "why that gap affects the decision rather than only making the "
+                                    "topic sound interesting"
+                                ),
+                            }
+                        ],
+                        "portfolio_cluster": (
+                            "short cluster label used to avoid returning paraphrases of the same "
+                            "decision problem"
+                        ),
                         "disconfirmation_queries": [
                             {
                                 "check_type": "one disconfirmation_check_types value",
@@ -140,6 +235,8 @@ def _build_generic_prompt(landscape: dict[str, Any], maximum_proposals: int) -> 
         "Do not use outside knowledge, infer a hidden target identity, assign numeric scores, "
         "or apply the supplied opportunity-selection policy. Return JSON only."
     )
+    payload.pop("method_workflow", None)
+    payload.pop("anti_shortcut_rules", None)
     payload["output_contract"]["generation_methods"] = ["model_proposal"]
     return _canonical_json(payload)
 
@@ -167,6 +264,115 @@ def _normalise_string_list(value: Any, context: str) -> list[str]:
     return output
 
 
+def _normalise_nonempty_string(value: Any, context: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise TopicProposalError(f"method_derivation.{context} must be a non-empty string")
+    return value.strip()
+
+
+def _normalise_method_derivation(
+    raw: dict[str, Any],
+    referenced_ids: set[str],
+) -> dict[str, Any]:
+    tension = raw["decision_tension"]
+    if not isinstance(tension, dict):
+        raise TopicProposalError("method_derivation.decision_tension must be an object")
+    _require_keys(
+        tension,
+        {
+            "decision_context",
+            "competing_options",
+            "why_current_evidence_is_decision_relevant",
+            "consequence_if_wrong",
+        },
+        "method_derivation.decision_tension",
+    )
+    competing_options = _normalise_string_list(
+        tension["competing_options"],
+        "method_derivation.decision_tension.competing_options",
+    )
+    if len(competing_options) < 2:
+        raise TopicProposalError(
+            "method_derivation.decision_tension.competing_options must contain at least two options"
+        )
+    normalized_tension = {
+        "decision_context": _normalise_nonempty_string(
+            tension["decision_context"], "decision_tension.decision_context"
+        ),
+        "competing_options": competing_options,
+        "why_current_evidence_is_decision_relevant": _normalise_nonempty_string(
+            tension["why_current_evidence_is_decision_relevant"],
+            "decision_tension.why_current_evidence_is_decision_relevant",
+        ),
+        "consequence_if_wrong": _normalise_nonempty_string(
+            tension["consequence_if_wrong"], "decision_tension.consequence_if_wrong"
+        ),
+    }
+
+    decisive = raw["minimal_decisive_question"]
+    if not isinstance(decisive, dict):
+        raise TopicProposalError("method_derivation.minimal_decisive_question must be an object")
+    _require_keys(
+        decisive,
+        {"question", "decision_trigger", "method_or_estimand_guardrail"},
+        "method_derivation.minimal_decisive_question",
+    )
+    normalized_decisive = {
+        "question": _normalise_nonempty_string(
+            decisive["question"], "minimal_decisive_question.question"
+        ),
+        "decision_trigger": _normalise_nonempty_string(
+            decisive["decision_trigger"], "minimal_decisive_question.decision_trigger"
+        ),
+        "method_or_estimand_guardrail": _normalise_nonempty_string(
+            decisive["method_or_estimand_guardrail"],
+            "minimal_decisive_question.method_or_estimand_guardrail",
+        ),
+    }
+
+    anchors = raw["evidence_missingness_anchors"]
+    if not isinstance(anchors, list) or not anchors:
+        raise TopicProposalError(
+            "method_derivation.evidence_missingness_anchors must be a non-empty array"
+        )
+    normalized_anchors: list[dict[str, str]] = []
+    for index, anchor in enumerate(anchors):
+        if not isinstance(anchor, dict):
+            raise TopicProposalError(
+                f"method_derivation.evidence_missingness_anchors[{index}] must be an object"
+            )
+        _require_keys(
+            anchor,
+            {"node_id", "missing_or_conflicting_element", "why_it_matters_to_decision"},
+            f"method_derivation.evidence_missingness_anchors[{index}]",
+        )
+        node_id = anchor["node_id"]
+        if node_id not in referenced_ids:
+            raise TopicProposalError(
+                f"method_derivation evidence_missingness_anchor references undeclared node: {node_id}"
+            )
+        normalized_anchors.append({
+            "node_id": node_id,
+            "missing_or_conflicting_element": _normalise_nonempty_string(
+                anchor["missing_or_conflicting_element"],
+                f"evidence_missingness_anchors[{index}].missing_or_conflicting_element",
+            ),
+            "why_it_matters_to_decision": _normalise_nonempty_string(
+                anchor["why_it_matters_to_decision"],
+                f"evidence_missingness_anchors[{index}].why_it_matters_to_decision",
+            ),
+        })
+
+    return {
+        "decision_tension": normalized_tension,
+        "minimal_decisive_question": normalized_decisive,
+        "evidence_missingness_anchors": normalized_anchors,
+        "portfolio_cluster": _normalise_nonempty_string(
+            raw["portfolio_cluster"], "portfolio_cluster"
+        ),
+    }
+
+
 def _normalise_proposal(
     raw: Any,
     nodes: dict[str, dict[str, Any]],
@@ -179,9 +385,22 @@ def _normalise_proposal(
         "concept_node_ids",
         "evidence_node_ids",
         "evidence_interpretations",
+        "decision_tension",
+        "minimal_decisive_question",
+        "evidence_missingness_anchors",
+        "portfolio_cluster",
         "disconfirmation_queries",
     }
-    _require_keys(raw, expected, "model proposal")
+    try:
+        _require_keys(raw, expected, "model proposal")
+    except TopicProposalError as exc:
+        missing_method_fields = sorted(METHOD_DERIVATION_FIELDS - set(raw))
+        if missing_method_fields:
+            raise TopicProposalError(
+                "method_derivation fields invalid; "
+                f"missing={missing_method_fields}, extra={sorted(set(raw) - expected)}"
+            ) from exc
+        raise
 
     method = raw["generation_method"]
     if method not in GENERATION_METHODS:
@@ -215,6 +434,7 @@ def _normalise_proposal(
         raise TopicProposalError(
             f"concept_node_ids contain non-concept nodes: {sorted(wrong_type)}"
         )
+    method_derivation = _normalise_method_derivation(raw, referenced_ids)
 
     interpretations = raw["evidence_interpretations"]
     if not isinstance(interpretations, list) or not interpretations:
@@ -263,6 +483,7 @@ def _normalise_proposal(
         "concept_node_ids": concept_ids,
         "evidence_node_ids": evidence_ids,
         "evidence_interpretations": normalized_interpretations,
+        **method_derivation,
         "disconfirmation_queries": normalized_checks,
         "status": "requires_independent_signal_audit",
     }
@@ -362,6 +583,7 @@ def _proposal_error_code(error: TopicProposalError) -> str:
         ("only a proposals array", "provider_repair_failed_top_level_shape"),
         ("proposals must be an array", "provider_repair_failed_proposal_array"),
         ("maximum proposal count", "provider_repair_failed_proposal_limit"),
+        ("method_derivation", "provider_repair_failed_method_derivation"),
         ("invalid fields", "provider_repair_failed_field_set"),
         ("question_framework must be", "provider_repair_failed_framework_shape"),
         ("question_framework.", "provider_repair_failed_framework_value"),

@@ -79,12 +79,14 @@ metadata intake（4,098 篇顶刊优先语料）
 - 论文五图（贡献叙事契约）：架构图 / Top-K 选题重发现 + 假机会对照 / 覆盖地图 / 端到端 stage-loss 瀑布 / 风险-覆盖-成本前沿。
 - 公开提交前需真实 benchmark、许可证审查、公开 URL、发布者身份材料；第一版不需要 MCP 服务器。
 
-## 4. 创新点（两项主贡献）
+## 4. 创新点（恢复早期主线，收束为两项主贡献）
 
-- **C1 临床问题—Meta 方法联合设计**：不是先定题再套统计方法，而是在临床决策语境中联合搜索问题范围、综述类型、estimand、证据可得性、效应量和综合路线；允许缩窄、扩展、拆题、换型、SWiM 或 no-pooling，并保留每次变更的证据依据。
-- **C2 像专业研究者一样反思的全流程证据状态**：一个持久、可回放的 Review Case State 贯穿选题到 living update；反思只有在原文锚点、标识符核验、谱系检查或确定性 R/Python 工具观察后才能改变科学状态。
-- **训练与评测基础设施**：顶刊已发表综述的时间切分重建、published_reference 标签、协议扰动、首次分歧重放和 AI-only 重复运行，用来验证 C1/C2，不另包装为主创新。
-- **借鉴机制**：ReAct、检索增强、树搜索、辩论、动态路由、语义熵、conformal risk control 和多模态解析均是支撑件；对应来源、边界、直接对照和消融见 `clinical-question-synthesis-co-design.md`。
+- **早期四机制内核**：MetaWingman 的故事不是普通自动化，也不是安全审计本身，而是把系统综述做成"提问-推导-验证-反思-进化"的 agent。核心机制是 Review Question Certificate（选题证书）、Socratic stage reflection（逐阶段自问）、PRM-style step verification（步骤级验证链）和 Meta-update/audit-log（把失败与修复沉淀为 Skill/prompt/verifier/训练更新）。
+- **C1 临床问题—Meta 方法联合设计**：不是先定题再套统计方法，而是在临床决策语境中联合搜索问题范围、综述类型、estimand、证据可得性、效应量和综合路线；允许缩窄、扩展、拆题、换型、SWiM 或 no-pooling，并保留每次变更的证据依据。当前的 decision-aware topic opportunity control 是它的可执行选题表面：cutoff landscape → decision tension → minimal decisive question → method guardrail → disconfirmation → portfolio/stopping。
+- **C2 像专业研究者一样反思的全流程证据状态**：一个持久、可回放的 Review Case State 贯穿选题到 living update；反思只有在原文锚点、标识符核验、谱系检查、全文/筛选/抽取 verifier 或确定性 R/Python 重算后才能改变科学状态。当前的 conclusion-directed risk-impact evidence acquisition 是它的行动控制表面：residual risk × downstream claim impact × asymmetric harm → source/query/full-text/screen/verifier/compute action → execute/recompute/replan/stop。
+- **蒸馏与强 agent 路线**：蒸馏不作为单独论文创新标题，但应服务于强 agent 行为稳定化：训练 agent 形成证书、提出反证、锚定缺口、选择关键行动、重算结论和写入 meta-update，而不是只训练 JSON 分类或保守弃权。
+- **训练与评测基础设施**：顶刊已发表综述的时间切分重建、published_reference 标签、协议扰动、首次分歧重放、AI-only 重复运行和 prospective/frozen evaluation 用来验证 C1/C2，不另包装为主创新。
+- **借鉴机制**：ReAct、检索增强、树搜索、辩论、动态路由、语义熵、conformal risk control、多模态解析和 provider routing 均是支撑件；对应来源、边界、直接对照和消融见 `clinical-question-synthesis-co-design.md`。
 
 ## 5. 方法（技术栈）
 
@@ -109,7 +111,7 @@ metadata intake（4,098 篇顶刊优先语料）
 ## 8. Live-evidence addendum（2026-08-22）
 
 - **病例准入**：训练/开发病例必须来自权威期刊或权威 living-review 平台，能恢复精确历史截止日、published answer 与可审计输入；优先覆盖常见重大健康问题和方法学差异明显的综述类型。罕见或小众病例只能作为补充压力测试，不能单独支撑训练有效性或主科学结论。
-- **开发—留出隔离**：Ag-RDT 与 COVID-19 自伤/自杀 living review 用于端到端和采集机制开发；JAMA Pediatrics 儿童睡眠病例仅用于选题机制校准；Lancet 成人重度抑郁症 21 种抗抑郁药 network meta-analysis 作为权威代表性 held-out，不允许按其结果调参。
+- **开发—留出隔离**：Ag-RDT 与 COVID-19 自伤/自杀 living review 用于端到端和采集机制开发；JAMA Pediatrics 儿童睡眠病例仅用于选题机制校准。Lancet 成人重度抑郁症 NMA 已用于方法诊断，Nature Medicine 热暴露病例的精确 DOI/题名已进入绑定的 V3 训练计划，两者均降为 `diagnostic_only`；当前确认性 held-out 为 0。
 - **选题直接证据**：时间图候选必须覆盖冻结历史池；候选生成、外部审计、锁定和评分分开。记录 mapping ceiling、known-item recall、假机会率、provider calls、tokens、wall time 与 cost；缺失成本/时间必须写 `null`/`unknown`，不得估算补值。
 - **Agent 蒸馏准入**：只蒸馏来源清洁、目标无泄漏、阶段输入/输出/证据锚点/决策理由齐全、锁定后独立评分通过的轨迹。目标知情词表、事后修复、诊断性反事实和失败轨迹可保留作拒答/错误分类训练或审计，不得标为正向 gold demonstration。
 - **结果处理**：预注册或锁定结果不佳时保留原结果，先定位覆盖、层级聚合、检索截断、验证器或决策门的机制性失败；改进只在 development case 上完成并重新冻结，再进入新的 held-out family。不得降低阈值、删候选或按已见留出答案挑参。

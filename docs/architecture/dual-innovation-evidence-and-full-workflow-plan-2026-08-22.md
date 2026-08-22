@@ -1,30 +1,41 @@
 # MetaWingman 双创新证据与全流程执行总案
 
-状态：2026-08-22 canonical scientific architecture。若旧白皮书、贡献故事、实验图题或 README 与本文冲突，以机器可审计的
-`research/innovation-evidence-ledger-v1.json`、`research/direct-evidence-case-registry-v1.json` 和本文为准。
+状态：2026-08-22 canonical scientific architecture。本文不废弃早期白皮书的核心创新；它把"提问-推导-验证-反思-进化"的四个机制压缩为两条可检验主线。若旧实验数值或证据等级与机器可审计的
+`research/innovation-evidence-ledger-v1.json`、`research/direct-evidence-case-registry-v1.json` 和本文冲突，以审计账本为准。
 
-## 1. 只保留两项主创新
+## 1. 四机制内核，收束为两项主创新
+
+MetaWingman 的吸引力应来自一个强 agent：它不是替用户跑流程，而是像证据综合研究者一样提出问题、显式推导、主动反证、验证关键步骤，并把失败转化为下一轮 Skill/prompt/verifier/训练改进。
+
+早期主线保留为四个机制：
+
+1. **Review Question Certificate**：把临床不确定性转成 primitives、assumptions、mechanism/decision model、evidence tension、minimal decisive test、expected observations、failure update rule 和 novelty gate。
+2. **Socratic stage reflection**：每个阶段先问方法学关键问题，执行中逐步作答，结束后记录偏差、意外和可复用修复。
+3. **PRM-style step verification**：把 screening、extraction、RoB、poolability、analysis、GRADE 和 claim 编译拆成可验证步骤，而不是相信一段 fluent rationale。
+4. **Meta-update and distillation loop**：将 verified failure/repair 进入 audit log，再转化为 Skill、prompt、verifier、训练数据和 student bootstrap 的更新。
+
+论文叙事把上述机制收束为 C1/C2。TOPIC 与 REVIEW 是 C1/C2 的可执行 policy surface，不是把项目改写成安全性创新。
 
 ### TOPIC：decision-aware topic opportunity control
 
-从截止日前可见的研究、综述、协议、指南、HTA、优先级声明、结果和 claim disagreement 中生成候选；用独立可定位证据评价决策后果、重复/更新关系、可答性、方法适配和机会成本；最后在冻结约束下选择单题或互补组合。
+对应 C1 临床问题—Meta 方法联合设计。从截止日前可见的研究、综述、协议、指南、HTA、优先级声明、结果和 claim disagreement 中生成候选；用独立可定位证据评价决策后果、重复/更新关系、可答性、方法适配和机会成本；最后在冻结约束下选择单题或互补组合。
 
-它必须同时包含候选生成、独立审计、门控、组合和停止。只在同一候选集上重排，不能称为 topic discovery。
+它必须同时包含 Review Question Certificate 式推导、候选生成、反证设计、独立审计、门控、组合和停止。只在同一候选集上重排，不能称为 topic discovery。
 
 ### REVIEW：conclusion-risk-controlled systematic-review execution
 
-以结论风险为状态，而非固定 Top-K 检索。控制器根据 residual evidence risk × claim impact × asymmetric harm，在合法来源、查询、全文获取、筛选、谱系核验、抽取验证、计算和停止动作间迭代；全部动作进入同一十阶段 Review Case State。
+对应 C2 像专业研究者一样反思的全流程证据状态。以结论风险为状态，而非固定 Top-K 检索。控制器根据 residual evidence risk × claim impact × asymmetric harm，在合法来源、查询、全文获取、筛选、谱系核验、抽取验证、计算和停止动作间迭代；全部动作进入同一十阶段 Review Case State。
 
-只改变 query/reranking prompt，不能称为完整 conclusion-risk controller。
+它必须包含 Socratic stage reflection、PRM-style step verification、execute/recompute/replan 和 meta-update。只改变 query/reranking prompt，不能称为完整 conclusion-risk controller。
 
 ### 支撑层，不单列创新
 
 - typed evidence compiler、report-study-result lineage、deterministic R/Python verification；
 - historical reconstruction、counterfactual replay、prospective evaluation；
-- agent trajectory export、student training 和安全评估；
+- agent trajectory export、student training、安全评估和凭据/许可边界；
 - provider-neutral runtime、hash receipts、living update infrastructure。
 
-这些层用于实现或检验 TOPIC/REVIEW，不能借数量扩张创新故事。
+这些层用于实现或检验 TOPIC/REVIEW，不能借数量扩张创新故事；其中安全与审计是底盘，不是标题。
 
 ## 2. 当前证据上限
 

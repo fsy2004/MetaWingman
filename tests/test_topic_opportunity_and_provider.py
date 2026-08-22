@@ -711,6 +711,28 @@ class TopicProposerTests(unittest.TestCase):
                     "interpretation": "The supplied concept links both represented domains.",
                 }
             ],
+            "decision_tension": {
+                "decision_context": "Choose whether a cross-domain inflammation synthesis is ready to inform care prioritization.",
+                "competing_options": [
+                    "Proceed with a focused synthesis",
+                    "Defer because the evidence gap is not decision-relevant",
+                ],
+                "why_current_evidence_is_decision_relevant": "The cutoff landscape links the concept to both domains but leaves the action threshold uncertain.",
+                "consequence_if_wrong": "A false opportunity could divert review effort; a missed opportunity could leave a care decision unsupported.",
+            },
+            "minimal_decisive_question": {
+                "question": "Among adults, does higher shared inflammatory activity versus lower activity predict mortality in comparative primary studies?",
+                "decision_trigger": "A directionally consistent and extractable effect would justify prioritizing this synthesis.",
+                "method_or_estimand_guardrail": "Keep the exposure contrast and study-design eligibility fixed before synthesis.",
+            },
+            "evidence_missingness_anchors": [
+                {
+                    "node_id": "concept-a",
+                    "missing_or_conflicting_element": "The landscape does not yet establish whether the cross-domain signal is extractable by outcome.",
+                    "why_it_matters_to_decision": "Without extractability, the review cannot answer the decision question.",
+                }
+            ],
+            "portfolio_cluster": "cross-domain inflammation mortality",
             "disconfirmation_queries": [
                 {
                     "check_type": "existing_review_overlap",
@@ -745,6 +767,52 @@ class TopicProposerTests(unittest.TestCase):
         self.assertFalse(batch["model_provenance"]["repair_attempted"])
         sent = provider.chat.call_args.args[0]
         self.assertIn("numeric_scores_prohibited", sent[1]["content"])
+
+    def test_decision_aware_prompt_executes_the_skill_derivation_sequence(self) -> None:
+        provider = unittest.mock.Mock(spec=DeepSeekProvider)
+        provider.chat.return_value = self._provider_result(
+            {"proposals": [self._proposal()]}
+        )
+        propose_topics(landscape(), provider, created_at_utc=TIMESTAMP)
+        prompt = json.loads(provider.chat.call_args.args[0][1]["content"])
+        workflow = prompt["method_workflow"]
+        self.assertEqual(
+            [step["step"] for step in workflow],
+            [
+                "identify_decision_tension",
+                "triangulate_opportunity",
+                "derive_minimal_decisive_question",
+                "bind_evidence_and_missingness",
+                "design_disconfirmation",
+                "diversify_portfolio",
+            ],
+        )
+        self.assertIn("downstream decision", workflow[2]["instruction"].casefold())
+        self.assertIn("synthesis route", workflow[2]["instruction"].casefold())
+        self.assertIn("do not imitate", prompt["anti_shortcut_rules"][0].casefold())
+        proposal_shape = prompt["output_contract"]["exact_shape"]["proposals"][0]
+        self.assertIn("decision_tension", proposal_shape)
+        self.assertIn("minimal_decisive_question", proposal_shape)
+        self.assertIn("evidence_missingness_anchors", proposal_shape)
+        self.assertIn("portfolio_cluster", proposal_shape)
+
+    def test_decision_aware_proposals_require_auditable_method_derivation_fields(self) -> None:
+        old_style_proposal = self._proposal()
+        for field in (
+            "decision_tension",
+            "minimal_decisive_question",
+            "evidence_missingness_anchors",
+            "portfolio_cluster",
+        ):
+            old_style_proposal.pop(field)
+        provider = unittest.mock.Mock(spec=DeepSeekProvider)
+        provider.chat.return_value = self._provider_result(
+            {"proposals": [old_style_proposal]}
+        )
+        batch = propose_topics(landscape(), provider, created_at_utc=TIMESTAMP)
+        self.assertEqual(batch["status"], "abstain")
+        self.assertIn("provider_output_failed_schema_after_repair", batch["reason_codes"])
+        self.assertIn("provider_repair_failed_method_derivation", batch["reason_codes"])
 
     def test_generic_direct_generation_uses_an_independent_non_decision_prompt(self) -> None:
         proposal = self._proposal()

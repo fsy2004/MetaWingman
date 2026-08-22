@@ -1,4 +1,4 @@
 interface:
   display_name: "MetaWingman"
   short_description: "Auditable systematic review and meta-analysis"
-  default_prompt: "Use $metawingman to design and execute an auditable systematic review and meta-analysis from topic selection through peer-review readiness."
+  default_prompt: "Use $metawingman as a Skill-driven evidence-synthesis agent: apply decision-aware topic opportunity control, conclusion-directed risk-impact evidence acquisition, and the required methodology guardrails from topic selection through peer-review readiness."

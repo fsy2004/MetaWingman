@@ -135,8 +135,8 @@ visual parser, not as a second text judge or independent scientific witness.
 Proposer, opposition, and judge roles may use
 separate calls to this model, but source checks, schema checks, and executable
 statistics are the verifiers because same-provider calls are not independent
-scientific evidence. `deepseek-v4-pro` is reserved for an optional sensitivity
-analysis and is not the default or a release requirement.
+scientific evidence. Text API execution is frozen to `deepseek-v4-flash`; no
+Pro-model sensitivity analysis is run or required for release.
 
 Keep hosted visual parsing on the local coordinator unless a separately approved
 server secret route exists. Hash the rendered page and prompt, require exact

@@ -27,33 +27,6 @@
         "evaluated_at": "",
         "metrics": {}
       }
-    },
-    {
-      "model_id": "deepseek-v4-pro-development-unvalidated",
-      "provider": "DeepSeek",
-      "model": "deepseek-v4-pro",
-      "version": "provider-resolved-at-run-time",
-      "capabilities": [
-        "topic_generation",
-        "literature_classification",
-        "structured_extraction_candidate",
-        "screening_candidate",
-        "critique_candidate"
-      ],
-      "modalities": ["text", "structured_data"],
-      "context_tokens": 1000000,
-      "allowed_tools": ["evidence_lookup", "schema_validation"],
-      "cost": {
-        "input_per_million": 0.435,
-        "output_per_million": 0.87,
-        "currency": "USD"
-      },
-      "latency_class": "standard",
-      "calibration": {
-        "dataset_id": "unvalidated-development-placeholder",
-        "evaluated_at": "",
-        "metrics": {}
-      }
     }
   ]
 }

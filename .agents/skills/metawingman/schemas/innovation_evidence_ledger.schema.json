@@ -265,7 +265,8 @@
             "different_provider",
             "deterministic_external_verifier",
             "human_or_external_adjudication",
-            "not_applicable"
+            "not_applicable",
+            "base_vs_student_same_open_weight_model"
           ]
         },
         "independent_verification_claimed": {"type": "boolean"},
@@ -280,6 +281,10 @@
         "limitations": {
           "type": "array",
           "items": {"type": "string", "minLength": 1}
+        },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": true
         }
       }
     }

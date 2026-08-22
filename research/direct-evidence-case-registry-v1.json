@@ -8,6 +8,12 @@
     "exact_cutoff_required_for_run_ready": true,
     "representativeness_required": true
   },
+  "training_corpus_bindings": [
+    {
+      "path": "research/training-corpus-plan-biomedical-v3.json",
+      "sha256": "685b88411c720f360bcbde6ecf85e6497861c4fd1589ea27932cb3c590305a13"
+    }
+  ],
   "required_profile_strata": [
     "intervention_pairwise",
     "intervention_network",
@@ -229,9 +235,9 @@
       "title": "A systematic review and meta-analysis of heat exposure impacts on maternal, fetal and neonatal health",
       "doi": "10.1038/s41591-024-03395-8",
       "review_family_id": "heat-maternal-fetal-neonatal",
-      "split": "held_out",
+      "split": "diagnostic_only",
       "training_use": "forbidden",
-      "execution_status": "held_out_candidate",
+      "execution_status": "diagnostic_only",
       "review_profile": "public-health exposure review with meta-analysis and synthesis without meta-analysis",
       "profile_strata": ["public_health_exposure", "structured_no_pooling"],
       "authority": {
@@ -257,7 +263,8 @@
       "verification_sources": ["https://www.nature.com/articles/s41591-024-03395-8"],
       "blockers": [
         "resolve the exact July 2023 execution day or freeze a defensible month-end cutoff rule prospectively",
-        "verify complete search export and record-level reference artifacts before preregistration"
+        "the exact DOI and title occur in the bound V3 training plan, so this case is diagnostic-only and cannot be held out",
+        "verify complete search export and record-level reference artifacts before any stage-limited diagnostic replay"
       ]
     },
     {
@@ -265,9 +272,9 @@
       "title": "Comparative efficacy and acceptability of 21 antidepressant drugs for the acute treatment of adults with major depressive disorder: a systematic review and network meta-analysis",
       "doi": "10.1016/S0140-6736(17)32802-7",
       "review_family_id": "adult-acute-mdd-antidepressants",
-      "split": "held_out",
+      "split": "diagnostic_only",
       "training_use": "forbidden",
-      "execution_status": "held_out_candidate",
+      "execution_status": "diagnostic_only",
       "review_profile": "large randomized intervention network meta-analysis",
       "profile_strata": ["intervention_network"],
       "authority": {
@@ -292,9 +299,9 @@
       },
       "verification_sources": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC5889788/"],
       "blockers": [
-        "keep the target identity and post-cutoff evidence sealed during any held-out execution",
-        "freeze broad retrieval and all evaluation aliases before model calls",
-        "do not use this family for method tuning or distillation"
+        "this family was already used for method diagnosis and cannot be reused as a new confirmatory held-out family",
+        "freeze broad retrieval and all evaluation aliases before any diagnostic replay",
+        "do not use this family for distillation"
       ]
     },
     {

@@ -121,7 +121,11 @@
               "screen_priority_batch",
               "resolve_metadata",
               "resolve_lineage",
-              "author_contact"
+              "author_contact",
+              "verify_screening_decision",
+              "verify_extraction",
+              "verify_claim_consistency",
+              "recompute_synthesis"
             ]
           },
           "target_criterion_ids": {

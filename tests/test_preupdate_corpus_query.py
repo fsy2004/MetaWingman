@@ -1,5 +1,9 @@
+import subprocess
+import sys
+import tempfile
 import unittest
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 from metawingman.scripts.build_preupdate_corpus import (
     build_epmc_query,
@@ -10,6 +14,17 @@ from metawingman.scripts.build_preupdate_corpus import (
 
 
 class HistoricalWindowQueryTests(unittest.TestCase):
+    def test_cli_is_runnable_outside_repository_working_directory(self):
+        script = Path(__file__).resolve().parents[1] / "metawingman" / "scripts" / "build_preupdate_corpus.py"
+        with tempfile.TemporaryDirectory() as tmp:
+            completed = subprocess.run(
+                [sys.executable, str(script), "--help"],
+                cwd=tmp,
+                capture_output=True,
+                text=True,
+            )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+
     def test_pubmed_xml_prefers_exact_electronic_article_date(self):
         article = ET.fromstring(
             """<PubmedArticle><MedlineCitation><Article>

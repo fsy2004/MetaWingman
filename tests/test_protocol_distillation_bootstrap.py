@@ -38,7 +38,21 @@ class ProtocolDistillationBootstrapTests(unittest.TestCase):
             )
             self.assertEqual(result["examples"], 9)
             export_path = Path(result["paths"]["export"])
-            self.assertNotIn("FORBIDDEN_RESULT_SENTINEL", export_path.read_text(encoding="utf-8"))
+            export = json.loads(export_path.read_text(encoding="utf-8"))
+            self.assertNotIn("FORBIDDEN_RESULT_SENTINEL", json.dumps(export, ensure_ascii=False))
+            action = export["examples"][0]["target_action"]
+            self.assertIn("method_trace", action)
+            self.assertLessEqual(
+                {
+                    "review_question_certificate_link",
+                    "socratic_stage_reflection",
+                    "step_verification",
+                    "meta_update",
+                },
+                set(action["method_trace"]),
+            )
+            prompt = json.loads((ROOT / "metawingman/references/protocol-distillation-prompt-v1.json").read_text(encoding="utf-8"))
+            self.assertIn("method_trace", prompt["output_contract"])
             readiness = audit_distillation_readiness(
                 export_paths=[export_path], case_registry_path=registry_path,
                 lineage_manifest_path=Path(result["paths"]["lineage"]),

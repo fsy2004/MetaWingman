@@ -17,9 +17,12 @@ from typing import Any
 
 
 SYSTEM_PROMPT = (
-    "You are the protocol-action component of MetaWingman. Convert the supplied "
-    "source-anchored methods state into exactly one JSON object with target_action "
-    "and target_decision. Use only the supplied state and preserve its scope."
+    "You are the Skill-driven protocol-action component of MetaWingman. Convert "
+    "the supplied source-anchored methods state into exactly one JSON object with "
+    "target_action and target_decision. Preserve the original method loop inside "
+    "target_action.method_trace: Review Question Certificate linkage, Socratic "
+    "stage reflection, PRM-style step verification, and meta-update learning. "
+    "Use only the supplied state and preserve its scope."
 )
 
 
@@ -101,23 +104,36 @@ def _score(model: Any, tokenizer: Any, examples: list[dict[str, Any]], device: A
         prompt = tokenizer.apply_chat_template(_messages(example, with_target=False), tokenize=False, add_generation_prompt=True)
         encoded = tokenizer(prompt, return_tensors="pt").to(device)
         with torch.no_grad():
-            generated = model.generate(**encoded, max_new_tokens=256, do_sample=False, pad_token_id=tokenizer.eos_token_id)
+            generated = model.generate(**encoded, max_new_tokens=640, do_sample=False, pad_token_id=tokenizer.eos_token_id)
         text = tokenizer.decode(generated[0][encoded["input_ids"].shape[1]:], skip_special_tokens=True)
         parsed = _parse_json(text)
         action = parsed.get("target_action") if isinstance(parsed, dict) else None
         decision = parsed.get("target_decision") if isinstance(parsed, dict) else None
+        method_trace = action.get("method_trace") if isinstance(action, dict) else None
+        trace_keys = {
+            "review_question_certificate_link",
+            "socratic_stage_reflection",
+            "step_verification",
+            "meta_update",
+        }
         rows.append({
             "example_id": example["example_id"], "prediction_sha256": hashlib.sha256(text.encode()).hexdigest(),
             "json_valid": parsed is not None,
             "action_type_exact": isinstance(action, dict) and action.get("type") == example["target_action"]["type"],
             "section_exact": isinstance(action, dict) and action.get("source_section") == example["target_action"]["source_section"],
             "decision_exact": isinstance(decision, dict) and decision.get("status") == example["target_decision"]["status"],
+            "method_trace_complete": isinstance(method_trace, dict) and trace_keys <= set(method_trace),
         })
     total = len(rows)
     return {
         "examples": total,
         "json_valid_rate": sum(row["json_valid"] for row in rows) / total,
         "complete_action_accuracy": sum(row["action_type_exact"] and row["section_exact"] and row["decision_exact"] for row in rows) / total,
+        "method_trace_complete_rate": sum(row["method_trace_complete"] for row in rows) / total,
+        "complete_method_action_accuracy": sum(
+            row["action_type_exact"] and row["section_exact"] and row["decision_exact"] and row["method_trace_complete"]
+            for row in rows
+        ) / total,
         "rows": rows,
     }
 

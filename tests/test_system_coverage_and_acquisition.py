@@ -225,6 +225,8 @@ class ConclusionDirectedAcquisitionTests(unittest.TestCase):
         self.assertEqual(decision["status"], "continue")
         self.assertFalse(decision["stop_allowed"])
         self.assertEqual(decision["selected_actions"][0]["action_id"], "add-registry")
+        self.assertEqual(decision["selected_actions"][0]["action_type"], "registry_search")
+        self.assertEqual(decision["selected_actions"][0]["target_criterion_ids"], ["population"])
         self.assertGreater(
             decision["selected_actions"][0]["utility_score"],
             decision["selected_actions"][1]["utility_score"],
@@ -232,6 +234,28 @@ class ConclusionDirectedAcquisitionTests(unittest.TestCase):
         self.assertIn("licensed-export", decision["blocked_action_ids"])
         self.assertEqual(decision["high_impact_criterion_ids"], ["population"])
         self.assertFalse(decision["human_review"]["required"])
+
+    def test_controller_can_prefer_compute_verifier_action_for_high_harm_claim_gap(self) -> None:
+        state = acquisition_state()
+        state["candidate_actions"].append({
+            "action_id": "recompute-pooled-effect",
+            "action_type": "recompute_synthesis",
+            "target_criterion_ids": ["population"],
+            "expected_risk_reduction": 0.2,
+            "expected_claim_impact": 0.95,
+            "source_family_gain": 0,
+            "estimated_cost_units": 0.5,
+            "estimate_basis": "heuristic",
+            "legally_available": True,
+            "credential_status": "not_required",
+            "rationale": "Recompute the claim-critical synthesis to reduce asymmetric harm from a misleading conclusion.",
+        })
+        decision = plan_evidence_acquisition(state, created_at_utc=TIMESTAMP)
+        self.assertEqual(decision["status"], "continue")
+        self.assertEqual(decision["selected_actions"][0]["action_id"], "recompute-pooled-effect")
+        self.assertEqual(decision["selected_actions"][0]["action_type"], "recompute_synthesis")
+        self.assertIn("asymmetric_harm_weighted", decision["selected_actions"][0]["reason_codes"])
+        self.assertIn("compute_or_verifier_action", decision["selected_actions"][0]["reason_codes"])
 
     def test_stop_requires_all_frozen_risk_and_impact_thresholds(self) -> None:
         state = acquisition_state()

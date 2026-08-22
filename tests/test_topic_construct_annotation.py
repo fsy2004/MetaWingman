@@ -65,6 +65,22 @@ class TopicConstructAnnotationTests(unittest.TestCase):
             with self.assertRaisesRegex(TopicConstructAnnotationError, "target-reference-derived"):
                 annotate_topic_construct_records(source, manifest, output_path=Path(tmp) / "out.jsonl", receipt_path=Path(tmp) / "receipt.json")
 
+    def test_unicode_line_separator_inside_text_is_not_a_jsonl_boundary(self) -> None:
+        with tempfile.TemporaryDirectory(dir=ROOT) as tmp:
+            root = Path(tmp)
+            source = root / "records.jsonl"
+            source.write_text(
+                '{"id":"pmid:1","abstract":"left\u2028right","mesh_terms":["Depression"]}\n',
+                encoding="utf-8",
+            )
+            output = root / "annotated.jsonl"
+            receipt = root / "receipt.json"
+            annotate_topic_construct_records(
+                source, self.manifest(), output_path=output, receipt_path=receipt
+            )
+            row = json.loads(output.read_text(encoding="utf-8").split("\n")[0])
+            self.assertEqual(row["abstract"], "left\u2028right")
+
     def test_manifest_schema_rejects_duplicate_domain_terms(self) -> None:
         manifest = self.manifest()
         manifest["domains"][0]["mesh_descriptor_terms"] = ["Depression", "Depression"]

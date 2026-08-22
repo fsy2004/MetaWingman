@@ -12,7 +12,7 @@
   "innovation_ledger_reference": {
     "status": "locked",
     "path": "research/innovation-evidence-ledger-v1.json",
-    "sha256": "da45e9b1116dd856bec8bcd78cd8594155d6969aba844a1317db0064897dacc6"
+    "sha256": "393222efc6076bae342125cf805235f4c916f7a0bce654fb2fed3af1bc82fa04"
   },
   "lifecycle_stages": [
     {"ordinal": 0, "stage_id": "topic_feasibility", "receipt_required": true},

@@ -1,6 +1,6 @@
 <h1 align="center">MetaWingman</h1>
 
-<p align="center"><b>A systematic-review and meta-analysis Agent + Skill for choosing consequential review questions and directing evidence work toward conclusion risk.</b></p>
+<p align="center"><b>A systematic-review and meta-analysis Agent + Skill that turns review work into question formation, methodological reasoning, verification, and self-improving evidence synthesis.</b></p>
 
 <p align="center">
   <a href="#start-in-60-seconds">Quick start</a> ·
@@ -10,20 +10,19 @@
 </p>
 
 <!-- readme-metrics:start -->
-[![license](https://img.shields.io/badge/license-MIT-15803D)](LICENSE)
-[![release](https://img.shields.io/badge/release-v0.1.6-2563EB)](https://github.com/fsy2004/MetaWingman/releases)
-![R toolkit](https://img.shields.io/badge/R_modules-26-276DC3)
-![manifests](https://img.shields.io/badge/manifests-61-7C3AED)
-![schemas](https://img.shields.io/badge/schemas-124-0F766E)
+
 <!-- readme-metrics:end -->
 
 ## Why MetaWingman
 
 Most review automation stops at a task: retrieve records, screen abstracts,
-extract fields, or draft prose. MetaWingman coordinates the scientific decisions
-that connect those tasks. It carries one typed review state from topic selection
-and protocol design through search, screening, extraction, appraisal,
-meta-analysis, certainty, reporting, and living updates.
+extract fields, or draft prose. MetaWingman is aimed at a stronger agent story:
+it should ask the review question, explain why that question matters, challenge
+itself with disconfirming evidence, verify the steps that would change a
+conclusion, and keep the lessons as reusable method behavior. It carries one
+typed review state from topic selection and protocol design through search,
+screening, extraction, appraisal, meta-analysis, certainty, reporting, and living
+updates.
 
 The project is distributed in two forms:
 
@@ -32,23 +31,43 @@ The project is distributed in two forms:
 - **Skill:** supplies the reusable methodology, schemas, scripts, review-profile
   contracts, and responsibility gates that make the workflow portable across hosts.
 
-## Two control loops
+## Method Story
 
-### 1. Decision-aware topic opportunity control
+The original MetaWingman idea is preserved as four coupled agent behaviors:
+
+- **Review Question Certificate:** convert clinical uncertainty into a structured
+  question certificate with primitives, assumptions, mechanism or decision model,
+  evidence tension, minimal decisive test, expected observations, and failure
+  update rules.
+- **Socratic stage reflection:** before each stage, ask the methodological
+  questions a strong reviewer would ask; after each stage, record what failed,
+  what changed, and what should be learned.
+- **Step-level verification:** decompose screening, extraction, appraisal,
+  synthesis, certainty, and claims into verifiable steps rather than trusting a
+  fluent answer.
+- **Meta-update loop:** turn verified failures and repairs into versioned Skill,
+  prompt, verifier, and training improvements.
+
+Those behaviors are implemented through two paper-facing control loops:
+
+### 1. Clinical question and synthesis co-design
 
 MetaWingman builds a time-bounded evidence landscape before protocol freeze. It
 turns gaps, discordance, update signals, priorities, and cross-domain links into
-operational review questions, then checks decision relevance, feasibility,
-nonduplication, contamination, and portfolio diversity.
+operational review questions, while jointly choosing the review family, estimand,
+effect measure, and synthesis route. A strong candidate carries a decision
+tension, minimal decisive question, method guardrail, missingness anchor,
+disconfirmation plan, and portfolio role.
 
-### 2. Conclusion-directed evidence acquisition
+### 2. Source-grounded full-review operating loop
 
 During a review, MetaWingman links unresolved protocol criteria to the claims they
-can change. Residual omission risk and downstream claim impact determine the next
-lawful search, retrieval, opposition, verification, compute, stopping-candidate, or
-abstention action.
+can change. Residual risk, downstream claim impact, and asymmetric harm determine
+the next source, query, full-text, screening, verifier, compute, stopping, or
+abstention action. The action is executed, verified, used to recompute the review
+state, and then replanned.
 
-These policies share an executable substrate:
+These method loops share an executable substrate:
 
 - question and synthesis-method co-design;
 - `record → report → study → result → claim` lineage;
@@ -157,7 +176,26 @@ evidence levels. The current dated evidence includes:
 - deterministic R adapter reconstruction and change-impact replay;
 - family-isolated component training with immutable server receipts, including
   the [three-seed full-pool retrieval evaluation](docs/architecture/retrieval-v4-asymmetric-medcpt-results-2026-08-21.md); and
-- a frozen representative-case registry plus an agent-trajectory **export
+- method-agent training after restoring the Skill-driven four-mechanism contract:
+  a same-family protocol-method bootstrap improved complete-method-action
+  accuracy from 0.000 to 0.750, and a multi-family protocol-action run improved
+  complete-method-action accuracy from 0.000 to 0.975 over 200 development
+  examples from 53 families, with method-trace completeness improving from
+  0.000 to 1.000. These are strong development signals that the restored
+  Review Question Certificate / Socratic reflection / step-verification /
+  meta-update behavior is learnable, not full ten-stage review efficacy. See the
+  [method-agent training report](docs/architecture/method-agent-training-results-2026-08-22.md); and
+- a draft formal manuscript and six main figures (`docs/manuscript/metawingman-method-agent-manuscript.md`,
+  `docs/figures/`), which present the Skill-driven method story with two paper-facing innovations
+  and report the development-only boundary. A frozen, family-held-out, matched-budget test set was
+  additionally attempted but produced zero examples because most remaining review families use flat
+  JATS structure (method subsections are siblings of the "Methods" container), so the same plan
+  cannot supply a fresh frozen method-action test set under the exact training extraction; this is
+  recorded as a negative structural finding in the evidence ledger, and the existing family-held-out
+  result (receipt `c3eee98cd1cab8c8c93daca57ec76a93d453f6c9b21910f9cbad88ba8fca387f`) remains the
+  primary frozen, matched-budget, family-isolated evidence; and
+- a training-corpus-bound representative-case registry, currently with zero
+  uncontaminated confirmatory held-out cases, plus an agent-trajectory **export
   governance** contract that restricts future training exports to development
   cases and explicitly verified stages, separates positive demonstrations,
   scientific negative decisions, justified abstentions, and audit-only
@@ -213,7 +251,7 @@ MetaWingman/
 <!-- readme-inventory:start -->
 | Repository metric | Current |
 |---|---:|
-| Python entry points | 116 |
+| Python entry points | 124 |
 | JSON schemas | 124 |
 | R analysis modules | 26 |
 | R adapter manifests | 61 |
