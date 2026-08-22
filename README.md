@@ -203,15 +203,7 @@ evidence levels. The current dated evidence includes:
   Review Question Certificate / Socratic reflection / step-verification /
   meta-update behavior is learnable, not full ten-stage review efficacy. See the
   [method-agent training report](docs/architecture/method-agent-training-results-2026-08-22.md); and
-- a draft formal manuscript and six main figures (`docs/manuscript/metawingman-method-agent-manuscript.md`,
-  `docs/figures/`), which present the Skill-driven method story with two paper-facing innovations
-  and report the development-only boundary. A frozen, family-held-out, matched-budget test set was
-  additionally attempted but produced zero examples because most remaining review families use flat
-  JATS structure (method subsections are siblings of the "Methods" container), so the same plan
-  cannot supply a fresh frozen method-action test set under the exact training extraction; this is
-  recorded as a negative structural finding in the evidence ledger, and the existing family-held-out
-  result (receipt `c3eee98cd1cab8c8c93daca57ec76a93d453f6c9b21910f9cbad88ba8fca387f`) remains the
-  primary frozen, matched-budget, family-isolated evidence; and
+- a frozen, family-held-out, matched-budget method-action test set was additionally attempted but produced zero examples because most remaining review families use flat JATS structure (method subsections are siblings of the "Methods" container), so the same plan cannot supply a fresh frozen method-action test set under the exact training extraction. This is recorded as a negative structural finding in the evidence ledger, and the family-held-out result (receipt `c3eee98cd1cab8c8c93daca57ec76a93d453f6c9b21910f9cbad88ba8fca387f`) remains the primary frozen, matched-budget, family-isolated evidence; and
 - a training-corpus-bound representative-case registry, currently with zero
   uncontaminated confirmatory held-out cases, plus an agent-trajectory **export
   governance** contract that restricts future training exports to development
