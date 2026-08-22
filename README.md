@@ -10,7 +10,11 @@
 </p>
 
 <!-- readme-metrics:start -->
-
+[![license](https://img.shields.io/badge/license-MIT-15803D)](LICENSE)
+[![release](https://img.shields.io/badge/release-v0.1.6-2563EB)](https://github.com/fsy2004/MetaWingman/releases)
+![R toolkit](https://img.shields.io/badge/R_modules-26-276DC3)
+![manifests](https://img.shields.io/badge/manifests-61-7C3AED)
+![schemas](https://img.shields.io/badge/schemas-124-0F766E)
 <!-- readme-metrics:end -->
 
 ## Why MetaWingman

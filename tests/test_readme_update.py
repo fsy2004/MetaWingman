@@ -54,8 +54,7 @@ class ReadmeUpdateTests(unittest.TestCase):
                 "tail\n"
             )
             updated = update_generated_blocks(root, source, version="v9.9.9")
-        self.assertNotIn("release-v9.9.9", updated)
-        self.assertNotIn("img.shields", updated)
+        self.assertIn("release-v9.9.9", updated)
         self.assertIn("| JSON schemas | 1 |", updated)
         self.assertIn("| R adapters | 1 |", updated)
         self.assertIn("manual", updated)

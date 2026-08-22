@@ -52,9 +52,13 @@ def latest_tag(root: Path) -> str:
 def render_metrics(root: Path, *, version: str | None = None) -> str:
     metrics = compute_metrics(root)
     version = version or latest_tag(root)
-    # Icons/status badges are intentionally omitted (see project README convention).
-    # Functionality and evidence status live in the repository map and README body.
-    return ""
+    return (
+        "[![license](https://img.shields.io/badge/license-MIT-15803D)](LICENSE)\n"
+        f"[![release](https://img.shields.io/badge/release-{version}-2563EB)](https://github.com/fsy2004/MetaWingman/releases)\n"
+        f"![R toolkit](https://img.shields.io/badge/R_modules-{metrics['r_modules']}-276DC3)\n"
+        f"![manifests](https://img.shields.io/badge/manifests-{metrics['manifests']}-7C3AED)\n"
+        f"![schemas](https://img.shields.io/badge/schemas-{metrics['schemas']}-0F766E)"
+    )
 
 
 def render_inventory(root: Path) -> str:
