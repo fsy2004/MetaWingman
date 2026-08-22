@@ -3,7 +3,9 @@
 <p align="center"><b>A systematic-review and meta-analysis Agent + Skill that turns review work into question formation, methodological reasoning, verification, and self-improving evidence synthesis.</b></p>
 
 <p align="center">
-  <a href="#start-in-60-seconds">Quick start</a> ·
+  <a href="#install-and-get-started">Install</a> ·
+  <a href="#why-metawingman">Why</a> ·
+  <a href="#what-you-can-build">What you can build</a> ·
   <a href="docs/README.md">Documentation</a> ·
   <a href="docs/STATUS.md">Scientific status</a> ·
   <a href="#中文说明">中文</a>
@@ -100,35 +102,48 @@ Every accepted transition has a typed input, a validator, an evidence anchor, an
 output hash, and a downstream consequence. High-risk scientific decisions can be
 blocked or returned for accountable human action instead of being silently accepted.
 
-## Start in 60 seconds
+## Install and get started
 
-Choose either route. Both use the same versioned methodology and deterministic
-tooling; the difference is how the host discovers and runs MetaWingman.
+MetaWingman ships as **one method** in **two installable forms**. Both run the same
+versioned methodology, schemas, deterministic R engine, and responsibility gates;
+the only difference is how your host discovers and executes them.
 
-### Agent route: install the Codex plugin
+| | **Agent plugin** | **Portable Skill** |
+|---|---|---|
+| What you get | An Agent that inspects live review state, calls tools, enforces gates, and continues the workflow | Auditable instructions, schemas, scripts, R engine, and gates you load as a local Skill |
+| Best for | A Codex Agent-driven review you want to hand off and resume | Any Skills-compatible host, or a reproducible, inspectable workflow |
+| Install | `codex plugin marketplace add fsy2004/MetaWingman` then `codex plugin add metawingman@metawingman-local` | `git clone https://github.com/fsy2004/MetaWingman.git` then `cd MetaWingman` then `.\install.ps1` |
+| Invoke | Ask the Agent to use `$metawingman` with your review objective | Type `$metawingman` and supply the review state |
 
-Use this route when you want a Codex Agent to discover MetaWingman, inspect the
-live review state, call its tools, enforce gates, and continue the workflow.
+### Agent route: install the MetaWingman Agent
+
+Use this route when you want a Codex Agent to discover MetaWingman, read the live
+review state, call its tools, enforce scientific gates, and keep the workflow
+resumable between sessions.
 
 ```powershell
 codex plugin marketplace add fsy2004/MetaWingman
 codex plugin add metawingman@metawingman-local
 ```
 
-Then give the Agent the review objective and available material:
+Give the Agent the review objective and whatever material you already have:
 
 ```text
 Use $metawingman to continue this systematic review from its live project state.
 Review question: ...
+Current stage: topic / protocol / search / screen / extract / appraise / analyze / write / update
 Available material: protocol, searches, RIS/CSV, PDFs, extraction tables, or analysis data
 Required output: decision record, reproducible project, tables, figures, GRADE, manuscript, or audit
 ```
 
-### Skill route: install the portable Skill bundle
+The Agent identifies the current stage, checks which gate is next, and produces
+auditable output that another compatible Agent can resume.
 
-Use this route for Codex or another Agent Skills-compatible host when you want the
-auditable instructions, schemas, scripts, R engine, and responsibility gates as a
-local reusable Skill.
+### Skill route: install the portable Skill
+
+Use this route for Codex or any other Agent Skills-compatible host when you want the
+methodology itself as a local, inspectable, versioned Skill rather than a hosted
+plugin. This is the route that makes the workflow reproducible and portable.
 
 ```powershell
 git clone https://github.com/fsy2004/MetaWingman.git
@@ -136,7 +151,7 @@ cd MetaWingman
 .\install.ps1
 ```
 
-Invoke the installed Skill with the scientific state you already have:
+Invoke the installed Skill with the scientific state you already hold:
 
 ```text
 $metawingman
@@ -147,9 +162,8 @@ Available material: protocol, searches, RIS/CSV, PDFs, extraction tables, or ana
 Required output: decision record, reproducible project, tables, figures, GRADE, manuscript, or audit
 ```
 
-You can start at any stage through either route. MetaWingman inspects the live
-project state, identifies the next gate, and produces auditable work that can be
-resumed by another compatible Agent.
+You can begin at any stage. MetaWingman inspects the project, identifies the next
+gate, and returns auditable work that can be resumed by another compatible Agent.
 
 ## What you can build
 
