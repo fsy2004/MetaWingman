@@ -107,6 +107,16 @@ def run_full_flow(
             "stop_decision": decision.stop_rule["decision"],
             "living": decision.living,
         },
+        "review_state": {
+            "question": question,
+            "landscape": landscape,
+            "decision": decision.to_dict(),
+            "action": decision.action,
+            "reflection": decision.reflection,
+            "prm_score": decision.prm_score,
+            "stage_count": len(stages),
+            "stage_receipts": [s["stage"] for s in stages],
+        },
     }
     flow["receipt_sha256"] = sha256_json(flow)
     return flow

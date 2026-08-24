@@ -7,6 +7,8 @@ description: End-to-end, evidence-grounded systematic review and meta-analysis s
 
 Treat the review as a research project with irreversible scientific decisions, not as a sequence of AI summaries or a statistics menu.
 
+> 方法核心——**决策对象架构**：把三类临床判断做成可操作的**第一等决策对象**——①**该用哪种设计**（estimand-first：先识别目标与识别假设，再定合成路线）；②**该不该 pooling**（可证风险控制：α 保证下该不该合并，否则叙述综合/放弃）；③**还差多少证据/何时停**（信息价值）：每一步产出可操作决策对象 `{action, decision, verify, feedback, guarantee, prm_score, reflection}`，贯穿全流程（PICO→网状检索→筛选→偏倚→综合→GRADE→结论/更新），并保持**可证、可解释、可复现**。训练只作**跨模型可实现性**证据；创新在**方法/架构**。公共仓库只上传结果与可复现模块；过程/中间/内部文档留私有。
+
 ## Start every task
 
 1. Inspect the live project, Git state, protocol, decision log, search audit, data freeze, and latest outputs. Historical notes are routing context only.

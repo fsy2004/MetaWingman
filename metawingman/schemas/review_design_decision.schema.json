@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://metawingman.local/schemas/review_design_decision.schema.json",
-  "title": "MetaWingman design decision",
+  "title": "MetaWingman design-decision object",
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "schema_version", "profile", "estimand", "synthesis_route", "justification",
-    "confidence", "decision_tension", "minimal_decisive_question",
-    "disconfirmation_design", "abstain"
+    "schema_version", "profile", "estimand", "synthesis_route", "identification_assumption",
+    "confidence", "risk_guard", "stop_rule", "living", "decision_tension",
+    "minimal_decisive_question", "disconfirmation_design", "abstain", "action"
   ],
   "properties": {
     "schema_version": {"const": "1.0"},
@@ -20,14 +20,47 @@
     },
     "estimand": {"type": "string", "minLength": 1},
     "synthesis_route": {"type": "string", "minLength": 1},
-    "justification": {"type": "string", "minLength": 1},
+    "identification_assumption": {
+      "enum": [
+        "rct_contrast", "nma_consistency", "reference_standard", "external_validity",
+        "population_representativeness", "observational_adjustment", "update_rule",
+        "heterogeneity_non_poolable"
+      ]
+    },
     "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "risk_guard": {
+      "type": "object",
+      "required": ["alpha", "passes", "guarantee"],
+      "properties": {
+        "alpha": {"type": "number"},
+        "passes": {"type": "boolean"},
+        "guarantee": {"type": "string"},
+        "risk_violation_estimate": {"type": "number"},
+        "calibration_set_size": {"type": "integer"},
+        "safety_score": {"type": "number"},
+        "threshold": {"type": "number"},
+        "base_checks": {"type": "object"},
+        "reason": {"type": "string"}
+      }
+    },
+    "next_evidence": {
+      "type": ["object", "null"],
+      "required": ["gap", "evpi", "expected_utility_gain"]
+    },
+    "stop_rule": {
+      "type": "object",
+      "required": ["threshold", "decision"],
+      "properties": {"threshold": {"type": "number"}, "decision": {"enum": ["continue", "stop"]}}
+    },
+    "living": {"type": "boolean"},
     "decision_tension": {"type": "string", "minLength": 1},
     "minimal_decisive_question": {"type": "string", "minLength": 1},
     "disconfirmation_design": {"type": "string", "minLength": 1},
     "missingness_anchor": {"type": ["string", "null"]},
-    "living": {"type": "boolean"},
     "abstain": {"type": "boolean"},
-    "abstain_reason": {"type": ["string", "null"]}
+    "abstain_reason": {"type": ["string", "null"]},
+    "action": {"type": "string"},
+    "reflection": {"type": ["object", "null"]},
+    "prm_score": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
   }
 }

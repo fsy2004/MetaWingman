@@ -63,6 +63,9 @@ class DesignDecision:
     disconfirmation_design: str
     abstain: bool = False
     abstain_reason: str | None = None
+    action: str = ""                                # typed action (operable)
+    reflection: dict[str, Any] | None = None        # self-evaluation (operable)
+    prm_score: float | None = None                  # process reward (operable)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -75,6 +78,8 @@ class DesignDecision:
             "minimal_decisive_question": self.minimal_decisive_question,
             "disconfirmation_design": self.disconfirmation_design,
             "abstain": self.abstain, "abstain_reason": self.abstain_reason,
+            "action": self.action, "reflection": self.reflection,
+            "prm_score": self.prm_score,
         }
 
 
@@ -165,4 +170,11 @@ def derive_design_decision(
         ),
         abstain=base.abstain,
         abstain_reason=base.abstain_reason,
+        action="design_decision" if not base.abstain else "abstain",
+        reflection={
+            "guard_passes": guard.passes,
+            "verified": "yes" if guard.passes else ("abstain" if base.abstain else "override_to_narrative"),
+            "note": decision_tension,
+        },
+        prm_score=round(base.confidence * (1.0 if guard.passes else 0.6), 3),
     )
