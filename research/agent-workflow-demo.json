@@ -1,0 +1,186 @@
+{
+  "scope": "minimal offline verification of agent + method-trace training loop (no server/LLM)",
+  "n_cases": 11,
+  "guard_passes": "11/11",
+  "judge_accept": "11/11",
+  "outcome_leak_guard": "11/11 (stripped every outcome)",
+  "profile_match": 1.0,
+  "alignment": {
+    "n_pairs": 1,
+    "win_rate": 1.0,
+    "aligned_fraction": 1.0,
+    "mean_dpo_loss": 0.616344,
+    "beta": 0.1,
+    "method": "process-level preference alignment (external judge ordering)"
+  },
+  "per_case": [
+    {
+      "case_id": "bmj-covid-therapies-living-nma",
+      "gold_profile": "intervention_network",
+      "profile": "intervention_network",
+      "guard_passes": true,
+      "judge_total": 1.0,
+      "judge_verdict": "accept",
+      "outcome_leaked": true,
+      "method_steps": 1
+    },
+    {
+      "case_id": "nature-psychological-wellbeing",
+      "gold_profile": "intervention_pairwise",
+      "profile": "intervention_pairwise",
+      "guard_passes": true,
+      "judge_total": 0.86,
+      "judge_verdict": "accept",
+      "outcome_leaked": true,
+      "method_steps": 1
+    },
+    {
+      "case_id": "bmj-exercise-depression-nma",
+      "gold_profile": "intervention_network",
+      "profile": "intervention_network",
+      "guard_passes": true,
+      "judge_total": 1.0,
+      "judge_verdict": "accept",
+      "outcome_leaked": true,
+      "method_steps": 1
+    },
+    {
+      "case_id": "nature-obesity-pharmacotherapy-nma",
+      "gold_profile": "intervention_network",
+      "profile": "intervention_network",
+      "guard_passes": true,
+      "judge_total": 1.0,
+      "judge_verdict": "accept",
+      "outcome_leaked": true,
+      "method_steps": 1
+    },
+    {
+      "case_id": "nature-heat-maternal-neonatal",
+      "gold_profile": "public_health_exposure",
+      "profile": "public_health_exposure",
+      "guard_passes": true,
+      "judge_total": 1.0,
+      "judge_verdict": "accept",
+      "outcome_leaked": true,
+      "method_steps": 1
+    },
+    {
+      "case_id": "lancet-antidepressants-mdd-nma",
+      "gold_profile": "intervention_network",
+      "profile": "intervention_network",
+      "guard_passes": true,
+      "judge_total": 1.0,
+      "judge_verdict": "accept",
+      "outcome_leaked": true,
+      "method_steps": 1
+    },
+    {
+      "case_id": "jama-portable-screen-sleep",
+      "gold_profile": "public_health_exposure",
+      "profile": "public_health_exposure",
+      "guard_passes": true,
+      "judge_total": 1.0,
+      "judge_verdict": "accept",
+      "outcome_leaked": true,
+      "method_steps": 1
+    },
+    {
+      "case_id": "ag-rdt-living-dta",
+      "gold_profile": "diagnostic_accuracy",
+      "profile": "diagnostic_accuracy",
+      "guard_passes": true,
+      "judge_total": 1.0,
+      "judge_verdict": "accept",
+      "outcome_leaked": true,
+      "method_steps": 1
+    },
+    {
+      "case_id": "covid-suicide-self-harm-living",
+      "gold_profile": "public_health_exposure",
+      "profile": "public_health_exposure",
+      "guard_passes": true,
+      "judge_total": 1.0,
+      "judge_verdict": "accept",
+      "outcome_leaked": true,
+      "method_steps": 1
+    },
+    {
+      "case_id": "bmj-type2-diabetes-risk-models",
+      "gold_profile": "prognostic_prediction",
+      "profile": "prognostic_prediction",
+      "guard_passes": true,
+      "judge_total": 1.0,
+      "judge_verdict": "accept",
+      "outcome_leaked": true,
+      "method_steps": 1
+    },
+    {
+      "case_id": "jama-global-child-obesity-prevalence",
+      "gold_profile": "prevalence_incidence",
+      "profile": "prevalence_incidence",
+      "guard_passes": true,
+      "judge_total": 1.0,
+      "judge_verdict": "accept",
+      "outcome_leaked": true,
+      "method_steps": 1
+    }
+  ],
+  "signals": {
+    "bmj-covid-therapies-living-nma": {
+      "profile": "intervention_network",
+      "identification_assumption": "nma_consistency",
+      "current_readiness": "pooling-allowed"
+    },
+    "nature-psychological-wellbeing": {
+      "profile": "intervention_pairwise",
+      "identification_assumption": "rct_contrast",
+      "current_readiness": "pooling-allowed"
+    },
+    "bmj-exercise-depression-nma": {
+      "profile": "intervention_network",
+      "identification_assumption": "nma_consistency",
+      "current_readiness": "pooling-allowed"
+    },
+    "nature-obesity-pharmacotherapy-nma": {
+      "profile": "intervention_network",
+      "identification_assumption": "nma_consistency",
+      "current_readiness": "pooling-allowed"
+    },
+    "nature-heat-maternal-neonatal": {
+      "profile": "public_health_exposure",
+      "identification_assumption": "observational_adjustment",
+      "current_readiness": "pooling-allowed"
+    },
+    "lancet-antidepressants-mdd-nma": {
+      "profile": "intervention_network",
+      "identification_assumption": "nma_consistency",
+      "current_readiness": "pooling-allowed"
+    },
+    "jama-portable-screen-sleep": {
+      "profile": "public_health_exposure",
+      "identification_assumption": "observational_adjustment",
+      "current_readiness": "pooling-allowed"
+    },
+    "ag-rdt-living-dta": {
+      "profile": "diagnostic_accuracy",
+      "identification_assumption": "reference_standard",
+      "current_readiness": "pooling-allowed"
+    },
+    "covid-suicide-self-harm-living": {
+      "profile": "public_health_exposure",
+      "identification_assumption": "observational_adjustment",
+      "current_readiness": "pooling-allowed"
+    },
+    "bmj-type2-diabetes-risk-models": {
+      "profile": "prognostic_prediction",
+      "identification_assumption": "external_validity",
+      "current_readiness": "pooling-allowed"
+    },
+    "jama-global-child-obesity-prevalence": {
+      "profile": "prevalence_incidence",
+      "identification_assumption": "population_representativeness",
+      "current_readiness": "pooling-allowed"
+    }
+  },
+  "receipt_sha256": "69bf4627bde1b3bb4858127fa4dbe92b7c8c56499f2f2c01d5d17a289f0d7a56"
+}

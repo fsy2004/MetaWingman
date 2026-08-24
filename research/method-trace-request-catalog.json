@@ -1,0 +1,679 @@
+{
+  "schema_version": "1.0",
+  "source_corpus": "C:\\Users\\fsy\\Desktop\\MetaWingman\\research\\top-journal-training-corpus-v2.json",
+  "selection_policy": "open_access meta-analyses/systematic reviews with DOI",
+  "count": 40,
+  "records": [
+    {
+      "record_id": "epmc:MED:40490856",
+      "pmcid": "PMC12149363",
+      "doi": "10.1111/aas.70069",
+      "title": "The Effects of Dexmedetomidine on Postoperative Delirium in Adult Cardiac Surgical Patients: A Bayesian Meta-Analysis and Trial Sequential Analysis.",
+      "authors": "Keith N, Harrowell L, Alexandrou E, Aneman A, Frost SA.",
+      "year": 2025,
+      "journal": "Acta anaesthesiologica Scandinavica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:36367845",
+      "pmcid": "PMC10099461",
+      "doi": "10.1111/aas.14170",
+      "title": "The prognostic value of elevated neutrophil-lymphocyte ratio for cardiac surgery-associated acute kidney injury: A systematic review and meta-analysis.",
+      "authors": "Wheatley J, Liu Z, Loth J, Plummer MP, Penny-Dimri JC, Segal R, Smith J, Perry LA.",
+      "year": 2023,
+      "journal": "Acta anaesthesiologica Scandinavica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 16
+    },
+    {
+      "record_id": "epmc:MED:35675085",
+      "pmcid": "PMC9543529",
+      "doi": "10.1111/aas.14102",
+      "title": "Fraction of inspired oxygen during general anesthesia for non-cardiac surgery: Systematic review and meta-analysis.",
+      "authors": "H\u00f8ybye M, Lind PC, Holmberg MJ, Bolther M, Jessen MK, Vallentin MF, Hansen FB, Holst JM, Magnussen A, Hansen NS, Johannsen CM, Enevoldsen J, Jensen TH, Roessler LL, Klitholm MP, Eggertsen MA, Caap P, Boye C, Dabrowski KM, Vormfenne L, Henriksen J, Karlsson M, Balleby IR, Rasmussen MS, Paelestik K, Granfeldt A, Andersen LW.",
+      "year": 2022,
+      "journal": "Acta anaesthesiologica Scandinavica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 9
+    },
+    {
+      "record_id": "epmc:MED:41459237",
+      "pmcid": "PMC12738369",
+      "doi": "10.3389/abp.2025.15550",
+      "title": "The Dual Edge of zinc: linking excessive intake to obesity, diabetes, hypertension, and cardiovascular risks.",
+      "authors": "Das T, Ahongshangbam R, Chabungbam R, Singh KB.",
+      "year": 2025,
+      "journal": "Acta biochimica Polonica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:41340799",
+      "pmcid": "PMC12671697",
+      "doi": "10.20471/acc.2025.64.01.19",
+      "title": "SIMULTANEOUS PULMONARY EMBOLISM WITH CARDIAC TAMPONADE AND REPETITIVE ISCHEMIC STROKE AS VASCULAR COMPLICATIONS OF LUNG CANCER: A CASE REPORT AND SYSTEMATIC LITERATURE REVIEW.",
+      "authors": "Kos N, Vrsalovi\u0107 M.",
+      "year": 2025,
+      "journal": "Acta clinica Croatica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Case Reports",
+        "case-report",
+        "Journal Article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:34935992",
+      "pmcid": "PMC9558341",
+      "doi": "10.2340/actadv.v101.1012",
+      "title": "Systematic Review and Meta-analysis of the Association Between Metabolic Syndrome and Androgenetic Alopecia.",
+      "authors": "Qiu Y, Zhou X, Fu S, Luo S, Li Y.",
+      "year": 2022,
+      "journal": "Acta dermato-venereologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 28
+    },
+    {
+      "record_id": "epmc:MED:33073295",
+      "pmcid": "PMC9274906",
+      "doi": "10.2340/00015555-3668",
+      "title": "Cardiovascular Risk and Comorbidities in Patients with Rosacea: A Systematic Review and Meta-analysis.",
+      "authors": "Tsai TY, Chiang YY, Huang YC.",
+      "year": 2020,
+      "journal": "Acta dermato-venereologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 14
+    },
+    {
+      "record_id": "epmc:MED:39666113",
+      "pmcid": "PMC12283822",
+      "doi": "10.1007/s00592-024-02425-8",
+      "title": "The potential of precision diabetology for type 2 diabetes treatment-evidence from a meta-regression for all-cause mortality from large cardiovascular outcome trials.",
+      "authors": "Kuss O, Roden M, Schlesinger S, Hoyer A.",
+      "year": 2025,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:39792171",
+      "pmcid": "PMC12055664",
+      "doi": "10.1007/s00592-025-02446-x",
+      "title": "Automated insulin delivery in pregnant women with type 1 diabetes mellitus: a systematic review and meta-analysis.",
+      "authors": "Stamati A, Christoforidis A.",
+      "year": 2025,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 9
+    },
+    {
+      "record_id": "epmc:MED:40471293",
+      "pmcid": "PMC12433336",
+      "doi": "10.1007/s00592-025-02534-y",
+      "title": "Beyond GLP-1: efficacy and safety of dual and triple incretin agonists in personalized type 2 diabetes care-a systematic review and network meta-analysis.",
+      "authors": "Yan K, Yu H, Blaise B.",
+      "year": 2025,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:38684540",
+      "pmcid": "PMC11329702",
+      "doi": "10.1007/s00592-024-02282-5",
+      "title": "Diabetes as a risk factor for pneumococcal disease and severe related outcomes and efficacy/effectiveness of vaccination in diabetic population. Results from meta-analysis of observational studies.",
+      "authors": "Silverii GA, Gabutti G, Tafuri S, Sarti F, Pratesi A, Clerico A, Fornengo R, Greco C, Irace C, Sordi V, Sorice GP, Cavallo M, Ponziani MC, Mannucci E, Dicembrini I, SID-AMD-SItI Working Group on Diabetes, Vaccines.",
+      "year": 2024,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 9
+    },
+    {
+      "record_id": "epmc:MED:36527500",
+      "pmcid": "PMC10033571",
+      "doi": "10.1007/s00592-022-02005-8",
+      "title": "Expression of microRNAs in patients with gestational diabetes mellitus: a systematic review and meta-analysis.",
+      "authors": "Li J, Gan B, Lu L, Chen L, Yan J.",
+      "year": 2023,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 9
+    },
+    {
+      "record_id": "epmc:MED:36593391",
+      "pmcid": "PMC10063481",
+      "doi": "10.1007/s00592-022-02016-5",
+      "title": "Short-term neonatal outcomes in women with gestational diabetes treated using metformin versus insulin: a systematic review and meta-analysis of randomized controlled trials.",
+      "authors": "Sheng B, Ni J, Lv B, Jiang G, Lin X, Li H.",
+      "year": 2023,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 24
+    },
+    {
+      "record_id": "epmc:MED:36715767",
+      "pmcid": "PMC10148792",
+      "doi": "10.1007/s00592-023-02037-8",
+      "title": "Long-term HbA1c variability and macro-/micro-vascular complications in type 2 diabetes mellitus: a meta-analysis update.",
+      "authors": "Sartore G, Ragazzi E, Caprino R, Lapolla A.",
+      "year": 2023,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Review",
+        "review-article"
+      ],
+      "cited_by_count": 52
+    },
+    {
+      "record_id": "epmc:MED:37340183",
+      "pmcid": "PMC10442285",
+      "doi": "10.1007/s00592-023-02127-7",
+      "title": "Efficacy and effectiveness of Herpes zoster vaccination in adults with diabetes mellitus: a systematic review and meta-analysis of clinical trials and observational studies.",
+      "authors": "Silverii GA, Clerico A, Fornengo R, Gabutti G, Sordi V, Peruzzi O, Tafuri S, Mannucci E, Dicembrini I.",
+      "year": 2023,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 13
+    },
+    {
+      "record_id": "epmc:MED:35534726",
+      "pmcid": "PMC9402721",
+      "doi": "10.1007/s00592-022-01887-y",
+      "title": "Is HbA1c a valid surrogate for mortality in type 2 diabetes? Evidence from a meta-analysis of randomized trials.",
+      "authors": "Baechle C, Scherler W, Lang A, Filla T, Kuss O.",
+      "year": 2022,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:35879478",
+      "pmcid": "PMC9402762",
+      "doi": "10.1007/s00592-022-01917-9",
+      "title": "Absolute treatment effects for the primary outcome and all-cause mortality in the cardiovascular outcome trials of new antidiabetic drugs: a meta-analysis of digitalized individual patient data.",
+      "authors": "Kuss O, Akbulut C, Schlesinger S, Georgiev A, Kelm M, Roden M, Wolff G.",
+      "year": 2022,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 7
+    },
+    {
+      "record_id": "epmc:MED:35930075",
+      "pmcid": "PMC9519659",
+      "doi": "10.1007/s00592-022-01918-8",
+      "title": "There is no dose-response relationship between the amount of exercise and improvement in HbA1c in interventions over 12\u00a0weeks in patients with type 2 diabetes: a meta-analysis and meta-regression.",
+      "authors": "Wrench E, Rattley K, Lambert JE, Killick R, Hayes LD, Lauder RM, Gaffney CJ.",
+      "year": 2022,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Review",
+        "review-article"
+      ],
+      "cited_by_count": 15
+    },
+    {
+      "record_id": "epmc:MED:32583078",
+      "pmcid": "PMC7311595",
+      "doi": "10.1007/s00592-020-01546-0",
+      "title": "Diabetes increases the mortality of patients with COVID-19: a meta-analysis.",
+      "authors": "Wu ZH, Tang Y, Cheng Q.",
+      "year": 2021,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 104
+    },
+    {
+      "record_id": "epmc:MED:33141338",
+      "pmcid": "PMC7907031",
+      "doi": "10.1007/s00592-020-01606-5",
+      "title": "Diagnosing type 2 diabetes using Hemoglobin A1c: a systematic review and meta-analysis of the diagnostic cutpoint based on microvascular complications.",
+      "authors": "Butler AE, English E, Kilpatrick ES, \u00d6stlundh L, Chemaitelly HS, Abu-Raddad LJ, Alberti KGMM, Atkin SL, John WG.",
+      "year": 2021,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 17
+    },
+    {
+      "record_id": "epmc:MED:33547497",
+      "pmcid": "PMC7864802",
+      "doi": "10.1007/s00592-020-01662-x",
+      "title": "Health service organisation impact on lower extremity amputations in people with type 2 diabetes with foot ulcers: systematic review and meta-analysis.",
+      "authors": "Meza-Torres B, Carinci F, Heiss C, Joy M, de Lusignan S.",
+      "year": 2021,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 24
+    },
+    {
+      "record_id": "epmc:MED:33651228",
+      "pmcid": "PMC8187227",
+      "doi": "10.1007/s00592-021-01686-x",
+      "title": "Sodium-glucose cotransporter 2 inhibitors as an add-on therapy to insulin for type 1 diabetes mellitus: Meta-analysis of randomized controlled trials.",
+      "authors": "Rao L, Ren C, Luo S, Huang C, Li X.",
+      "year": 2021,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 20
+    },
+    {
+      "record_id": "epmc:MED:33778910",
+      "pmcid": "PMC8005367",
+      "doi": "10.1007/s00592-021-01701-1",
+      "title": "Impact of diabetes mellitus on in-hospital mortality in adult patients with COVID-19: a systematic review and meta-analysis.",
+      "authors": "Kaminska H, Szarpak L, Kosior D, Wieczorek W, Szarpak A, Al-Jeabory M, Gawel W, Gasecka A, Jaguszewski MJ, Jarosz-Chobot P.",
+      "year": 2021,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 28
+    },
+    {
+      "record_id": "epmc:MED:34159476",
+      "pmcid": "PMC8219181",
+      "doi": "10.1007/s00592-021-01754-2",
+      "title": "Glucose control in diabetes during home confinement for the first pandemic wave of COVID-19: a meta-analysis of observational studies.",
+      "authors": "Silverii GA, Delli Poggi C, Dicembrini I, Monami M, Mannucci E.",
+      "year": 2021,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 28
+    },
+    {
+      "record_id": "epmc:MED:34173070",
+      "pmcid": "PMC8231743",
+      "doi": "10.1007/s00592-021-01739-1",
+      "title": "Managing diabetes in diabetic patients with COVID: where do we start from?",
+      "authors": "Avogaro A, Bonora B, Fadini GP.",
+      "year": 2021,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Review",
+        "review-article"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:30456728",
+      "pmcid": "PMC6394717",
+      "doi": "10.1007/s00592-018-1253-5",
+      "title": "Cardiovascular and mortality events in type 2 diabetes cardiovascular outcomes trials: a systematic review with trend analysis.",
+      "authors": "Vetrone LM, Zaccardi F, Webb DR, Seidu S, Gholap NN, Pitocco D, Davies MJ, Khunti K.",
+      "year": 2019,
+      "journal": "Acta diabetologica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 20
+    },
+    {
+      "record_id": "epmc:MED:39585430",
+      "pmcid": "PMC11588784",
+      "doi": "10.1007/s00701-024-06345-y",
+      "title": "Effectiveness of optic nerve sheath fenestration in preserving vision in idiopathic intracranial hypertension: an updated meta-analysis and systematic review.",
+      "authors": "Prokop K, Op\u0119chowska A, Sie\u015bkiewicz A, Lisowski \u0141, Mariak Z, \u0141yso\u0144 T.",
+      "year": 2024,
+      "journal": "Acta neurochirurgica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:39656503",
+      "pmcid": "PMC11782075",
+      "doi": "10.1111/aogs.14973",
+      "title": "Women's perspectives to improve prenatal care for gestational diabetes: A systematic review and meta-aggregation of qualitative studies.",
+      "authors": "Feng YJ, Deng Z, Sivak A, Yeung RO, Nagpal T.",
+      "year": 2025,
+      "journal": "Acta obstetricia et gynecologica Scandinavica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:40836392",
+      "pmcid": "PMC12451204",
+      "doi": "10.1111/aogs.70019",
+      "title": "Antihypertensive therapy for pregnancy hypertension and implications for fetal and neonatal heart rate monitoring: A\u00a0systematic review of randomized trials and observational studies.",
+      "authors": "Ganeshamoorthy A, Duke OF, Mistry HD, Bone JN, Vidler M, Abalos E, Badawy K, Khalil A, von Dadelszen P, Magee LA.",
+      "year": 2025,
+      "journal": "Acta obstetricia et gynecologica Scandinavica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:40356262",
+      "pmcid": "PMC12095944",
+      "doi": "10.2340/aos.v84.43344",
+      "title": "Efficacy of nonsurgical periodontal treatment on patients with periodontitis and type 2 diabetes mellitus: a systematic review and Bayesian network meta-analysis.",
+      "authors": "Xie X, Xu J, Li Y, Tang L, Awuti G.",
+      "year": 2025,
+      "journal": "Acta odontologica Scandinavica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:38700145",
+      "pmcid": "PMC11302649",
+      "doi": "10.2340/aos.v83.40484",
+      "title": "The impact of systemic administration of polyphenols on periodontitis associated with diabetes mellitus: a systematic review.",
+      "authors": "Rogalnikovaite K, Antipoviene A, Burbulyte A, Bendoraitiene EA.",
+      "year": 2024,
+      "journal": "Acta odontologica Scandinavica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:37670449",
+      "pmcid": "PMC10544269",
+      "doi": "10.5152/j.aott.2023.20300",
+      "title": "The influence of obesity on the complications and outcomes of shoulder arthroplasty: A systematic review and meta-analysis.",
+      "authors": "Shengyuan T, Zihang X, Changbing W, Junhua W, Hong W.",
+      "year": 2023,
+      "journal": "Acta orthopaedica et traumatologica turcica",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Systematic Review",
+        "systematic-review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:40035397",
+      "pmcid": "PMC12147408",
+      "doi": "10.1111/apa.70048",
+      "title": "The Effect of Exergaming on BMI and Fitness in Children and Adolescents With Obesity: A Systematic Review.",
+      "authors": "Spring FDH, L\u00e6rkholm G, Jensen RB, Kloppenborg JT.",
+      "year": 2025,
+      "journal": "Acta paediatrica (Oslo, Norway : 1992)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:41437762",
+      "pmcid": "PMC12728550",
+      "doi": "10.62641/aep.v53i6.1897",
+      "title": "Obesity and Psychopathology From Childhood to Adolescence: A Systematic Review of Prospective Studies.",
+      "authors": "Beltr\u00e1n-Garrayo L, Quir\u00f3s B, Sep\u00falveda AR.",
+      "year": 2025,
+      "journal": "Actas espanolas de psiquiatria",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Systematic Review",
+        "systematic-review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:39162358",
+      "pmcid": "PMC11340757",
+      "doi": "10.1080/21623945.2024.2390833",
+      "title": "Low circulating levels of neuregulin 4 as a potential biomarker associated with the severity and prognosis of obesity-related metabolic diseases: a systematic review.",
+      "authors": "Ziqubu K, Dludla PV, Mthembu SXH, Nkambule B, Mazibuko-Mbeje SE.",
+      "year": 2024,
+      "journal": "Adipocyte",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:41274516",
+      "pmcid": "PMC12775849",
+      "doi": "10.1016/j.advnut.2025.100564",
+      "title": "Food Environment and Childhood Overweight/Obesity: A Systematic Review.",
+      "authors": "Liu Y, Yang Z, Deng T, Bi C, Li H, Qu P, Chen Y, Liang D, Xu J, Li N, Ding G, Wang H.",
+      "year": 2026,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:42001953",
+      "pmcid": "PMC13213760",
+      "doi": "10.1016/j.advnut.2026.100638",
+      "title": "Dietary, Food Security and Diabetes Outcomes Associated with Food Is Medicine Programs among Adults with Type 2 Diabetes in the United States: A Rapid Systematic Review.",
+      "authors": "Martin ED, Pe\u00f1a N, Porter L, Gailloux M, Blew R, Taren D, Saleh A, Bryant H, Mockbee J, Hingle MD.",
+      "year": 2026,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:40020921",
+      "pmcid": "PMC11994918",
+      "doi": "10.1016/j.advnut.2025.100399",
+      "title": "Medical Nutrition Therapy (MNT) Evidence Update: Comparative Effectiveness of Dietary Programs for Reducing Mortality and Cardiovascular Events in Adults with Increased Cardiovascular Disease Risk.",
+      "authors": "Esmaeilinezhad Z, Torbahn G, Johnston BC.",
+      "year": 2025,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 8
+    },
+    {
+      "record_id": "epmc:MED:40122386",
+      "pmcid": "PMC12145082",
+      "doi": "10.1016/j.advnut.2025.100413",
+      "title": "Dietary Sugar Intake and Incident Type 2 Diabetes Risk: A Systematic Review and Dose-Response Meta-Analysis of Prospective Cohort Studies.",
+      "authors": "Della Corte KA, Bosler T, McClure C, Buyken AE, LeCheminant JD, Schwingshackl L, Della Corte D.",
+      "year": 2025,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 9
+    },
+    {
+      "record_id": "epmc:MED:40419216",
+      "pmcid": "PMC12240076",
+      "doi": "10.1016/j.advnut.2025.100452",
+      "title": "Accuracy of Using Weight and Length in Children under 24 mo to Screen for Early Childhood Obesity: A Systematic Review.",
+      "authors": "Boncyk M, Leroy JL, Brander RL, Larson LM, Ruel MT, Frongillo EA.",
+      "year": 2025,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    }
+  ],
+  "receipt_sha256": "b398414c78fb624f7d4c1bc61c0f6976cd30edc7d4ec3735260a53155202369f"
+}

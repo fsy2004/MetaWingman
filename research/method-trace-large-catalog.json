@@ -1,0 +1,3361 @@
+{
+  "schema_version": "1.0",
+  "source_corpus": "C:\\Users\\fsy\\Desktop\\MetaWingman\\research\\top-journal-training-corpus-v2.json",
+  "role": "expanded_training",
+  "excluded_records": 80,
+  "count": 200,
+  "records": [
+    {
+      "record_id": "epmc:MED:39572394",
+      "pmcid": "PMC11581819",
+      "doi": "10.1093/ageing/afae259",
+      "title": "Systematic review of guideline recommendations for older and frail adults with type 2 diabetes mellitus.",
+      "authors": "Bolt J, Carvalho V, Lin K, Lee SJ, Inglis C.",
+      "year": 2024,
+      "journal": "Age and ageing",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 18
+    },
+    {
+      "record_id": "epmc:MED:38836754",
+      "pmcid": "PMC11210264",
+      "doi": "10.18632/aging.205886",
+      "title": "The association between diabetes mellitus and prostate cancer: a meta-analysis and Mendelian randomization.",
+      "authors": "Ye GC, Yang YX, Luo KD, Wang SG, Xia QD.",
+      "year": 2024,
+      "journal": "Aging",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 7
+    },
+    {
+      "record_id": "epmc:MED:35086065",
+      "pmcid": "PMC8833117",
+      "doi": "10.18632/aging.203854",
+      "title": "The prevalence of small intestinal bacterial overgrowth in diabetes mellitus: a systematic review and meta-analysis.",
+      "authors": "Feng X, Li XQ.",
+      "year": 2022,
+      "journal": "Aging",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 27
+    },
+    {
+      "record_id": "epmc:MED:36287183",
+      "pmcid": "PMC9648794",
+      "doi": "10.18632/aging.204352",
+      "title": "Sex differences in major cardiovascular outcomes and fractures in patients with subclinical thyroid dysfunction: a systematic review and meta-analysis.",
+      "authors": "Fang H, Zhao R, Cui S, Wan W.",
+      "year": 2022,
+      "journal": "Aging",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 11
+    },
+    {
+      "record_id": "epmc:MED:32439832",
+      "pmcid": "PMC7288955",
+      "doi": "10.18632/aging.103247",
+      "title": "Association between metabolic syndrome and endometrial cancer risk: a systematic review and meta-analysis of observational studies.",
+      "authors": "Wang L, Du ZH, Qiao JM, Gao S.",
+      "year": 2020,
+      "journal": "Aging",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 31
+    },
+    {
+      "record_id": "epmc:MED:33199670",
+      "pmcid": "PMC7746376",
+      "doi": "10.18632/aging.103991",
+      "title": "Impact of cardiovascular and metabolic diseases on the severity of COVID-19: a systematic review and meta-analysis.",
+      "authors": "Meng M, Zhao Q, Kumar R, Bai C, Deng Y, Wan B.",
+      "year": 2020,
+      "journal": "Aging",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 11
+    },
+    {
+      "record_id": "epmc:MED:41935176",
+      "pmcid": "PMC13180763",
+      "doi": "10.1007/s40520-025-03314-y",
+      "title": "Effects of prehabilitation programmes on postoperative outcomes in older adults undergoing major abdominal, cardiac or vascular surgery: a systematic review.",
+      "authors": "Buckinx F, Rousseau AF, Louis E, De Roover A, Detry O, Durieux R, Gillain S, Kaba A, Kaux JF, Tchana-Sato V, Bruy\u00e8re O.",
+      "year": 2026,
+      "journal": "Aging clinical and experimental research",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:35723858",
+      "pmcid": "PMC9464133",
+      "doi": "10.1007/s40520-022-02165-1",
+      "title": "Prevalence and impact of polypharmacy in older patients with type 2 diabetes.",
+      "authors": "Remelli F, Ceresini MG, Trevisan C, Noale M, Volpato S.",
+      "year": 2022,
+      "journal": "Aging clinical and experimental research",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 88
+    },
+    {
+      "record_id": "epmc:MED:41319219",
+      "pmcid": "PMC12690230",
+      "doi": "10.1111/apt.70485",
+      "title": "Systematic Review: Efficacy, Safety and Metabolic Outcomes of GLP-1 Receptor Agonists in Inflammatory Bowel Disease.",
+      "authors": "Maracle B, Quan S, Hamilton P, Shaikh A, Hazra D, Lorenzetti DL, Gold SL, Raman M, St-Pierre J.",
+      "year": 2026,
+      "journal": "Alimentary pharmacology & therapeutics",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:35758526",
+      "pmcid": "PMC9796086",
+      "doi": "10.1002/alz.12707",
+      "title": "Hypertension and Alzheimer's disease pathology at autopsy: A systematic review.",
+      "authors": "Abdulrahman H, van Dalen JW, den Brok M, Latimer CS, Larson EB, Richard E.",
+      "year": 2022,
+      "journal": "Alzheimer's & dementia : the journal of the Alzheimer's Association",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 39
+    },
+    {
+      "record_id": "epmc:MED:40849672",
+      "pmcid": "PMC12374402",
+      "doi": "10.1186/s13195-025-01825-4",
+      "title": "Metabolic syndrome and risk of incident all-cause dementia, Alzheimer's disease and vascular dementia: a systematic review and meta-analysis of longitudinal studies.",
+      "authors": "Qureshi D, Allen NE, Ku\u017ama E, Littlejohns TJ.",
+      "year": 2025,
+      "journal": "Alzheimer's research & therapy",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 10
+    },
+    {
+      "record_id": "epmc:MED:39716328",
+      "pmcid": "PMC11668108",
+      "doi": "10.1186/s13195-024-01645-y",
+      "title": "Anti-diabetic agents and the risks of dementia in patients with type 2 diabetes: a systematic review and network meta-analysis of observational studies and randomized controlled trials.",
+      "authors": "Li Z, Lin C, Cai X, Lv F, Yang W, Ji L.",
+      "year": 2024,
+      "journal": "Alzheimer's research & therapy",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 15
+    },
+    {
+      "record_id": "epmc:MED:40889093",
+      "pmcid": "PMC12779708",
+      "doi": "10.1007/s40256-025-00743-y",
+      "title": "Colchicine for the Secondary Prevention of Cardiovascular Diseases: A Cumulative-Dose Meta-analysis of Randomized Controlled Trials including 31,397 Subjects Worldwide.",
+      "authors": "Li HY, Cheriyan J, Chan TK, Yiu KH, Tse HF, Wilkinson IB, Chan YH.",
+      "year": 2026,
+      "journal": "American journal of cardiovascular drugs : drugs, devices, and other interventions",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:37945977",
+      "pmcid": "PMC10805839",
+      "doi": "10.1007/s40256-023-00613-5",
+      "title": "A Systematic Review of Novel Therapies of Pulmonary Arterial Hypertension.",
+      "authors": "Nabeh OA, Saud AI, Amin B, Khedr AS, Amr A, Faoosa AM, Esmat E, Mahmoud YM, Hatem A, Mohamed M, Osama A, Soliman YMA, Elkorashy RI, Elmorsy SA.",
+      "year": 2024,
+      "journal": "American journal of cardiovascular drugs : drugs, devices, and other interventions",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 7
+    },
+    {
+      "record_id": "epmc:MED:38296933",
+      "pmcid": "PMC10973060",
+      "doi": "10.1007/s40256-024-00630-y",
+      "title": "Aspirin for the Primary Prevention of Cardiovascular Diseases in Patients with Chronic Kidney Disease: An Updated Meta-analysis.",
+      "authors": "Bellos I, Marinaki S, Lagiou P, Benetou V.",
+      "year": 2024,
+      "journal": "American journal of cardiovascular drugs : drugs, devices, and other interventions",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:38963527",
+      "pmcid": "PMC11344729",
+      "doi": "10.1007/s40256-024-00661-5",
+      "title": "Impact of SGLT2 Inhibitors on Atrial Fibrillation Recurrence after Catheter Ablation in Type 2 Diabetes Mellitus: A Meta-Analysis of Reconstructed Kaplan-Meier Curves with Trial Sequential Analysis.",
+      "authors": "Soliman Y, Abuelazm M, Amer BE, Hukamdad M, Ellabban MH, Hendi NI, Mouffokes A, AbdelAzeem B, Hassaballa H.",
+      "year": 2024,
+      "journal": "American journal of cardiovascular drugs : drugs, devices, and other interventions",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 12
+    },
+    {
+      "record_id": "epmc:MED:39143415",
+      "pmcid": "PMC11525410",
+      "doi": "10.1007/s40256-024-00668-y",
+      "title": "Time Gained to Cardiovascular Disease by Intensive Lipid-Lowering Therapy: Results of Individual Placebo-Controlled Trials and Pooled Effects.",
+      "authors": "van Bruggen FH, de Haas EC, Zuidema SU, Luijendijk HJ.",
+      "year": 2024,
+      "journal": "American journal of cardiovascular drugs : drugs, devices, and other interventions",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:31724105",
+      "pmcid": "PMC7266788",
+      "doi": "10.1007/s40256-019-00379-9",
+      "title": "Lipid-Lowering Efficacy of Ezetimibe in Patients with Atherosclerotic Cardiovascular Disease: A Systematic Review and Meta-Analyses.",
+      "authors": "Shaya FT, Sing K, Milam R, Husain F, Del Aguila MA, Patel MY.",
+      "year": 2020,
+      "journal": "American journal of cardiovascular drugs : drugs, devices, and other interventions",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 24
+    },
+    {
+      "record_id": "epmc:MED:38648265",
+      "pmcid": "PMC11348640",
+      "doi": "10.1177/08901171241238554",
+      "title": "Process Evaluations of Diabetes Self-Management Programs: A Systematic Review of the Literature.",
+      "authors": "Nsobundu C, Nmadu YW, Wagle NS, Foster MJ, McKyer ELJ, Sherman L, Ory MG, Burdine JJN.",
+      "year": 2024,
+      "journal": "American journal of health promotion : AJHP",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:39801449",
+      "pmcid": "PMC12344654",
+      "doi": "10.1093/ajh/hpaf008",
+      "title": "Impact of Daytime and Nighttime Blood Pressure and Nocturnal Blood Pressure Fall on Heart Failure Risk in Treated Hypertension.",
+      "authors": "Coccina F, Salles GF, Hermida RC, Banegas JR, Bastos JM, Cardoso CRL, Salles GC, Mojon A, Fernandez JR, Sanchez-Martinez M, Costa C, Carvalho S, Faia J, Pierdomenico SD.",
+      "year": 2025,
+      "journal": "American journal of hypertension",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "research-article"
+      ],
+      "cited_by_count": 8
+    },
+    {
+      "record_id": "epmc:MED:39977013",
+      "pmcid": "PMC12080464",
+      "doi": "10.1093/ajh/hpaf026",
+      "title": "Elevated Blood Pressure and Cardiac Mechanics in Children and Adolescents: A Systematic Review and Meta-Analysis.",
+      "authors": "Faggiano A, Gherbesi E, Sala C, Carugo S, Grassi G, Cuspidi C, Tadic M.",
+      "year": 2025,
+      "journal": "American journal of hypertension",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:36840919",
+      "pmcid": "PMC10267641",
+      "doi": "10.1093/ajh/hpad021",
+      "title": "Perspectives and Experiences of Self-monitoring of Blood Pressure Among Patients With Hypertension: A Systematic Review of Qualitative Studies.",
+      "authors": "Natale P, Ni JY, Martinez-Martin D, Kelly A, Chow CK, Thiagalingam A, Caillaud C, Eggleton B, Scholes-Robertson N, Craig JC, Strippoli GFM, Jaure A.",
+      "year": 2023,
+      "journal": "American journal of hypertension",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 26
+    },
+    {
+      "record_id": "epmc:MED:35485875",
+      "pmcid": "PMC9067055",
+      "doi": "10.1177/15579883221095387",
+      "title": "Paradoxical Obesity and Overweight Disparities Among Sexual Minority Men: A Meta-Analysis.",
+      "authors": "L\u00f3pez Castillo H, Blackwell CW, Schrimshaw EW, [Author name withheld on request].",
+      "year": 2022,
+      "journal": "American journal of men's health",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article"
+      ],
+      "cited_by_count": 6
+    },
+    {
+      "record_id": "epmc:MED:36149383",
+      "pmcid": "PMC10010695",
+      "doi": "10.1097/phm.0000000000002097",
+      "title": "Efficacy of Prehabilitation Before Cardiac Surgery: A Systematic Review and Meta-analysis.",
+      "authors": "Steinmetz C, Bjarnason-Wehrens B, Walther T, Schaffland TF, Walther C.",
+      "year": 2023,
+      "journal": "American journal of physical medicine & rehabilitation",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 65
+    },
+    {
+      "record_id": "epmc:MED:39171751",
+      "pmcid": "PMC11684861",
+      "doi": "10.1152/ajpendo.00157.2024",
+      "title": "Circulating interleukin-33 levels in obesity and type 2 diabetes: a systematic review and meta-analysis.",
+      "authors": "Missous G, Van Panhuys N.",
+      "year": 2024,
+      "journal": "American journal of physiology. Endocrinology and metabolism",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:40474757",
+      "pmcid": "PMC12142282",
+      "doi": "10.1111/aji.70087",
+      "title": "Prognostic Impact of Pregnancy-Associated Plasma Protein-A (PAPP-A) for Gestational Diabetes Mellitus (GDM): An Updated Systematic Review and Meta-Analysis of More Than 90 000 Pregnancies.",
+      "authors": "Shyu IL, Tsai YC, Kuo TN, Shiue YL.",
+      "year": 2025,
+      "journal": "American journal of reproductive immunology (New York, N.Y. : 1989)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:40888048",
+      "pmcid": "PMC12803695",
+      "doi": "10.1111/anae.16757",
+      "title": "Effect of peri-operative pharmacological interventions on postoperative delirium in patients having cardiac surgery: a systematic review and Bayesian network meta-analysis.",
+      "authors": "Queiroz I, Barbosa LM, Gallo Ruelas M, Ara\u00fajo B, Defante MLR, Tavares AH, Florencio de Mesquita C, Pimentel T, Ximenes Mendes B, Ferreira Felix I, Rivera A, Oliva Morgado Ferreira R, de Oliveira HM, Righetto BB, Smischney NJ, Tong G, Ma D.",
+      "year": 2026,
+      "journal": "Anaesthesia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 7
+    },
+    {
+      "record_id": "epmc:MED:40468902",
+      "pmcid": "PMC12351209",
+      "doi": "10.1111/anae.16647",
+      "title": "Airway management in patients living with obesity: best practice recommendations from the Society for Obesity and Bariatric Anaesthesia: Endorsed by the All Wales Airway Group, Scottish Airway Group and Difficult Airway Society.",
+      "authors": "McKechnie A, Iliff HA, Black R, Ahmad I, Chesworth A, Chesworth P, Davis N, Griffiths C.",
+      "year": 2025,
+      "journal": "Anaesthesia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "other",
+        "Practice Guideline",
+        "Systematic Review"
+      ],
+      "cited_by_count": 14
+    },
+    {
+      "record_id": "epmc:MED:40734643",
+      "pmcid": "PMC12329497",
+      "doi": "10.5114/ait/207612",
+      "title": "The obesity paradox in murine sepsis models: a systematic review and meta-analysis.",
+      "authors": "Wasyluk W, Czop M, Wasyluk M, Janisz-Hezron J, Zwolak A.",
+      "year": 2025,
+      "journal": "Anaesthesiology intensive therapy",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:41085415",
+      "pmcid": "PMC12588305",
+      "doi": "10.14744/anatoljcardiol.2025.5301",
+      "title": "Screening for Pulmonary Hypertension in Connective Tissue Diseases: Literature Review and Multidisciplinary Consensus Statement.",
+      "authors": "Sar\u0131 A, Temiz Karada\u011f D, Erdo\u011fan M, Yayla ME, F\u0131rlatan Yazgan B, Dikkano\u011flu Demirok B, Amikishiyev S, Yal\u00e7\u0131nkaya Y, \u0130nan\u00e7 M, Karc\u0131o\u011flu O, Karakulak UN, \u00d6nen ZP, Akdeniz B, Okumu\u015f G, Mutlu B, K\u00fc\u00e7\u00fcko\u011flu S, Akdo\u011fan A.",
+      "year": 2025,
+      "journal": "Anatolian journal of cardiology",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Consensus Statement",
+        "Journal Article",
+        "research-article",
+        "Review",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:38940409",
+      "pmcid": "PMC11230583",
+      "doi": "10.14744/anatoljcardiol.2024.3996",
+      "title": "Early Menarche as a Protective Factor Against Cardiovascular Events: A Systematic Review and Meta-analysis.",
+      "authors": "Sudjono C, Quinncilla KH, Qonita M, Wijaya NJ, Kurnain D.",
+      "year": 2024,
+      "journal": "Anatolian journal of cardiology",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:37599634",
+      "pmcid": "PMC10510418",
+      "doi": "10.14744/anatoljcardiol.2023.3443",
+      "title": "Meta-Analysis of Prophylactic Renal Replacement Therapy after Cardiac Catheterization in Patients with Chronic Kidney Disease.",
+      "authors": "Temtanakitpaisan Y, Saengnipanthkul S, Vutthikraivit W.",
+      "year": 2023,
+      "journal": "Anatolian journal of cardiology",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:35190355",
+      "pmcid": "PMC8878916",
+      "doi": "10.5152/anatoljcardiol.2021.215",
+      "title": "Effects of resistance added on aerobic training on autonomic function in cardiac patients.",
+      "authors": "Saeidi M, Ravanbod R.",
+      "year": 2022,
+      "journal": "Anatolian journal of cardiology",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:35552171",
+      "pmcid": "PMC9366376",
+      "doi": "10.5152/anatoljcardiol.2022.1346",
+      "title": "Does Dexmedetomidine Reduce the Risk of Atrial Fibrillation and Stroke After Adult Cardiac Surgery? A Systematic Review and Meta-analysis of Randomized Controlled Trials.",
+      "authors": "Jing C, Lin L, Zhou T, Li YL, Fu L, Gao MQ.",
+      "year": 2022,
+      "journal": "Anatolian journal of cardiology",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "other",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:30930452",
+      "pmcid": "PMC6528503",
+      "doi": "10.14744/anatoljcardiol.2019.75282",
+      "title": "M235T polymorphism in the angiotensinogen gene and cardiovascular disease: An updated meta-analysis of 39 case-control comparisons.",
+      "authors": "Zhai C, Cong H, Zhang H, Hou K, Zhang Y, Zhang Y.",
+      "year": 2019,
+      "journal": "Anatolian journal of cardiology",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "other",
+        "Systematic Review"
+      ],
+      "cited_by_count": 8
+    },
+    {
+      "record_id": "epmc:MED:40401767",
+      "pmcid": "PMC12842862",
+      "doi": "10.1111/andr.70069",
+      "title": "Low-intensity shockwave therapy for erectile dysfunction due to diabetes mellitus or coronary artery disease: An individual participant data meta-analysis from a single center.",
+      "authors": "Pyrgidis N, Kalyvianakis D, Mykoniatis I, Hatzichristou D.",
+      "year": 2026,
+      "journal": "Andrology",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "brief-report",
+        "Journal Article",
+        "Meta-Analysis"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:37740617",
+      "pmcid": "PMC10961888",
+      "doi": "10.1002/ame2.12347",
+      "title": "Comparing the efficacy and safety of low, medium, and high dosages of selexipag for treating pulmonary hypertension: A systematic review and meta-analysis.",
+      "authors": "Wang S, Yan Y, Zhang J, Yuan P, Luo CJ, Qiu HL, Li HT, Xu J, Wang L, Li TL, Jiang R.",
+      "year": 2024,
+      "journal": "Animal models and experimental medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:40576235",
+      "pmcid": "PMC12203340",
+      "doi": "10.1093/abm/kaaf043",
+      "title": "Digital versus nondigital behavioral interventions on cardiovascular risk reduction: systematic review and meta-analysis.",
+      "authors": "Berhe FT, Shifti DM, Veerman JL, Aminde L, Ahmed KY, Mesfin YM, Kibret KT, Bizuayehu HM, Ketema DB, Odo DB, Thapa S, Dadi A, Belachew SA, Bore MG, Kassa ZY, Seid AM, Hassen TA, Amsalu E, Tegegne TK.",
+      "year": 2025,
+      "journal": "Annals of behavioral medicine : a publication of the Society of Behavioral Medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:38334280",
+      "pmcid": "PMC10928844",
+      "doi": "10.1093/abm/kaae001",
+      "title": "Systematic Review Examining the Behavior Change Techniques in Medication Adherence Intervention Studies Among People With Type 2 Diabetes.",
+      "authors": "Teo V, Weinman J, Yap KZ.",
+      "year": 2024,
+      "journal": "Annals of behavioral medicine : a publication of the Society of Behavioral Medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 17
+    },
+    {
+      "record_id": "epmc:MED:37195909",
+      "pmcid": "PMC10354860",
+      "doi": "10.1093/abm/kaad006",
+      "title": "Motivational Interviewing in Pediatric Obesity: A Meta-analysis of the Effects on Behavioral Outcomes.",
+      "authors": "Kao TA, Ling J, Vu C, Hawn R, Christodoulos H.",
+      "year": 2023,
+      "journal": "Annals of behavioral medicine : a publication of the Society of Behavioral Medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 9
+    },
+    {
+      "record_id": "epmc:MED:41979291",
+      "pmcid": "PMC13179095",
+      "doi": "10.4103/aca.aca_214_25",
+      "title": "Cardiac Effects in Post-COVID-19 Heart Failure: A Systematic Review of Longitudinal Imaging- and Biomarker-Based Structural and Functional Remodeling.",
+      "authors": "Abid S, Jannath H.",
+      "year": 2026,
+      "journal": "Annals of cardiac anaesthesia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:40629776",
+      "pmcid": "PMC12324778",
+      "doi": "10.4103/aca.aca_248_24",
+      "title": "Effectiveness of Pecto-Intercostal Fascia Plane Block in Reducing Total Postoperative Opioid Consumption in Cardiac Surgery Involving Sternotomy: A Meta-Analysis.",
+      "authors": "Wardhana A, Sudono H, Kurniawaty J.",
+      "year": 2025,
+      "journal": "Annals of cardiac anaesthesia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:40629778",
+      "pmcid": "PMC12324758",
+      "doi": "10.4103/aca.aca_223_24",
+      "title": "The Role of Acetaminophen Use in Acute Kidney Injury Prevention in Cardiac Surgery: A Systematic Review and Meta-Analysis.",
+      "authors": "Ciconini LE, Perim V, Beck T, Carbonar MF, Ejikem MM, Zaky A, Neyra J, Gosling AF.",
+      "year": 2025,
+      "journal": "Annals of cardiac anaesthesia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:40762643",
+      "pmcid": "PMC12591287",
+      "doi": "10.4103/aca.aca_271_24",
+      "title": "Intravenous Versus Inhaled Milrinone in Patients with Known Pulmonary Hypertension Undergoing Cardiac Surgery: A Systematic Review and Meta-analysis.",
+      "authors": "Kavanagh T, Kilpatrick T, Hardy B, Lee S, Seavill M, Lau CM, Bullard S, Green S, Cadd M.",
+      "year": 2025,
+      "journal": "Annals of cardiac anaesthesia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Comparative Study",
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:38607873",
+      "pmcid": "PMC11095781",
+      "doi": "10.4103/aca.aca_85_23",
+      "title": "Incidence and Risk Factors for Postoperative Visual Loss after Cardiac Surgical Procedures: A Systematic Review.",
+      "authors": "Gupta B, Singla D, Gupta A, Mahaseth R.",
+      "year": 2024,
+      "journal": "Annals of cardiac anaesthesia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:38607874",
+      "pmcid": "PMC11095789",
+      "doi": "10.4103/aca.aca_160_23",
+      "title": "Epidural Catheterization in Cardiac Surgery: A Systematic Review and Risk Assessment of Epidural Hematoma.",
+      "authors": "Laferri\u00e8re-Langlois P, Jeffries S, Harutyunyan R, Hemmerling TM.",
+      "year": 2024,
+      "journal": "Annals of cardiac anaesthesia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:38722114",
+      "pmcid": "PMC10876133",
+      "doi": "10.4103/aca.aca_48_23",
+      "title": "Intrathecal Morphine for Cardiac Surgery: A Systematic Review and Meta-Analysis of Randomized Controlled Trials.",
+      "authors": "Ciconini LE, Ramos WA, Fonseca ACL, Nooli NP, Gosling AF.",
+      "year": 2024,
+      "journal": "Annals of cardiac anaesthesia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:36722581",
+      "pmcid": "PMC9997464",
+      "doi": "10.4103/aca.aca_79_22",
+      "title": "Multiparameters associated to successful weaning from VA ECMO in adult patients with cardiogenic shock or cardiac arrest: Systematic review and meta-analysis.",
+      "authors": "Burgos LM, Seoane L, Diez M, Baro Vila RC, Furmento JF, Vrancic M, Aissaoui N.",
+      "year": 2023,
+      "journal": "Annals of cardiac anaesthesia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 16
+    },
+    {
+      "record_id": "epmc:MED:37470522",
+      "pmcid": "PMC10451138",
+      "doi": "10.4103/aca.aca_148_22",
+      "title": "Erector spinae plane block for postoperative analgesia in cardiac surgeries- A systematic review and meta-analysis.",
+      "authors": "Nair A, Saxena P, Borkar N, Rangaiah M, Arora N, Mohanty PK.",
+      "year": 2023,
+      "journal": "Annals of cardiac anaesthesia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 21
+    },
+    {
+      "record_id": "epmc:MED:36254901",
+      "pmcid": "PMC9732949",
+      "doi": "10.4103/aca.aca_149_21",
+      "title": "The use of cerebral oximetry in cardiac surgery: A systematic review and meta-analysis of randomized controlled trials.",
+      "authors": "Chiong XH, Wong ZZ, Lim SM, Ng TY, Ng KT.",
+      "year": 2022,
+      "journal": "Annals of cardiac anaesthesia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 19
+    },
+    {
+      "record_id": "epmc:MED:40102932",
+      "pmcid": "PMC11916874",
+      "doi": "10.1186/s12941-025-00788-6",
+      "title": "Beyond the gut: a comprehensive meta-analysis on Helicobacter pylori infection and cardiovascular complications.",
+      "authors": "Yaslianifard S, Sameni F, Kazemi K, Atefpour Y, Hajikhani B, Baradaran Bagheri A, Yazdani S, Dadashi M.",
+      "year": 2025,
+      "journal": "Annals of clinical microbiology and antimicrobials",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:39501356",
+      "pmcid": "PMC11536795",
+      "doi": "10.1186/s12941-024-00753-9",
+      "title": "Usefulness of sonication in the microbiological diagnosis of cardiovascular implantable electronic device infections: systematic review, meta-analysis and meta-regression.",
+      "authors": "Mart\u00edn-Guti\u00e9rrez G, Mart\u00edn-P\u00e9rez C, Ortiz-de la Rosa JM, Guti\u00e9rrez-Carretero E, de Alarc\u00f3n A, Lepe JA.",
+      "year": 2024,
+      "journal": "Annals of clinical microbiology and antimicrobials",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:41454630",
+      "pmcid": "PMC12777766",
+      "doi": "10.1080/07853890.2025.2607796",
+      "title": "Triglyceride-glucose index as a novel predictor of major adverse cardiovascular events in patients with coronary revascularization: a meta-analysis of cohort studies.",
+      "authors": "Zhang C, Li M, Liu L, Zhong Y, Xie Y, Liao B, Feng J, Deng L.",
+      "year": 2026,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:41503829",
+      "pmcid": "PMC12784643",
+      "doi": "10.1080/07853890.2025.2611203",
+      "title": "The gut microbiota-obesity axis in the pathogenesis and prognosis of breast cancer.",
+      "authors": "Zhang H, Wang Y, Ning B, Wang Y, Sun T, Xu J.",
+      "year": 2026,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:41574602",
+      "pmcid": "PMC12833894",
+      "doi": "10.1080/07853890.2026.2619216",
+      "title": "GPR3 in neuro-metabolic-immune-reproductive nexus - a potential therapeutic target for Multi-System diseases.",
+      "authors": "Feng BD, Qin JY, Qin QQ, Xu ZC, Zhang HQ.",
+      "year": 2026,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:42057665",
+      "pmcid": "PMC13134750",
+      "doi": "10.1080/07853890.2026.2662627",
+      "title": "Effect of intensive versus standard blood pressure control on cardiovascular outcomes: a meta-analysis of randomized controlled trials.",
+      "authors": "Gao Q, Ji Y.",
+      "year": 2026,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:39748566",
+      "pmcid": "PMC11703535",
+      "doi": "10.1080/07853890.2024.2447422",
+      "title": "Sleep features and the risk of type 2 diabetes mellitus: a systematic review and meta-analysis.",
+      "authors": "Liu H, Zhu H, Lu Q, Ye W, Huang T, Li Y, Li B, Wu Y, Wang P, Chen T, Xu J, Ji L.",
+      "year": 2025,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 14
+    },
+    {
+      "record_id": "epmc:MED:39838595",
+      "pmcid": "PMC11755742",
+      "doi": "10.1080/07853890.2025.2455536",
+      "title": "Cardiovascular safety of Janus kinase inhibitors in inflammatory bowel disease: a systematic review and network meta-analysis.",
+      "authors": "Yang H, An T, Zhao Y, Shi X, Wang B, Zhang Q.",
+      "year": 2025,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 23
+    },
+    {
+      "record_id": "epmc:MED:40091529",
+      "pmcid": "PMC11915742",
+      "doi": "10.1080/07853890.2025.2477295",
+      "title": "Improvement of endocrine and metabolic conditions in patients with polycystic ovary syndrome through acupuncture and its combined therapies: a systematic review and meta-analysis.",
+      "authors": "Wu T, Liu Y, Kong F, Hu J, Liu Y, Yang J, Chen J.",
+      "year": 2025,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:40851363",
+      "pmcid": "PMC12379696",
+      "doi": "10.1080/07853890.2025.2551284",
+      "title": "The effect of probiotics on weight management in patients with severe obesity undergoing metabolic and bariatric surgery: a systematic review and meta-analysis.",
+      "authors": "Wang S, Wu W, Chen Z, Xu C, Zhang K, Xu X.",
+      "year": 2025,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:40982729",
+      "pmcid": "PMC12456042",
+      "doi": "10.1080/07853890.2025.2561803",
+      "title": "Association between constipation and risk of cardiovascular or all-cause mortality: a meta-analysis.",
+      "authors": "Liu B, Wu X, Wang Y, Hu X.",
+      "year": 2025,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:41243115",
+      "pmcid": "PMC12624901",
+      "doi": "10.1080/07853890.2025.2582065",
+      "title": "Dietary salt intake and cardiovascular outcomes: an umbrella review of meta-analyses and dose-response evidence.",
+      "authors": "Kong F, Liu Q, Zhou Q, Xiao P, Bai Y, Wu T, Xia L.",
+      "year": 2025,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:38253023",
+      "pmcid": "PMC10810647",
+      "doi": "10.1080/07853890.2024.2306192",
+      "title": "The association of metabolic dysfunction-associated steatotic liver disease (MASLD) with the risk of myocardial infarction: a systematic review and meta-analysis.",
+      "authors": "Lv Q, Zhao H.",
+      "year": 2024,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 15
+    },
+    {
+      "record_id": "epmc:MED:38346381",
+      "pmcid": "PMC10863515",
+      "doi": "10.1080/07853890.2024.2313683",
+      "title": "Tuberculosis (TB) treatment challenges in TB-diabetes comorbid patients: a systematic review and meta-analysis.",
+      "authors": "Khattak M, Rehman AU, Muqaddas T, Hussain R, Rasool MF, Saleem Z, Almalki MS, Alturkistani SA, Firash SZ, Alzahrani OM, Bahauddin AA, Abuhussain SA, Najjar MF, Elsabaa HMA, Haseeb A.",
+      "year": 2024,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 21
+    },
+    {
+      "record_id": "epmc:MED:38753384",
+      "pmcid": "PMC11100439",
+      "doi": "10.1080/07853890.2024.2352603",
+      "title": "Accuracy of brain natriuretic peptide and N-terminal brain natriuretic peptide for detecting paediatric pulmonary hypertension: a systematic review and meta-analysis.",
+      "authors": "Zhou R, Lei Y, Ge L, Mao Q, Yang L, Qiu X.",
+      "year": 2024,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:39194335",
+      "pmcid": "PMC11360641",
+      "doi": "10.1080/07853890.2024.2394848",
+      "title": "Predictors for prescription of noninvasive ventilation in the postoperative period of cardiac surgery: a systematic review.",
+      "authors": "Gon\u00e7alves de Lima J, de Medeiros VMG, Gomes de Jesus F, Sarmento Dos Santos T, Rega de Oliveira J, Rosa de Oliveira C, Mediano MFF, Rodrigues Junior LF.",
+      "year": 2024,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:39300810",
+      "pmcid": "PMC11418058",
+      "doi": "10.1080/07853890.2024.2326297",
+      "title": "Risk factors for cardiovascular diseases in patients with vitiligo: an analysis of current evidence.",
+      "authors": "Liang X, Guo F, Zhang M, Wang C, Lin N, Liu L, Chen Y, Liu F, Du Y, Li L, Li X.",
+      "year": 2024,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 7
+    },
+    {
+      "record_id": "epmc:MED:39392052",
+      "pmcid": "PMC11485693",
+      "doi": "10.1080/07853890.2024.2413920",
+      "title": "Scoring and validation of a simple model for predicting diabetic retinopathy in patients with type 2 diabetes based on a meta-analysis approach of 21 cohorts.",
+      "authors": "Guo H, Han F, Qu JR, Pan CQ, Sun B, Chen LM.",
+      "year": 2024,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Validation Study"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:39550348",
+      "pmcid": "PMC11571794",
+      "doi": "10.1080/07853890.2024.2428432",
+      "title": "Effect of different training modalities on lipid metabolism in patients with type ii diabetes mellitus: a network meta-analysis.",
+      "authors": "Xing S, Xie Y, Zhang Y, Zhang R, Zeng D, Yue X.",
+      "year": 2024,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "research-article"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:36821504",
+      "pmcid": "PMC9970251",
+      "doi": "10.1080/07853890.2023.2182909",
+      "title": "Prevalence and associated factors of overweight and obesity among persons with type 2 diabetes in Africa: a systematic review and meta-analysis.",
+      "authors": "Ekpor E, Akyirem S, Adade Duodu P.",
+      "year": 2023,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Systematic Review",
+        "systematic-review"
+      ],
+      "cited_by_count": 28
+    },
+    {
+      "record_id": "epmc:MED:37190975",
+      "pmcid": "PMC10190183",
+      "doi": "10.1080/07853890.2023.2203515",
+      "title": "Obesity and risk of fracture in postmenopausal women: a meta-analysis of cohort studies.",
+      "authors": "Liu HF, Meng DF, Yu P, De JC, Li HY.",
+      "year": 2023,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "Review",
+        "review-article"
+      ],
+      "cited_by_count": 27
+    },
+    {
+      "record_id": "epmc:MED:37246850",
+      "pmcid": "PMC10228303",
+      "doi": "10.1080/07853890.2023.2215542",
+      "title": "Gut microbiota-derived trimethylamine N-oxide is associated with the risk of all-cause and cardiovascular mortality in patients with chronic kidney disease: a systematic review and dose-response meta-analysis.",
+      "authors": "Li Y, Lu H, Guo J, Zhang M, Zheng H, Liu Y, Liu W.",
+      "year": 2023,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 37
+    },
+    {
+      "record_id": "epmc:MED:37318118",
+      "pmcid": "PMC10274561",
+      "doi": "10.1080/07853890.2023.2224046",
+      "title": "The effect of circulating adiponectin levels on incident gestational diabetes mellitus: systematic review and meta\u2011analysis.",
+      "authors": "Gao S, Su S, Zhang E, Zhang Y, Liu J, Xie S, Yue W, Liu R, Yin C.",
+      "year": 2023,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 15
+    },
+    {
+      "record_id": "epmc:MED:37353997",
+      "pmcid": "PMC10291908",
+      "doi": "10.1080/07853890.2023.2226908",
+      "title": "Association of the endothelial nitric oxide synthase (eNOS) 4a/b polymorphism with the risk of incident diabetic retinopathy in patients with type 2 diabetes mellitus: a systematic review and updated meta-analysis.",
+      "authors": "Shi Y, Fan X, Zhang K, Ma Y.",
+      "year": 2023,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 9
+    },
+    {
+      "record_id": "epmc:MED:37498865",
+      "pmcid": "PMC10375936",
+      "doi": "10.1080/07853890.2023.2239830",
+      "title": "Comparative efficacy and safety profile of once-weekly Semaglutide versus once-daily Sitagliptin as an add-on to metformin in patients with type 2 diabetes: a systematic review and meta-analysis.",
+      "authors": "Patel T, Nageeta F, Sohail R, Butt TS, Ganesan S, Madhurita F, Ahmed M, Zafar M, Zafar W, Zaman MU, Varrassi G, Khatri M, Kumar S.",
+      "year": 2023,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 11
+    },
+    {
+      "record_id": "epmc:MED:37607247",
+      "pmcid": "PMC10446774",
+      "doi": "10.1080/07853890.2023.2246996",
+      "title": "Management of priming fluids in cardiopulmonary bypass for adult cardiac surgery: network meta-analysis.",
+      "authors": "Xian-Yu CY, Xu JB, Ma YT, Deng NJ, Tao YT, Li HJ, Gao TY, Yang JY, Zhang C.",
+      "year": 2023,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 6
+    },
+    {
+      "record_id": "epmc:MED:37738519",
+      "pmcid": "PMC10519254",
+      "doi": "10.1080/07853890.2023.2259798",
+      "title": "Psoas muscle quantified muscle status and long-term mortality after cardiovascular interventions.",
+      "authors": "J\u00e4rvinen O, Tynkkynen JT, Virtanen M, Maaranen P, Lindstr\u00f6m I, Vakhitov D, Laurikka J, Oksala NK, Hernesniemi JA.",
+      "year": 2023,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "research-article"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:38065671",
+      "pmcid": "PMC10836288",
+      "doi": "10.1080/07853890.2023.2283195",
+      "title": "Cardiac sympathetic hyperinnervation after myocardial infarction: a\u00a0systematic review and qualitative analysis.",
+      "authors": "Chen HS, van Roon L, Schoones J, Zeppenfeld K, DeRuiter MC, Jongbloed MRM.",
+      "year": 2023,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 8
+    },
+    {
+      "record_id": "epmc:MED:38198642",
+      "pmcid": "PMC10783847",
+      "doi": "10.1080/07853890.2024.2302520",
+      "title": "Genetic predisposition of LEPR (rs1137101) gene polymorphism related to type 2 diabetes mellitus - a meta-analysis.",
+      "authors": "Veerabathiran R, P A, Bk I, D R, Rs AH.",
+      "year": 2023,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:35703920",
+      "pmcid": "PMC9225779",
+      "doi": "10.1080/07853890.2022.2085318",
+      "title": "Incidence and prevalence of pulmonary tuberculosis among patients with type 2 diabetes mellitus: a systematic review and meta-analysis.",
+      "authors": "Wu Q, Liu Y, Ma YB, Liu K, Chen SH.",
+      "year": 2022,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 22
+    },
+    {
+      "record_id": "epmc:MED:36351877",
+      "pmcid": "PMC9661984",
+      "doi": "10.1080/07853890.2022.2143555",
+      "title": "Impact of sleep disordered breathing on postoperative atrial fibrillation in patients who underwent cardiac surgery: a meta-analysis.",
+      "authors": "Chen Z, Zhang R, Hu X, Wan C, Shen Y, Qin J, Gao L, Zhu J.",
+      "year": 2022,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "Systematic Review",
+        "systematic-review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:33783281",
+      "pmcid": "PMC8018557",
+      "doi": "10.1080/07853890.2021.1897665",
+      "title": "Estimating the prevalence of overweight and obesity in Nigeria in 2020: a systematic review and meta-analysis.",
+      "authors": "Adeloye D, Ige-Elegbede JO, Ezejimofor M, Owolabi EO, Ezeigwe N, Omoyele C, Mpazanje RG, Dewan MT, Agogo E, Gadanya MA, Alemu W, Harhay MO, Auta A, Adebiyi AO.",
+      "year": 2021,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 51
+    },
+    {
+      "record_id": "epmc:MED:34396859",
+      "pmcid": "PMC8366653",
+      "doi": "10.1080/07853890.2021.1933164",
+      "title": "Tea intake and cardiovascular disease: an umbrella review.",
+      "authors": "Keller A, Wallace TC.",
+      "year": 2021,
+      "journal": "Annals of medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 43
+    },
+    {
+      "record_id": "epmc:MED:39451057",
+      "pmcid": "PMC11503861",
+      "doi": "10.1111/anec.70028",
+      "title": "Magnetocardiography in the Evaluation of Sudden Cardiac Death Risk: A Systematic Review.",
+      "authors": "Lachlan T, He H, Kusano K, Aiba T, Brisinda D, Fenici R, Osman F.",
+      "year": 2024,
+      "journal": "Annals of noninvasive electrocardiology : the official journal of the International Society for Holter and Noninvasive Electrocardiology, Inc",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:36537052",
+      "pmcid": "PMC10023892",
+      "doi": "10.1111/anec.13022",
+      "title": "The obesity paradox in ST-segment elevation myocardial infarction patients: A meta-analysis.",
+      "authors": "Liu SH, Lin YZ, Han S, Jin YZ.",
+      "year": 2023,
+      "journal": "Annals of noninvasive electrocardiology : the official journal of the International Society for Holter and Noninvasive Electrocardiology, Inc",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 14
+    },
+    {
+      "record_id": "epmc:MED:36606676",
+      "pmcid": "PMC10023891",
+      "doi": "10.1111/anec.13040",
+      "title": "Echocardiography- versus intracardiac electrocardiogram-based optimization of cardiac resynchronization therapy: A systematic review.",
+      "authors": "Sami A, Mustafa B, Butt HA, Ashraf Z, Ullah A, Babar F, Asad M, Awais M, Zaidi SMJ, Fakhar T, Mehmoodi A, Adnan N, Malik J.",
+      "year": 2023,
+      "journal": "Annals of noninvasive electrocardiology : the official journal of the International Society for Holter and Noninvasive Electrocardiology, Inc",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:37435629",
+      "pmcid": "PMC10475884",
+      "doi": "10.1111/anec.13070",
+      "title": "Efficacy and safety of cardiac resynchronization therapy in chemotherapy-induced cardiomyopathy: A systematic review.",
+      "authors": "Shehram M, Khalid H, Shafique HM, Umer B, Zafar A, Ullah A, Zaidi SMJ, Basit J, Mehmoodi A, Malik J.",
+      "year": 2023,
+      "journal": "Annals of noninvasive electrocardiology : the official journal of the International Society for Holter and Noninvasive Electrocardiology, Inc",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:37482919",
+      "pmcid": "PMC10475889",
+      "doi": "10.1111/anec.13075",
+      "title": "Defibrillation strategies for refractory ventricular fibrillation out-of-hospital cardiac arrest: A systematic review and network meta-analysis.",
+      "authors": "Abuelazm MT, Ghanem A, Katamesh BE, Hassan AR, Abdalshafy H, Seri AR, Awad AK, Abdelnabi M, Abdelazeem B.",
+      "year": 2023,
+      "journal": "Annals of noninvasive electrocardiology : the official journal of the International Society for Holter and Noninvasive Electrocardiology, Inc",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:32187770",
+      "pmcid": "PMC7358826",
+      "doi": "10.1111/anec.12750",
+      "title": "Fragmented QRS is associated with intraventricular dyssynchrony and independently predicts nonresponse to cardiac resynchronization therapy-Systematic review and meta-analysis.",
+      "authors": "Pranata R, Yonas E, Vania R, Tondas AE, Yuniadi Y.",
+      "year": 2020,
+      "journal": "Annals of noninvasive electrocardiology : the official journal of the International Society for Holter and Noninvasive Electrocardiology, Inc",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 6
+    },
+    {
+      "record_id": "epmc:MED:39837283",
+      "pmcid": "PMC12136529",
+      "doi": "10.1159/000543423",
+      "title": "Association of Pregnancy Diet with Metabolic Adverse Outcomes in Pregnant Women and Their Children: A Systematic Review and Meta-Analysis.",
+      "authors": "Fan M, Chu Y, Zheng Y, Zhang Z, Hou M.",
+      "year": 2025,
+      "journal": "Annals of nutrition & metabolism",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "other",
+        "Systematic Review"
+      ],
+      "cited_by_count": 7
+    },
+    {
+      "record_id": "epmc:MED:40189856",
+      "pmcid": "PMC12542916",
+      "doi": "10.5144/0256-4947.2025.129",
+      "title": "Gastrointestinal safety of semaglutide and tirzepatide vs. placebo in obese individuals without diabetes: a systematic review and meta analysis.",
+      "authors": "Safwan M, Bourgleh MS, Alotaibi SA, Alotaibi E, Al-Ruqi A, El Raeya F.",
+      "year": 2025,
+      "journal": "Annals of Saudi medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:38615182",
+      "pmcid": "PMC11016148",
+      "doi": "10.5144/0256-4947.2024.126",
+      "title": "Metformin and risk of hematological cancers in patients with diabetes: a systematic review and meta-analysis.",
+      "authors": "Wang M, Noghabaei G, Raeisi T, Li D, Alizadeh H, Alizadeh M.",
+      "year": 2024,
+      "journal": "Annals of Saudi medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:39127903",
+      "pmcid": "PMC11316951",
+      "doi": "10.5144/0256-4947.2024.272",
+      "title": "Diabetes mellitus and the risk of spontaneous bacterial peritonitis in patients with liver cirrhosis: a systematic review and meta-analysis.",
+      "authors": "Alhajaji R, Samkari MM, Althobaiti MA, Al-Ahmadi BR, Bugis AM, Bugis AM, Sabbagh FY, Althobaiti SA, Bukari AS, Alqurashi SM, Mshrai HA, Abdelwahab OA.",
+      "year": 2024,
+      "journal": "Annals of Saudi medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:37031370",
+      "pmcid": "PMC10082944",
+      "doi": "10.5144/0256-4947.2023.105",
+      "title": "Gut microbiota in Chinese and Japanese patients with cardiovascular diseases: a systematic review and meta-analysis.",
+      "authors": "Liao L, Huang J, Zheng J, Ma X, Huang L, Xu W.",
+      "year": 2023,
+      "journal": "Annals of Saudi medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:32493048",
+      "pmcid": "PMC7270621",
+      "doi": "10.5144/0256-4947.2020.234",
+      "title": "The implications of blood pressure targets from the 2018 European Society of Cardiology hypertension guidelines in Asian patients: a systematic review and meta-analysis.",
+      "authors": "Galimzhanov AM, Sabitov YT, Azizov BS.",
+      "year": 2020,
+      "journal": "Annals of Saudi medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:37777688",
+      "pmcid": "PMC10695872",
+      "doi": "10.1245/s10434-023-14352-z",
+      "title": "Potential Predictive Immune and Metabolic Biomarkers of Tumor Microenvironment Regarding Pathological and Clinical Response in Esophageal Cancer After Neoadjuvant Chemoradiotherapy: A Systematic Review.",
+      "authors": "Wang HH, Steffens EN, Kats-Ugurlu G, van Etten B, Burgerhof JGM, Hospers GAP, Plukker JTM.",
+      "year": 2024,
+      "journal": "Annals of surgical oncology",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 10
+    },
+    {
+      "record_id": "epmc:MED:39700320",
+      "pmcid": "PMC11776448",
+      "doi": "10.1111/nyas.15245",
+      "title": "Systematic review of the efficacy of yoga and mindfulness in the management of pediatric obesity.",
+      "authors": "L\u00f3pez-Alarc\u00f3n M, Villasis-Keever MA, Fern\u00e1ndez JR.",
+      "year": 2025,
+      "journal": "Annals of the New York Academy of Sciences",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:41032651",
+      "pmcid": "PMC12645255",
+      "doi": "10.1111/nyas.70045",
+      "title": "Epigenetic Mechanisms in Childhood Obesity.",
+      "authors": "Le\u00f3n-Reyes G, Gonz\u00e1lez-Quijano GK, L\u00f3pez-Alavez FJ, Tejero ME.",
+      "year": 2025,
+      "journal": "Annals of the New York Academy of Sciences",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:38684395",
+      "pmcid": "PMC11082497",
+      "doi": "10.5761/atcs.ra.23-00188",
+      "title": "Intraoperative Goal-Directed Perfusion in Cardiac Surgery with Cardiopulmonary Bypass: The Roles of Delivery Oxygen Index and Cardiac Index.",
+      "authors": "Pratomo BY, Sudadi S, Setianto BY, Novenanto TT, Raksawardana YK, Rayhan A, Kurniawaty J.",
+      "year": 2024,
+      "journal": "Annals of thoracic and cardiovascular surgery : official journal of the Association of Thoracic and Cardiovascular Surgeons of Asia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 11
+    },
+    {
+      "record_id": "epmc:MED:34732600",
+      "pmcid": "PMC9081465",
+      "doi": "10.5761/atcs.oa.21-00132",
+      "title": "N-Acetylcysteine's Renoprotective Effect in Cardiac Surgery: A Systematic Review and Meta-Analysis.",
+      "authors": "Tan YK, Luo H, Kang GS, Teoh KL, Kofidis T.",
+      "year": 2022,
+      "journal": "Annals of thoracic and cardiovascular surgery : official journal of the Association of Thoracic and Cardiovascular Surgeons of Asia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 7
+    },
+    {
+      "record_id": "epmc:MED:31588071",
+      "pmcid": "PMC7046927",
+      "doi": "10.5761/atcs.ra.19-00170",
+      "title": "The Effect of Diabetes Mellitus on Prognosis of Patients with Non-Small-Cell Lung Cancer: A Systematic Review and Meta-Analysis.",
+      "authors": "Bi G, Yao G, Bian Y, Xue L, Zhang Y, Lu T, Fan H.",
+      "year": 2020,
+      "journal": "Annals of thoracic and cardiovascular surgery : official journal of the Association of Thoracic and Cardiovascular Surgeons of Asia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 25
+    },
+    {
+      "record_id": "epmc:MED:35237787",
+      "pmcid": "PMC9250287",
+      "doi": "10.1093/annweh/wxac004",
+      "title": "Work Exposures and Development of Cardiovascular Diseases: A Systematic Review.",
+      "authors": "Moretti Anfossi C, Ahumada Mu\u00f1oz M, Tobar Fredes C, P\u00e9rez Rojas F, Ross J, Head J, Britton A.",
+      "year": 2022,
+      "journal": "Annals of work exposures and health",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 16
+    },
+    {
+      "record_id": "epmc:MED:36371230",
+      "pmcid": "PMC9652924",
+      "doi": "10.1186/s13756-022-01166-z",
+      "title": "Obesity and the risk of catheter-related bloodstream infection: a systematic review and meta-analysis.",
+      "authors": "Wang Y, Xiang Q, Wu J, Xiao N, Chen J.",
+      "year": 2022,
+      "journal": "Antimicrobial resistance and infection control",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:34620240",
+      "pmcid": "PMC8499511",
+      "doi": "10.1186/s13756-021-01009-3",
+      "title": "Effectiveness of chlorhexidine in preventing infections among patients undergoing cardiac surgeries: a meta-analysis and systematic review.",
+      "authors": "Wei J, He L, Weng F, Huang F, Teng P.",
+      "year": 2021,
+      "journal": "Antimicrobial resistance and infection control",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 10
+    },
+    {
+      "record_id": "epmc:MED:39876627",
+      "pmcid": "PMC11982662",
+      "doi": "10.1111/ans.19319",
+      "title": "Robotic versus laparoscopic colorectal surgery for patients with obesity: an updated systematic review and meta-analysis.",
+      "authors": "McKechnie T, Khamar J, Chu C, Hatamnejad A, Jessani G, Lee Y, Doumouras A, Amin N, Hong D, Eskicioglu C.",
+      "year": 2025,
+      "journal": "ANZ journal of surgery",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Comparative Study",
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:35373439",
+      "pmcid": "PMC9111466",
+      "doi": "10.1111/ans.17667",
+      "title": "Cardiac surgery on patients with COVID-19: a systematic review and meta-analysis.",
+      "authors": "Gupta AK, Leslie A, Hewitt JN, Kovoor JG, Ovenden CD, Edwards S, Chan JCY, Worthington MG.",
+      "year": 2022,
+      "journal": "ANZ journal of surgery",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 19
+    },
+    {
+      "record_id": "epmc:MED:41120676",
+      "pmcid": "PMC13179278",
+      "doi": "10.1007/s10484-025-09742-w",
+      "title": "Bio-behavioral Interventions for Cardiovascular Diseases Rehabilitation: A Systematic Review on Heart Rate Variability Biofeedback and Nutrition.",
+      "authors": "Carola V, Gigli V, Cellucci F, Coli M, Nicolais S, Piras C, Melina G, Ottaviani C, Nicolais G.",
+      "year": 2026,
+      "journal": "Applied psychophysiology and biofeedback",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:41161717",
+      "pmcid": "PMC13018741",
+      "doi": "10.1136/archdischild-2025-329073",
+      "title": "Prevalence of high blood pressure and hypertension among children and adolescents in Europe: a systematic review and meta-analysis.",
+      "authors": "Rietz H, Sv\u00e4rdhagen G, Wuehl E, Lurbe E, Brunstr\u00f6m M.",
+      "year": 2026,
+      "journal": "Archives of disease in childhood",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:40215289",
+      "pmcid": "PMC11995883",
+      "doi": "10.20945/2359-4292-2024-0165",
+      "title": "Gluten-free diets for metabolic control of type 1 diabetes mellitus in children and adolescents: a systematic review and meta-analysis.",
+      "authors": "Zhang Y, Yang S, Wang P.",
+      "year": 2025,
+      "journal": "Archives of endocrinology and metabolism",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:38602747",
+      "pmcid": "PMC11081057",
+      "doi": "10.20945/2359-4292-2023-0280",
+      "title": "Efficacy of the hybrid closedloop insulin delivery system in children and adolescents with type 1 diabetes: a meta-analysis with trial sequential analysis.",
+      "authors": "Oliva Morgado Ferreira R, Trevisan T, Pasqualotto E, Schmidt P, Pedrotti Chavez M, Figueiredo Watanabe JM, van de Sande-Lee S.",
+      "year": 2024,
+      "journal": "Archives of endocrinology and metabolism",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:38709150",
+      "pmcid": "PMC11081056",
+      "doi": "10.20945/2359-4292-2023-0026",
+      "title": "Correlation between low handgrip strength and metabolic syndrome in older adults: a systematic review.",
+      "authors": "d'Avila JC, Moreira El Nabbout TG, Georges Moreira El Nabbout H, Silva ADS, Barbosa Ramos Junior AC, Fonseca ERD, Santana Carlos A, de Azeredo Siqueira R.",
+      "year": 2024,
+      "journal": "Archives of endocrinology and metabolism",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 10
+    },
+    {
+      "record_id": "epmc:MED:39420937",
+      "pmcid": "PMC11460968",
+      "doi": "10.20945/2359-4292-2023-0469",
+      "title": "Effects of once-daily oral orforglipron on weight and metabolic markers: a systematic review and meta-analysis of randomized controlled trials.",
+      "authors": "L\u00fctkemeyer C, Pasqualotto E, Ferreira ROM, Chavez MP, Petris I, Dos Santos HV, Wille JM, Hohl A, Ronsoni MF, van de Sande-Lee S.",
+      "year": 2024,
+      "journal": "Archives of endocrinology and metabolism",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:37249450",
+      "pmcid": "PMC10665058",
+      "doi": "10.20945/2359-3997000000614",
+      "title": "Once-Weekly Insulin Icodec <i>vs</i>. Once-Daily Insulin Glargine U100 for type 2 diabetes: a systematic review and meta-analysis of phase 2 randomized controlled trials.",
+      "authors": "Ribeiro E Silva R, de Miranda Gauza M, Guisso MES, da Silva JON, Kohara SK.",
+      "year": 2023,
+      "journal": "Archives of endocrinology and metabolism",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 20
+    },
+    {
+      "record_id": "epmc:MED:37738467",
+      "pmcid": "PMC10665050",
+      "doi": "10.20945/2359-4292-2023-0040",
+      "title": "Cardiorespiratory fitness in individuals with type 2 diabetes mellitus: a systematic review and meta-analysis.",
+      "authors": "Macedo ACP, Schaan CW, Bock PM, Pinto MB, Botton CE, Umpierre D, Schaan BD.",
+      "year": 2023,
+      "journal": "Archives of endocrinology and metabolism",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 6
+    },
+    {
+      "record_id": "epmc:MED:37948566",
+      "pmcid": "PMC10916804",
+      "doi": "10.20945/2359-4292-2022-0493",
+      "title": "Use of FGF21 analogs for the treatment of metabolic disorders: a systematic review and meta-analysis.",
+      "authors": "Carbonetti MP, Almeida-Oliveira F, Majerowicz D.",
+      "year": 2023,
+      "journal": "Archives of endocrinology and metabolism",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 14
+    },
+    {
+      "record_id": "epmc:MED:35263050",
+      "pmcid": "PMC9991024",
+      "doi": "10.20945/2359-3997000000440",
+      "title": "Dose-ranging effects of SGLT2 inhibitors in patients with type 2 diabetes: a systematic review and meta-analysis.",
+      "authors": "Pinto LC, Rados DV, Remonti LR, Viana MV, Leit\u00e3o CB, Gross JL.",
+      "year": 2022,
+      "journal": "Archives of endocrinology and metabolism",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 18
+    },
+    {
+      "record_id": "epmc:MED:35289514",
+      "pmcid": "PMC9832886",
+      "doi": "10.20945/2359-3997000000441",
+      "title": "Effects of lifestyle interventions on glucose regulation and diabetes risk in adults with impaired glucose tolerance or prediabetes: a meta-analysis.",
+      "authors": "Jiang Q, Li JT, Sun P, Wang LL, Sun LZ, Pang SG.",
+      "year": 2022,
+      "journal": "Archives of endocrinology and metabolism",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Review",
+        "review-article"
+      ],
+      "cited_by_count": 20
+    },
+    {
+      "record_id": "epmc:MED:35758833",
+      "pmcid": "PMC10697639",
+      "doi": "10.20945/2359-3997000000487",
+      "title": "Effects of resistance training on the glycemic control of people with type 1 diabetes: a systematic review and meta-analysis.",
+      "authors": "de Abreu de Lima V, de Menezes FJ, da Rocha Celli L, Fran\u00e7a SN, Cordeiro GR, Mascarenhas LPG, Leite N.",
+      "year": 2022,
+      "journal": "Archives of endocrinology and metabolism",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 10
+    },
+    {
+      "record_id": "epmc:MED:41543583",
+      "pmcid": "PMC12811358",
+      "doi": "10.1007/s00404-025-08301-2",
+      "title": "Non-invasive blood pressure monitoring using wearables for cardiovascular risk assessment: a systematic review.",
+      "authors": "Zwahlen M, Pavicic E, Khattab K, Krbanjevic V, Endrass J, Stute P.",
+      "year": 2026,
+      "journal": "Archives of gynecology and obstetrics",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:40407883",
+      "pmcid": "PMC12334498",
+      "doi": "10.1007/s00404-025-08052-0",
+      "title": "Pre-eclampsia, gestational hypertension, and lipid levels during pregnancy: a systematic review and meta-analysis.",
+      "authors": "Qin X, Ai F, Zhou Q, Zhang Y, Yan X.",
+      "year": 2025,
+      "journal": "Archives of gynecology and obstetrics",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:36315269",
+      "pmcid": "PMC10293352",
+      "doi": "10.1007/s00404-022-06812-w",
+      "title": "The diagnostic performance of the ductus venosus for the detection of cardiac defects in the first trimester: a systematic review and diagnostic test accuracy meta-analysis.",
+      "authors": "Savoia F, Scala C, Coppola M, Riemma G, Vitale SG, Miku\u0161 M, Schiattarella A, La Verde M, Colacurci N, De Franciscis P, Morlando M.",
+      "year": 2023,
+      "journal": "Archives of gynecology and obstetrics",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:41159346",
+      "pmcid": "PMC12569990",
+      "doi": "10.34172/aim.34291",
+      "title": "Impact of Prior Metabolic and Bariatric Surgery on Outcomes of Total Knee and Total Hip Arthroplasty: A Systematic Review and Meta-analysis.",
+      "authors": "Shari'at Moghani M, Esparham A, Mahdinezhad Kashani M, Einafshar N, Radboy M, Ghamari MJ, Zandbaf T.",
+      "year": 2025,
+      "journal": "Archives of Iranian medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:38310408",
+      "pmcid": "PMC10862058",
+      "doi": "10.34172/aim.2023.78",
+      "title": "Attitude and Belief of Healthcare Professionals Towards Effective Obesity Care and Perception of Barriers; An Updated Systematic Review and Meta-analysis.",
+      "authors": "Khamseh ME, Emami Z, Iranpour A, Mahmoodian R, Amouei E, Tizmaghz A, Moradi Y, Baradaran HR.",
+      "year": 2023,
+      "journal": "Archives of Iranian medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:38310416",
+      "pmcid": "PMC10862093",
+      "doi": "10.34172/aim.2023.86",
+      "title": "Insights into Organochlorine Pesticides Exposure in the Development of Cardiovascular Diseases: A Systematic Review.",
+      "authors": "Mohammadkhani MA, Shahrzad S, Haghighi M, Ghanbari R, Mohamadkhani A.",
+      "year": 2023,
+      "journal": "Archives of Iranian medicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 7
+    },
+    {
+      "record_id": "epmc:MED:34412904",
+      "pmcid": "PMC8349690",
+      "doi": "10.1016/j.arcmed.2021.08.002",
+      "title": "Association Between Anti-diabetic Agents and Clinical Outcomes of COVID-19 in Patients with Diabetes: A Systematic Review and Meta-Analysis.",
+      "authors": "Han T, Ma S, Sun C, Zhang H, Qu G, Chen Y, Cheng C, Chen EL, Ayaz Ahmed M, Kim KY, Manem R, Chen M, Guo Z, Yang H, Yan Y, Zhou Q.",
+      "year": 2022,
+      "journal": "Archives of medical research",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 36
+    },
+    {
+      "record_id": "epmc:MED:41806038",
+      "pmcid": "PMC12975796",
+      "doi": "10.1007/s00402-026-06221-7",
+      "title": "Obesity and long bone fractures in children. Systematic review.",
+      "authors": "Aly A, Aly T.",
+      "year": 2026,
+      "journal": "Archives of orthopaedic and trauma surgery",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:35654981",
+      "pmcid": "PMC9163017",
+      "doi": "10.1007/s11657-022-01120-x",
+      "title": "Effects of resistance training on body composition and physical function in elderly patients with osteosarcopenic obesity: a systematic review and meta-analysis.",
+      "authors": "Yang JM, Ye H, Zhu Q, Zhang JH, Liu QQ, Xie HY, Long Y, Huang H, Niu YL, Luo Y, Wang MY.",
+      "year": 2022,
+      "journal": "Archives of osteoporosis",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 16
+    },
+    {
+      "record_id": "epmc:MED:40542285",
+      "pmcid": "PMC12241289",
+      "doi": "10.1007/s12272-025-01552-2",
+      "title": "Evaluation of bone health and fracture risk in type 2 diabetes: a network meta-analysis of anti-diabetic treatments versus placebo.",
+      "authors": "Oh S, Park SE, Kim E.",
+      "year": 2025,
+      "journal": "Archives of pharmacal research",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:39780228",
+      "pmcid": "PMC11715991",
+      "doi": "10.1186/s13690-024-01474-3",
+      "title": "Effectiveness of digital health applications on the quality of life in patients with overweight or obesity: a systematic review.",
+      "authors": "M\u00e4der M, Sch\u00f6nfelder T, Heinrich R, Militzer-Horstmann C, Timpel P.",
+      "year": 2025,
+      "journal": "Archives of public health = Archives belges de sante publique",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:39578910",
+      "pmcid": "PMC11583391",
+      "doi": "10.1186/s13690-024-01450-x",
+      "title": "Prognostic effectiveness of interactive vs. non-interactive mobile app interventions in type 2 diabetes: a systematic review and meta-analysis.",
+      "authors": "Tang Z, Zhao L, Li J, Yang Y, Liu F, Li H, Yang Z, Qin S, Li X.",
+      "year": 2024,
+      "journal": "Archives of public health = Archives belges de sante publique",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:39623499",
+      "pmcid": "PMC11610123",
+      "doi": "10.1186/s13690-024-01459-2",
+      "title": "Effectiveness of continuous glucose monitoring in patient management of Type 2 Diabetes Mellitus: an umbrella review of systematic reviews from 2011 to 2024.",
+      "authors": "Tan YY, Suan E, Koh GCH, Suhairi SB, Tyagi S.",
+      "year": 2024,
+      "journal": "Archives of public health = Archives belges de sante publique",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 15
+    },
+    {
+      "record_id": "epmc:MED:37537669",
+      "pmcid": "PMC10401891",
+      "doi": "10.1186/s13690-023-01153-9",
+      "title": "Patients' and informal caregivers' perspectives on self-management interventions for type 2 diabetes mellitus outcomes: a mixed-methods overview of 14 years of reviews.",
+      "authors": "Ni\u00f1o-de-Guzman Quispe E, Bracchiglione J, Ballester M, Groene O, Heijmans M, Mart\u00ednez Garc\u00eda L, Noordman J, Orrego C, Rocha C, Su\u00f1ol R, Alonso-Coello P.",
+      "year": 2023,
+      "journal": "Archives of public health = Archives belges de sante publique",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 14
+    },
+    {
+      "record_id": "epmc:MED:40760403",
+      "pmcid": "PMC12457518",
+      "doi": "10.1007/s10508-025-03208-0",
+      "title": "Obesity-Related Anthropometric Indicators and Erectile Dysfunction: A Systematic Review.",
+      "authors": "Li T, Chen J, He B, Feng Q.",
+      "year": 2025,
+      "journal": "Archives of sexual behavior",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:36634706",
+      "pmcid": "PMC10161817",
+      "doi": "10.24875/acm.210004061",
+      "title": "Importance of so called \"novel cardiovascular risk factors\" in severity of coronary artery calcification; how serious they should be taken: a systematic review and metaanalysis.",
+      "authors": "Naghedi A, Varastehravan H, Haghaninejad H, Naghedi A, Farshadi N.",
+      "year": 2023,
+      "journal": "Archivos de cardiologia de Mexico",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:40435046",
+      "pmcid": "PMC12108139",
+      "doi": "10.36660/abc.20240544",
+      "title": "Influence of Obesity on the Safety and Efficacy of Antithrombotic Therapy: A Systematic Review and Meta-Analysis.",
+      "authors": "Darz\u00e9 BR, Borges QO, Viana MS, Darz\u00e9 ES, Ritt LEF.",
+      "year": 2025,
+      "journal": "Arquivos brasileiros de cardiologia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:38695409",
+      "pmcid": "PMC11098569",
+      "doi": "10.36660/abc.20230490",
+      "title": "Resistance Exercise Training Mitigates Cardiac Remodeling Induced by a High-Fat Diet in Rodents: A Systematic Review.",
+      "authors": "Portes AMO, Costa SFF, Leite LB, Lavorato VN, Miranda DC, Moura AG, Soares LL, Isoldi MC, Natali AJ.",
+      "year": 2024,
+      "journal": "Arquivos brasileiros de cardiologia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:39607399",
+      "pmcid": "PMC11634203",
+      "doi": "10.36660/abc.20240469",
+      "title": "Risk of Adverse Health Outcomes in Patients with Poor Adherence to Cardiovascular Medication Treatment: A Systematic Review.",
+      "authors": "Malachias MVB, Kaiser SE, Albuquerque DC, Brand\u00e3o AA, Sposito AC, Moura LZ, Magalh\u00e3es LBNC, Mota-Gomes MA, Clausell N, Jardim PCV, Nadruz W, Barros BM, Luna LC, Barroso WKS.",
+      "year": 2024,
+      "journal": "Arquivos brasileiros de cardiologia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:39968976",
+      "pmcid": "PMC11634304",
+      "doi": "10.36660/abc.20240430",
+      "title": "Impact of 3D Printing on Cardiac Surgery in Congenital Heart Diseases: A Systematic Review and Meta-Analysis.",
+      "authors": "Yahiro DS, Cruz MP, Ribeiro BFC, Teixeira LM, Oliveira MFRM, Souza ALAAG, Torbey AFM, Silveira JSD, Mesquita CT.",
+      "year": 2024,
+      "journal": "Arquivos brasileiros de cardiologia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:37531470",
+      "pmcid": "PMC10464855",
+      "doi": "10.36660/abc.20220370",
+      "title": "Diagnostic Value of Three-Dimensional Speckle Tracking Imaging Strain Parameters for Detection of Cancer Chemotherapy-Related Cardiac Dysfunction: A Meta-Analysis.",
+      "authors": "Guan Y.",
+      "year": 2023,
+      "journal": "Arquivos brasileiros de cardiologia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:35544851",
+      "pmcid": "PMC9363055",
+      "doi": "10.36660/abc.20210486",
+      "title": "Diagnostic Role of NT-proBNP in Patients with Cardiac Amyloidosis Involvement: A Meta-Analysis.",
+      "authors": "Zhang Y, Chaolu H.",
+      "year": 2022,
+      "journal": "Arquivos brasileiros de cardiologia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:39230117",
+      "pmcid": "PMC11363908",
+      "doi": "10.1590/0102-6720202400021e1814",
+      "title": "EFFICACY AND SAFETY OF ONE ANASTOMOSIS GASTRIC BYPASS IN SURGICAL TREATMENT OF OBESITY: SYSTEMATIC REVIEW AND META-ANALYSIS OF RANDOMIZED CONTROLLED TRIALS.",
+      "authors": "Onzi TR, Salgado J\u00fanior W, Bastos ELS, Dantas ACB, Silva LB, Oliveira Neto AA, Trist\u00e3o LS, Santos CLD, Bernardo WM, Chavez MP.",
+      "year": 2024,
+      "journal": "Arquivos brasileiros de cirurgia digestiva : ABCD = Brazilian archives of digestive surgery",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:42154843",
+      "pmcid": "PMC13186090",
+      "doi": "10.1590/s0004-2803.24612025-036",
+      "title": "ROLE OF STATINS IN CIRRHOTIC PORTAL HYPERTENSION: META-ANALYSIS OF RANDOMIZED STUDIES.",
+      "authors": "Moreno MOA, Paz CLDSL, Rodrigues MAN, Andrade ACD, Dezan MGF, Cavalcante LN, Lyra AC.",
+      "year": 2026,
+      "journal": "Arquivos de gastroenterologia",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:32640905",
+      "pmcid": "PMC7447177",
+      "doi": "10.1161/atvbaha.120.314774",
+      "title": "Plasma Biomarkers to Predict Cardiovascular Outcome in Patients With Peripheral Artery Disease: A Systematic Review and Meta-Analysis.",
+      "authors": "Kremers B, W\u00fcbbeke L, Mees B, Ten Cate H, Spronk H, Ten Cate-Hoek A.",
+      "year": 2020,
+      "journal": "Arteriosclerosis, thrombosis, and vascular biology",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 69
+    },
+    {
+      "record_id": "epmc:MED:35199375",
+      "pmcid": "PMC9307006",
+      "doi": "10.1111/aor.14205",
+      "title": "Extracorporeal cardiopulmonary resuscitation for out-of-hospital cardiac arrest: A systematic review and meta-analysis of randomized and propensity score-matched studies.",
+      "authors": "Scquizzato T, Bonaccorso A, Consonni M, Scandroglio AM, Swol J, Landoni G, Zangrillo A.",
+      "year": 2022,
+      "journal": "Artificial organs",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 51
+    },
+    {
+      "record_id": "epmc:MED:35719121",
+      "pmcid": "PMC9545856",
+      "doi": "10.1111/aor.14334",
+      "title": "Machine learning and artificial intelligence in cardiac transplantation: A systematic review.",
+      "authors": "Naruka V, Arjomandi Rad A, Subbiah Ponniah H, Francis J, Vardanyan R, Tasoudis P, Magouliotis DE, Lazopoulos GL, Salmasi MY, Athanasiou T.",
+      "year": 2022,
+      "journal": "Artificial organs",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 38
+    },
+    {
+      "record_id": "epmc:MED:41492804",
+      "pmcid": "PMC12876412",
+      "doi": "10.1177/10105395251409934",
+      "title": "Association Between Educational Attainment and Overweight/Obesity in Eight South Asian Countries: A Systematic Review.",
+      "authors": "Dev R, O'Neill Z, Norris CM, Raparelli V, Sarkar S, Pilote L.",
+      "year": 2026,
+      "journal": "Asia-Pacific journal of public health",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Review",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:35633534",
+      "pmcid": "PMC9587861",
+      "doi": "10.31557/apjcp.2022.23.5.1523",
+      "title": "Diabetes History and Gastric Cancer Risk: Different Results by Types of Follow-Up Studies.",
+      "authors": "Bae JM.",
+      "year": 2022,
+      "journal": "Asian Pacific journal of cancer prevention : APJCP",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 8
+    },
+    {
+      "record_id": "epmc:MED:33581388",
+      "pmcid": "PMC7955279",
+      "doi": "10.1016/j.atherosclerosis.2021.01.018",
+      "title": "Association of beta-2-microglobulin and cardiovascular events and mortality: A systematic review and meta-analysis.",
+      "authors": "Shi F, Sun L, Kaptoge S.",
+      "year": 2021,
+      "journal": "Atherosclerosis",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 54
+    },
+    {
+      "record_id": "epmc:MED:37557093",
+      "pmcid": "PMC10836643",
+      "doi": "10.1159/000530686",
+      "title": "Cardiovascular Risk Factors, Cerebral Small Vessel Disease, and Subsequent Risk of Stroke in Patients with Idiopathic Sudden Sensorineural Hearing Loss: Systematic Review and Meta-Analyses of the Current Literature.",
+      "authors": "Oussoren FK, Schermer TR, van Leeuwen RB, Bruintjes TD.",
+      "year": 2024,
+      "journal": "Audiology & neuro-otology",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 15
+    },
+    {
+      "record_id": "epmc:MED:38829237",
+      "pmcid": "PMC11588899",
+      "doi": "10.4274/balkanmedj.galenos.2024.2024-2-115",
+      "title": "Effect of Wearable Technology on Metabolic Control and the Quality of Life in Children and Adolescents with Type 1 Diabetes: A Systematic Review and Meta-Analysis",
+      "authors": "Ye\u015fil F, \u00c7\u00f6vener \u00d6z\u00e7elik \u00c7.",
+      "year": 2024,
+      "journal": "Balkan medical journal",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:36722753",
+      "pmcid": "PMC9998834",
+      "doi": "10.4274/balkanmedj.galenos.2022.2022-11-56",
+      "title": "Effect of the Obesity Paradox on Mortality in Patients with Acute Coronary Syndrome: A Comprehensive Meta-analysis of the Literature",
+      "authors": "\u015eayl\u0131k F, \u00c7\u0131nar T, Hay\u0131ro\u011flu M\u0130.",
+      "year": 2023,
+      "journal": "Balkan medical journal",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "case-report",
+        "Journal Article",
+        "Meta-Analysis"
+      ],
+      "cited_by_count": 17
+    },
+    {
+      "record_id": "epmc:MED:37735694",
+      "pmcid": "PMC10613743",
+      "doi": "10.4274/balkanmedj.galenos.2023.2023-7-84",
+      "title": "Dasiglucagon for the Treatment of Insulin-induced Hypoglycemia in Patients with Type 1 Diabetes Mellitus: A Meta-analysis",
+      "authors": "Maji S, Mohanty RR, Maiti R.",
+      "year": 2023,
+      "journal": "Balkan medical journal",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "case-report",
+        "Journal Article",
+        "Meta-Analysis"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:40662412",
+      "pmcid": "PMC12261433",
+      "doi": "10.1002/bem.70014",
+      "title": "Impact of Radiofrequency Electromagnetic Fields on Cardiac Activity at Rest: A Systematic Review of Healthy Human Studies.",
+      "authors": "Michelant L, Selmaoui B.",
+      "year": 2025,
+      "journal": "Bioelectromagnetics",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:35178452",
+      "pmcid": "PMC8844385",
+      "doi": "10.1155/2022/6747469",
+      "title": "Meta-Analysis of the Efficacy and Safety of Alendronate Combined with Atorvastatin in the Treatment of Osteoporosis in Diabetes Mellitus.",
+      "authors": "Xiong Z, Yi P, Tang X, Shu L, Zhang C.",
+      "year": 2022,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 8
+    },
+    {
+      "record_id": "epmc:MED:36277880",
+      "pmcid": "PMC9584685",
+      "doi": "10.1155/2022/3360316",
+      "title": "Meta-Analysis of Matrix Metalloproteinases in the Risk of Cardiovascular and Neurodegenerative Diseases.",
+      "authors": "Huang R, XinYang, Zhu R, Song J, Luo M, Chen DA.",
+      "year": 2022,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Retracted Publication"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:36277883",
+      "pmcid": "PMC9584674",
+      "doi": "10.1155/2022/8129771",
+      "title": "The Association between the Risk of Esophageal Cancer and Type 2 Diabetes Mellitus: An Updated Meta-Analysis.",
+      "authors": "Zhou R, Huang C, Luo Z, Wang T.",
+      "year": 2022,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Retracted Publication"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:33575325",
+      "pmcid": "PMC7861941",
+      "doi": "10.1155/2021/2690296",
+      "title": "Association between Frailty and Mortality, Falls, and Hospitalization among Patients with Hypertension: A Systematic Review and Meta-Analysis.",
+      "authors": "Hu K, Zhou Q, Jiang Y, Shang Z, Mei F, Gao Q, Chen F, Zhao L, Jiang M, Ma B.",
+      "year": 2021,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 30
+    },
+    {
+      "record_id": "epmc:MED:33763487",
+      "pmcid": "PMC7946477",
+      "doi": "10.1155/2021/8835891",
+      "title": "Oral Pregabalin in Cardiac Surgery: A Systematic Review and Meta-Analysis of Randomized Controlled Trials.",
+      "authors": "Wang XX, Dai J, Hu XG, Zhou AG, Pan DB.",
+      "year": 2021,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:33816624",
+      "pmcid": "PMC7987413",
+      "doi": "10.1155/2021/6636856",
+      "title": "Meta-analysis: Early Age at Natural Menopause and Risk for All-Cause and Cardiovascular Mortality.",
+      "authors": "Huan L, Deng X, He M, Chen S, Niu W.",
+      "year": 2021,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 20
+    },
+    {
+      "record_id": "epmc:MED:34056001",
+      "pmcid": "PMC8131138",
+      "doi": "10.1155/2021/7389076",
+      "title": "Hypertriglyceridemia and Other Plasma Lipid Profile Abnormalities among People Living with Diabetes Mellitus in Ethiopia: A Systematic Review and Meta-Analysis.",
+      "authors": "Dagnew B, Yeshaw Y, Geremew D, Angaw DA, Dagne H, Alemayehu M, Molla MD, Akalu Y.",
+      "year": 2021,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 6
+    },
+    {
+      "record_id": "epmc:MED:34616842",
+      "pmcid": "PMC8487831",
+      "doi": "10.1155/2021/4477534",
+      "title": "Systematic Review of Setting-Based Interventions for Preventing Childhood Obesity.",
+      "authors": "Angawi K, Gaissi A.",
+      "year": 2021,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 13
+    },
+    {
+      "record_id": "epmc:MED:34712730",
+      "pmcid": "PMC8548105",
+      "doi": "10.1155/2021/3482879",
+      "title": "Ethnicity Differences in the Association of UCP1-3826A/G, UCP2-866G/A and Ala55Val, and UCP3-55C/T Polymorphisms with Type 2 Diabetes Mellitus Susceptibility: An Updated Meta-Analysis.",
+      "authors": "Huang R, Cai T, Zhou Y, Wang Y, Wang H, Shen Z, Xia W, Liu X, Ding B, Luo Y, Yan R, Li H, Wu J, Ma J.",
+      "year": 2021,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:32685519",
+      "pmcid": "PMC7320285",
+      "doi": "10.1155/2020/7015249",
+      "title": "Association between Rosacea and Cardiovascular Diseases and Related Risk Factors: A Systematic Review and Meta-Analysis.",
+      "authors": "Li Y, Guo L, Hao D, Li X, Wang Y, Jiang X.",
+      "year": 2020,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Retracted Publication",
+        "Systematic Review"
+      ],
+      "cited_by_count": 19
+    },
+    {
+      "record_id": "epmc:MED:33426054",
+      "pmcid": "PMC7775140",
+      "doi": "10.1155/2020/5219367",
+      "title": "Prognostic Role of Optic Nerve Sheath Diameter for Neurological Outcomes in Post-Cardiac Arrest Patients: A Systematic Review and Meta-Analysis.",
+      "authors": "Zhang YW, Zhang S, Gao H, Li C, Zhang MX.",
+      "year": 2020,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 9
+    },
+    {
+      "record_id": "epmc:MED:33490250",
+      "pmcid": "PMC7787736",
+      "doi": "10.1155/2020/6661691",
+      "title": "The Influence of Diabetes Mellitus on Patients Undergoing Primary Total Lower Extremity Arthroplasty: A Systematic Review and Meta-Analysis.",
+      "authors": "Qin W, Huang X, Yang H, Shen M.",
+      "year": 2020,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 24
+    },
+    {
+      "record_id": "epmc:MED:33490256",
+      "pmcid": "PMC7803139",
+      "doi": "10.1155/2020/7949516",
+      "title": "Prognostic Values of the Gray-to-White Matter Ratio on Brain Computed Tomography Images for Neurological Outcomes after Cardiac Arrest: A Meta-Analysis.",
+      "authors": "Wang WJ, Cui J, Lv GW, Feng SY, Zhao Y, Zhang SL, Li Y.",
+      "year": 2020,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 6
+    },
+    {
+      "record_id": "epmc:MED:31871936",
+      "pmcid": "PMC6907042",
+      "doi": "10.1155/2019/3202838",
+      "title": "Meta-Analysis of the Effects of Cardiac Rehabilitation on Exercise Tolerance and Cardiac Function in Heart Failure Patients Undergoing Cardiac Resynchronization Therapy.",
+      "authors": "Chen ZB, Fan LB, Liu YJ, Zheng YR.",
+      "year": 2019,
+      "journal": "BioMed research international",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 9
+    },
+    {
+      "record_id": "epmc:MED:40865110",
+      "pmcid": "PMC12482903",
+      "doi": "10.7705/biomedica.7708",
+      "title": "A meta-analysis about the relationship of serum nesfatin-1 levels in patients with type 2 diabetes mellitus",
+      "authors": "Reyes-Luc\u00eda E, Ram\u00edrez-Guerrero A, Gonz\u00e1lez-Villase\u00f1or C, Mac\u00edas-G\u00f3mez N.",
+      "year": 2025,
+      "journal": "Biomedica : revista del Instituto Nacional de Salud",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "English Abstract",
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:39988715",
+      "pmcid": "PMC11847366",
+      "doi": "10.1186/s12938-025-01349-w",
+      "title": "Deep learning and electrocardiography: systematic review of current techniques in cardiovascular disease diagnosis and management.",
+      "authors": "Wu Z, Guo C.",
+      "year": 2025,
+      "journal": "Biomedical engineering online",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 23
+    },
+    {
+      "record_id": "epmc:MED:38378540",
+      "pmcid": "PMC10880234",
+      "doi": "10.1186/s12938-024-01202-6",
+      "title": "Non-invasive parameters of autonomic function using beat-to-beat cardiovascular variations and arterial stiffness in hypertensive individuals: a systematic review.",
+      "authors": "Ooi JH, Lim R, Seng H, Tan MP, Goh CH, Lovell NH, Argha A, Beh HC, Md Sari NA, Lim E.",
+      "year": 2024,
+      "journal": "Biomedical engineering online",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:37660901",
+      "pmcid": "PMC11220532",
+      "doi": "10.1016/j.bj.2023.100656",
+      "title": "Risk factors for peri-intubation cardiac arrest: A systematic review and meta-analysis.",
+      "authors": "Yang TH, Shao SC, Lee YC, Hsiao CH, Yen CC.",
+      "year": 2024,
+      "journal": "Biomedical journal",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 12
+    },
+    {
+      "record_id": "epmc:MED:40305305",
+      "pmcid": "PMC12025188",
+      "doi": "10.3390/biom15040576",
+      "title": "Etiologies of Multidrug-Resistant Epilepsy in Latin America: A Comprehensive Review of Structural, Genetic, Metabolic, Inflammatory, and Infectious Origins: A Systematic Review.",
+      "authors": "Hinojosa-Figueroa MS, Cruz-Caraguay M, Torres Pasquel A, Puga Rosero V, Eguiguren Chavez CB, Rodas JA, Leon-Rojas JE.",
+      "year": 2025,
+      "journal": "Biomolecules",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:41154646",
+      "pmcid": "PMC12562999",
+      "doi": "10.3390/biom15101417",
+      "title": "The Anti-Inflammatory Effects of Resistance Training in Patients with Type 2 Diabetes: A Systematic Review and Meta-Analysis.",
+      "authors": "Kadoglou NPE, Georgiou C, Balaskas N, Panayiotou C, Vardas M, Mitsis A, Antonopoulos CN.",
+      "year": 2025,
+      "journal": "Biomolecules",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:38927134",
+      "pmcid": "PMC11201797",
+      "doi": "10.3390/biom14060731",
+      "title": "Unravelling the Gut Microbiome Role in Cardiovascular Disease: A Systematic Review and a Meta-Analysis.",
+      "authors": "Martins D, Silva C, Ferreira AC, Dourado S, Albuquerque A, Saraiva F, Batista AB, Castro P, Leite-Moreira A, Barros AS, Miranda IM.",
+      "year": 2024,
+      "journal": "Biomolecules",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 28
+    },
+    {
+      "record_id": "epmc:MED:39766314",
+      "pmcid": "PMC11674716",
+      "doi": "10.3390/biom14121607",
+      "title": "Molecular Pathways Linking High-Fat Diet and PM&lt;sub&gt;2.5&lt;/sub&gt; Exposure to Metabolically Abnormal Obesity: A Systematic Review and Meta-Analysis.",
+      "authors": "Lobato S, Salom\u00f3n-Soto VM, Espinosa-M\u00e9ndez CM, Herrera-Moreno MN, Garc\u00eda-Solano B, P\u00e9rez-Gonz\u00e1lez E, Comba-Marc\u00f3-Del-Pont F, Montesano-Villamil M, Mora-Ram\u00edrez MA, Mancilla-Simbro C, \u00c1lvarez-Valenzuela R.",
+      "year": 2024,
+      "journal": "Biomolecules",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 6
+    },
+    {
+      "record_id": "epmc:MED:36671498",
+      "pmcid": "PMC9855939",
+      "doi": "10.3390/biom13010113",
+      "title": "Metalloproteinases in Cardiac Surgery: A Systematic Review.",
+      "authors": "Serraino GF, Jiritano F, Costa D, Ielapi N, Battaglia D, Bracale UM, Mastroroberto P, Andreucci M, Serra R.",
+      "year": 2023,
+      "journal": "Biomolecules",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 14
+    },
+    {
+      "record_id": "epmc:MED:36979367",
+      "pmcid": "PMC10046262",
+      "doi": "10.3390/biom13030432",
+      "title": "Machine Learning Model Based on Insulin Resistance Metagenes Underpins Genetic Basis of Type 2 Diabetes.",
+      "authors": "Saxena A, Mathur N, Pathak P, Tiwari P, Mathur SK.",
+      "year": 2023,
+      "journal": "Biomolecules",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:37371490",
+      "pmcid": "PMC10296080",
+      "doi": "10.3390/biom13060910",
+      "title": "Diagnostic and Prognostic Role of CD93 in Cardiovascular Disease: A Systematic Review.",
+      "authors": "Piani F, Tossetta G, Cara-Fuentes G, Agnoletti D, Marzioni D, Borghi C.",
+      "year": 2023,
+      "journal": "Biomolecules",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 35
+    },
+    {
+      "record_id": "epmc:MED:37759756",
+      "pmcid": "PMC10526305",
+      "doi": "10.3390/biom13091356",
+      "title": "Alterations in Circulating Bile Acids in Metabolic Dysfunction-Associated Steatotic Liver Disease: A Systematic Review and Meta-Analysis.",
+      "authors": "Lai J, Luo L, Zhou T, Feng X, Ye J, Zhong B.",
+      "year": 2023,
+      "journal": "Biomolecules",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 36
+    },
+    {
+      "record_id": "epmc:MED:35883490",
+      "pmcid": "PMC9312922",
+      "doi": "10.3390/biom12070934",
+      "title": "Major Adverse Cardiovascular Events and Mortality Prediction by Circulating GDF-15 in Patients with Type 2 Diabetes: A Systematic Review and Meta-Analysis.",
+      "authors": "Xie S, Li Q, Luk AOY, Lan HY, Chan PKS, Bay\u00e9s-Gen\u00eds A, Chan FKL, Fung E.",
+      "year": 2022,
+      "journal": "Biomolecules",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 19
+    },
+    {
+      "record_id": "epmc:MED:36291580",
+      "pmcid": "PMC9599370",
+      "doi": "10.3390/biom12101371",
+      "title": "Transcriptome Meta-Analysis Confirms the Hidradenitis Suppurativa Pathogenic Triad: Upregulated Inflammation, Altered Epithelial Organization, and Dysregulated Metabolic Signaling.",
+      "authors": "de Oliveira ASLE, Bloise G, Moltrasio C, Coelho A, Agrelli A, Moura R, Tricarico PM, Jamain S, Marzano AV, Crovella S, Cavalcanti Brand\u00e3o LA.",
+      "year": 2022,
+      "journal": "Biomolecules",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "research-article"
+      ],
+      "cited_by_count": 36
+    },
+    {
+      "record_id": "epmc:MED:39319871",
+      "pmcid": "PMC11734827",
+      "doi": "10.17305/bb.2024.10865",
+      "title": "Stress-induced hyperglycemia and mortality in patients with traumatic brain injury without preexisting diabetes: A meta-analysis.",
+      "authors": "Cui S, Xu D, Xiong H, Zhuang Y, He Z.",
+      "year": 2025,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 7
+    },
+    {
+      "record_id": "epmc:MED:39831901",
+      "pmcid": "PMC11959393",
+      "doi": "10.17305/bb.2024.11577",
+      "title": "Diagnostic accuracy of two-dimensional shear wave elastography and point shear wave elastography in identifying different stages of liver fibrosis in patients with metabolic dysfunction-associated steatotic liver disease: A meta-analysis.",
+      "authors": "Xu X, Zhang Y, Zhu Q, Xie Y, Zhou Y, Dong B, Zhang C.",
+      "year": 2025,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:39847682",
+      "pmcid": "PMC12450090",
+      "doi": "10.17305/bb.2024.11634",
+      "title": "Association between diabetes mellitus and tinnitus: A meta-analysis.",
+      "authors": "Luo S, Wen J, Bao Q, Ou H, Yi S, Peng P.",
+      "year": 2025,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:40052691",
+      "pmcid": "PMC12042682",
+      "doi": "10.17305/bb.2025.11909",
+      "title": "Influence of maternal diabetes during pregnancy on ultrasound-measured fetal epicardial fat thickness: A meta-analysis.",
+      "authors": "Anwaier A, Li J, Liu W, Dong L, Ding Y, Yu Z.",
+      "year": 2025,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:40079223",
+      "pmcid": "PMC12447736",
+      "doi": "10.17305/bb.2025.11847",
+      "title": "The influence of sodium-glucose co-transporter-2 inhibitors on the risk of cancer therapy-related cardiac dysfunction: A meta-analysis.",
+      "authors": "Yan Z, Xing X, Huang J.",
+      "year": 2025,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:40613500",
+      "pmcid": "PMC12505523",
+      "doi": "10.17305/bb.2025.12658",
+      "title": "Effectiveness of SGLT2 inhibitors compared to sulphonylureas for long-term glycemic control in type 2 diabetes: A meta-analysis.",
+      "authors": "Zhan Z, Wang J, Shen N, Liu X, Wang L.",
+      "year": 2025,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Comparative Study",
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:40752012",
+      "pmcid": "PMC12499552",
+      "doi": "10.17305/bb.2025.12731",
+      "title": "Atherogenic index of plasma and risk of diabetic nephropathy in type\u202f2\u202fdiabetes: A meta\u2011analysis.",
+      "authors": "Min D, Zhao J, Liu M.",
+      "year": 2025,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:40753604",
+      "pmcid": "PMC12499556",
+      "doi": "10.17305/bb.2025.12652",
+      "title": "Influence of intravenous iron therapy on mortality and cardiovascular events of patients on hemodialysis: A meta-analysis.",
+      "authors": "Chen Y, Zhao D, Huang C, Chen Y, Tu W, Xu C.",
+      "year": 2025,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:40991750",
+      "pmcid": "PMC12834308",
+      "doi": "10.17305/bb.2025.12982",
+      "title": "Childhood obesity and allergic rhinitis: A meta-analysis.",
+      "authors": "Xing X, Zhu S, Zhou G, Ma Y, Wang H.",
+      "year": 2025,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:38460170",
+      "pmcid": "PMC11293242",
+      "doi": "10.17305/bb.2024.10114",
+      "title": "Serum copeptin in women with gestational diabetes mellitus: A meta-analysis.",
+      "authors": "He Y, Li X, Li X, Cui W, Zhang S.",
+      "year": 2024,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:38642385",
+      "pmcid": "PMC11378997",
+      "doi": "10.17305/bb.2024.10377",
+      "title": "Probiotics for the prevention of gestational diabetes mellitus: A meta-analysis of randomized controlled trials.",
+      "authors": "Li X, Zhang L, He Y, Zhang D, Zhang S.",
+      "year": 2024,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 6
+    },
+    {
+      "record_id": "epmc:MED:39115338",
+      "pmcid": "PMC11496844",
+      "doi": "10.17305/bb.2024.10743",
+      "title": "The efficacy of Salvia-ligustrazine and Ligustrazine in treating gestational hypertension: A systematic review and meta-analysis.",
+      "authors": "Ji R, Gan Q, Shu X, Xu R, Huang X, Shen T.",
+      "year": 2024,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:36200436",
+      "pmcid": "PMC10113936",
+      "doi": "10.17305/bjbms.2022.8175",
+      "title": "Metabolic aspects of surgical subcutaneous fat removal: An umbrella review and implications for future research.",
+      "authors": "Badran S, Doi SA, Hamdi M, Hammouda A, Alharami S, Clark J, Musa OAH, Abou-Samra AB, Habib AM.",
+      "year": 2023,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 6
+    },
+    {
+      "record_id": "epmc:MED:38112517",
+      "pmcid": "PMC11293221",
+      "doi": "10.17305/bb.2023.9902",
+      "title": "Ultrasonographic abdominal adipose tissue thickness for the prediction of gestational diabetes mellitus: A meta-analysis.",
+      "authors": "Hou S, Xiao X, Chen D.",
+      "year": 2023,
+      "journal": "Biomolecules & biomedicine",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:41400625",
+      "pmcid": "PMC12751036",
+      "doi": "10.1042/bsr20253283",
+      "title": "miRNAs as potential biomarkers for early detection of prediabetes among obesity: a systematic review.",
+      "authors": "Keng-Lim BW, Chen-Ng KY, Yee-Lee J, Hsein-Chen C, Ling-Chang W, Yian-Koh R, Philip-Kunnath A, Moi-Chye S.",
+      "year": 2025,
+      "journal": "Bioscience reports",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:31793983",
+      "pmcid": "PMC6946623",
+      "doi": "10.1042/bsr20193130",
+      "title": "Prediabetes predicts adverse cardiovascular outcomes after percutaneous coronary intervention: a meta-analysis.",
+      "authors": "Zhao Y, Guo M, Shi G.",
+      "year": 2020,
+      "journal": "Bioscience reports",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 11
+    },
+    {
+      "record_id": "epmc:MED:30988077",
+      "pmcid": "PMC6684948",
+      "doi": "10.1042/bsr20190299",
+      "title": "Are SGLT2 polymorphisms linked to diabetes mellitus and cardiovascular disease? Prospective study and meta-analysis.",
+      "authors": "Drexel H, Leiherer A, Saely CH, Brandtner EM, Geiger K, Vonbank A, Fraunberger P, Muendlein A.",
+      "year": 2019,
+      "journal": "Bioscience reports",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 12
+    },
+    {
+      "record_id": "epmc:MED:39852113",
+      "pmcid": "PMC11763468",
+      "doi": "10.3390/bios15010062",
+      "title": "Is Breath Best? A Systematic Review on the Accuracy and Utility of Nanotechnology Based Breath Analysis of Ketones in Type 1 Diabetes.",
+      "authors": "Marfatia K, Ni J, Preda V, Nasiri N.",
+      "year": 2025,
+      "journal": "Biosensors",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:36354474",
+      "pmcid": "PMC9688383",
+      "doi": "10.3390/bios12110965",
+      "title": "A Concise and Systematic Review on Non-Invasive Glucose Monitoring for Potential Diabetes Management.",
+      "authors": "Laha S, Rajput A, Laha SS, Jadhav R.",
+      "year": 2022,
+      "journal": "Biosensors",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 24
+    }
+  ],
+  "receipt_sha256": "900b0294d6dc56586ddd6573a24067e615377ef5fe6bdedc17d778bd609f0f60"
+}

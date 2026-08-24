@@ -25,3 +25,6 @@ tools/ref-figures/
 
 # release artifacts (local distribution builds)
 releases/
+
+# private author-held manuscript and figures (not public distribution)
+_deliverables/

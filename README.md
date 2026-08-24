@@ -1,239 +1,119 @@
-<p align="center">
-  <img src="plugins/metawingman/.codex-plugin/assets/logo.png" width="112" alt="MetaWingman logo"/>
-</p>
+# MetaWingman
 
-<h1 align="center">MetaWingman</h1>
+> **Skill-driven, decision-object agent for evidence synthesis.** 面向系统评价 / meta 分析的"决策驱动"自主证据合成 agent：把临床流行病学家做系统评价时必须做的**三类判断**——该用哪种设计、该不该 pooling、还差多少证据该停——做成 agent 的**第一等决策对象**，并让 agent 贯穿全流程。
 
-<p align="center"><b>A systematic-review and meta-analysis Agent + Skill for choosing consequential review questions and directing evidence work toward conclusion risk.</b></p>
+当前状态：**实验性 / 开发中**（decision-object 架构 + 证据链已跑通；详见 [实验评估](#实验评估) 与 [research/](research/) 的版本化结果）。
 
-<p align="center">
-  <a href="#start-in-60-seconds">Quick start</a> ·
-  <a href="docs/README.md">Documentation</a> ·
-  <a href="docs/STATUS.md">Scientific status</a> ·
-  <a href="#中文说明">中文</a>
-</p>
-
-<!-- readme-metrics:start -->
-[![license](https://img.shields.io/badge/license-MIT-15803D)](LICENSE)
-[![release](https://img.shields.io/badge/release-v0.1.6-2563EB)](https://github.com/fsy2004/MetaWingman/releases)
-![R toolkit](https://img.shields.io/badge/R_modules-26-276DC3)
-![manifests](https://img.shields.io/badge/manifests-61-7C3AED)
-![schemas](https://img.shields.io/badge/schemas-87-0F766E)
-<!-- readme-metrics:end -->
+---
 
 ## Why MetaWingman
 
-Most review automation stops at a task: retrieve records, screen abstracts,
-extract fields, or draft prose. MetaWingman coordinates the scientific decisions
-that connect those tasks. It carries one typed review state from topic selection
-and protocol design through search, screening, extraction, appraisal,
-meta-analysis, certainty, reporting, and living updates.
+系统评价不是"检索后取一个均值"，而是在证据不确定性下做**可负责的判断**。真实临床实践里有三个高代价问题：
 
-The project is distributed in two forms:
+1. **设计选择被忽视** —— 常默认用"配对 meta"，而干预比较 / 诊断准确性 / 预后预测 / 患病率 / 暴露-结局性质不同，该用不同设计；**选错设计 → 结论不可靠**。
+2. **误导性 pooling** —— 异质、不连通、不同构的证据硬拼成一个 pooled 数，给临床医生"伪精确、实则误导"的答案，比"不够精确"更危险。
+3. **无限期更新 / 人工重** —— 系统评价高度依赖人工，更新节奏与"证据是否真的需要更新"脱节。
 
-- **Agent:** executes the review workflow with the host model, deterministic tools,
-  state transitions, verifiers, and abstention.
-- **Skill:** supplies the reusable methodology, schemas, scripts, review-profile
-  contracts, and responsibility gates that make the workflow portable across hosts.
+---
 
-## Two control loops
+## What you get
 
-### 1. Decision-aware topic opportunity control
+- **Agent 架构**：`metawingman/agent/` —— 决策对象（E-R-V：estimand→risk→value）、可证风险控制、信息价值停止、网状搜索、开放思考、全流程编排。
+- **Skill**：`metawingman` Skill —— 系统评价 / 证据合成的方法学与门控（PRISMA / GRADE / 风险 / 临床可及性）。
+- **方法学**：三类临床判断 = 一等决策对象；方法轨迹学习（从真实系统评价学"过程"、剥离结果）；贴合度基准。
+- **可运行脚本**：`scripts/` —— 抽取真实系统评价方法轨迹、构建训练数据、跑设计选择 / 贴合度 / 对照。
 
-MetaWingman builds a time-bounded evidence landscape before protocol freeze. It
-turns gaps, discordance, update signals, priorities, and cross-domain links into
-operational review questions, then checks decision relevance, feasibility,
-nonduplication, contamination, and portfolio diversity.
+---
 
-### 2. Conclusion-directed evidence acquisition
+## Quick start
 
-During a review, MetaWingman links unresolved protocol criteria to the claims they
-can change. Residual omission risk and downstream claim impact determine the next
-lawful search, retrieval, opposition, verification, compute, stopping-candidate, or
-abstention action.
+```bash
+# 安装（Windows PowerShell）
+./install.ps1
 
-These policies share an executable substrate:
+# 设计选择基准（8-strata，决策对象 vs 无条件基线）
+python scripts/run_design_selection_benchmark.py
 
-- question and synthesis-method co-design;
-- `record → report → study → result → claim` lineage;
-- hash-addressed protocols, evidence, analyses, and living updates;
-- source anchors and deterministic executable checks;
-- a bundled R engine for reproducible meta-analysis;
-- sealed evaluation plans, receipts, locks, and family-isolated training.
+# 真实 meta 贴合度（OOD，严格解析、不 fallback）
+python scripts/run_fidelity_real.py --signal research/method-trace-holdout-signal.jsonl \
+    --out research/method-trace-fidelity-holdout.json
 
-## One review state, end to end
-
-```mermaid
-flowchart LR
-    T[Topic landscape] --> P[Protocol]
-    P --> S[Search and acquisition]
-    S --> C[Screening]
-    C --> E[Extraction and lineage]
-    E --> R[Risk of bias]
-    R --> M[Meta-analysis or SWiM]
-    M --> G[Certainty and claims]
-    G --> W[Writing and review]
-    W --> U[Living update]
-    U --> T
+# 决策对象 vs 裸模型（方法增量）
+python scripts/run_bare_llm_fidelity.py
 ```
 
-Every accepted transition has a typed input, a validator, an evidence anchor, an
-output hash, and a downstream consequence. High-risk scientific decisions can be
-blocked or returned for accountable human action instead of being silently accepted.
+测试：
 
-## Start in 60 seconds
-
-### Install as a Codex plugin
-
-```powershell
-codex plugin marketplace add fsy2004/MetaWingman
-codex plugin add metawingman@metawingman-local
+```bash
+python -m unittest discover -s tests -p "test_design_selection.py"
+python -m unittest discover -s tests -p "test_design_selection_eval.py"
+python -m unittest discover -s tests -p "test_design_selection_benchmark.py"
+python -m unittest discover -s tests -p "test_agent_workflow.py"
 ```
 
-### Or clone the repository
+---
 
-```powershell
-git clone https://github.com/fsy2004/MetaWingman.git
-cd MetaWingman
-.\install.ps1
+## How it works：把从业者判断做成一等决策对象
+
+每个决策对象暴露统一接口：**输入**（临床问题 + 证据结构）→ **决策**（类型化）→ **证据**（reason-codes）→ **校验**（失败→abstain/开放）→ **反馈**（下一最有信息的问题）→ **保证**（α 风险或 abstain）。
+
+- **判断 A — 该用哪种设计**（estimand-first）：从临床问题性质与证据结构（比较臂数 / 参照标准 / 预测模型 / 结果度量）先识别 estimand 与识别假设，再定合成路线；异质/不连通 → 叙述综合（SWiM），**不硬 pooling**。
+- **判断 B — 该不该 pooling**（可证风险控制）：在 **α 风险保证**下对（人群/对比/结局/时间/效应度量/分析单位/条件集）做 estimand 对齐；任一不可比/未覆盖 → 强制叙述综合/abstain。
+- **判断 C — 还差多少证据 / 何时停**（信息价值）：对每个证据缺口算 **EVPI**；最高 EVPI ≤ 信息成本 → 停（把"更新节奏"从时间驱动改为证据价值驱动）。
+
+**全流程（专业团队）**：提案/反对/裁判；PICO → 网状检索 → 筛选 → 偏倚 → estimand → 综合 → pooling 守卫 → GRADE → 结论/更新。每阶段产出**可保存、可复现、可逐环节校验**的中间对象。
+
+**方法轨迹学习**：从**真实顶刊系统评价**学习"方法轨迹"（用了哪种设计/如何处理异质性/是否 pooling/何时停），**剥离一切数值结果**——agent 只能学过程，不能背答案；以"与真实系统评价做法的一致性（agreement, published_expert_reference）"为标准，报告 agreement 而非真理准确率。
+
+---
+
+## 实验评估
+
+> 开发证据（非同行评议）。结果详见 [research/](research/) 的版本化文件；报告以"与真实顶刊系统评价（published_expert_reference）的贴合度"为标准，OOD holdout（与训练/开发不同论文）、严格解析（解析失败计 0，绝不 fallback 到参考）。
+
+| 场景 | 结果 | 证据文件 | 说明 |
+|---|---|---|---|
+| 规则 agent 基线（8-strata） | dev **0.649**；guard_consistency 0.525（短板） | research/method-trace-fidelity-real.json | 决策对象在真实 meta 上的贴合度 |
+| 规则 agent（OOD holdout） | **0.911**（按 profile 分层：exposure 0.15–0.20 / diagnostic 0.225 为短板） | research/method-trace-fidelity-holdout.json | 构成偏 pairwise；需按 profile 分层看 |
+| **方法增量**（同模型同数据） | 裸模型 **0.725** vs 决策对象 **0.900**，Δ=**+0.175** | research/bare-llm-holdout.json | 尤其补齐"该不该 pooling"（裸模型在 narrative 全错） |
+| 训练 / 跨模型可实现 | 1.5B+40 条 **0.0**（40/40 解析失败）→ 1.5B+**210 条 0.594**（parse_fail 3/40；短板 exposure 0.20→0.95） | research/method-trace-fidelity-real.json + 方法学设计文档 | **"训练量不够"成立**；方法轨迹学习+加数据可行（honest eval：`scripts/run_design_lora_sft.py` + `honest_rerun`，原始结果文件在训练服务器、未入库） |
+
+> 依据（方法）：真实系统评价结构信号独立抽取（剥离线果、禁预置 meta 分类）；gold 独立于 agent 映射表；贴合度逐维对齐。
+
+---
+
+## 目录结构
+
+```
+metawingman/
+  agent/        决策对象架构（decision_core / poolability_guard / evpi_director /
+                graph_search_director / open_deliberation / flow_director）
+  training/     方法轨迹学习（method_trace_extractor / normalizer / fidelity / expert_judge / align_dpo）
+  benchmark/    设计选择（gold_loader / landscape_builder / cli）
+scripts/        CLI 实验与数据构建（run_* / build_*）
+research/       版本化证据（gold、signals、fidelity 结果）
+tests/          单元测试（decision-object、fidelity、基准 CLI）
+docs/           文档
 ```
 
-Invoke the Skill with the scientific state you already have:
+---
 
-```text
-$metawingman
+## 文档与治理
 
-Review question: ...
-Current stage: topic / protocol / search / screen / extract / appraise / analyze / write / update
-Available material: protocol, searches, RIS/CSV, PDFs, extraction tables, or analysis data
-Required output: decision record, reproducible project, tables, figures, GRADE, manuscript, or audit
-```
+- **完整性 / 使用**：[ACCEPTABLE_USE.md](ACCEPTABLE_USE.md)、[PRIVACY.md](PRIVACY.md)、[SUPPORT.md](SUPPORT.md)。
+- **安全**：[SECURITY.md](SECURITY.md)。
+- **许可**：[LICENSE](LICENSE)。
 
-You can start at any stage. MetaWingman inspects the live project state, identifies
-the next gate, and produces auditable work that can be resumed by another compatible
-Agent.
+---
 
-## What you can build
+## 引用
 
-| Goal | MetaWingman output |
-|---|---|
-| Choose a review or update | evidence landscape, overlap map, opportunity dossier, decision record |
-| Freeze a protocol | typed review question, estimand, eligibility, outcomes, analysis and update policy |
-| Run a reproducible search | source-specific strategies, exports, hashes, deduplication and acquisition state |
-| Screen and extract | criterion-level dossiers, source anchors, report-study-result lineage |
-| Appraise evidence | result-level risk-of-bias dossiers and synthesis-level missing-evidence state |
-| Run meta-analysis | frozen analysis manifest, deterministic R output, diagnostics and sensitivity analyses |
-| Write and update | certainty-linked claims, manuscript assets, reviewer audit and change-impact rerun plan |
+项目处于开发阶段；引用格式一经定稿会将方法学与证据文件一并归档。社区/教程/贡献细则见 [SUPPORT.md](SUPPORT.md) 与 [docs/](docs/)。
 
-MetaWingman supports intervention, diagnostic, prognostic, prevalence, harms,
-network, dose-response, IPD, prediction-model, living, scoping, rapid, and other
-review profiles through native routes, profile-guarded generic routes, or explicit
-external-tool handoffs. See the [current status](docs/STATUS.md) for the live depth
-and validation level of each capability.
+---
 
-## Scientific evidence
+## 维护提示（对贡献者）
 
-Software coverage, component performance, locked AI-only feasibility, published
-reconstruction, and prospective scientific validation are reported as different
-evidence levels. The current dated evidence includes:
-
-- a machine-audited ten-stage lifecycle and review-profile routing contracts;
-- a locked 225-run question-and-method feasibility benchmark;
-- deterministic R adapter reconstruction and change-impact replay;
-- family-isolated component training with immutable server receipts, including
-  the [three-seed full-pool retrieval evaluation](docs/architecture/retrieval-v4-asymmetric-medcpt-results-2026-08-21.md).
-
-Read the [scientific status](docs/STATUS.md),
-[evaluation contract](docs/architecture/methodology-grounded-evaluation-contract.md),
-and [R5 feasibility report](docs/architecture/question-synthesis-r5-feasibility-report-2026-08-21.md)
-before citing a performance claim. Interface tests and software breadth do not by
-themselves establish end-to-end review accuracy or clinical validity.
-
-## Repository map
-
-```text
-MetaWingman/
-├── metawingman/               # canonical Skill: methods, schemas, scripts
-├── toolkit/R/                 # deterministic meta-analysis engine
-├── .agents/skills/            # generated Agent bundle
-├── plugins/metawingman/       # generated Codex plugin
-├── docs/                      # methods, status, reports, runbooks
-├── research/                  # public registries and frozen plans
-├── tests/                     # contract and regression tests
-└── scripts/                   # build, release and README maintenance
-```
-
-<!-- readme-inventory:start -->
-| Repository metric | Current |
-|---|---:|
-| Python entry points | 88 |
-| JSON schemas | 87 |
-| R analysis modules | 26 |
-| R adapter manifests | 61 |
-| R adapters | 15 |
-<!-- readme-inventory:end -->
-
-`metawingman/` and `toolkit/` are the authoritative sources. Rebuild
-`.agents/skills/` and `plugins/` from them; do not hand-edit generated bundles.
-
-## Development and verification
-
-```powershell
-python -m unittest discover -s .\tests -p "test_*.py" -v
-python .\metawingman\scripts\test_r_adapters.py .\metawingman
-python .\scripts\build_skill_bundle.py
-python .\scripts\verify_skill_bundle.py .\.agents\skills\metawingman
-python .\scripts\verify_skill_bundle.py .\plugins\metawingman\skills\metawingman
-python .\scripts\verify_dependency_locks.py
-python .\scripts\update_readme.py --check
-```
-
-README metrics are generated from canonical sources. The maintenance and release
-rules are documented in [docs/README_MAINTENANCE.md](docs/README_MAINTENANCE.md).
-
-## 中文说明
-
-MetaWingman 是一个面向系统综述与 Meta 分析完整生命周期的 Agent + Skill。
-它不把检索、筛选、提取、统计和写作当作彼此孤立的 AI 任务，而是把选题、
-方案、来源、研究、结果、结论和更新连接成同一份可审计科学状态。
-
-项目围绕两个控制环展开：
-
-1. **决策感知的选题机会控制：** 在方案冻结前构建带时间边界的证据版图，
-   从决策价值、未解决不确定性、可行性、非重复性、污染风险和组合多样性中
-   选择值得开展的综述或更新。
-2. **结论导向的证据获取：** 在综述执行中，把方案标准的残余风险连接到可能
-   受影响的结论，决定下一次检索、全文获取、反方核查、验证、计算、候选停止
-   或弃权动作。
-
-```powershell
-git clone https://github.com/fsy2004/MetaWingman.git
-cd MetaWingman
-.\install.ps1
-```
-
-```text
-$metawingman
-
-研究问题：……
-当前阶段：选题 / 方案 / 检索 / 筛选 / 提取 / 评价 / 分析 / 写作 / 更新
-已有材料：方案、检索式、RIS/CSV、PDF、提取表或分析数据
-期望输出：决策记录、可复现项目、表图、GRADE、稿件或审查报告
-```
-
-MetaWingman 默认执行可逆、可审计、可验证的工作。需要独立完成的纳入判断、
-关键提取值、偏倚风险、是否合并、统计模型、证据确定性、最终结论和投稿责任
-仍按所选方法学规范交由具名研究者确认。能力深度和验证状态见
-[docs/STATUS.md](docs/STATUS.md)。
-
-## Citation, contact and licence
-
-For method claims, cite the dated report that produced the result. For software,
-cite the exact [release](https://github.com/fsy2004/MetaWingman/releases) used in
-your review. Questions and reproducible bug reports are welcome through GitHub
-Issues. Project contact: [Fang Shenyi](mailto:fangshenyi@zcmu.edu).
-
-Code in this repository is released under the [MIT License](LICENSE). R packages,
-databases, model providers, and full-text sources retain their own licences and
-terms. See [Security](SECURITY.md), [Privacy](PRIVACY.md),
-[Acceptable Use](ACCEPTABLE_USE.md), and [Support](SUPPORT.md).
+- 本仓库的**定位 / 解释 / 限制 / 科学结论**由人工复核；**机制事实**（版本、组件数、测试数、结果文件）自动维护。
+- 实验证据默认写入 `research/`，并注明**日期与版本**（file + receipt sha256）；**任何结果声明必须绑定到该版本化证据文件**。
+- 更新 README 的范式见本项目 `docs/README_MAINTENANCE.md` 与 `.agents/skills/readme-maintainer/`（自述文件契约 + skill）。

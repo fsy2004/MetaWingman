@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0",
+  "source": "method-trace-gold-independent.jsonl",
+  "extracted_rows": 40,
+  "normalized_gold": 14,
+  "skipped": 26,
+  "profile_distribution": {
+    "public_health_exposure": 11,
+    "intervention_network": 3
+  },
+  "pooled_count": 12,
+  "living_count": 5,
+  "n_profiles_covered": 2,
+  "gold": [
+    {
+      "case_id": "epmc:MED:36367845",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "poolable": true,
+      "living_review": false,
+      "source_text": "Systematic review with meta-analysis of observational studies (cohort studies) and case-control studies.",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:41459237",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "poolable": false,
+      "living_review": false,
+      "source_text": "This review appears to be a narrative review or systematic review without meta-analysis, as it discusses associations without a formal meta-analytic design.",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:34935992",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "poolable": true,
+      "living_review": true,
+      "source_text": "Systematic review and meta-analysis following PRISMA guidelines, with literature search in PubMed, Embase, and Cochrane Library from inception to March 2021. St",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:33073295",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "poolable": true,
+      "living_review": true,
+      "source_text": "Systematic review and meta-analysis of observational studies",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:40471293",
+      "design_selection": "intervention_network",
+      "estimand_identification": "nma_consistency",
+      "synthesis_choice": "network meta-analysis with a single baseline consistency model",
+      "poolable": true,
+      "living_review": true,
+      "source_text": "systematic review and network meta-analysis",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:38684540",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "poolable": true,
+      "living_review": true,
+      "source_text": "Systematic review and meta-analysis of observational studies",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:37340183",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "poolable": true,
+      "living_review": false,
+      "source_text": "systematic review and meta-analysis of clinical trials and observational studies",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:32583078",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "poolable": true,
+      "living_review": false,
+      "source_text": "Systematic review and meta-analysis of observational studies and clinical trials that reported mortality in COVID-19 patients with and without diabetes.",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:33778910",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "poolable": true,
+      "living_review": true,
+      "source_text": "Systematic review and meta-analysis of observational studies (cohort, case-control, and cross-sectional) and randomized controlled trials that reported in-hospi",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:34159476",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "poolable": true,
+      "living_review": false,
+      "source_text": "systematic review and meta-analysis of observational studies",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:40836392",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "poolable": false,
+      "living_review": false,
+      "source_text": "systematic review of randomized trials and observational studies",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:40356262",
+      "design_selection": "intervention_network",
+      "estimand_identification": "nma_consistency",
+      "synthesis_choice": "network meta-analysis with a single baseline consistency model",
+      "poolable": true,
+      "living_review": false,
+      "source_text": "systematic review and Bayesian network meta-analysis",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:40020921",
+      "design_selection": "intervention_network",
+      "estimand_identification": "nma_consistency",
+      "synthesis_choice": "network meta-analysis with a single baseline consistency model",
+      "poolable": true,
+      "living_review": false,
+      "source_text": "systematic review and network meta-analysis of randomized controlled trials",
+      "source": "independent_real_published_review_extraction"
+    },
+    {
+      "case_id": "epmc:MED:40122386",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "poolable": true,
+      "living_review": false,
+      "source_text": "systematic review and dose-response meta-analysis of prospective cohort studies",
+      "source": "independent_real_published_review_extraction"
+    }
+  ],
+  "receipt_sha256": "b623e1913d87be9159a88b4793514f36159d82f81b0b61714ef8257980e015dc"
+}

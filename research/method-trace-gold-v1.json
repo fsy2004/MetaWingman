@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "source": "design-selection-gold-v1.json",
+  "reference_type": "published_expert_reference",
+  "note": "GOLD IS NOT YET INDEPENDENT: these trajectories are currently derived from the standard profile/identification/synthesis maps that the agent also uses, so a fidelity of 1.0 is a same-source self-check, NOT a discriminating measured fidelity. A genuinely independent gold trajectory must be extracted verbatim from the methods section of the real published reviews (no reference to our maps). Replace this file with the server-extracted independent trajectories before reporting fidelity as a real number. Outcome values are stripped.",
+  "count": 11,
+  "references": [
+    {
+      "case_id": "bmj-covid-therapies-living-nma",
+      "design_selection": "intervention_network",
+      "estimand_identification": "nma_consistency",
+      "synthesis_choice": "network meta-analysis with a single baseline consistency model",
+      "heterogeneity_handling": "(network) consistency model with node-split and clinical subgrouping",
+      "poolable": true,
+      "living_review": true,
+      "source": "real published top-journal systematic review method process (representative cases)"
+    },
+    {
+      "case_id": "nature-psychological-wellbeing",
+      "design_selection": "intervention_pairwise",
+      "estimand_identification": "rct_contrast",
+      "synthesis_choice": "random-effects pairwise meta-analysis (REML; Hartung-Knapp where suitable)",
+      "heterogeneity_handling": "random-effects with subgroup/meta-regression on the single contrast",
+      "poolable": true,
+      "living_review": false,
+      "source": "real published top-journal systematic review method process (representative cases)"
+    },
+    {
+      "case_id": "bmj-exercise-depression-nma",
+      "design_selection": "intervention_network",
+      "estimand_identification": "nma_consistency",
+      "synthesis_choice": "network meta-analysis with a single baseline consistency model",
+      "heterogeneity_handling": "(network) consistency model with node-split and clinical subgrouping",
+      "poolable": true,
+      "living_review": true,
+      "source": "real published top-journal systematic review method process (representative cases)"
+    },
+    {
+      "case_id": "nature-obesity-pharmacotherapy-nma",
+      "design_selection": "intervention_network",
+      "estimand_identification": "nma_consistency",
+      "synthesis_choice": "network meta-analysis with a single baseline consistency model",
+      "heterogeneity_handling": "(network) consistency model with node-split and clinical subgrouping",
+      "poolable": true,
+      "living_review": false,
+      "source": "real published top-journal systematic review method process (representative cases)"
+    },
+    {
+      "case_id": "nature-heat-maternal-neonatal",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "heterogeneity_handling": "multi-level random effects with geographic/dose subgrouping; no naive pooling",
+      "poolable": true,
+      "living_review": false,
+      "source": "real published top-journal systematic review method process (representative cases)"
+    },
+    {
+      "case_id": "lancet-antidepressants-mdd-nma",
+      "design_selection": "intervention_network",
+      "estimand_identification": "nma_consistency",
+      "synthesis_choice": "network meta-analysis with a single baseline consistency model",
+      "heterogeneity_handling": "(network) consistency model with node-split and clinical subgrouping",
+      "poolable": true,
+      "living_review": false,
+      "source": "real published top-journal systematic review method process (representative cases)"
+    },
+    {
+      "case_id": "jama-portable-screen-sleep",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "heterogeneity_handling": "multi-level random effects with geographic/dose subgrouping; no naive pooling",
+      "poolable": true,
+      "living_review": false,
+      "source": "real published top-journal systematic review method process (representative cases)"
+    },
+    {
+      "case_id": "ag-rdt-living-dta",
+      "design_selection": "diagnostic_accuracy",
+      "estimand_identification": "reference_standard",
+      "synthesis_choice": "bivariate/hierarchical summary ROC with sensitivity at a pre-specified specificity",
+      "heterogeneity_handling": "bivariate/hierarchical SROC with sensitivity at a pre-specified specificity",
+      "poolable": true,
+      "living_review": true,
+      "source": "real published top-journal systematic review method process (representative cases)"
+    },
+    {
+      "case_id": "covid-suicide-self-harm-living",
+      "design_selection": "public_health_exposure",
+      "estimand_identification": "observational_adjustment",
+      "synthesis_choice": "multi-level random-effects meta-analysis with geo/dose subgrouping; avoid naive pooling of incommensurate metrics",
+      "heterogeneity_handling": "multi-level random effects with geographic/dose subgrouping; no naive pooling",
+      "poolable": true,
+      "living_review": true,
+      "source": "real published top-journal systematic review method process (representative cases)"
+    },
+    {
+      "case_id": "bmj-type2-diabetes-risk-models",
+      "design_selection": "prognostic_prediction",
+      "estimand_identification": "external_validity",
+      "synthesis_choice": "narrative of model performance with quantitative calibration pooling where meta-able",
+      "heterogeneity_handling": "calibration pooling where meta-able; narrative for discrimination",
+      "poolable": true,
+      "living_review": false,
+      "source": "real published top-journal systematic review method process (representative cases)"
+    },
+    {
+      "case_id": "jama-global-child-obesity-prevalence",
+      "design_selection": "prevalence_incidence",
+      "estimand_identification": "population_representativeness",
+      "synthesis_choice": "transformed-proportion meta-analysis with heterogeneity and prediction interval",
+      "heterogeneity_handling": "transformed proportion with prediction interval and geographical subgrouping",
+      "poolable": true,
+      "living_review": false,
+      "source": "real published top-journal systematic review method process (representative cases)"
+    }
+  ],
+  "receipt_sha256": "abf414ed7c78139bec47bdd68641ffd970251c5aeaf9e62a1e16144a199d8bce"
+}

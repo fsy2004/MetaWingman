@@ -1,0 +1,697 @@
+{
+  "scope": "real fidelity on 40 real published-meta reviews (independent structure signal; outcomes stripped)",
+  "n": 40,
+  "skipped": 0,
+  "mean_fidelity": 0.6487,
+  "mean_dimensions": {
+    "design_selection": 0.6,
+    "estimand_identification": 0.6,
+    "synthesis_route": 0.6,
+    "stop_decision": 1.0,
+    "guard_consistency": 0.525
+  },
+  "verdict": "partial_fidelity",
+  "per_case": [
+    {
+      "case_id": "epmc:MED:40490856",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "intervention_pairwise",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:36367845",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "public_health_exposure",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:35675085",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "intervention_pairwise",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:41459237",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "structured_no_pooling",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": false
+    },
+    {
+      "case_id": "epmc:MED:41340799",
+      "agent_profile": "prevalence_incidence",
+      "gold_profile": "prevalence_incidence",
+      "fidelity_total": 0.85,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": false
+    },
+    {
+      "case_id": "epmc:MED:34935992",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "public_health_exposure",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:33073295",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "public_health_exposure",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:39666113",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "public_health_exposure",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:39792171",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "intervention_pairwise",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:40471293",
+      "agent_profile": "intervention_network",
+      "gold_profile": "intervention_network",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:38684540",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "public_health_exposure",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:36527500",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "public_health_exposure",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:36593391",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "intervention_pairwise",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:36715767",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "public_health_exposure",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:37340183",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "intervention_pairwise",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:35534726",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "intervention_pairwise",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:35879478",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "intervention_pairwise",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:35930075",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "intervention_pairwise",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:32583078",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "public_health_exposure",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:33141338",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "diagnostic_accuracy",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:33547497",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "structured_no_pooling",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": false
+    },
+    {
+      "case_id": "epmc:MED:33651228",
+      "agent_profile": "intervention_network",
+      "gold_profile": "intervention_network",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:33778910",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "public_health_exposure",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:34159476",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "public_health_exposure",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:34173070",
+      "agent_profile": "prevalence_incidence",
+      "gold_profile": "prevalence_incidence",
+      "fidelity_total": 0.85,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": false
+    },
+    {
+      "case_id": "epmc:MED:30456728",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "intervention_pairwise",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:39585430",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "intervention_pairwise",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:39656503",
+      "agent_profile": "prevalence_incidence",
+      "gold_profile": "prevalence_incidence",
+      "fidelity_total": 0.85,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": false
+    },
+    {
+      "case_id": "epmc:MED:40836392",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "structured_no_pooling",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": false
+    },
+    {
+      "case_id": "epmc:MED:40356262",
+      "agent_profile": "intervention_network",
+      "gold_profile": "intervention_network",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:38700145",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "structured_no_pooling",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": false
+    },
+    {
+      "case_id": "epmc:MED:37670449",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "intervention_pairwise",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:40035397",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "intervention_pairwise",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:41437762",
+      "agent_profile": "prevalence_incidence",
+      "gold_profile": "prevalence_incidence",
+      "fidelity_total": 0.85,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": false
+    },
+    {
+      "case_id": "epmc:MED:39162358",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "structured_no_pooling",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": false
+    },
+    {
+      "case_id": "epmc:MED:41274516",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "structured_no_pooling",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": false
+    },
+    {
+      "case_id": "epmc:MED:42001953",
+      "agent_profile": "intervention_pairwise",
+      "gold_profile": "structured_no_pooling",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": false
+    },
+    {
+      "case_id": "epmc:MED:40020921",
+      "agent_profile": "intervention_network",
+      "gold_profile": "intervention_network",
+      "fidelity_total": 1.0,
+      "dimensions": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": true,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:40122386",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "public_health_exposure",
+      "fidelity_total": 0.15,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 0.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": true
+    },
+    {
+      "case_id": "epmc:MED:40419216",
+      "agent_profile": "structured_no_pooling",
+      "gold_profile": "diagnostic_accuracy",
+      "fidelity_total": 0.3,
+      "dimensions": {
+        "design_selection": 0.0,
+        "estimand_identification": 0.0,
+        "synthesis_route": 0.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "agent_living": false,
+      "gold_living": false,
+      "agent_poolable": false,
+      "gold_poolable": false
+    }
+  ],
+  "receipt_sha256": "76ebfdceb6ee8908b79ec1524e84d08ec6f51c5809a2ab8d2ab2b162793f1fdd"
+}

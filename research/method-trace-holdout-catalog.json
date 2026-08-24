@@ -1,0 +1,697 @@
+{
+  "schema_version": "1.0",
+  "source_corpus": "C:\\Users\\fsy\\Desktop\\MetaWingman\\research\\top-journal-training-corpus-v2.json",
+  "role": "holdout_ood",
+  "excluded_training_records": 40,
+  "count": 40,
+  "records": [
+    {
+      "record_id": "epmc:MED:41192777",
+      "pmcid": "PMC12677176",
+      "doi": "10.1016/j.advnut.2025.100550",
+      "title": "The Associations of General, Central, Visceral Obesity, and Body Fat Percentage with Cognitive Impairment in the Elderly: Meta-analysis and Mendelian Randomization Study.",
+      "authors": "Lu D, Ji X, An Y, Liu H, Zheng G, Liu Y, Yang H, Zhao Y, Zhao L, Xia Y.",
+      "year": 2025,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Review",
+        "review-article"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:37783307",
+      "pmcid": "PMC10831905",
+      "doi": "10.1016/j.advnut.2023.09.011",
+      "title": "The Role of Diet in the Prevention of Hypertension and Management of Blood Pressure: An Umbrella Review of Meta-Analyses of Interventional and Observational Studies.",
+      "authors": "Aljuraiban GS, Gibson R, Chan DS, Van Horn L, Chan Q.",
+      "year": 2024,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 32
+    },
+    {
+      "record_id": "epmc:MED:38072119",
+      "pmcid": "PMC10771892",
+      "doi": "10.1016/j.advnut.2023.100162",
+      "title": "Effect of Probiotic Supplementation on Intestinal Permeability in Overweight and Obesity: A Systematic Review of Randomized Controlled Trials and Animal Studies.",
+      "authors": "DiMattia Z, Damani JJ, Van Syoc E, Rogers CJ.",
+      "year": 2024,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, U.S. Gov't, Non-P.H.S.",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 36
+    },
+    {
+      "record_id": "epmc:MED:38184198",
+      "pmcid": "PMC10847486",
+      "doi": "10.1016/j.advnut.2024.100169",
+      "title": "Diet Overall and Hypocaloric Diets Are Associated With Improvements in Depression but Not Anxiety in People With Metabolic Conditions: A Systematic Review and Meta-Analysis.",
+      "authors": "Paris T, Daly RM, Abbott G, Sood S, Freer CL, Ryan MC, George ES.",
+      "year": 2024,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 9
+    },
+    {
+      "record_id": "epmc:MED:38311314",
+      "pmcid": "PMC10942868",
+      "doi": "10.1016/j.advnut.2024.100184",
+      "title": "The Mediterranean-Dietary Approaches to Stop Hypertension Intervention for Neurodegenerative Delay (MIND) Diet for the Aging Brain: A Systematic Review.",
+      "authors": "van Soest AP, Beers S, van de Rest O, de Groot LC.",
+      "year": 2024,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 50
+    },
+    {
+      "record_id": "epmc:MED:38493875",
+      "pmcid": "PMC11002795",
+      "doi": "10.1016/j.advnut.2024.100211",
+      "title": "Vitamins C, E, and \u03b2-Carotene and Risk of Type 2 Diabetes: A Systematic Review and Meta-Analysis.",
+      "authors": "Lampousi AM, Lundberg T, L\u00f6fvenborg JE, Carlsson S.",
+      "year": 2024,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 25
+    },
+    {
+      "record_id": "epmc:MED:38897385",
+      "pmcid": "PMC11301358",
+      "doi": "10.1016/j.advnut.2024.100262",
+      "title": "The Effect of Time-Restricted Eating Combined with Exercise on Body Composition and Metabolic Health: A Systematic Review and Meta-Analysis.",
+      "authors": "Dai Z, Wan K, Miyashita M, Ho RS, Zheng C, Poon ET, Wong SH.",
+      "year": 2024,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 17
+    },
+    {
+      "record_id": "epmc:MED:39009489",
+      "pmcid": "PMC11294752",
+      "doi": "10.1016/j.advnut.2024.100249",
+      "title": "Dietary Patterns and Cardiovascular Diseases in Asia: A Systematic Review and Meta-Analysis.",
+      "authors": "Lim GH, Neelakantan N, Lee YQ, Park SH, Kor ZH, van Dam RM, Chong MF, Chia A.",
+      "year": 2024,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 30
+    },
+    {
+      "record_id": "epmc:MED:39415400",
+      "pmcid": "PMC11540868",
+      "doi": "10.1016/j.advnut.2024.100294",
+      "title": "Vegetarian and Vegan Dietary Patterns to Treat Adult Type 2 Diabetes: A Systematic Review and Meta-Analysis of Randomized Controlled Trials.",
+      "authors": "Guest NS, Raj S, Landry MJ, Mangels AR, Pawlak R, Senkus KE, Handu D, Rozga M.",
+      "year": 2024,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 8
+    },
+    {
+      "record_id": "epmc:MED:39481539",
+      "pmcid": "PMC11629230",
+      "doi": "10.1016/j.advnut.2024.100330",
+      "title": "Effects of Dietary Approaches and Exercise Interventions on Gestational Diabetes Mellitus: A Systematic Review and Bayesian Network Meta-analysis.",
+      "authors": "Zhang L, Wang F, Tashiro S, Liu PJ.",
+      "year": 2024,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 16
+    },
+    {
+      "record_id": "epmc:MED:36803836",
+      "pmcid": "PMC10229384",
+      "doi": "10.1016/j.advnut.2022.12.002",
+      "title": "The Relationship Between Major Food Sources of Fructose and Cardiovascular Outcomes: A Systematic Review and Dose-Response Meta-Analysis of Prospective Studies.",
+      "authors": "Sun T, Zhang Y, Ding L, Zhang Y, Li T, Li Q.",
+      "year": 2023,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 16
+    },
+    {
+      "record_id": "epmc:MED:36811585",
+      "pmcid": "PMC10103003",
+      "doi": "10.1016/j.advnut.2022.10.001",
+      "title": "The impact of exercise and dietary interventions on circulating leptin and adiponectin in individuals who are overweight and those with obesity: A systematic review and meta-analysis.",
+      "authors": "Khalafi M, Hossein Sakhaei M, Kheradmand S, Symonds ME, Rosenkranz SK.",
+      "year": 2023,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 42
+    },
+    {
+      "record_id": "epmc:MED:36811594",
+      "pmcid": "PMC10102997",
+      "doi": "10.1016/j.advnut.2022.10.010",
+      "title": "Long-Term Consumption of 10 Food Groups and Cardiovascular Mortality: A Systematic Review and Dose Response Meta-Analysis of Prospective Cohort Studies.",
+      "authors": "Bhandari B, Liu Z, Lin S, Macniven R, Akombi-Inyang B, Hall J, Feng X, Schutte AE, Xu X.",
+      "year": 2023,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 29
+    },
+    {
+      "record_id": "epmc:MED:37028708",
+      "pmcid": "PMC10201832",
+      "doi": "10.1016/j.advnut.2023.04.001",
+      "title": "Nutrition and Exercise Interventions to Improve Body Composition for Persons with Overweight or Obesity Near Retirement Age: A Systematic Review and Network Meta-Analysis of Randomized Controlled Trials.",
+      "authors": "Eglseer D, Traxler M, Embacher S, Reiter L, Schoufour JD, Weijs PJM, Voortman T, Boirie Y, Cruz-Jentoft A, Bauer S, SO-NUTS consortium.",
+      "year": 2023,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Network Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 74
+    },
+    {
+      "record_id": "epmc:MED:37121469",
+      "pmcid": "PMC10334152",
+      "doi": "10.1016/j.advnut.2023.04.009",
+      "title": "Effect of Omega-3 Polyunsaturated Fatty Acids on Cardiovascular Outcomes in Patients with Diabetes: A Meta-analysis of Randomized Controlled Trials.",
+      "authors": "Huang L, Zhang F, Xu P, Zhou Y, Liu Y, Zhang H, Tan X, Ge X, Xu Y, Guo M, Long Y.",
+      "year": 2023,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "Review",
+        "review-article"
+      ],
+      "cited_by_count": 21
+    },
+    {
+      "record_id": "epmc:MED:37127186",
+      "pmcid": "PMC10334150",
+      "doi": "10.1016/j.advnut.2023.04.011",
+      "title": "Mediterranean Diet-Based Interventions to Improve Anthropometric and Obesity Indicators in Children and Adolescents: A Systematic Review with Meta-Analysis of Randomized Controlled Trials.",
+      "authors": "L\u00f3pez-Gil JF, Garc\u00eda-Hermoso A, Sotos-Prieto M, Cavero-Redondo I, Mart\u00ednez-Vizca\u00edno V, Kales SN.",
+      "year": 2023,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 74
+    },
+    {
+      "record_id": "epmc:MED:37149262",
+      "pmcid": "PMC10509427",
+      "doi": "10.1016/j.advnut.2023.05.004",
+      "title": "Tree Nut and Peanut Consumption and Risk of Cardiovascular Disease: A Systematic Review and Meta-Analysis of Randomized Controlled Trials.",
+      "authors": "Houston L, Probst YC, Chandra Singh M, Neale EP.",
+      "year": 2023,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 21
+    },
+    {
+      "record_id": "epmc:MED:37321474",
+      "pmcid": "PMC10509396",
+      "doi": "10.1016/j.advnut.2023.06.006",
+      "title": "Effects of Tocotrienol-Rich Fraction Supplementation in Patients with Type 2 Diabetes: A Systematic Review and Meta-Analysis of Randomized Controlled Trials.",
+      "authors": "Phang SCW, Ahmad B, Abdul Kadir K, M Palanisamy UD.",
+      "year": 2023,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 5
+    },
+    {
+      "record_id": "epmc:MED:37604307",
+      "pmcid": "PMC10721485",
+      "doi": "10.1016/j.advnut.2023.08.006",
+      "title": "The Effect of Zinc Supplementation on Lipid Profiles in Patients with Type 2 Diabetes Mellitus: A Systematic Review and Dose-Response Meta-Analysis of Randomized Clinical Trials.",
+      "authors": "Heidari Seyedmahalleh M, Montazer M, Ebrahimpour-Koujan S, Azadbakht L.",
+      "year": 2023,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 13
+    },
+    {
+      "record_id": "epmc:MED:37778442",
+      "pmcid": "PMC10721518",
+      "doi": "10.1016/j.advnut.2023.09.010",
+      "title": "Effect of Alpha-Linolenic Acid Supplementation on Cardiovascular Disease Risk Profile in Individuals with Obesity or Overweight: A Systematic Review and Meta-Analysis of Randomized Controlled Trials.",
+      "authors": "Yin S, Xu H, Xia J, Lu Y, Xu D, Sun J, Wang Y, Liao W, Sun G.",
+      "year": 2023,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 15
+    },
+    {
+      "record_id": "epmc:MED:35170723",
+      "pmcid": "PMC9526859",
+      "doi": "10.1093/advances/nmac016",
+      "title": "Impact of \u03b1-Linolenic Acid, the Vegetable \u03c9-3 Fatty Acid, on Cardiovascular Disease and Cognition.",
+      "authors": "Sala-Vila A, Fleming J, Kris-Etherton P, Ros E.",
+      "year": 2022,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article"
+      ],
+      "cited_by_count": 85
+    },
+    {
+      "record_id": "epmc:MED:35362512",
+      "pmcid": "PMC9526862",
+      "doi": "10.1093/advances/nmac032",
+      "title": "Unhealthy Food and Beverage Consumption in Children and Risk of Overweight and Obesity: A Systematic Review and Meta-Analysis.",
+      "authors": "Rousham EK, Goudet S, Markey O, Griffiths P, Boxer B, Carroll C, Petherick ES, Pradeilles R.",
+      "year": 2022,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 79
+    },
+    {
+      "record_id": "epmc:MED:36041171",
+      "pmcid": "PMC9776667",
+      "doi": "10.1093/advances/nmac077",
+      "title": "Consumption of Nuts and Seeds and Health Outcomes Including Cardiovascular Disease, Diabetes and Metabolic Disease, Cancer, and Mortality: An Umbrella Review.",
+      "authors": "Balakrishna R, Bj\u00f8rnerud T, Bemanian M, Aune D, Fadnes LT.",
+      "year": 2022,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 68
+    },
+    {
+      "record_id": "epmc:MED:32696948",
+      "pmcid": "PMC7850046",
+      "doi": "10.1093/advances/nmaa084",
+      "title": "Intake of Sugar-Sweetened and Low-Calorie Sweetened Beverages and Risk of Cardiovascular Disease: A Meta-Analysis and Systematic Review.",
+      "authors": "Yin J, Zhu Y, Malik V, Li X, Peng X, Zhang FF, Shan Z, Liu L.",
+      "year": 2021,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 133
+    },
+    {
+      "record_id": "epmc:MED:32722790",
+      "pmcid": "PMC7850144",
+      "doi": "10.1093/advances/nmaa087",
+      "title": "Effects of Dose and Duration of Zinc Interventions on Risk Factors for Type 2 Diabetes and Cardiovascular Disease: A Systematic Review and Meta-Analysis.",
+      "authors": "Pompano LM, Boy E.",
+      "year": 2021,
+      "journal": "Advances in nutrition (Bethesda, Md.)",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 69
+    },
+    {
+      "record_id": "epmc:MED:41678138",
+      "pmcid": "PMC13065581",
+      "doi": "10.1007/s12325-026-03491-w",
+      "title": "Transitioning Prostacyclin Pathway Agents to Oral Selexipag in Patients with Pulmonary Arterial Hypertension: A Systematic Literature Review.",
+      "authors": "Elwing JM, Krishnan M, Parikh KS, Sargent T, Wu S, Benninger C, Doad G, Hill W, Oswald C, Bridge DC, O'Donovan P, Maranes LV, Miller C.",
+      "year": 2026,
+      "journal": "Advances in therapy",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:41874854",
+      "pmcid": "PMC13156165",
+      "doi": "10.1007/s12325-026-03559-7",
+      "title": "Evidence-Based Positioning of Sodium-Glucose Co-transporter\u00a02 Inhibitors and Glucagon-Like Peptide\u00a01 Receptor Agonists in the Management of Chronic Kidney Disease with Type\u00a02 Diabetes and Overweight or Obesity: A Systematic Literature Review.",
+      "authors": "Handelsman Y, Cheng AYY, Fadini GP, Kushner P, Bonnet F, Fioretto P, Kadowaki T, Kanumilli N, Cos X, Frese T, Ji L, Murton M, Foulcer S, Pentakota S, Rossing P.",
+      "year": 2026,
+      "journal": "Advances in therapy",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:40748424",
+      "pmcid": "PMC12474703",
+      "doi": "10.1007/s12325-025-03324-2",
+      "title": "Clinical and Humanistic Burden of Adult Obesity in Asia-Pacific: A Systematic Literature Review.",
+      "authors": "Artime E, Zimner-Rapuch S, Chen R, Ji Q, Tatsuno I, Newson RS, Shingaki T, Si S, Kewley R, Riley S, Khare S.",
+      "year": 2025,
+      "journal": "Advances in therapy",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 0
+    },
+    {
+      "record_id": "epmc:MED:39039386",
+      "pmcid": "PMC11349800",
+      "doi": "10.1007/s12325-024-02941-7",
+      "title": "Clinical Efficacy and Safety of Anti-Obesity Medications Among Adult East Asian People with Obesity: A Systematic Literature Review and Indirect Treatment Comparison.",
+      "authors": "Yokote K, Ota R, Wada S, Matsuda H, Filomeno R.",
+      "year": 2024,
+      "journal": "Advances in therapy",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Comparative Study",
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:36633732",
+      "pmcid": "PMC9988771",
+      "doi": "10.1007/s12325-022-02415-8",
+      "title": "Obesity Burden and Impact of Weight Loss in Saudi Arabia: A Modelling Study.",
+      "authors": "Alqahtani SA, Al-Omar HA, Alshehri A, Abanumay A, Alabdulkarim H, Alrumaih A, Eldin MS, Schnecke V.",
+      "year": 2023,
+      "journal": "Advances in therapy",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 13
+    },
+    {
+      "record_id": "epmc:MED:37515713",
+      "pmcid": "PMC10499965",
+      "doi": "10.1007/s12325-023-02612-z",
+      "title": "Cost-Effectiveness of Newer Antidiabetic Drugs as Second-Line Treatment for Type 2 Diabetes: A Systematic Review.",
+      "authors": "Zhu J, Zhou Y, Li Q, Wang G.",
+      "year": 2023,
+      "journal": "Advances in therapy",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 12
+    },
+    {
+      "record_id": "epmc:MED:35947351",
+      "pmcid": "PMC9464736",
+      "doi": "10.1007/s12325-022-02242-x",
+      "title": "A Systematic Review, Meta-Analysis, and Indirect Comparison of Blindly Adjudicated Cardiovascular Event Incidence with Ferric Derisomaltose, Ferric Carboxymaltose, and Iron Sucrose.",
+      "authors": "Pollock RF, Kalra PA, Kalra PR, Ahmed FZ.",
+      "year": 2022,
+      "journal": "Advances in therapy",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:38223606",
+      "pmcid": "PMC10782311",
+      "doi": "10.4314/ahs.v23i2.59",
+      "title": "The epidemiology and characteristics of patients with diabetes with or without NASH: a systematic review.",
+      "authors": "Aldossari KK.",
+      "year": 2023,
+      "journal": "African health sciences",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:38223613",
+      "pmcid": "PMC10782340",
+      "doi": "10.4314/ahs.v23i2.48",
+      "title": "Therapeutic outcome of dapagliflozin in patients with type 2 diabetes and non-alcoholic fatty liver disease: a meta-analysis of randomized controlled trials.",
+      "authors": "Hu C, Qu T, Li L, Huang Y, Liu H, Rao C.",
+      "year": 2023,
+      "journal": "African health sciences",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:38974307",
+      "pmcid": "PMC11225477",
+      "doi": "10.4314/ahs.v23i4.32",
+      "title": "A systemic review and meta-analysis on the prevalence and associated factors of hypertension among adult clients in Ethiopia.",
+      "authors": "Ayalew TL, Wale BG, Zewudie BT.",
+      "year": 2023,
+      "journal": "African health sciences",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 3
+    },
+    {
+      "record_id": "epmc:MED:36910366",
+      "pmcid": "PMC9993283",
+      "doi": "10.4314/ahs.v22i3.27",
+      "title": "Association between physical exercise and all-cause and CVD mortality in patients with diabetes: an updated systematic review and meta-analysis.",
+      "authors": "Liu X, Wu Z, Li N.",
+      "year": 2022,
+      "journal": "African health sciences",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 8
+    },
+    {
+      "record_id": "epmc:MED:36910413",
+      "pmcid": "PMC9993257",
+      "doi": "10.4314/ahs.v22i3.28",
+      "title": "The effect of liraglutide on renal function in type 2 diabetes: a meta-analysis of randomized controlled studies.",
+      "authors": "Luo C, He D, Yang H, Zhu C, Zhu J, Hu Z.",
+      "year": 2022,
+      "journal": "African health sciences",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 4
+    },
+    {
+      "record_id": "epmc:MED:37092039",
+      "pmcid": "PMC10117504",
+      "doi": "10.4314/ahs.v22i4.57",
+      "title": "The impact of systemic hypertension on outcomes in hospitalized COVID-19 patients - a systematic review.",
+      "authors": "Ogunmodede JA, Ogunmodede AJ, Dele-Ojo BF, Yusuf IA, Akintunde AA, Bolarinwa OA, Omojasola TP, Katibi IA, Omotoso AB.",
+      "year": 2022,
+      "journal": "African health sciences",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 2
+    },
+    {
+      "record_id": "epmc:MED:34394274",
+      "pmcid": "PMC8356594",
+      "doi": "10.4314/ahs.v21i1.2",
+      "title": "The efficacy of dapagliflozin for type 1 diabetes: a meta-analysis of randomized controlled studies.",
+      "authors": "Ma J, Zhao Y, Fan H, Liu J.",
+      "year": 2021,
+      "journal": "African health sciences",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article"
+      ],
+      "cited_by_count": 1
+    },
+    {
+      "record_id": "epmc:MED:38287703",
+      "pmcid": "PMC10825241",
+      "doi": "10.1093/ageing/afad254",
+      "title": "Sodium-glucose cotransporter-2 inhibitors (SGLT2) in frail or older people with type 2 diabetes and heart failure: a systematic review and meta-analysis.",
+      "authors": "Aldafas R, Crabtree T, Alkharaiji M, Vinogradova Y, Idris I.",
+      "year": 2024,
+      "journal": "Age and ageing",
+      "journal_stratum": "broad_cardiometabolic",
+      "publication_types": [
+        "Journal Article",
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review"
+      ],
+      "cited_by_count": 48
+    }
+  ],
+  "receipt_sha256": "5e3e35a8321da66c6b1e9694755f91700d1eb7a299133b46742d74afea983b80"
+}

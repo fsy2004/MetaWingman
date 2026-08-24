@@ -13,7 +13,7 @@ Use this order:
 
 1. product name, one-sentence value, and primary navigation;
 2. generated release metrics;
-3. the Agent + Skill identity and the two control loops;
+3. the Agent + Skill identity and the decision-object design;
 4. the end-to-end review state and shortest runnable path;
 5. user goals and concrete outputs;
 6. a compact evidence section linked to dated status reports;
@@ -32,9 +32,10 @@ tables may be shared when duplication would make maintenance harder.
 - Start sections with the conclusion. Use active voice, short paragraphs, and
   concrete nouns.
 - Distinguish the product from its mechanisms: MetaWingman is an Agent and
-  reusable Skill; decision-aware topic control and conclusion-directed evidence
-  acquisition are the two headline policies; question--method co-design,
-  provenance, R adapters, multi-role compute, and verifiers are mechanisms.
+  reusable Skill; the *decision-object design* (estimand-first review-type choice,
+  risk-controlled pooling, and information-value stopping) is the headline design;
+  full-workflow team orchestration, method-trace learning, provenance, verifiers,
+  and abstention are mechanisms.
 - State what the software does, how to run it, what evidence supports it, and
   what remains unvalidated.
 - Avoid marketing adjectives, journal-prestige language, internal codenames,

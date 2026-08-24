@@ -1,0 +1,171 @@
+{
+  "scope": "fidelity of agent method trajectory vs real published-meta expert reference (outcomes stripped)",
+  "reference_type": "published_expert_reference",
+  "n": 11,
+  "mean_fidelity": 1.0,
+  "mean_dimensions": {
+    "design_selection": 1.0,
+    "estimand_identification": 1.0,
+    "synthesis_route": 1.0,
+    "stop_decision": 1.0,
+    "guard_consistency": 1.0
+  },
+  "verdict": "high_fidelity",
+  "per_case": [
+    {
+      "case_id": "bmj-covid-therapies-living-nma",
+      "agent_profile": "intervention_network",
+      "reference_profile": "intervention_network",
+      "fidelity_total": 1.0,
+      "dimension": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "verdict": "high_fidelity"
+    },
+    {
+      "case_id": "nature-psychological-wellbeing",
+      "agent_profile": "intervention_pairwise",
+      "reference_profile": "intervention_pairwise",
+      "fidelity_total": 1.0,
+      "dimension": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "verdict": "high_fidelity"
+    },
+    {
+      "case_id": "bmj-exercise-depression-nma",
+      "agent_profile": "intervention_network",
+      "reference_profile": "intervention_network",
+      "fidelity_total": 1.0,
+      "dimension": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "verdict": "high_fidelity"
+    },
+    {
+      "case_id": "nature-obesity-pharmacotherapy-nma",
+      "agent_profile": "intervention_network",
+      "reference_profile": "intervention_network",
+      "fidelity_total": 1.0,
+      "dimension": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "verdict": "high_fidelity"
+    },
+    {
+      "case_id": "nature-heat-maternal-neonatal",
+      "agent_profile": "public_health_exposure",
+      "reference_profile": "public_health_exposure",
+      "fidelity_total": 1.0,
+      "dimension": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "verdict": "high_fidelity"
+    },
+    {
+      "case_id": "lancet-antidepressants-mdd-nma",
+      "agent_profile": "intervention_network",
+      "reference_profile": "intervention_network",
+      "fidelity_total": 1.0,
+      "dimension": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "verdict": "high_fidelity"
+    },
+    {
+      "case_id": "jama-portable-screen-sleep",
+      "agent_profile": "public_health_exposure",
+      "reference_profile": "public_health_exposure",
+      "fidelity_total": 1.0,
+      "dimension": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "verdict": "high_fidelity"
+    },
+    {
+      "case_id": "ag-rdt-living-dta",
+      "agent_profile": "diagnostic_accuracy",
+      "reference_profile": "diagnostic_accuracy",
+      "fidelity_total": 1.0,
+      "dimension": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "verdict": "high_fidelity"
+    },
+    {
+      "case_id": "covid-suicide-self-harm-living",
+      "agent_profile": "public_health_exposure",
+      "reference_profile": "public_health_exposure",
+      "fidelity_total": 1.0,
+      "dimension": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "verdict": "high_fidelity"
+    },
+    {
+      "case_id": "bmj-type2-diabetes-risk-models",
+      "agent_profile": "prognostic_prediction",
+      "reference_profile": "prognostic_prediction",
+      "fidelity_total": 1.0,
+      "dimension": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "verdict": "high_fidelity"
+    },
+    {
+      "case_id": "jama-global-child-obesity-prevalence",
+      "agent_profile": "prevalence_incidence",
+      "reference_profile": "prevalence_incidence",
+      "fidelity_total": 1.0,
+      "dimension": {
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
+        "stop_decision": 1.0,
+        "guard_consistency": 1.0
+      },
+      "verdict": "high_fidelity"
+    }
+  ],
+  "receipt_sha256": "c4244959492486c5eebe9e867552e6f9e9022f875a905526e56978beefe1793e"
+}

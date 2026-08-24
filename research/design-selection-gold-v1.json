@@ -1,0 +1,84 @@
+{
+  "version": "1",
+  "kind": "design-selection-gold",
+  "note": "Representative-case gold review profiles (11 cases, 8 base strata + orthogonal living axis). Derived from research/direct-evidence-case-registry-v1.json with verified case identity + cutoff. The question: clinical/methodological shape; the landscape: the evidence-structure signals the design-selection skill consumes. Gold is the true review profile the reference synthesis actually used.",
+  "cases": [
+    {
+      "case_id": "bmj-covid-therapies-living-nma",
+      "question": {"type": "intervention", "intervention_count": 8, "is_living_or_update": true},
+      "landscape": {"arms_per_study": 3, "comparator_count": 8, "outcome_unit": "binary", "is_update": true, "n_nodes_assessed": true},
+      "gold_profile": "intervention_network",
+      "gold_living": true
+    },
+    {
+      "case_id": "nature-psychological-wellbeing",
+      "question": {"type": "intervention", "intervention_count": 2},
+      "landscape": {"arms_per_study": 2, "comparator_count": 1, "outcome_unit": "continuous", "n_nodes_assessed": true},
+      "gold_profile": "intervention_pairwise",
+      "gold_living": false
+    },
+    {
+      "case_id": "bmj-exercise-depression-nma",
+      "question": {"type": "intervention", "intervention_count": 5, "is_living_or_update": true},
+      "landscape": {"arms_per_study": 2, "comparator_count": 6, "outcome_unit": "continuous", "is_update": true, "n_nodes_assessed": true},
+      "gold_profile": "intervention_network",
+      "gold_living": true
+    },
+    {
+      "case_id": "nature-obesity-pharmacotherapy-nma",
+      "question": {"type": "intervention", "intervention_count": 6},
+      "landscape": {"arms_per_study": 3, "comparator_count": 8, "outcome_unit": "continuous", "n_nodes_assessed": true},
+      "gold_profile": "intervention_network",
+      "gold_living": false
+    },
+    {
+      "case_id": "nature-heat-maternal-neonatal",
+      "question": {"type": "exposure", "is_public_health_exposure": true},
+      "landscape": {"exposure_outcome_design": "observational", "has_geographic_dose_heterogeneity": true, "outcome_unit": "rate"},
+      "gold_profile": "public_health_exposure",
+      "gold_living": false
+    },
+    {
+      "case_id": "lancet-antidepressants-mdd-nma",
+      "question": {"type": "intervention", "intervention_count": 21},
+      "landscape": {"arms_per_study": 3, "comparator_count": 21, "outcome_unit": "binary", "n_nodes_assessed": true},
+      "gold_profile": "intervention_network",
+      "gold_living": false
+    },
+    {
+      "case_id": "jama-portable-screen-sleep",
+      "question": {"type": "exposure", "is_public_health_exposure": true},
+      "landscape": {"exposure_outcome_design": "observational", "outcome_unit": "continuous"},
+      "gold_profile": "public_health_exposure",
+      "gold_living": false
+    },
+    {
+      "case_id": "ag-rdt-living-dta",
+      "question": {"type": "diagnostic", "has_index_test_reference": true, "is_living_or_update": true},
+      "landscape": {"has_reference_standard": true, "is_update": true, "outcome_unit": "binary", "n_nodes_assessed": true},
+      "gold_profile": "diagnostic_accuracy",
+      "gold_living": true
+    },
+    {
+      "case_id": "covid-suicide-self-harm-living",
+      "question": {"type": "exposure", "is_public_health_exposure": true, "is_living_or_update": true},
+      "landscape": {"exposure_outcome_design": "observational", "is_update": true},
+      "gold_profile": "public_health_exposure",
+      "gold_living": true
+    },
+    {
+      "case_id": "bmj-type2-diabetes-risk-models",
+      "question": {"type": "prediction", "has_prediction_model": true},
+      "landscape": {"has_prediction_model": true, "outcome_unit": "rate", "n_nodes_assessed": true},
+      "gold_profile": "prognostic_prediction",
+      "gold_living": false
+    },
+    {
+      "case_id": "jama-global-child-obesity-prevalence",
+      "question": {"type": "prevalence"},
+      "landscape": {"outcome_unit": "proportion", "n_nodes_assessed": true},
+      "gold_profile": "prevalence_incidence",
+      "gold_living": false
+    }
+  ]
+}

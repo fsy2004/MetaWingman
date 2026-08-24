@@ -1,0 +1,132 @@
+{
+  "gold_path": "research\\design-selection-gold-v1.json",
+  "records_path": "research\\records-by-family-demo.json",
+  "cases": 11,
+  "source_of_signals": "records",
+  "strata_covered": [
+    "diagnostic_accuracy",
+    "intervention_network",
+    "intervention_pairwise",
+    "prevalence_incidence",
+    "prognostic_prediction",
+    "public_health_exposure"
+  ],
+  "skill": {
+    "profile_match_accuracy": 1.0,
+    "macro_over_strata": 1.0,
+    "living_flag_accuracy": 1.0,
+    "abstain_rate": 0.0,
+    "false_opportunity_rate": 0.0
+  },
+  "baselines": {
+    "unconditional intervention_pairwise": {
+      "profile_match_accuracy": 0.09090909090909091,
+      "abstain_rate": 0.0
+    },
+    "unconditional intervention_network": {
+      "profile_match_accuracy": 0.36363636363636365,
+      "abstain_rate": 0.0
+    }
+  },
+  "per_case": [
+    {
+      "case_id": "bmj-covid-therapies-living-nma",
+      "gold_profile": "intervention_network",
+      "predicted_profile": "intervention_network",
+      "correct": true,
+      "gold_living": true,
+      "predicted_living": true,
+      "confidence": 0.86
+    },
+    {
+      "case_id": "nature-psychological-wellbeing",
+      "gold_profile": "intervention_pairwise",
+      "predicted_profile": "intervention_pairwise",
+      "correct": true,
+      "gold_living": false,
+      "predicted_living": false,
+      "confidence": 0.84
+    },
+    {
+      "case_id": "bmj-exercise-depression-nma",
+      "gold_profile": "intervention_network",
+      "predicted_profile": "intervention_network",
+      "correct": true,
+      "gold_living": true,
+      "predicted_living": true,
+      "confidence": 0.86
+    },
+    {
+      "case_id": "nature-obesity-pharmacotherapy-nma",
+      "gold_profile": "intervention_network",
+      "predicted_profile": "intervention_network",
+      "correct": true,
+      "gold_living": false,
+      "predicted_living": false,
+      "confidence": 0.86
+    },
+    {
+      "case_id": "nature-heat-maternal-neonatal",
+      "gold_profile": "public_health_exposure",
+      "predicted_profile": "public_health_exposure",
+      "correct": true,
+      "gold_living": false,
+      "predicted_living": false,
+      "confidence": 0.8
+    },
+    {
+      "case_id": "lancet-antidepressants-mdd-nma",
+      "gold_profile": "intervention_network",
+      "predicted_profile": "intervention_network",
+      "correct": true,
+      "gold_living": false,
+      "predicted_living": false,
+      "confidence": 0.86
+    },
+    {
+      "case_id": "jama-portable-screen-sleep",
+      "gold_profile": "public_health_exposure",
+      "predicted_profile": "public_health_exposure",
+      "correct": true,
+      "gold_living": false,
+      "predicted_living": false,
+      "confidence": 0.8
+    },
+    {
+      "case_id": "ag-rdt-living-dta",
+      "gold_profile": "diagnostic_accuracy",
+      "predicted_profile": "diagnostic_accuracy",
+      "correct": true,
+      "gold_living": true,
+      "predicted_living": true,
+      "confidence": 0.9
+    },
+    {
+      "case_id": "covid-suicide-self-harm-living",
+      "gold_profile": "public_health_exposure",
+      "predicted_profile": "public_health_exposure",
+      "correct": true,
+      "gold_living": true,
+      "predicted_living": true,
+      "confidence": 0.8
+    },
+    {
+      "case_id": "bmj-type2-diabetes-risk-models",
+      "gold_profile": "prognostic_prediction",
+      "predicted_profile": "prognostic_prediction",
+      "correct": true,
+      "gold_living": false,
+      "predicted_living": false,
+      "confidence": 0.88
+    },
+    {
+      "case_id": "jama-global-child-obesity-prevalence",
+      "gold_profile": "prevalence_incidence",
+      "predicted_profile": "prevalence_incidence",
+      "correct": true,
+      "gold_living": false,
+      "predicted_living": false,
+      "confidence": 0.9
+    }
+  ]
+}
