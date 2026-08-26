@@ -81,12 +81,14 @@ python -m unittest discover -s tests -p "test_agent_workflow.py"
 
 | 场景 | 结果 | 证据文件 | 说明 |
 |---|---|---|---|
-| 规则 agent 基线（8-strata） | dev **0.649**；guard_consistency 0.525（短板） | research/method-trace-fidelity-real.json | 决策对象在真实 meta 上的贴合度 |
-| 规则 agent（OOD holdout） | **0.911**（按 profile 分层：exposure 0.15–0.20 / diagnostic 0.225 为短板） | research/method-trace-fidelity-holdout.json | 构成偏 pairwise；需按 profile 分层看 |
-| **方法增量**（同模型同数据） | 裸模型 **0.725** vs 决策对象 **0.900**，Δ=**+0.175** | research/bare-llm-holdout.json | 尤其补齐"该不该 pooling"（裸模型在 narrative 全错） |
-| 训练 / 跨模型可实现 | 1.5B+40 条 **0.0**（40/40 解析失败）→ 1.5B+**210 条 0.594**（parse_fail 3/40；短板 exposure 0.20→0.95） | research/method-trace-fidelity-real.json + 方法学设计文档 | **"训练量不够"成立**；方法轨迹学习+加数据可行（honest eval：`scripts/run_design_lora_sft.py` + `honest_rerun`，原始结果文件在训练服务器、未入库） |
+| 规则 agent 基线（dev 8-strata） | dev **0.649**；guard_consistency 0.525（短板） | research/method-trace-fidelity-real.json | 决策对象在真实 meta 上的贴合度 |
+| 规则 agent（OOD holdout, n=40） | **0.911**（95% CI 0.830–0.979） | research/method-trace-fidelity-holdout.json + research/bootstrap-ci.json | 构成偏 pairwise；需按 profile 分层看 |
+| **主结果：多样真实语料（n=170）** | 加权贴合度 **0.651**（95% CI 0.587–0.712）；设计 0.594 / pooling 0.571 / stop 1.000；**3 任务平均 0.722（0.674–0.769）** | research/method-trace-fidelity-large.json + research/multitask-agreement.json | 更难、更多样的真实语料（暴露 46 / 配对 51 / 患病率 27 / 不pool 18 / 诊断 13 / 预后 8 / 网状 7） |
+| **方法增量（同任务、像对像）** | 设计选择任务：裸模型 GLM **0.750**、DS **0.725** vs 决策对象 **0.900**，Δ=+0.150 / **+0.175（配对 95% CI 0.050–0.325）**；规则渐进：设计规则 0.770 → +guard 0.911（Δ **+0.141，CI 0.049–0.255**）；消融：去 estimand-first **−0.180（CI −0.195,−0.160）**、去 guard **−0.141（CI −0.255,−0.049）**、去 EVPI 0.0（无 living 病例） | research/cross-model-design-task.json / research/progressive-baseline.json / research/ablation-holdout.json + bootstrap-ci.json | 修正说明：早期 cross-*.json 将裸模型设计准确率与加权贴合度 0.911 相比（任务混比）；同任务比较见 cross-model-design-task.json |
+| **裸模型多任务对拍** | 同一提示同时问 design/pooled/living：holdout 3 任务 **0.917** vs 规则 **0.925**（Δ+0.008）；多样语料 **0.747** vs **0.722**（Δ−0.026；CI 重叠）；同输入重跑 0.917→0.892（±0.025 波动） | research/cross-ds-multitask-{holdout,large}.json + research/multitask-compare.json | 诚实结论：**强 API 模型问同样三问可达协议平手**；架构增量在**可证性/确定性/跨模型可实现性/α 风险保证**，而非协议优势 |
+| 训练 / 跨模型可实现 | 1.5B+40 条 **0.0**（40/40 解析失败）→ 1.5B+**210 条 0.575**（严格诚实评估：parse_fail 8/40，设计 0.500，pooling 0.700，stop 0.800；若仅看可解析 32 例：0.625/0.875/1.000） | research/method-trace-fidelity-lora-honest.json（严格解析、无 fallback；公共可复现脚本 scripts/evaluate_lora_design_honest.py） | **修正**：先前“0.594 (parse_fail 3/40)”来自旧评估脚本对解析失败 **fallback 到 gold**；严格无 fallback 为 0.575。训练是**可实现性**证据（低于规则 0.911），不是性能主张 |
 
-> 依据（方法）：真实系统评价结构信号独立抽取（剥离线果、禁预置 meta 分类）；gold 独立于 agent 映射表；贴合度逐维对齐。
+> 依据（方法）：真实系统评价结构信号独立抽取（剥离线果、禁预置 meta 分类）；gold 独立于 agent 映射表；贴合度逐维对齐；bootstrap 2000 次 × 5 seed（20260826–20260830）。
 
 ---
 
