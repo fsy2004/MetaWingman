@@ -1,0 +1,80 @@
+{
+  "scope": "progressive baselines on OOD holdout-40 (design_selection + weighted fidelity)",
+  "levels": {
+    "L0_bare_llm": {
+      "method": "bare LLM prompt (no decision-object flow; design choice only)",
+      "design_match": {
+        "glm-4.5-air": 0.75,
+        "deepseek-v4-flash_runA": 0.725,
+        "deepseek-v4-flash_runB": 0.75
+      },
+      "note": "design-choice only: the bare prompt returns a single design, no pooling or stop decision"
+    },
+    "L1_design_rule": {
+      "method": "design rule only (derive_review_design; no guard, no EVPI; always poolable)",
+      "design_match": 0.725,
+      "weighted_fidelity_mean": 0.7700000000000001,
+      "weighted_fidelity_ci95": [
+        0.6462,
+        0.8863
+      ],
+      "pooling_task": 0.75,
+      "three_task_mean": 0.825
+    },
+    "L2_plus_guard": {
+      "method": "L1 + risk-controlled pooling guard (EVPI still off)",
+      "design_match": 0.9,
+      "weighted_fidelity_mean": 0.9112500000000001,
+      "weighted_fidelity_ci95": [
+        0.8262,
+        0.9788
+      ],
+      "pooling_task": 0.875,
+      "three_task_mean": 0.925
+    },
+    "full": {
+      "method": "L3 full decision object (estimand-first + guard + EVPI)",
+      "design_match": 0.9,
+      "weighted_fidelity_mean": 0.9112500000000001,
+      "weighted_fidelity_ci95": [
+        0.8262,
+        0.9788
+      ],
+      "pooling_task": 0.875,
+      "three_task_mean": 0.925
+    },
+    "no_guard": {
+      "method": "(ablation) full minus guard",
+      "design_match": 0.725,
+      "weighted_fidelity_mean": 0.7700000000000001,
+      "weighted_fidelity_ci95": [
+        0.6462,
+        0.8863
+      ],
+      "pooling_task": 0.75,
+      "three_task_mean": 0.825
+    },
+    "no_estimand": {
+      "method": "(ablation) full minus estimand-first",
+      "design_match": 0.9,
+      "weighted_fidelity_mean": 0.73125,
+      "weighted_fidelity_ci95": [
+        0.6663,
+        0.7838
+      ],
+      "pooling_task": 0.875,
+      "three_task_mean": 0.925
+    },
+    "no_evpi": {
+      "method": "(ablation) full minus EVPI stop",
+      "design_match": 0.9,
+      "weighted_fidelity_mean": 0.9112500000000001,
+      "weighted_fidelity_ci95": [
+        0.8262,
+        0.9788
+      ],
+      "pooling_task": 0.875,
+      "three_task_mean": 0.925
+    }
+  }
+}

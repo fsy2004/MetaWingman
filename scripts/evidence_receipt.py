@@ -15,13 +15,23 @@ RES = REPO / "research"
 
 # result files -> human metric summary
 FILES = {
-    "cross-glm.json": "cross-model delta (GLM-4.5-Air bare vs decision-object)",
-    "cross-ds.json": "cross-model delta (DeepSeek V4 flash bare vs decision-object)",
+    "cross-glm.json": "cross-model delta (GLM-4.5-Air bare vs decision-object); see cross-model-design-task.json for the like-for-like design-task delta",
+    "cross-ds.json": "cross-model delta (DeepSeek V4 flash bare vs decision-object); see cross-model-design-task.json for the like-for-like design-task delta",
+    "cross-model-design-task.json": "cross-model design-task comparison (like-for-like) with bootstrap CIs",
+    "cross-ds-large.json": "cross-model delta (DeepSeek V4 flash) on the 170-review diverse corpus (design task)",
+    "cross-ds-multitask-holdout.json": "bare-LLM MULTI-TASK arm (design+pooling+stop) on OOD holdout-40",
+    "cross-ds-multitask-large.json": "bare-LLM MULTI-TASK arm (design+pooling+stop) on the 170-review diverse corpus",
+    "cross-ds-multitask-holdout-run2.json": "bare-LLM MULTI-TASK arm re-run on holdout-40 (run-to-run variance check)",
     "ablation-holdout.json": "ablation mechanism contribution (drop guard/evpi/estimand-first)",
     "method-trace-fidelity-real.json": "dev(8-strata) fidelity baseline",
     "method-trace-fidelity-holdout.json": "OOD holdout fidelity (design_selection)",
     "method-trace-fidelity-large.json": "diverse-corpus fidelity (covers more profiles)",
+    "method-trace-fidelity-lora-honest.json": "honest strict evaluation of the Qwen2.5-1.5B LoRA (210 samples) on OOD holdout; no fallback to gold",
     "bare-llm-holdout.json": "bare-LLM no-skill arm",
+    "bootstrap-ci.json": "bootstrap CIs + multi-seed stability for main/ablation/cross-model results",
+    "multitask-agreement.json": "design/pooling/stopping as independent tasks (+3-task mean) per corpus",
+    "multitask-compare.json": "like-for-like rule vs bare-LLM multi-task comparison (means + CIs + pooling confusion)",
+    "progressive-baseline.json": "progressive baselines bare LLM -> design rule -> +guard -> full (with CIs)",
 }
 
 FIXED_SEED = 20260826

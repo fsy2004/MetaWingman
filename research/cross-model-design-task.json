@@ -1,0 +1,35 @@
+{
+  "scope": "cross-model design-task comparison (agreement with the published-expert reference on design_selection, 0/1 per case), OOD holdout-40, strict parse",
+  "correction": "Earlier cross-glm.json/cross-ds.json compared the bare-LLM design-choice accuracy to the decision-object WEIGHTED FIDELITY (0.911; a task mix). The like-for-like comparison on the same single task (design_selection) is reported here: rule design match = 0.900 on the same 40 cases.",
+  "rule_design_match": 0.9,
+  "points": [
+    {
+      "model_point": "deepseek-v4-flash (local provider; bare run A archived per-case)",
+      "n": 40,
+      "bare_design_match": 0.725,
+      "rule_design_match": 0.9,
+      "delta_design_task": 0.17500000000000004,
+      "delta_ci95_paired_bootstrap": [
+        0.05,
+        0.325
+      ],
+      "method": "paired bootstrap over the 40 cases (same case in both arms); 2000 draws; seed 20260826",
+      "per_case_archived": true
+    },
+    {
+      "model_point": "glm-4.5-air (raw call, thinking disabled)",
+      "n": 40,
+      "bare_design_match": 0.75,
+      "rule_design_match": 0.9,
+      "delta_design_task": 0.15000000000000002,
+      "delta_ci95_independent_approx": [
+        0.025,
+        0.275
+      ],
+      "method": "GLM per-case responses were not archived; CI is an independent-bootstrap approximation (bare arm as the observed 0.75 binomial vector). The paired CI from the DeepSeek arm is the primary paired estimate.",
+      "per_case_archived": false
+    }
+  ],
+  "receipt_seed": 20260826,
+  "n_boot": 2000
+}

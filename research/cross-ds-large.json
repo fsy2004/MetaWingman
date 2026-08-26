@@ -1,0 +1,7 @@
+{
+  "model_label": "ds-v4-flash",
+  "n": 170,
+  "bare_accuracy": 0.5647,
+  "rule_baseline": 0.5941,
+  "delta": 0.0294
+}

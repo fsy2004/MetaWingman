@@ -1,0 +1,62 @@
+{
+  "metric": "agreement with the published-expert reference on three independent tasks, each scored 0/1 per case; 3-task mean = per-case average of the three",
+  "corpora": {
+    "holdout_40": {
+      "n": 40,
+      "design_agreement": 0.9,
+      "pooling_agreement": 0.875,
+      "stop_agreement": 1.0,
+      "three_task_mean": 0.925,
+      "three_task_mean_ci95": [
+        0.8583,
+        0.975
+      ],
+      "pooling_confusion": {
+        "tp": 27,
+        "fp": 2,
+        "tn": 8,
+        "fn": 3,
+        "pooled_precision": 0.931,
+        "pooled_recall": 0.9,
+        "nopool_precision": 0.7273,
+        "nopool_recall": 0.8
+      },
+      "living_cases": 0
+    },
+    "large_170": {
+      "n": 170,
+      "design_agreement": 0.5941,
+      "pooling_agreement": 0.5706,
+      "stop_agreement": 1.0,
+      "three_task_mean": 0.7216,
+      "three_task_mean_ci95": [
+        0.6706,
+        0.7686
+      ],
+      "pooling_confusion": {
+        "tp": 77,
+        "fp": 15,
+        "tn": 20,
+        "fn": 58,
+        "pooled_precision": 0.837,
+        "pooled_recall": 0.5704,
+        "nopool_precision": 0.2564,
+        "nopool_recall": 0.5714
+      },
+      "living_cases": 1
+    },
+    "qwen_lora_holdout_40": {
+      "n": 40,
+      "parse_fail": 8,
+      "design_agreement": 0.5,
+      "pooling_agreement": 0.7,
+      "stop_agreement": 0.8,
+      "three_task_mean": 0.6667,
+      "three_task_mean_ci95": [
+        0.5417,
+        0.7917
+      ],
+      "note": "strict parse; parse failures score 0 on every dimension"
+    }
+  }
+}
