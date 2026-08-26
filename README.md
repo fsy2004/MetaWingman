@@ -4,6 +4,14 @@
 
 当前状态：**实验性 / 开发中**（decision-object 架构 + 证据链已跑通；详见 [实验评估](#实验评估) 与 [research/](research/) 的版本化结果）。
 
+<!-- readme-metrics:start -->
+[![license](https://img.shields.io/badge/license-MIT-15803D)](LICENSE)
+[![release](https://img.shields.io/badge/release-v0.1.6-2563EB)](https://github.com/fsy2004/MetaWingman/releases)
+![R toolkit](https://img.shields.io/badge/R_modules-26-276DC3)
+![manifests](https://img.shields.io/badge/manifests-61-7C3AED)
+![schemas](https://img.shields.io/badge/schemas-88-0F766E)
+<!-- readme-metrics:end -->
+
 ---
 
 ## Why MetaWingman
@@ -81,6 +89,16 @@ python -m unittest discover -s tests -p "test_agent_workflow.py"
 > 依据（方法）：真实系统评价结构信号独立抽取（剥离线果、禁预置 meta 分类）；gold 独立于 agent 映射表；贴合度逐维对齐。
 
 ---
+
+<!-- readme-inventory:start -->
+| Repository metric | Current |
+|---|---:|
+| Python entry points | 88 |
+| JSON schemas | 88 |
+| R analysis modules | 26 |
+| R adapter manifests | 61 |
+| R adapters | 15 |
+<!-- readme-inventory:end -->
 
 ## 目录结构
 
