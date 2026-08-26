@@ -77,18 +77,20 @@ python -m unittest discover -s tests -p "test_agent_workflow.py"
 
 ## 实验评估
 
-> 开发证据（非同行评议）。结果详见 [research/](research/) 的版本化文件；报告以"与真实顶刊系统评价（published_expert_reference）的贴合度"为标准，OOD holdout（与训练/开发不同论文）、严格解析（解析失败计 0，绝不 fallback 到参考）。
+> 开发证据（非同行评议）。结果详见 [research/](research/) 的版本化文件；报告以"与真实顶刊系统评价（published_expert_reference）的贴合度"为标准，OOD（与训练/开发不同论文）、严格解析（解析失败计 0，绝不 fallback 到参考）；**黄金基准 v2 = 从论文 methods 正文独立抽取结构信号**（剥离一切数值结果、禁预置 meta 分类；v1 标题式抽取保留为历史）。
 
 | 场景 | 结果 | 证据文件 | 说明 |
 |---|---|---|---|
-| 规则 agent 基线（dev 8-strata） | dev **0.649**；guard_consistency 0.525（短板） | research/method-trace-fidelity-real.json | 决策对象在真实 meta 上的贴合度 |
-| 规则 agent（OOD holdout, n=40） | **0.911**（95% CI 0.830–0.979） | research/method-trace-fidelity-holdout.json + research/bootstrap-ci.json | 构成偏 pairwise；需按 profile 分层看 |
-| **主结果：多样真实语料（n=170）** | 加权贴合度 **0.651**（95% CI 0.587–0.712）；设计 0.594 / pooling 0.571 / stop 1.000；**3 任务平均 0.722（0.674–0.769）** | research/method-trace-fidelity-large.json + research/multitask-agreement.json | 更难、更多样的真实语料（暴露 46 / 配对 51 / 患病率 27 / 不pool 18 / 诊断 13 / 预后 8 / 网状 7） |
-| **方法增量（同任务、像对像）** | 设计选择任务：裸模型 GLM **0.750**、DS **0.725** vs 决策对象 **0.900**，Δ=+0.150 / **+0.175（配对 95% CI 0.050–0.325）**；规则渐进：设计规则 0.770 → +guard 0.911（Δ **+0.141，CI 0.049–0.255**）；消融：去 estimand-first **−0.180（CI −0.195,−0.160）**、去 guard **−0.141（CI −0.255,−0.049）**、去 EVPI 0.0（无 living 病例） | research/cross-model-design-task.json / research/progressive-baseline.json / research/ablation-holdout.json + bootstrap-ci.json | 修正说明：早期 cross-*.json 将裸模型设计准确率与加权贴合度 0.911 相比（任务混比）；同任务比较见 cross-model-design-task.json |
-| **裸模型多任务对拍** | 同一提示同时问 design/pooled/living：holdout 3 任务 **0.917** vs 规则 **0.925**（Δ+0.008）；多样语料 **0.747** vs **0.722**（Δ−0.026；CI 重叠）；同输入重跑 0.917→0.892（±0.025 波动） | research/cross-ds-multitask-{holdout,large}.json + research/multitask-compare.json | 诚实结论：**强 API 模型问同样三问可达协议平手**；架构增量在**可证性/确定性/跨模型可实现性/α 风险保证**，而非协议优势 |
-| 训练 / 跨模型可实现 | 1.5B+40 条 **0.0**（40/40 解析失败）→ 1.5B+**210 条 0.575**（严格诚实评估：parse_fail 8/40，设计 0.500，pooling 0.700，stop 0.800；若仅看可解析 32 例：0.625/0.875/1.000） | research/method-trace-fidelity-lora-honest.json（严格解析、无 fallback；公共可复现脚本 scripts/evaluate_lora_design_honest.py） | **修正**：先前“0.594 (parse_fail 3/40)”来自旧评估脚本对解析失败 **fallback 到 gold**；严格无 fallback 为 0.575。训练是**可实现性**证据（低于规则 0.911），不是性能主张 |
+| 黄金基准(v2) | dev 40 / holdout 39 / 多样 196 / **living 35**（OOD,与其余零重叠） | research/method-trace-{gold,holdout,large,living}-signal-v2.jsonl + research/living-review-catalog.json | methods 正文结构信号抽取,outcome-stripped,15 字段 |
+| 规则 agent(v2 OOD) | holdout 加权 **0.794**（95% CI 0.685–0.899）；多样 196 **0.780**（0.728–0.828）；living **0.620**（0.499–0.729）；三任务平均 holdout 0.855 / 多样 **0.847**（0.811–0.881） | research/fidelity-v2-*.json + research/bootstrap-v2-ci.json | 校准的七维 estimand 对齐 guard + 保守默认 EVPI |
+| **pooling 风险保证(v2,可证)** | 校准:dev 阈值 0.1296,经验误并 0.038（1/26),CP 90% 界 0.142；**OOD 审计:多样 196 中 6/125 误并 ⇒ 经验 0.048,CP 0.083 ≤ α=0.10**；pooling 一致率多样 **0.832**（v1 标量 guard 0.571,**+0.261**） | research/guard-v2-{calibration,ood-risk}.json + fidelity-v2-*.json | 有限样本 (α,δ) 风险控制：接受集内误并风险可控且被审计 |
+| **消融(v2,机制归因)** | 去 estimand-first 多样 **−0.063**（CI −0.114,−0.011）/holdout −0.110；去 guard **+0.101**（CI +0.041,+0.165）= 风险保证的贴合度代价（安全-一致收益互换,如实报告）；去 EVPI +0.114 | research/ablation-v2.json | 成本-收益显式化；estimand-first 是真正的判断引擎 |
+| **停止层(v2,测量而非假设)** | 结构信号可识别性 **AUC 0.453**（310 例,43 living）≈ 随机 ⇒ 需时间窗式证据累积信号（全系统 acquisition 环已提供,静态基准不能）；受控机制验证:600/600 模拟进程 ±1 周期内达到价值最优停止 | research/evpi-v2-{identifiability,oos-stop}.json + research/evpi-mechanism-tests.json | 识别出信号需求 + 机制受控验证；living 基准(35)发布供下一步 |
+| **裸模型多任务对拍(v2)** | 同一提示三问（design/pooled/living):holdout 规则 **0.855** vs 裸 **0.889**；多样 规则 **0.847** vs 裸 **0.871**（CI 重叠）；同输入重跑 0.889→0.915（±0.026）；设计一致率:规则 0.725 vs 裸 0.918；pooling:规则 0.832 vs 裸 0.730 | research/cross-ds-multitask-*-v2.json + research/multitask-compare-v2.json | 诚实结论：**架构增量 = 可证风险保证 + 确定性 + 可验证性 + 跨模型可实现**,而非协议优势 |
+| 训练 / 跨模型可实现(v2) | 1.5B+40 条 **0.0**（40/40 解析失败）→ 1.5B+**210 条 0.571**（严格无 fallback;parse_fail 8/39;design 0.513;pairwise n=15 全对,no_pooling 0.050） | research/method-trace-fidelity-lora-honest-v2.json + scripts/evaluate_lora_design_honest.py | 训练=可实现性证据；低于规则（0.780）,20% 输出不可解析 |
 
-> 依据（方法）：真实系统评价结构信号独立抽取（剥离线果、禁预置 meta 分类）；gold 独立于 agent 映射表；贴合度逐维对齐；bootstrap 2000 次 × 5 seed（20260826–20260830）。
+> 依据（方法）：真实系统评价 methods 正文结构信号独立抽取（剥离结果、禁预置 meta 分类）；gold 独立于 agent 映射表；贴合度逐维对齐；bootstrap 2000 次 × 5 seed（20260826–20260830）；严格解析、无 fallback；校准分割（guard=dev-40；EVPI=分层随机 50/50）在评估前冻结。
+> 深读文献（12 篇全文精读,笔记 `_deliverables/deep-study/notes/`,私有）：MetaSyn / Cochrane RCT classifier / FirstResearch / AI co-scientist / Conformal Abstention / PRM(Setlur) / Test-Time Compute / Semantic Entropy / HELM / LLM-as-judge / AI Scientist v1 / Reflexion / Data Contamination——评测纪律与能力矩阵见稿件 §2。
 
 ---
 

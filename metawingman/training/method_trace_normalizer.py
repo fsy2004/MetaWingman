@@ -108,7 +108,9 @@ def normalize_gold_trace(extracted: dict[str, Any]) -> dict[str, Any] | None:
         "source": "independent_real_published_review_structure_extraction",
         "signal": {k: mt.get(k) for k in (
             "intervention_arm_count", "comparator_count", "has_reference_standard",
-            "has_prediction_model", "outcome_measure_type", "pooled", "living_or_update")},
+            "has_prediction_model", "outcome_measure_type", "pooled", "living_or_update",
+            "design_type_hint", "heterogeneity_handling", "effect_measure_type",
+            "analysis_unit", "conditioning_set", "population_description", "time_horizon")},
     }
 
 

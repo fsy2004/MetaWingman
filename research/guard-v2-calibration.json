@@ -1,0 +1,9 @@
+{
+  "alpha": 0.1,
+  "delta": 0.1,
+  "calibration_n": 40,
+  "threshold": 0.1296,
+  "empirical_risk": 0.038461538461538464,
+  "cp_risk_bound": 0.14153160802078657,
+  "accepted_calibration_n": 26
+}

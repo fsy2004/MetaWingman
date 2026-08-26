@@ -1,0 +1,8 @@
+{
+  "task": "can evidence-structure-derived EVPI scores (max EVPI, default gains, cost=0.0) separate reviews that are living/updating from those that are not",
+  "note": "the gold living flag is deliberately not an input; the extractor's living_or_update field is excluded from the agent input",
+  "n": 310,
+  "living_n": 43,
+  "auc_max_evpi_vs_living": 0.4528,
+  "calibration_balanced_acc": 0.5
+}

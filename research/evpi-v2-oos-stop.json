@@ -1,0 +1,949 @@
+{
+  "scope": "EVPI stop-layer OOD evaluation on the held-out half (split-conformal, seeded)",
+  "note": "gold living flag excluded from input; EVPI-only decision",
+  "n": 156,
+  "living_n": 22,
+  "living_pred_n": 0,
+  "agreement": 0.859,
+  "living_recall": 0.0,
+  "nonliving_specificity": 1.0,
+  "balanced_acc": 0.5,
+  "per_case": [
+    {
+      "case_id": "epmc:MED:40490856",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:36367845",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:41340799",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:33073295",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40471293",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36527500",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36593391",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36715767",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37340183",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:35879478",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:35930075",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:32583078",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:33141338",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:33651228",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:34159476",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:34173070",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:30456728",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39585430",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39656503",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40356262",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38700145",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40035397",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39162358",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:42001953",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40020921",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40122386",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:41192777",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37783307",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38184198",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38311314",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38493875",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38897385",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36811594",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37778442",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:35170723",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36041171",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:41874854",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39039386",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36633732",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37515713",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:35947351",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38223606",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36910366",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37092039",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:34394274",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:38287703",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:36287183",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:32439832",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:41935176",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:35723858",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:41319219",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:35758526",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40849672",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38963527",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:39143415",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40474757",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38940409",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37740617",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40576235",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:38334280",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37195909",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:41979291",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40762643",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38607873",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38607874",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36254901",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40102932",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:41454630",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:41503829",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:41574602",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:42057665",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40851363",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:41243115",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38346381",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38753384",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39550348",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37246850",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37318118",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37353997",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38198642",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36351877",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:34396859",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39451057",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36537052",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36606676",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:39127903",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37777688",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38684395",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:35237787",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:34620240",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:35373439",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:41120676",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38602747",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:38709150",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39420937",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:37249450",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37948566",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:35263050",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:35758833",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:40407883",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36315269",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38310416",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:34412904",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39578910",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39623499",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:37537669",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40760403",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36634706",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:35544851",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39230117",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:32640905",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:35719121",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:41492804",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:33581388",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37557093",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36722753",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36277880",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36277883",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:33575325",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:33816624",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:32685519",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:33490250",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:33490256",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:31871936",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39988715",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40305305",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:38927134",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39766314",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36671498",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:36979367",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:37371490",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:35883490",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39319871",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40052691",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40613500",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:40991750",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:38642385",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:41400625",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:31793983",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:30988077",
+      "gold_living": false,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:32522732",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:32873575",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:33106251",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:34269175",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:29490922",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:33154979",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:33604025",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:33907860",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:35088409",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:35758400",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:35795550",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:36223980",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.02
+    },
+    {
+      "case_id": "epmc:MED:37204441",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:39136500",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40159916",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    },
+    {
+      "case_id": "epmc:MED:40682141",
+      "gold_living": true,
+      "agent_living": false,
+      "max_evpi": -0.175
+    }
+  ]
+}

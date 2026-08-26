@@ -1,0 +1,16 @@
+{
+  "best": {
+    "info_cost": 0.05,
+    "freshness_gain": 0.7,
+    "graph_thin_gain": 0.75,
+    "node_gain": 0.6,
+    "hetero_hi_gain": 0.75,
+    "balanced_acc": 0.5,
+    "living_recall": 1.0,
+    "nonliving_specificity": 0.0
+  },
+  "n_searched": 720,
+  "n_calibration_cases": 154,
+  "calibration_balanced_acc": 0.5,
+  "degenerate": true
+}

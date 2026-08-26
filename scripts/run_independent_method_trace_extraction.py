@@ -41,8 +41,8 @@ from metawingman.scripts.metawingman_core.state_store import sha256_json
 # paper's own method process.
 INDEPENDENT_SYSTEM = (
     "You are extracting the METHOD STRUCTURE of a published systematic review / meta-analysis, to use as an "
-    "expert reference. Read only the methods/design sections. Report what THIS review actually did as JSON "
-    "with exactly these fields:\n"
+    "expert reference. Read ONLY the methods/design sections of the article text provided. Report what THIS "
+    "review actually did as JSON with exactly these fields:\n"
     "- design_type_hint: one of pairwise|network|diagnostic|prediction|prevalence|exposure|narrative_no_pooling "
     "— based on the paper's own procedural structure (how many interventions/comparators it compared, whether "
     "it used a reference standard or a prediction model, and whether it pooled or narrated).\n"
@@ -53,20 +53,29 @@ INDEPENDENT_SYSTEM = (
     "- has_prediction_model: true/false — a prediction/risk model present.\n"
     "- outcome_measure_type: one of binary|continuous|rate|proportion|diagnostic — the outcome measure nature.\n"
     "- pooled: true/false — did it actually produce a pooled estimate.\n"
-    "- living_or_update: true/false — is it a living review / ongoing update.\n"
+    "- living_or_update: true/false — is it a living review / ongoing update (stated in the paper itself).\n"
     "- estimand: string — what it aimed to estimate.\n"
-    "- heterogeneity_handling: string — how it handled heterogeneity.\n"
-    "HARD RULES: (1) Do NOT report any numeric outcome — no pooled effect, no I2 value, no GRADE grade, no "
-    "direction, no CI. (2) Base design_type_hint on the paper's actual procedural structure (arm counts, "
-    "reference standard, prediction model, pooled/narrative), not on guessing a pre-canned taxonomy. "
-    "(3) When the paper does not state a numeric field, use 0 / false / the most conservative enum."
+    "- heterogeneity_handling: string — how it handled heterogeneity (e.g., narrative, subgroup, sensitivity, "
+    "random-effects with tau-squared, leave-one-out).\n"
+    "- effect_measure_type: one of odds_ratio|risk_ratio|risk_difference|mean_difference|standardized_mean_difference|hazard_ratio|proportion|rate|none\n"
+    "- analysis_unit: one of study|participant|cluster|study_arm|none — the unit at which effects were analysed.\n"
+    "- conditioning_set: string — the adjustment/stratification set if the synthesis was conditional (e.g., "
+    "subgroup or covariate-adjusted analysis), or 'none'.\n"
+    "- population_description: string — one short clause describing the population(s) compared (target population).\n"
+    "- time_horizon: string — the follow-up/time window definition, or 'not stated'.\n"
+    "HARD RULES: (1) Do NOT report any numeric outcome — no pooled effect, no I2/Tau2 value, no GRADE grade, no "
+    "p-value, no direction, no CI, no numeric effect estimate of any kind. (2) Base design_type_hint on the "
+    "paper's actual procedural structure (arm counts, reference standard, prediction model, pooled/narrative), "
+    "not on guessing a pre-canned taxonomy. (3) When the paper does not state a field, use 0 / false / 'none' / "
+    "'not stated' / the most conservative enum — never invent. (4) If the article text is unavailable or does "
+    "not contain a methods section, output only {\"status\": \"no_methods_text\"}."
 )
 
 
 def fetch_fulltext(record: dict, fulltext_dir: Path) -> str | None:
     """Fetch the paper full text (Europe PMC fullTextXML) and cache it."""
-    if fulltext_dir.is_dir():
-        cached = fulltext_dir / f"{record['source_id'].replace(':', '_')}.xml"
+    if fulltext_dir.is_dir() and fulltext_dir.exists():
+        cached = fulltext_dir / f"{record['pmcid'].replace(':', '_')}.xml"
         if cached.is_file():
             return cached.read_text(encoding="utf-8", errors="replace")
     import urllib.request
@@ -77,14 +86,37 @@ def fetch_fulltext(record: dict, fulltext_dir: Path) -> str | None:
     url = f"https://www.ebi.ac.uk/europepmc/webservices/rest/{src}/fullTextXML"
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "MetaWingman/1.0"})
-        with urllib.request.urlopen(req, timeout=40) as resp:
+        with urllib.request.urlopen(req, timeout=60) as resp:
             payload = resp.read().decode("utf-8", errors="replace")
-        if fulltext_dir.is_dir():
-            fulltext_dir.mkdir(parents=True, exist_ok=True)
-            (fulltext_dir / f"{src.replace(':', '_')}.xml").write_text(payload, encoding="utf-8")
+        fulltext_dir.mkdir(parents=True, exist_ok=True)
+        (fulltext_dir / f"{src.replace(':', '_')}.xml").write_text(payload, encoding="utf-8")
         return payload
     except Exception:
         return None
+
+
+def methods_section(fulltext: str, max_chars: int = 40000) -> str:
+    """Heuristically slice the full-text XML to the methods section(s)."""
+    import re
+    low = fulltext.casefold()
+    start_candidates = []
+    for pat in (r"<sec[^>]*>\s*<title>\s*methods?\b", r"<sec[^>]*>\s*<title>\s*materials and methods",
+                r"<sec[^>]*>\s*<title>\s*statistical methods"):
+        for m in re.finditer(pat, low):
+            start_candidates.append(m.start())
+    if not start_candidates:
+        return fulltext[:max_chars]
+    # prefer the first methods-like heading that appears after any abstract/title overhead
+    start = min(start_candidates)
+    next_heads = re.finditer(r"<sec[^>]*>\s*<title>\s*(results|discussion|conclusion)\b", low)
+    cut = None
+    for m in next_heads:
+        if m.start() > start:
+            cut = m.start()
+            break
+    if cut is None:
+        cut = start + max_chars * 4
+    return fulltext[start:max(start, cut)][:max_chars]
 
 
 def extraction_request(record: dict) -> dict:
@@ -98,8 +130,10 @@ def extraction_request(record: dict) -> dict:
         "task": "independent_method_structure_extraction",
         "output_schema": ["design_type_hint", "intervention_arm_count", "comparator_count",
                           "has_reference_standard", "has_prediction_model", "outcome_measure_type",
-                          "pooled", "living_or_update", "estimand", "heterogeneity_handling"],
-        "rules": ["no numeric outcome", "structure-driven design_type_hint"],
+                          "pooled", "living_or_update", "estimand", "heterogeneity_handling",
+                          "effect_measure_type", "analysis_unit", "conditioning_set",
+                          "population_description", "time_horizon"],
+        "rules": ["no numeric outcome", "structure-driven design_type_hint", "methods-text required"],
     }
 
 
@@ -139,15 +173,17 @@ def main() -> int:
                             "mode": "skip"})
             continue
         n_fetched += 1
-        # Truncate full text to the methods portion (heuristic) but keep author-written text.
-        text = fulltext  # provider reads the article; the system prompt directs to methods.
+        # Slice to the methods section; keep author-written methods text only.
+        text = methods_section(fulltext)
         user_msg = (
             f"Article: {record['title']} ({record['journal']}, {record['year']}). "
             f"DOI: {record['doi']}.\n"
-            f"Extract the METHOD STRUCTURE per the system rules. Return a JSON object with exactly the "
+            f"METHODS TEXT (from the article full text):\n{text}\n"
+            "Extract the METHOD STRUCTURE per the system rules. Return a JSON object with exactly the "
             "fields: design_type_hint, intervention_arm_count, comparator_count, has_reference_standard, "
             "has_prediction_model, outcome_measure_type, pooled, living_or_update, estimand, "
-            "heterogeneity_handling. No numeric outcome values."
+            "heterogeneity_handling, effect_measure_type, analysis_unit, conditioning_set, "
+            "population_description, time_horizon. No numeric outcome values of any kind."
         )
         try:
             result = provider.chat(

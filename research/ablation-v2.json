@@ -1,0 +1,83 @@
+{
+  "scope": "v2 ablation/progressive baselines (methods-text gold, dimension guard)",
+  "n_boot": 2000,
+  "seeds": [
+    20260826,
+    20260827,
+    20260828
+  ],
+  "holdout": {
+    "full": {
+      "mean_fidelity": 0.7936
+    },
+    "no_guard": {
+      "mean_fidelity": 0.8282,
+      "delta_vs_full_ci95": [
+        -0.1244,
+        0.1872
+      ],
+      "delta_vs_full": 0.0346
+    },
+    "no_estimand": {
+      "mean_fidelity": 0.6833,
+      "delta_vs_full_ci95": [
+        -0.2282,
+        0.0128
+      ],
+      "delta_vs_full": -0.1103
+    },
+    "no_evpi": {
+      "mean_fidelity": 0.8474,
+      "delta_vs_full_ci95": [
+        -0.0897,
+        0.1974
+      ],
+      "delta_vs_full": 0.0538
+    },
+    "L1_design_rule": {
+      "mean_fidelity": 0.8282,
+      "delta_vs_full_ci95": [
+        -0.1244,
+        0.1872
+      ],
+      "delta_vs_full": 0.0346
+    }
+  },
+  "large": {
+    "full": {
+      "mean_fidelity": 0.7796
+    },
+    "no_guard": {
+      "mean_fidelity": 0.8809,
+      "delta_vs_full_ci95": [
+        0.0413,
+        0.1646
+      ],
+      "delta_vs_full": 0.1013
+    },
+    "no_estimand": {
+      "mean_fidelity": 0.7163,
+      "delta_vs_full_ci95": [
+        -0.1143,
+        -0.0107
+      ],
+      "delta_vs_full": -0.0633
+    },
+    "no_evpi": {
+      "mean_fidelity": 0.8939,
+      "delta_vs_full_ci95": [
+        0.0571,
+        0.1714
+      ],
+      "delta_vs_full": 0.1143
+    },
+    "L1_design_rule": {
+      "mean_fidelity": 0.8809,
+      "delta_vs_full_ci95": [
+        0.0413,
+        0.1646
+      ],
+      "delta_vs_full": 0.1013
+    }
+  }
+}

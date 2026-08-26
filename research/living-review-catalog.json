@@ -1,0 +1,323 @@
+{
+  "schema_version": "1.0",
+  "source": "training-corpus-plan-biomedical-v3.json",
+  "selection": "title matches living systematic review / living network meta-analysis / living meta-analysis; pmcid present",
+  "count": 35,
+  "records": [
+    {
+      "record_id": "epmc:MED:26537996",
+      "pmcid": "PMC8082737",
+      "title": "Epidemiology of Traumatic Brain Injury in Europe: A Living Systematic Review.",
+      "journal": "Journal of neurotrauma",
+      "year": 2021,
+      "doi": "10.1089/neu.2015.4126",
+      "split": "development"
+    },
+    {
+      "record_id": "epmc:MED:32522732",
+      "pmcid": "PMC7907558",
+      "title": "Which treatment is most effective for patients with Achilles tendinopathy? A living systematic review with network meta-analysis of 29 randomised controlled trials.",
+      "journal": "British journal of sports medicine",
+      "year": 2021,
+      "doi": "10.1136/bjsports-2019-101872",
+      "split": "development"
+    },
+    {
+      "record_id": "epmc:MED:32873575",
+      "pmcid": "PMC7459193",
+      "title": "Clinical manifestations, risk factors, and maternal and perinatal outcomes of coronavirus disease 2019 in pregnancy: living systematic review and meta-analysis.",
+      "journal": "BMJ (Clinical research ed.)",
+      "year": 2020,
+      "doi": "10.1136/bmj.m3320",
+      "split": "development"
+    },
+    {
+      "record_id": "epmc:MED:33106251",
+      "pmcid": "PMC7982922",
+      "title": "Comparative effectiveness of treatments for patellofemoral pain: a living systematic review with network meta-analysis.",
+      "journal": "British journal of sports medicine",
+      "year": 2020,
+      "doi": "10.1136/bjsports-2020-102819",
+      "split": "development"
+    },
+    {
+      "record_id": "epmc:MED:34269175",
+      "pmcid": "PMC8284046",
+      "title": "Efficacy and effectiveness of COVID-19 vaccines against SARS-CoV-2 infection: interim results of a living systematic review, 1 January to 14 May 2021.",
+      "journal": "Euro surveillance : bulletin Europeen sur les maladies transmissibles = European communicable disease bulletin",
+      "year": 2021,
+      "doi": "10.2807/1560-7917.es.2021.26.28.2100563",
+      "split": "development"
+    },
+    {
+      "record_id": "epmc:MED:34651577",
+      "pmcid": "PMC8518304",
+      "title": "Effectiveness of COVID-19 vaccines against SARS-CoV-2 infection with the Delta (B.1.617.2) variant: second interim results of a living systematic review and meta-analysis, 1 January to 25 August 2021.",
+      "journal": "Euro surveillance : bulletin Europeen sur les maladies transmissibles = European communicable disease bulletin",
+      "year": 2021,
+      "doi": "10.2807/1560-7917.es.2021.26.41.2100920",
+      "split": "development"
+    },
+    {
+      "record_id": "epmc:MED:35617363",
+      "pmcid": "PMC9135333",
+      "title": "Occurrence and transmission potential of asymptomatic and presymptomatic SARS-CoV-2 infections: Update of a living systematic review and meta-analysis.",
+      "journal": "PLoS medicine",
+      "year": 2022,
+      "doi": "10.1371/journal.pmed.1003987",
+      "split": "development"
+    },
+    {
+      "record_id": "epmc:MED:35640925",
+      "pmcid": "PMC9724446",
+      "title": "Effectiveness of heterologous and homologous covid-19 vaccine regimens: living systematic review with network meta-analysis.",
+      "journal": "BMJ (Clinical research ed.)",
+      "year": 2022,
+      "doi": "10.1136/bmj-2022-069989",
+      "split": "development"
+    },
+    {
+      "record_id": "epmc:MED:40930981",
+      "pmcid": "PMC12573345",
+      "title": "Real-world effectiveness and safety of nirsevimab, RSV maternal vaccine and RSV vaccines for older adults: a living systematic review and meta-analysis.",
+      "journal": "Thorax",
+      "year": 2025,
+      "doi": "10.1136/thorax-2025-223376",
+      "split": "development"
+    },
+    {
+      "record_id": "epmc:MED:29490922",
+      "pmcid": "PMC5829520",
+      "title": "Living network meta-analysis compared with pairwise meta-analysis in comparative effectiveness research: empirical study.",
+      "journal": "BMJ (Clinical research ed.)",
+      "year": 2018,
+      "doi": "10.1136/bmj.k585",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:30631437",
+      "pmcid": "PMC6290976",
+      "title": "Zika virus infection as a cause of congenital brain abnormalities and Guillain-Barr\u00e9 syndrome: From systematic review to living systematic review.",
+      "journal": "F1000Research",
+      "year": 2018,
+      "doi": "10.12688/f1000research.13704.1",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:31754425",
+      "pmcid": "PMC6852328",
+      "title": "Zika virus infection as a cause of congenital brain abnormalities and Guillain-Barr\u00e9 syndrome: A living systematic review.",
+      "journal": "F1000Research",
+      "year": 2019,
+      "doi": "10.12688/f1000research.19918.1",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:32694132",
+      "pmcid": "PMC7373637",
+      "title": "Update to living systematic review on prediction models for diagnosis and prognosis of covid-19.",
+      "journal": "BMJ (Clinical research ed.)",
+      "year": 2020,
+      "doi": "10.1136/bmj.m2810",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:33154979",
+      "pmcid": "PMC7610178",
+      "title": "Baseline results of a living systematic review for COVID-19 clinical trial registrations.",
+      "journal": "Wellcome open research",
+      "year": 2020,
+      "doi": "10.12688/wellcomeopenres.15933.1",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:33604025",
+      "pmcid": "PMC7871358",
+      "title": "The impact of the COVID-19 pandemic on self-harm and suicidal behaviour: update of living systematic review.",
+      "journal": "F1000Research",
+      "year": 2020,
+      "doi": "10.12688/f1000research.25522.2",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:33705495",
+      "pmcid": "PMC7954033",
+      "title": "Interventions for treatment of COVID-19: Second edition of a living systematic review with meta-analyses and trial sequential analyses (The LIVING Project).",
+      "journal": "PloS one",
+      "year": 2021,
+      "doi": "10.1371/journal.pone.0248132",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:33907860",
+      "pmcid": "PMC8079163",
+      "title": "Risk phenotypes of diabetes and association with COVID-19 severity and death: a living systematic review and meta-analysis.",
+      "journal": "Diabetologia",
+      "year": 2021,
+      "doi": "10.1007/s00125-021-05458-8",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:34556486",
+      "pmcid": "PMC8459162",
+      "title": "Antibody and cellular therapies for treatment of covid-19: a living systematic review and network meta-analysis.",
+      "journal": "BMJ (Clinical research ed.)",
+      "year": 2021,
+      "doi": "10.1136/bmj.n2231",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:35061702",
+      "pmcid": "PMC8782520",
+      "title": "Vaccines to prevent COVID-19: A living systematic review with Trial Sequential Analysis and network meta-analysis of randomized clinical trials.",
+      "journal": "PloS one",
+      "year": 2022,
+      "doi": "10.1371/journal.pone.0260733",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:35088409",
+      "pmcid": "PMC9564547",
+      "title": "COVID-19 pandemic and population-level pregnancy and neonatal outcomes in general population: A living systematic review and meta-analysis (Update#2: November 20, 2021).",
+      "journal": "Acta obstetricia et gynecologica Scandinavica",
+      "year": 2022,
+      "doi": "10.1111/aogs.14318",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:35155477",
+      "pmcid": "PMC8828941",
+      "title": "The Efficacy and Safety of Janus Kinase Inhibitors for Patients With COVID-19: A Living Systematic Review and Meta-Analysis.",
+      "journal": "Frontiers in medicine",
+      "year": 2021,
+      "doi": "10.3389/fmed.2021.800492",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:35758400",
+      "pmcid": "PMC9299509",
+      "title": "Updated Living Systematic Review and Meta-analysis of Controlled Trials of Mesenchymal Stromal Cells to Treat COVID-19: A Framework for Accelerated Synthesis of Trial Evidence for Rapid Approval-FASTER Approval.",
+      "journal": "Stem cells translational medicine",
+      "year": 2022,
+      "doi": "10.1093/stcltm/szac038",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:35795550",
+      "pmcid": "PMC9251500",
+      "title": "Herbal Medicine Intervention for the Treatment of COVID-19: A Living Systematic Review and Cumulative Meta-Analysis.",
+      "journal": "Frontiers in pharmacology",
+      "year": 2022,
+      "doi": "10.3389/fphar.2022.906764",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:36223980",
+      "pmcid": "PMC9811092",
+      "title": "Can we mitigate the psychological impacts of social isolation using behavioural activation? Long-term results of the UK BASIL urgent public health COVID-19 pilot randomised controlled trial and living systematic review.",
+      "journal": "Evidence-based mental health",
+      "year": 2022,
+      "doi": "10.1136/ebmental-2022-300530",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:36967345",
+      "pmcid": "PMC10027963",
+      "title": "The safety of digestive tract cancer surgery during COVID-19: A living systematic review and meta-analysis.",
+      "journal": "Asian journal of surgery",
+      "year": 2023,
+      "doi": "10.1016/j.asjsur.2023.03.056",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:36997795",
+      "pmcid": "PMC10063612",
+      "title": "Results from a living systematic review of the prevalence of mood and anxiety disorders and factors associated with symptoms in systemic sclerosis.",
+      "journal": "Scientific reports",
+      "year": 2023,
+      "doi": "10.1038/s41598-023-31919-8",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:37204441",
+      "pmcid": "PMC10198038",
+      "title": "Risk phenotypes of diabetes and association with COVID-19 severity and death: an update of a living systematic review and meta-analysis.",
+      "journal": "Diabetologia",
+      "year": 2023,
+      "doi": "10.1007/s00125-023-05928-1",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:38273317",
+      "pmcid": "PMC10809470",
+      "title": "Impacts for health and care workers of Covid-19 and other public health emergencies of international concern: living systematic review, meta-analysis and policy recommendations.",
+      "journal": "Human resources for health",
+      "year": 2024,
+      "doi": "10.1186/s12960-024-00892-2",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:39009928",
+      "pmcid": "PMC11399161",
+      "title": "Safety and Effectiveness of COVID-19 Vaccines During Pregnancy: A Living Systematic Review and Meta-analysis.",
+      "journal": "Drug safety",
+      "year": 2024,
+      "doi": "10.1007/s40264-024-01458-w",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:39134430",
+      "pmcid": "PMC12107457",
+      "title": "Antiplatelet therapy versus intravenous thrombolysis for mild acute ischaemic stroke: a living systematic review and meta-analysis.",
+      "journal": "Stroke and vascular neurology",
+      "year": 2025,
+      "doi": "10.1136/svn-2024-003097",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:39136500",
+      "pmcid": "PMC11320752",
+      "title": "The efficacy of interventions to prevent type 2 diabetes among women with recent gestational diabetes mellitus-A living systematic review and meta-analysis.",
+      "journal": "Journal of diabetes",
+      "year": 2024,
+      "doi": "10.1111/1753-0407.13590",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:40159916",
+      "pmcid": "PMC12038765",
+      "title": "Evidence on the associations and safety of COVID-19 vaccination and post COVID-19 condition: an updated living systematic review.",
+      "journal": "Epidemiology and infection",
+      "year": 2025,
+      "doi": "10.1017/s0950268825000378",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:40682141",
+      "pmcid": "PMC12275287",
+      "title": "A global living systematic review and meta-analysis hub of emerging vaccines in pregnancy and childhood.",
+      "journal": "Reproductive health",
+      "year": 2025,
+      "doi": "10.1186/s12978-025-02090-2",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:41312811",
+      "pmcid": "PMC12661623",
+      "title": "Longitudinal Outcome Evaluations of Interdisciplinary Multimodal Pain Treatment Programs for Patients With Chronic Primary Musculoskeletal Pain: A Living Systematic Review.",
+      "journal": "European journal of pain (London, England)",
+      "year": 2026,
+      "doi": "10.1002/ejp.70174",
+      "split": "train"
+    },
+    {
+      "record_id": "epmc:MED:41792577",
+      "pmcid": "PMC13263258",
+      "title": "Maternal and Pediatric Use of Vaccines for Mpox: A Living Systematic Review and Meta-analysis of Safety and Effectiveness.",
+      "journal": "Drug safety",
+      "year": 2026,
+      "doi": "10.1007/s40264-026-01657-7",
+      "split": "train"
+    }
+  ]
+}

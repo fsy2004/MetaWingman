@@ -1,0 +1,42 @@
+{
+  "scope": "OOD guard risk audit: among pool-accepted cases, is the mis-pool risk within the calibrated budget?",
+  "label_note": "mis-pool label = the reference review did not pool",
+  "corpora": [
+    {
+      "corpus": "dev",
+      "accepted_n": 24,
+      "mis_pool_k": 0,
+      "empirical_risk": 0.0,
+      "cp_upper_bound": 0.0915,
+      "alpha": 0.1,
+      "delta": 0.1
+    },
+    {
+      "corpus": "holdout",
+      "accepted_n": 24,
+      "mis_pool_k": 1,
+      "empirical_risk": 0.0417,
+      "cp_upper_bound": 0.1526,
+      "alpha": 0.1,
+      "delta": 0.1
+    },
+    {
+      "corpus": "large",
+      "accepted_n": 125,
+      "mis_pool_k": 6,
+      "empirical_risk": 0.048,
+      "cp_upper_bound": 0.0827,
+      "alpha": 0.1,
+      "delta": 0.1
+    },
+    {
+      "corpus": "living",
+      "accepted_n": 25,
+      "mis_pool_k": 3,
+      "empirical_risk": 0.12,
+      "cp_upper_bound": 0.248,
+      "alpha": 0.1,
+      "delta": 0.1
+    }
+  ]
+}

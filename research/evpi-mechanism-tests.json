@@ -1,0 +1,36 @@
+{
+  "scope": "controlled mechanism validation of the EVPI stop layer",
+  "note": "constructed inputs; not an estimate of real-world performance. Real-data identifiability is reported separately.",
+  "rule_properties": {
+    "continues_when_max_evpi_positive": true,
+    "stops_when_max_evpi_non_positive": true,
+    "monotone_in_info_cost": true,
+    "monotone_in_gains": true
+  },
+  "simulated_accretion": {
+    "per_seed": [
+      {
+        "seed": 20260826,
+        "n_runs": 200,
+        "mean_cycle_gap_rule_minus_optimal": 0.01,
+        "within_1_cycle": 1.0,
+        "within_2_cycles": 1.0
+      },
+      {
+        "seed": 20260827,
+        "n_runs": 200,
+        "mean_cycle_gap_rule_minus_optimal": -0.02,
+        "within_1_cycle": 1.0,
+        "within_2_cycles": 1.0
+      },
+      {
+        "seed": 20260828,
+        "n_runs": 200,
+        "mean_cycle_gap_rule_minus_optimal": -0.03,
+        "within_1_cycle": 1.0,
+        "within_2_cycles": 1.0
+      }
+    ],
+    "note": "200 trajectories per seed; the rule stops when its EVPI calculation says so, the optimal stopping time is the first cycle where true future value <= cost (known only in simulation)"
+  }
+}

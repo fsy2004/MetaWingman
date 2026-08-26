@@ -19,8 +19,11 @@ from typing import Any
 
 from metawingman.scripts.metawingman_core.design_selection import (
     ESTIMAND_TEMPLATES, SYNTHESIS_ROUTES, derive_review_design)
-from metawingman.agent.poolability_guard import PoolabilityGuard, GuardModel, calibrate_guard
-from metawingman.agent.evpi_director import evaluate_living
+from metawingman.agent.poolability_guard import (
+    DimensionGuardModel, GuardModel, PoolabilityGuard, calibrate_dimension_guard,
+    base_poolability_check, safety_score, calibrate_guard)
+from metawingman.agent.evpi_director import (
+    evaluate_living, decide_living_v2, landscape_gaps, calibrate_living)
 
 # E layer: which causal / identification assumption is required for each profile
 # (a canonical enum id consumed by the schema; the human note follows in ENTITY_NOTES).
@@ -173,6 +176,99 @@ def derive_design_decision(
         action="design_decision" if not base.abstain else "abstain",
         reflection={
             "guard_passes": guard.passes,
+            "verified": "yes" if guard.passes else ("abstain" if base.abstain else "override_to_narrative"),
+            "note": decision_tension,
+        },
+        prm_score=round(base.confidence * (1.0 if guard.passes else 0.6), 3),
+    )
+
+
+def derive_design_decision_v2(
+    question: dict[str, Any],
+    landscape: dict[str, Any],
+    *,
+    guard_signal: dict[str, Any] | None = None,
+    guard_model: DimensionGuardModel | None = None,
+    info_cost: float | None = None,
+    gains: dict[str, float] | None = None,
+    alpha: float = 0.10,
+    delta: float = 0.10,
+    use_input_living_flag: bool = False,
+) -> DesignDecision:
+    """V2 E-R-V decision: per-dimension (seven estimand-alignment) risk-controlled
+    guard with a finite-sample guarantee, and EVPI-only living/stop.
+
+    The guard input is the *evidence structure* only — procedural alignment
+    dimensions (population / contrast / outcome / time / effect-measure /
+    analysis-unit / conditioning-set) plus graph coverage and the question-level
+    estimand-alignment gate. It never reads the review's own pooling decision or
+    its heterogeneity treatment. `guard_model` is calibrated externally on a
+    frozen calibration set (see calibrate_dimension_guard); when None, a
+    maximally conservative model is used (accept only zero alignment risk).
+
+    The stop decision comes from value-of-information only (landscape-derived
+    gaps and the calibrated information cost); the extracted living/update flag
+    is deliberately not used as an input (`use_input_living_flag=False`).
+    """
+    base = derive_review_design(question, landscape)
+    signal = dict(guard_signal or landscape)
+    signal.setdefault("profile_hint", base.profile)
+    signal["estimand_aligned"] = base.profile not in ("", "structured_no_pooling")
+    if guard_model is None:
+        guard_model = DimensionGuardModel(alpha=alpha, delta=delta, threshold=0.0,
+                                          empirical_risk=1.0, risk_bound=1.0,
+                                          accepted_calibration_n=0, calibration_size=0)
+    guard = guard_model.apply(signal)
+
+    if not guard.passes:
+        profile = "structured_no_pooling"
+        estimand = ESTIMAND_TEMPLATES["structured_no_pooling"]
+        route = SYNTHESIS_ROUTES["structured_no_pooling"]
+    else:
+        profile = base.profile
+        estimand = base.estimand
+        route = base.synthesis_route
+
+    # V layer: EVPI-only stop (no calendar prior, no gold living flag).
+    gaps = landscape_gaps(landscape, profile,
+                          heterogeneity_handling=None, gains=gains)
+    if info_cost is None:
+        info_cost = 0.5  # fall back only if uncalibrated
+    v = decide_living_v2(gaps, info_cost=info_cost)
+    living = bool(v["living"])
+
+    identification_assumption = IDENTIFICATION_ASSUMPTIONS.get(profile, "")
+    decision_tension = (
+        f"The design type ({profile}) determines whether a single pooled answer is "
+        f"scientifically defensible; v2 guard{' fails' if not guard.passes else ' passes'} "
+        f"at alpha={alpha}, delta={delta} (guaranteed mis-pool risk <= "
+        f"{guard.risk_violation_estimate:.3f})."
+    )
+    return DesignDecision(
+        profile=profile,
+        estimand=estimand,
+        synthesis_route=route,
+        identification_assumption=identification_assumption,
+        confidence=round(base.confidence, 2),
+        risk_guard=guard.to_dict(),
+        next_evidence=v["next_evidence"],
+        stop_rule=v["stop_rule"],
+        living=living,
+        decision_tension=decision_tension,
+        minimal_decisive_question=(
+            f"Is this {profile} question answerable with the available node structure, "
+            f"or would pooling be misleading at alpha={alpha}?"
+        ),
+        disconfirmation_design=(
+            "Look for an incompatible design, an unsupported estimand, or a heterogeneous "
+            "population that would change the required profile."
+        ),
+        abstain=base.abstain,
+        abstain_reason=base.abstain_reason,
+        action="design_decision" if not base.abstain else "abstain",
+        reflection={
+            "guard_passes": guard.passes,
+            "guard_version": "v2",
             "verified": "yes" if guard.passes else ("abstain" if base.abstain else "override_to_narrative"),
             "note": decision_tension,
         },
