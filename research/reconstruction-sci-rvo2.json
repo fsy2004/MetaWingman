@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "case_id": "sci-exercise-rvo2-rct-analysis",
+  "anchor_kind": "B",
+  "provenance": "validation-output/reconstruction-repos/sci-exercise @58f690c; author-public reproduction repository of the published review (BSD-3)",
+  "reconstructed": {
+    "k": 16,
+    "pooled_md_ml_min_kg": 2.865,
+    "ci95": [
+      1.795,
+      3.935
+    ],
+    "model": "random-effects REML (metafor::rma), measure = MD",
+    "tau2": 4.149,
+    "I2_percent": 92.7,
+    "studies": [
+      "Akkurt 2017",
+      "Bombardier 2021",
+      "Capodaglio 1996",
+      "Cheung 2019",
+      "Froehlich-Grobe 2022",
+      "Gorman 2016",
+      "Hansen 2023",
+      "Kim 2015",
+      "Kim 2019",
+      "Ma 2019",
+      "Nightingale 2018",
+      "Pelletier 2015",
+      "Rosety-Rodriguez 2014",
+      "Taylor 1986",
+      "Torhaug 2016",
+      "Yarar-Fisher 2018"
+    ]
+  },
+  "blind_agent_agreement": {
+    "design": "intervention_pairwise (RCT exercise vs control) \u2014 matches published",
+    "effect_measure": "mean difference \u2014 matches published",
+    "analysis_model": "random-effects REML \u2014 matches published",
+    "note": "anchor kind B: analysis-SETUP agreement with the published review's public reproduction asset; the estimate is a reproduction of the published review's analysis on its own evidence corpus (not an independent prediction); the high I2 (92.7%) is reported as an audit observation \u2014 the agent's structure signals carry no I2 (outcome-stripped), so this value is not an input to any decision"
+  },
+  "script": "validation-output/reconstruction-repos/sci-exercise/reconstruct_rvo2.R"
+}
