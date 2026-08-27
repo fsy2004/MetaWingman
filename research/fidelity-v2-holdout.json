@@ -21,18 +21,18 @@
     "accepted_calibration_n": 26
   },
   "n": 39,
-  "mean_fidelity": 0.9192,
+  "mean_fidelity": 0.9372,
   "mean_dimensions": {
-    "design_selection": 0.9231,
-    "estimand_identification": 0.9231,
-    "synthesis_route": 0.9231,
+    "design_selection": 0.9487,
+    "estimand_identification": 0.9487,
+    "synthesis_route": 0.9487,
     "stop_decision": 0.9744,
     "guard_consistency": 0.8462
   },
-  "design_agreement": 0.9231,
+  "design_agreement": 0.9487,
   "pooling_agreement": 0.8462,
   "stop_agreement": 0.9744,
-  "three_task_mean": 0.9145,
+  "three_task_mean": 0.9231,
   "pooling_confusion": {
     "tp": 23,
     "fp": 1,
@@ -680,16 +680,16 @@
     {
       "case_id": "epmc:MED:40748424",
       "gold_profile": "prevalence_incidence",
-      "agent_profile": "structured_no_pooling",
+      "agent_profile": "prevalence_incidence",
       "gold_poolable": false,
       "agent_poolable": false,
       "gold_living": false,
       "agent_living": false,
-      "total": 0.3,
+      "total": 1.0,
       "dims": {
-        "design_selection": 0.0,
-        "estimand_identification": 0.0,
-        "synthesis_route": 0.0,
+        "design_selection": 1.0,
+        "estimand_identification": 1.0,
+        "synthesis_route": 1.0,
         "stop_decision": 1.0,
         "guard_consistency": 1.0
       },

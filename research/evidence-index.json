@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-08-27T02:20:05.709316+00:00",
+  "generated_at_utc": "2026-08-27T02:39:18.057856+00:00",
   "seed": 20260826,
   "metric": "fidelity (agreement with published_expert_reference, OOD, strict parse, no fallback)",
   "results": {
@@ -9230,7 +9230,7 @@
     "fidelity-v2-dev.json": {
       "description": "decision-object v2 on methods-text gold (dev)",
       "path": "fidelity-v2-dev.json",
-      "sha256": "9543964bfce40bc2cc74f48d6b95a91d8dc1d34474c84d5f534ebbe64f4dd2c0",
+      "sha256": "8bcd4f3a85e5e960a107ccb4754c7556f04d268c9d6835aa5670955e276783b1",
       "payload": {
         "scope": "decision-object v2 on methods-text-extracted gold (dev)",
         "guard_alpha": 0.1,
@@ -9254,18 +9254,18 @@
           "accepted_calibration_n": 26
         },
         "n": 40,
-        "mean_fidelity": 0.8475,
+        "mean_fidelity": 0.9,
         "mean_dimensions": {
-          "design_selection": 0.825,
-          "estimand_identification": 0.825,
-          "synthesis_route": 0.825,
+          "design_selection": 0.9,
+          "estimand_identification": 0.9,
+          "synthesis_route": 0.9,
           "stop_decision": 0.9,
           "guard_consistency": 0.9
         },
-        "design_agreement": 0.825,
+        "design_agreement": 0.9,
         "pooling_agreement": 0.9,
         "stop_agreement": 0.9,
-        "three_task_mean": 0.875,
+        "three_task_mean": 0.9,
         "pooling_confusion": {
           "tp": 24,
           "fp": 0,
@@ -9385,16 +9385,16 @@
           {
             "case_id": "epmc:MED:41340799",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -9937,16 +9937,16 @@
           {
             "case_id": "epmc:MED:39656503",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -10153,16 +10153,16 @@
           {
             "case_id": "epmc:MED:42001953",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -10252,7 +10252,7 @@
     "fidelity-v2-holdout.json": {
       "description": "decision-object v2 on methods-text gold (OOD holdout)",
       "path": "fidelity-v2-holdout.json",
-      "sha256": "67b8fb7c45399a37016dd3a46a3c5926de3e8fb0abf8b63adbdd026381d9c8b5",
+      "sha256": "800f2c8f05fa39678559e4d775d711f69f4835854a847c8e067340e59f1c1bad",
       "payload": {
         "scope": "decision-object v2 on methods-text-extracted gold (holdout)",
         "guard_alpha": 0.1,
@@ -10276,18 +10276,18 @@
           "accepted_calibration_n": 26
         },
         "n": 39,
-        "mean_fidelity": 0.9192,
+        "mean_fidelity": 0.9372,
         "mean_dimensions": {
-          "design_selection": 0.9231,
-          "estimand_identification": 0.9231,
-          "synthesis_route": 0.9231,
+          "design_selection": 0.9487,
+          "estimand_identification": 0.9487,
+          "synthesis_route": 0.9487,
           "stop_decision": 0.9744,
           "guard_consistency": 0.8462
         },
-        "design_agreement": 0.9231,
+        "design_agreement": 0.9487,
         "pooling_agreement": 0.8462,
         "stop_agreement": 0.9744,
-        "three_task_mean": 0.9145,
+        "three_task_mean": 0.9231,
         "pooling_confusion": {
           "tp": 23,
           "fp": 1,
@@ -10935,16 +10935,16 @@
           {
             "case_id": "epmc:MED:40748424",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -11250,7 +11250,7 @@
     "fidelity-v2-large.json": {
       "description": "decision-object v2 on methods-text gold (diverse corpus)",
       "path": "fidelity-v2-large.json",
-      "sha256": "386b2ec19d6be0570355282cb9f5c287be1c2767b8d6ae752f370d3d36cc0264",
+      "sha256": "2e61ad607bc33f517c25c0d2fbcfda176cc6e1ed34fe20a7ebee7881e6e1f283",
       "payload": {
         "scope": "decision-object v2 on methods-text-extracted gold (large)",
         "guard_alpha": 0.1,
@@ -11274,18 +11274,18 @@
           "accepted_calibration_n": 26
         },
         "n": 196,
-        "mean_fidelity": 0.8939,
+        "mean_fidelity": 0.9403,
         "mean_dimensions": {
-          "design_selection": 0.8878,
-          "estimand_identification": 0.8878,
-          "synthesis_route": 0.8878,
+          "design_selection": 0.9541,
+          "estimand_identification": 0.9541,
+          "synthesis_route": 0.9541,
           "stop_decision": 0.9847,
           "guard_consistency": 0.8316
         },
-        "design_agreement": 0.8878,
+        "design_agreement": 0.9541,
         "pooling_agreement": 0.8316,
         "stop_agreement": 0.9847,
-        "three_task_mean": 0.9014,
+        "three_task_mean": 0.9235,
         "pooling_confusion": {
           "tp": 119,
           "fp": 6,
@@ -11309,16 +11309,16 @@
           {
             "case_id": "epmc:MED:39572394",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -11741,16 +11741,16 @@
           {
             "case_id": "epmc:MED:38648265",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -11813,16 +11813,16 @@
           {
             "case_id": "epmc:MED:36840919",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -11957,16 +11957,16 @@
           {
             "case_id": "epmc:MED:40468902",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -12173,16 +12173,16 @@
           {
             "case_id": "epmc:MED:37740617",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -12269,16 +12269,16 @@
           {
             "case_id": "epmc:MED:41979291",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -12581,16 +12581,16 @@
           {
             "case_id": "epmc:MED:41503829",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -14069,16 +14069,16 @@
           {
             "case_id": "epmc:MED:41543583",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -14165,16 +14165,16 @@
           {
             "case_id": "epmc:MED:38310408",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -14381,16 +14381,16 @@
           {
             "case_id": "epmc:MED:37537669",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -14693,25 +14693,25 @@
           {
             "case_id": "epmc:MED:35719121",
             "gold_profile": "prognostic_prediction",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prognostic_prediction",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
             "guard_risk": 0.3996,
             "guard_reason": "alignment dimension failed: outcome",
             "next_evidence": {
-              "gap": "update_freshness",
+              "gap": "external_validity",
               "evpi": -0.175,
-              "expected_utility_gain": 0.7
+              "expected_utility_gain": 0.75
             }
           },
           {
@@ -15269,16 +15269,16 @@
           {
             "case_id": "epmc:MED:39988715",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -15845,16 +15845,16 @@
           {
             "case_id": "epmc:MED:36200436",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -16016,7 +16016,7 @@
     "fidelity-v2-living.json": {
       "description": "decision-object v2 on methods-text gold (living benchmark)",
       "path": "fidelity-v2-living.json",
-      "sha256": "3a612b8a7cc0ee6438a554f6172883a3e049b06b1c0a9547ad538d061dd030ba",
+      "sha256": "c75aefb9387cba751693b85804ea42fdbed85f657ece631855a840d6d976e542",
       "payload": {
         "scope": "decision-object v2 on methods-text-extracted gold (living)",
         "guard_alpha": 0.1,
@@ -16040,18 +16040,18 @@
           "accepted_calibration_n": 26
         },
         "n": 35,
-        "mean_fidelity": 0.7,
+        "mean_fidelity": 0.72,
         "mean_dimensions": {
-          "design_selection": 0.8286,
-          "estimand_identification": 0.8286,
-          "synthesis_route": 0.8286,
+          "design_selection": 0.8571,
+          "estimand_identification": 0.8571,
+          "synthesis_route": 0.8571,
           "stop_decision": 0.0,
           "guard_consistency": 0.8
         },
-        "design_agreement": 0.8286,
+        "design_agreement": 0.8571,
         "pooling_agreement": 0.8,
         "stop_agreement": 0.0,
-        "three_task_mean": 0.5429,
+        "three_task_mean": 0.5524,
         "pooling_confusion": {
           "tp": 22,
           "fp": 3,
@@ -16315,16 +16315,16 @@
           {
             "case_id": "epmc:MED:30631437",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": true,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 0.0,
               "guard_consistency": 1.0
             },
@@ -16979,7 +16979,7 @@
     "ablation-v2.json": {
       "description": "v2 ablation + progressive baselines (paired bootstrap CIs)",
       "path": "ablation-v2.json",
-      "sha256": "fed0bca61c3caab9cb4295f704aaa00062dd5acb2b4437ae80b6cd371ef492cc",
+      "sha256": "9efab8345e64714f821a69e4a0262cb8c8f6ddfbe5c4908068fa6905d4214f7c",
       "payload": {
         "scope": "v2 ablation/progressive baselines (methods-text gold, dimension guard)",
         "n_boot": 2000,
@@ -16990,76 +16990,76 @@
         ],
         "holdout": {
           "full": {
-            "mean_fidelity": 0.9192
+            "mean_fidelity": 0.9372
           },
           "no_guard": {
             "mean_fidelity": 0.8282,
             "delta_vs_full_ci95": [
-              -0.1962,
-              0.0013
+              -0.2115,
+              -0.0244
             ],
-            "delta_vs_full": -0.091
+            "delta_vs_full": -0.109
           },
           "no_estimand": {
             "mean_fidelity": 0.6833,
             "delta_vs_full_ci95": [
-              -0.3051,
-              -0.1692
+              -0.3179,
+              -0.2026
             ],
-            "delta_vs_full": -0.2359
+            "delta_vs_full": -0.2538
           },
           "no_evpi": {
             "mean_fidelity": 0.8474,
             "delta_vs_full_ci95": [
-              -0.1615,
-              0.0
+              -0.1795,
+              -0.0179
             ],
-            "delta_vs_full": -0.0718
+            "delta_vs_full": -0.0897
           },
           "L1_design_rule": {
             "mean_fidelity": 0.8282,
             "delta_vs_full_ci95": [
-              -0.1962,
-              0.0013
+              -0.2115,
+              -0.0244
             ],
-            "delta_vs_full": -0.091
+            "delta_vs_full": -0.109
           }
         },
         "large": {
           "full": {
-            "mean_fidelity": 0.8939
+            "mean_fidelity": 0.9403
           },
           "no_guard": {
             "mean_fidelity": 0.8809,
             "delta_vs_full_ci95": [
-              -0.0528,
-              0.0268
+              -0.0931,
+              -0.0283
             ],
-            "delta_vs_full": -0.013
+            "delta_vs_full": -0.0594
           },
           "no_estimand": {
             "mean_fidelity": 0.7163,
             "delta_vs_full_ci95": [
-              -0.2102,
-              -0.1444
+              -0.2439,
+              -0.2056
             ],
-            "delta_vs_full": -0.1776
+            "delta_vs_full": -0.224
           },
           "no_evpi": {
             "mean_fidelity": 0.8939,
             "delta_vs_full_ci95": [
-              -0.0393,
-              0.0357
+              -0.0714,
+              -0.025
             ],
-            "delta_vs_full": 0.0
+            "delta_vs_full": -0.0464
           },
           "L1_design_rule": {
             "mean_fidelity": 0.8809,
             "delta_vs_full_ci95": [
-              -0.0528,
-              0.0268
+              -0.0931,
+              -0.0283
             ],
-            "delta_vs_full": -0.013
+            "delta_vs_full": -0.0594
           }
         }
       }
@@ -21733,7 +21733,7 @@
     "bootstrap-v2-ci.json": {
       "description": "bootstrap CIs (5 seeds) for v2 corpora and rule-vs-bare multi-task",
       "path": "bootstrap-v2-ci.json",
-      "sha256": "2eac56aaa17b68d4624a5b88ffb4914d068068d4cb1d76bc39536dda09b32752",
+      "sha256": "0960051b5b4e03e29d607a2e2ced7d227029a6edcd007f116ed987bedd7e6ddc",
       "payload": {
         "scope": "v2 bootstrap CIs (methods-text gold)",
         "n_boot": 2000,
@@ -21748,119 +21748,119 @@
           "dev": {
             "n": 40,
             "weighted_fidelity": {
-              "mean": 0.8475,
+              "mean": 0.9,
               "ci95": [
-                0.7562,
-                0.9287
+                0.8224,
+                0.9637
               ],
               "per_seed": [
                 [
-                  0.7625,
-                  0.9275
+                  0.8238,
+                  0.9637
                 ],
                 [
-                  0.76,
-                  0.925
+                  0.8224,
+                  0.9637
                 ],
                 [
-                  0.7575,
-                  0.925
+                  0.8288,
+                  0.9625
                 ],
                 [
-                  0.7625,
-                  0.9287
+                  0.8249,
+                  0.9625
                 ],
                 [
-                  0.7562,
-                  0.925
+                  0.8262,
+                  0.9637
                 ]
               ]
             },
             "tasks": {
               "design_selection": {
-                "mean": 0.825,
+                "mean": 0.9,
                 "ci95": [
-                  0.7,
-                  0.925
+                  0.8,
+                  0.975
                 ],
                 "per_seed": [
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ],
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ],
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ],
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ],
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ]
                 ]
               },
               "estimand_identification": {
-                "mean": 0.825,
+                "mean": 0.9,
                 "ci95": [
-                  0.7,
-                  0.925
+                  0.8,
+                  0.975
                 ],
                 "per_seed": [
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ],
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ],
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ],
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ],
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ]
                 ]
               },
               "synthesis_route": {
-                "mean": 0.825,
+                "mean": 0.9,
                 "ci95": [
-                  0.7,
-                  0.925
+                  0.8,
+                  0.975
                 ],
                 "per_seed": [
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ],
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ],
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ],
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ],
                   [
-                    0.7,
-                    0.925
+                    0.8,
+                    0.975
                   ]
                 ]
               },
@@ -21924,31 +21924,31 @@
               }
             },
             "three_task_mean": {
-              "mean": 0.875,
+              "mean": 0.9,
               "ci95": [
-                0.8083,
-                0.9333
+                0.8333,
+                0.9583
               ],
               "per_seed": [
                 [
-                  0.8083,
-                  0.9333
+                  0.8333,
+                  0.9583
                 ],
                 [
-                  0.8167,
-                  0.9333
+                  0.8417,
+                  0.95
                 ],
                 [
-                  0.8167,
-                  0.9333
+                  0.8417,
+                  0.95
                 ],
                 [
-                  0.8167,
-                  0.9333
+                  0.8417,
+                  0.95
                 ],
                 [
-                  0.8083,
-                  0.9333
+                  0.8417,
+                  0.95
                 ]
               ]
             }
@@ -21956,118 +21956,118 @@
           "holdout": {
             "n": 39,
             "weighted_fidelity": {
-              "mean": 0.9192,
+              "mean": 0.9372,
               "ci95": [
-                0.8513,
-                0.9705
+                0.8795,
+                0.9808
               ],
               "per_seed": [
                 [
-                  0.8538,
-                  0.9692
+                  0.8795,
+                  0.9769
                 ],
                 [
-                  0.8577,
-                  0.9705
+                  0.8833,
+                  0.9769
                 ],
                 [
-                  0.8538,
-                  0.9705
+                  0.882,
+                  0.9769
                 ],
                 [
-                  0.8564,
-                  0.9705
+                  0.8859,
+                  0.9808
                 ],
                 [
-                  0.8513,
-                  0.9705
+                  0.8833,
+                  0.9808
                 ]
               ]
             },
             "tasks": {
               "design_selection": {
-                "mean": 0.9231,
+                "mean": 0.9487,
                 "ci95": [
-                  0.8205,
+                  0.8718,
                   1.0
                 ],
                 "per_seed": [
                   [
-                    0.8205,
+                    0.8718,
                     1.0
                   ],
                   [
-                    0.8462,
+                    0.8718,
                     1.0
                   ],
                   [
-                    0.8205,
+                    0.8718,
                     1.0
                   ],
                   [
-                    0.8205,
+                    0.8718,
                     1.0
                   ],
                   [
-                    0.8205,
+                    0.8718,
                     1.0
                   ]
                 ]
               },
               "estimand_identification": {
-                "mean": 0.9231,
+                "mean": 0.9487,
                 "ci95": [
-                  0.8205,
+                  0.8718,
                   1.0
                 ],
                 "per_seed": [
                   [
-                    0.8205,
+                    0.8718,
                     1.0
                   ],
                   [
-                    0.8462,
+                    0.8718,
                     1.0
                   ],
                   [
-                    0.8205,
+                    0.8718,
                     1.0
                   ],
                   [
-                    0.8205,
+                    0.8718,
                     1.0
                   ],
                   [
-                    0.8205,
+                    0.8718,
                     1.0
                   ]
                 ]
               },
               "synthesis_route": {
-                "mean": 0.9231,
+                "mean": 0.9487,
                 "ci95": [
-                  0.8205,
+                  0.8718,
                   1.0
                 ],
                 "per_seed": [
                   [
-                    0.8205,
+                    0.8718,
                     1.0
                   ],
                   [
-                    0.8462,
+                    0.8718,
                     1.0
                   ],
                   [
-                    0.8205,
+                    0.8718,
                     1.0
                   ],
                   [
-                    0.8205,
+                    0.8718,
                     1.0
                   ],
                   [
-                    0.8205,
+                    0.8718,
                     1.0
                   ]
                 ]
@@ -22132,31 +22132,31 @@
               }
             },
             "three_task_mean": {
-              "mean": 0.9145,
+              "mean": 0.9231,
               "ci95": [
-                0.8632,
-                0.9573
+                0.8803,
+                0.9658
               ],
               "per_seed": [
                 [
-                  0.8718,
-                  0.9573
+                  0.8803,
+                  0.9658
                 ],
                 [
-                  0.8718,
-                  0.9573
+                  0.8803,
+                  0.9658
                 ],
                 [
-                  0.8718,
-                  0.9573
+                  0.8803,
+                  0.9658
                 ],
                 [
-                  0.8718,
-                  0.9573
+                  0.8803,
+                  0.9658
                 ],
                 [
-                  0.8632,
-                  0.9573
+                  0.8803,
+                  0.9658
                 ]
               ]
             }
@@ -22164,119 +22164,119 @@
           "large": {
             "n": 196,
             "weighted_fidelity": {
-              "mean": 0.8939,
+              "mean": 0.9403,
               "ci95": [
-                0.8594,
-                0.9263
+                0.9135,
+                0.963
               ],
               "per_seed": [
                 [
-                  0.8594,
-                  0.926
+                  0.9153,
+                  0.962
                 ],
                 [
-                  0.8625,
-                  0.9255
+                  0.9135,
+                  0.962
                 ],
                 [
-                  0.8602,
-                  0.925
+                  0.9161,
+                  0.9625
                 ],
                 [
-                  0.8615,
-                  0.9263
+                  0.9173,
+                  0.963
                 ],
                 [
-                  0.8617,
-                  0.925
+                  0.9158,
+                  0.9625
                 ]
               ]
             },
             "tasks": {
               "design_selection": {
-                "mean": 0.8878,
+                "mean": 0.9541,
                 "ci95": [
-                  0.8418,
-                  0.9337
+                  0.9235,
+                  0.9796
                 ],
                 "per_seed": [
                   [
-                    0.8418,
-                    0.9286
+                    0.9235,
+                    0.9796
                   ],
                   [
-                    0.8418,
-                    0.9286
+                    0.9235,
+                    0.9796
                   ],
                   [
-                    0.8418,
-                    0.9286
+                    0.9235,
+                    0.9796
                   ],
                   [
-                    0.8418,
-                    0.9337
+                    0.9235,
+                    0.9796
                   ],
                   [
-                    0.8469,
-                    0.9286
+                    0.9235,
+                    0.9796
                   ]
                 ]
               },
               "estimand_identification": {
-                "mean": 0.8878,
+                "mean": 0.9541,
                 "ci95": [
-                  0.8418,
-                  0.9337
+                  0.9235,
+                  0.9796
                 ],
                 "per_seed": [
                   [
-                    0.8418,
-                    0.9286
+                    0.9235,
+                    0.9796
                   ],
                   [
-                    0.8418,
-                    0.9286
+                    0.9235,
+                    0.9796
                   ],
                   [
-                    0.8418,
-                    0.9286
+                    0.9235,
+                    0.9796
                   ],
                   [
-                    0.8418,
-                    0.9337
+                    0.9235,
+                    0.9796
                   ],
                   [
-                    0.8469,
-                    0.9286
+                    0.9235,
+                    0.9796
                   ]
                 ]
               },
               "synthesis_route": {
-                "mean": 0.8878,
+                "mean": 0.9541,
                 "ci95": [
-                  0.8418,
-                  0.9337
+                  0.9235,
+                  0.9796
                 ],
                 "per_seed": [
                   [
-                    0.8418,
-                    0.9286
+                    0.9235,
+                    0.9796
                   ],
                   [
-                    0.8418,
-                    0.9286
+                    0.9235,
+                    0.9796
                   ],
                   [
-                    0.8418,
-                    0.9286
+                    0.9235,
+                    0.9796
                   ],
                   [
-                    0.8418,
-                    0.9337
+                    0.9235,
+                    0.9796
                   ],
                   [
-                    0.8469,
-                    0.9286
+                    0.9235,
+                    0.9796
                   ]
                 ]
               },
@@ -22340,31 +22340,31 @@
               }
             },
             "three_task_mean": {
-              "mean": 0.9014,
+              "mean": 0.9235,
               "ci95": [
-                0.8759,
-                0.9252
+                0.8997,
+                0.9456
               ],
               "per_seed": [
                 [
-                  0.8759,
-                  0.9252
+                  0.8997,
+                  0.9439
                 ],
                 [
-                  0.8776,
-                  0.9252
+                  0.9013,
+                  0.9456
                 ],
                 [
-                  0.8776,
-                  0.9235
+                  0.9014,
+                  0.9456
                 ],
                 [
-                  0.8776,
-                  0.9252
+                  0.9014,
+                  0.9456
                 ],
                 [
-                  0.8776,
-                  0.9252
+                  0.9013,
+                  0.9456
                 ]
               ]
             }
@@ -22372,119 +22372,119 @@
           "living": {
             "n": 35,
             "weighted_fidelity": {
-              "mean": 0.7,
+              "mean": 0.72,
               "ci95": [
-                0.5914,
-                0.7886
+                0.6186,
+                0.8086
               ],
               "per_seed": [
                 [
-                  0.5986,
-                  0.7886
+                  0.6229,
+                  0.8057
                 ],
                 [
-                  0.6,
-                  0.7886
+                  0.6229,
+                  0.8086
                 ],
                 [
-                  0.6029,
-                  0.7886
+                  0.6243,
+                  0.8014
                 ],
                 [
-                  0.5986,
-                  0.7843
+                  0.6229,
+                  0.8014
                 ],
                 [
-                  0.5914,
-                  0.7886
+                  0.6186,
+                  0.8015
                 ]
               ]
             },
             "tasks": {
               "design_selection": {
-                "mean": 0.8286,
+                "mean": 0.8571,
                 "ci95": [
-                  0.6857,
-                  0.9429
+                  0.7429,
+                  0.9714
                 ],
                 "per_seed": [
                   [
-                    0.6857,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ],
                   [
-                    0.6857,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ],
                   [
-                    0.7143,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ],
                   [
-                    0.6857,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ],
                   [
-                    0.6857,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ]
                 ]
               },
               "estimand_identification": {
-                "mean": 0.8286,
+                "mean": 0.8571,
                 "ci95": [
-                  0.6857,
-                  0.9429
+                  0.7429,
+                  0.9714
                 ],
                 "per_seed": [
                   [
-                    0.6857,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ],
                   [
-                    0.6857,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ],
                   [
-                    0.7143,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ],
                   [
-                    0.6857,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ],
                   [
-                    0.6857,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ]
                 ]
               },
               "synthesis_route": {
-                "mean": 0.8286,
+                "mean": 0.8571,
                 "ci95": [
-                  0.6857,
-                  0.9429
+                  0.7429,
+                  0.9714
                 ],
                 "per_seed": [
                   [
-                    0.6857,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ],
                   [
-                    0.6857,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ],
                   [
-                    0.7143,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ],
                   [
-                    0.6857,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ],
                   [
-                    0.6857,
-                    0.9429
+                    0.7429,
+                    0.9714
                   ]
                 ]
               },
@@ -22548,31 +22548,31 @@
               }
             },
             "three_task_mean": {
-              "mean": 0.5429,
+              "mean": 0.5524,
               "ci95": [
-                0.4667,
-                0.6095
+                0.4762,
+                0.619
               ],
               "per_seed": [
                 [
-                  0.4667,
+                  0.4762,
+                  0.619
+                ],
+                [
+                  0.4762,
+                  0.619
+                ],
+                [
+                  0.4857,
+                  0.619
+                ],
+                [
+                  0.4762,
                   0.6095
                 ],
                 [
-                  0.4667,
-                  0.6095
-                ],
-                [
-                  0.476,
-                  0.6095
-                ],
-                [
-                  0.4667,
-                  0.6095
-                ],
-                [
-                  0.4667,
-                  0.6095
+                  0.4762,
+                  0.619
                 ]
               ]
             }
@@ -22583,38 +22583,38 @@
     "multitask-compare-v2.json": {
       "description": "v2 like-for-like rule vs bare multi-task comparison (paired)",
       "path": "multitask-compare-v2.json",
-      "sha256": "b80da203824e3da2425a36604e4761edf3353a213e95f8393c1e281ce9a65c0e",
+      "sha256": "6400eb0844485f0ecdf401cd843237dc66ea7e4bbed8ef96a18b71c76c4843b1",
       "payload": {
         "scope": "v2 rule vs bare multi-task (paired per case, 3-task mean + tasks)",
         "corpora": {
           "holdout": {
             "n": 39,
             "rule_3task": {
-              "mean": 0.9145,
+              "mean": 0.9231,
               "ci95": [
-                0.8632,
-                0.9573
+                0.8803,
+                0.9658
               ],
               "per_seed": [
                 [
-                  0.8718,
-                  0.9573
+                  0.8803,
+                  0.9658
                 ],
                 [
-                  0.8718,
-                  0.9573
+                  0.8803,
+                  0.9658
                 ],
                 [
-                  0.8718,
-                  0.9573
+                  0.8803,
+                  0.9658
                 ],
                 [
-                  0.8718,
-                  0.9573
+                  0.8803,
+                  0.9658
                 ],
                 [
-                  0.8632,
-                  0.9573
+                  0.8803,
+                  0.9658
                 ]
               ]
             },
@@ -22648,31 +22648,31 @@
               ]
             },
             "delta_rule_minus_bare": {
-              "mean": 0.0256,
+              "mean": 0.0342,
               "ci95": [
-                -0.0342,
-                0.0855
+                -0.0256,
+                0.094
               ],
               "per_seed": [
                 [
-                  -0.0342,
-                  0.0855
+                  -0.0256,
+                  0.094
                 ],
                 [
-                  -0.0342,
-                  0.0855
+                  -0.0256,
+                  0.094
                 ],
                 [
-                  -0.0342,
-                  0.0855
+                  -0.0256,
+                  0.094
                 ],
                 [
-                  -0.0342,
-                  0.0855
+                  -0.0256,
+                  0.094
                 ],
                 [
-                  -0.0342,
-                  0.0855
+                  -0.0256,
+                  0.094
                 ]
               ]
             },
@@ -22735,30 +22735,30 @@
               ]
             },
             "rule_design": {
-              "mean": 0.9231,
+              "mean": 0.9487,
               "ci95": [
-                0.8205,
+                0.8718,
                 1.0
               ],
               "per_seed": [
                 [
-                  0.8205,
+                  0.8718,
                   1.0
                 ],
                 [
-                  0.8462,
+                  0.8718,
                   1.0
                 ],
                 [
-                  0.8205,
+                  0.8718,
                   1.0
                 ],
                 [
-                  0.8205,
+                  0.8718,
                   1.0
                 ],
                 [
-                  0.8205,
+                  0.8718,
                   1.0
                 ]
               ]
@@ -22796,31 +22796,31 @@
           "large": {
             "n": 196,
             "rule_3task": {
-              "mean": 0.9014,
+              "mean": 0.9235,
               "ci95": [
-                0.8759,
-                0.9252
+                0.8997,
+                0.9456
               ],
               "per_seed": [
                 [
-                  0.8759,
-                  0.9252
+                  0.8997,
+                  0.9439
                 ],
                 [
-                  0.8776,
-                  0.9252
+                  0.9013,
+                  0.9456
                 ],
                 [
-                  0.8776,
-                  0.9235
+                  0.9014,
+                  0.9456
                 ],
                 [
-                  0.8776,
-                  0.9252
+                  0.9014,
+                  0.9456
                 ],
                 [
-                  0.8776,
-                  0.9252
+                  0.9013,
+                  0.9456
                 ]
               ]
             },
@@ -22854,31 +22854,31 @@
               ]
             },
             "delta_rule_minus_bare": {
-              "mean": 0.0306,
+              "mean": 0.0527,
               "ci95": [
-                0.0017,
-                0.0596
+                0.0221,
+                0.085
               ],
               "per_seed": [
                 [
-                  0.0017,
-                  0.0578
+                  0.0221,
+                  0.0816
                 ],
                 [
-                  0.0034,
-                  0.0595
+                  0.0238,
+                  0.085
                 ],
                 [
-                  0.0034,
-                  0.0595
+                  0.0221,
+                  0.0833
                 ],
                 [
-                  0.0034,
-                  0.0596
+                  0.0238,
+                  0.085
                 ],
                 [
-                  0.0017,
-                  0.0595
+                  0.0238,
+                  0.0833
                 ]
               ]
             },
@@ -22941,31 +22941,31 @@
               ]
             },
             "rule_design": {
-              "mean": 0.8878,
+              "mean": 0.9541,
               "ci95": [
-                0.8418,
-                0.9337
+                0.9235,
+                0.9796
               ],
               "per_seed": [
                 [
-                  0.8418,
-                  0.9286
+                  0.9235,
+                  0.9796
                 ],
                 [
-                  0.8418,
-                  0.9286
+                  0.9235,
+                  0.9796
                 ],
                 [
-                  0.8418,
-                  0.9286
+                  0.9235,
+                  0.9796
                 ],
                 [
-                  0.8418,
-                  0.9337
+                  0.9235,
+                  0.9796
                 ],
                 [
-                  0.8469,
-                  0.9286
+                  0.9235,
+                  0.9796
                 ]
               ]
             },
@@ -22999,6 +22999,280 @@
               ]
             }
           }
+        }
+      }
+    },
+    "reconstruction-agrdt-pooled-v2.json": {
+      "description": "analysis-stage reconstruction: pooled estimates vs published (+0.70/+0.20 pp, tolerance 2.0 pp)",
+      "path": "reconstruction-agrdt-pooled-v2.json",
+      "sha256": "54837c087f3b8c6f5b4e778cc99376037ec7fa393a4c9a69fbf701b1c7a5a5ad",
+      "payload": {
+        "schema_version": "1.0",
+        "case_id": "ag-rdt-pooled-sensitivity-slice",
+        "source": {
+          "workbook_doi": "10.11588/DATA/T3MIB0/FIDTR9",
+          "workbook": "Accuracy_of_rapid_point-of-care_antigen-based_diagnostics_for_SARS-CoV-2.xlsx",
+          "derived_2x2_sha256": "dbb464640e74fa08d96ed5b091a1ccc1f4ff8bba49bb334a67d931acbacc214b",
+          "derived_2x2_path": "validation-output/ag-rdt-corpus/case-input/agrdt-2x2-study.csv"
+        },
+        "derivation": {
+          "complete_2x2_rows": 304,
+          "study_level_unique": 189,
+          "subgroup_aggregation": "subgroup rows summed per study (59 studies with distinct subgroup 2x2; 3 duplicated rows taken once)",
+          "exclusion_rule": ">=3 zero cells or undefined rates (amended pre-run; f104, f118, f189, f193)",
+          "studies_used": 185,
+          "metrics": "raw 2x2 counts transcribed from the read-only reference workbook (CC BY-NC-ND; local staging only)"
+        },
+        "model": {
+          "family": "bivariate random-effects diagnostic meta-analysis (Reitsma)",
+          "implementation": "R mada::reitsma(correction = 0.5), REML",
+          "script": "validation-output/ag-rdt-corpus/run_reconstruction.R"
+        },
+        "reconstructed": {
+          "sensitivity_percent": 72.7,
+          "sens_ci": [
+            70.1,
+            75.2
+          ],
+          "specificity_percent": 99.1,
+          "spec_ci": [
+            98.9,
+            99.3
+          ]
+        },
+        "published": {
+          "sensitivity_percent": 72.0,
+          "sens_ci": [
+            69.8,
+            74.2
+          ],
+          "specificity_percent": 98.9,
+          "spec_ci": [
+            98.6,
+            99.1
+          ]
+        },
+        "deviations_pp": {
+          "sensitivity": 0.7,
+          "specificity": 0.2
+        },
+        "tolerance_pp": 2.0,
+        "within_tolerance": {
+          "sensitivity": true,
+          "specificity": true
+        },
+        "note": "analysis-slice reconstruction agreement with the published review's pooled estimates; reports estimate-level similarity of the analysis stage on the same evidence corpus (the agent that ran the workflow could not have seen these estimates \u2014 see blind-reconstruction-agrdt.json)"
+      }
+    },
+    "blind-reconstruction-agrdt.json": {
+      "description": "blind full-workflow reconstruction: agent (question-only) vs published review (design/pooling/model/criteria 8/8)",
+      "path": "blind-reconstruction-agrdt.json",
+      "sha256": "fb6505f7da0f6e292e586bd7ec5bc4d2419225c416e84a44a78b10533cb65f7b",
+      "payload": {
+        "scope": "blind full-workflow reconstruction: agent sees only the public clinical question; all published methods/results/criteria/design are excluded from its inputs",
+        "blindness": "design_type_hint, pooled, living_or_update, criteria text and results are NOT inputs",
+        "agent": {
+          "design_proposal": "diagnostic_accuracy",
+          "identification_assumption": "reference_standard",
+          "synthesis_route": "bivariate/hierarchical summary ROC with sensitivity at a pre-specified specificity",
+          "pooling_decision": true,
+          "guard": {
+            "alpha": 0.1,
+            "delta": null,
+            "guarantee": "distribution_free_finite_sample(alpha=0.1,delta=0.1)",
+            "risk_violation_estimate": 0.0,
+            "safety_score": 0.1944
+          },
+          "criteria": {
+            "population": "persons presumed to have COVID-19, irrespective of age, symptom status or setting",
+            "index_test": "commercial or pre-market point-of-care antigen-based rapid diagnostic tests (ag-RDT)",
+            "reference_standard": "RT-PCR as verification reference",
+            "outcome": "sensitivity and specificity (2x2 derivable)",
+            "study_designs": "comparative accuracy studies: prospective cohort, nested cohort, case-control or cross-sectional",
+            "publication_types": "peer-reviewed publications and preprints",
+            "language": "any language (no language restriction)",
+            "meta_threshold": "pool only when >= 4 studies provide complete 2x2 data for a test"
+          },
+          "exclusions": {
+            "testing_purpose": "testing for monitoring, quarantine decision or screening where the reference is not the diagnostic target",
+            "small_samples": "populations with fewer than 10 participants (verification ratio unstable)",
+            "non_primary": "studies that only re-analyse previously published data without new accuracy data"
+          },
+          "minimal_decisive_question": "Is this diagnostic_accuracy question answerable with the available node structure, or would pooling be misleading at alpha=0.1?"
+        },
+        "comparison": {
+          "design": {
+            "agent": "diagnostic_accuracy",
+            "published": "diagnostic_accuracy",
+            "match": true
+          },
+          "pooling": {
+            "agent": true,
+            "published": true,
+            "match": true
+          },
+          "identification": {
+            "agent": "reference_standard",
+            "published": "reference_standard",
+            "match": true
+          },
+          "analysis_model": {
+            "agent": "bivariate/hierarchical summary ROC with sensitivity at a pre-specified specificity",
+            "published": "bivariate random-effects DTA (mada Reitsma, REML)",
+            "match": true
+          },
+          "criteria_facets": {
+            "population": {
+              "agent": "persons presumed to have COVID-19, irrespective of age, symptom status or setting",
+              "published": "all study populations irrespective of age, presence of symptoms, or study location",
+              "matching_key_terms": [
+                "age",
+                "symptom"
+              ],
+              "match": true
+            },
+            "index_test": {
+              "agent": "commercial or pre-market point-of-care antigen-based rapid diagnostic tests (ag-RDT)",
+              "published": "Antigen rapid diagnostic test (ag-RDT) for SARS-CoV-2, developed for POC use (S1 Text)",
+              "matching_key_terms": [
+                "antigen",
+                "rapid",
+                "ag-rdt"
+              ],
+              "match": true
+            },
+            "reference_standard": {
+              "agent": "RT-PCR as verification reference",
+              "published": "RT-PCR",
+              "matching_key_terms": [
+                "rt-pcr"
+              ],
+              "match": true
+            },
+            "outcome": {
+              "agent": "sensitivity and specificity (2x2 derivable)",
+              "published": "sensitivity and specificity (diagnostic accuracy)",
+              "matching_key_terms": [
+                "sensitivity",
+                "specificity"
+              ],
+              "match": true
+            },
+            "study_designs": {
+              "agent": "comparative accuracy studies: prospective cohort, nested cohort, case-control or cross-sectional",
+              "published": "cohort studies, nested cohort studies, case-control or cross-sectional; including \u22644 studies without meta-analysis",
+              "matching_key_terms": [
+                "cohort",
+                "cross-sectional",
+                "case-control",
+                "nested"
+              ],
+              "match": true
+            },
+            "publication_types": {
+              "agent": "peer-reviewed publications and preprints",
+              "published": "both peer-reviewed publications and preprints",
+              "matching_key_terms": [
+                "preprint",
+                "peer-reviewed"
+              ],
+              "match": true
+            },
+            "language": {
+              "agent": "any language (no language restriction)",
+              "published": "No language restrictions",
+              "matching_key_terms": [
+                "language"
+              ],
+              "match": true
+            },
+            "meta_threshold": {
+              "agent": "pool only when >= 4 studies provide complete 2x2 data for a test",
+              "published": "meta-analysis only when \u22654 studies; otherwise narrative",
+              "matching_key_terms": [
+                "4 studies"
+              ],
+              "match": true
+            }
+          },
+          "criteria_match_count": 8,
+          "criteria_facet_n": 8,
+          "exclusion_facets": {
+            "monitoring_or_quarantine": {
+              "published": "patients tested for monitoring / ending quarantine",
+              "agent_facets": [
+                "testing for monitoring, quarantine decision or screening where the reference is not the diagnostic target",
+                "populations with fewer than 10 participants (verification ratio unstable)"
+              ],
+              "match": true
+            },
+            "population_under_10": {
+              "published": "population size smaller than 10",
+              "agent_facets": [
+                "testing for monitoring, quarantine decision or screening where the reference is not the diagnostic target",
+                "populations with fewer than 10 participants (verification ratio unstable)"
+              ],
+              "match": true
+            }
+          },
+          "exclusion_match_count": 2
+        },
+        "estimate_anchor": {
+          "schema_version": "1.0",
+          "case_id": "ag-rdt-pooled-sensitivity-slice",
+          "source": {
+            "workbook_doi": "10.11588/DATA/T3MIB0/FIDTR9",
+            "workbook": "Accuracy_of_rapid_point-of-care_antigen-based_diagnostics_for_SARS-CoV-2.xlsx",
+            "derived_2x2_sha256": "dbb464640e74fa08d96ed5b091a1ccc1f4ff8bba49bb334a67d931acbacc214b",
+            "derived_2x2_path": "validation-output/ag-rdt-corpus/case-input/agrdt-2x2-study.csv"
+          },
+          "derivation": {
+            "complete_2x2_rows": 304,
+            "study_level_unique": 189,
+            "subgroup_aggregation": "subgroup rows summed per study (59 studies with distinct subgroup 2x2; 3 duplicated rows taken once)",
+            "exclusion_rule": ">=3 zero cells or undefined rates (amended pre-run; f104, f118, f189, f193)",
+            "studies_used": 185,
+            "metrics": "raw 2x2 counts transcribed from the read-only reference workbook (CC BY-NC-ND; local staging only)"
+          },
+          "model": {
+            "family": "bivariate random-effects diagnostic meta-analysis (Reitsma)",
+            "implementation": "R mada::reitsma(correction = 0.5), REML",
+            "script": "validation-output/ag-rdt-corpus/run_reconstruction.R"
+          },
+          "reconstructed": {
+            "sensitivity_percent": 72.7,
+            "sens_ci": [
+              70.1,
+              75.2
+            ],
+            "specificity_percent": 99.1,
+            "spec_ci": [
+              98.9,
+              99.3
+            ]
+          },
+          "published": {
+            "sensitivity_percent": 72.0,
+            "sens_ci": [
+              69.8,
+              74.2
+            ],
+            "specificity_percent": 98.9,
+            "spec_ci": [
+              98.6,
+              99.1
+            ]
+          },
+          "deviations_pp": {
+            "sensitivity": 0.7,
+            "specificity": 0.2
+          },
+          "tolerance_pp": 2.0,
+          "within_tolerance": {
+            "sensitivity": true,
+            "specificity": true
+          },
+          "note": "analysis-slice reconstruction agreement with the published review's pooled estimates; reports estimate-level similarity of the analysis stage on the same evidence corpus (the agent that ran the workflow could not have seen these estimates \u2014 see blind-reconstruction-agrdt.json)"
         }
       }
     },
@@ -26248,5 +26522,5 @@
       }
     }
   },
-  "receipt_sha256": "71451f0144ead1e49d6078e44b6578befe412f30f37b88903397f126079d0cb2"
+  "receipt_sha256": "8cae28dadb2cace02901cf2852a1eeb1517e4cfe09d45676fbc924d20f5e2def"
 }

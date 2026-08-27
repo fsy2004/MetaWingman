@@ -51,6 +51,8 @@ FILES = {
     "cross-ds-large-v2.json": "bare-LLM design-only arm on v2 diverse gold",
     "bootstrap-v2-ci.json": "bootstrap CIs (5 seeds) for v2 corpora and rule-vs-bare multi-task",
     "multitask-compare-v2.json": "v2 like-for-like rule vs bare multi-task comparison (paired)",
+    "reconstruction-agrdt-pooled-v2.json": "analysis-stage reconstruction: pooled estimates vs published (+0.70/+0.20 pp, tolerance 2.0 pp)",
+    "blind-reconstruction-agrdt.json": "blind full-workflow reconstruction: agent (question-only) vs published review (design/pooling/model/criteria 8/8)",
     "bare-llm-holdout.json": "bare-LLM no-skill arm (v1 gold; historical)",
     "bootstrap-ci.json": "bootstrap CIs + multi-seed stability for v1 results (historical)",
     "multitask-agreement.json": "design/pooling/stopping as independent tasks (+3-task mean) per corpus (v1 gold; historical)",

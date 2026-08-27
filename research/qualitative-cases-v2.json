@@ -1,0 +1,53 @@
+{
+  "scope": "qualitative exhibits (v2.2, real published reviews, outcome-stripped signals)",
+  "cases": [
+    {
+      "exhibit": "E1: design and pooling are separate judgments",
+      "case_id": "epmc:MED:39572394",
+      "gold_profile": "prevalence_incidence",
+      "agent_profile": "prevalence_incidence",
+      "gold_poolable": false,
+      "agent_poolable": false,
+      "guard_reason": "alignment risk 0.256 above calibrated threshold 0.130 (alpha=0.1, delta=0.1, guaranteed risk <= 0.142)",
+      "fidelity_total": 1.0,
+      "reading": "the review's design is prevalence/incidence, but it declined pooling; the decision object keeps the design and refuses pooling (risk-controlled)"
+    },
+    {
+      "exhibit": "E2: reference narrative review, guard+design agree",
+      "case_id": "epmc:MED:41935176",
+      "gold_profile": "structured_no_pooling",
+      "agent_profile": "structured_no_pooling",
+      "gold_poolable": false,
+      "agent_poolable": false,
+      "guard_reason": "alignment dimension failed: estimand_aligned",
+      "fidelity_total": 1.0
+    },
+    {
+      "exhibit": "E3: pooled review, guard approves (perfect case)",
+      "case_id": "epmc:MED:35086065",
+      "gold_profile": "prevalence_incidence",
+      "agent_profile": "prevalence_incidence",
+      "gold_poolable": true,
+      "agent_poolable": true,
+      "fidelity_total": 1.0
+    },
+    {
+      "exhibit": "E4: deterministic rule correct where the bare LLM is not",
+      "case_id": "epmc:MED:41319219",
+      "gold_profile": "structured_no_pooling",
+      "agent_profile": "structured_no_pooling",
+      "bare_profile": "intervention_pairwise",
+      "fidelity_total": 1.0
+    },
+    {
+      "exhibit": "E5: living review \u2014 stop layer's limitation exemplar",
+      "case_id": "epmc:MED:26537996",
+      "gold_profile": "prevalence_incidence",
+      "agent_profile": "prevalence_incidence",
+      "gold_living": true,
+      "agent_living": false,
+      "fidelity_total": 0.7,
+      "reading": "gold living/update review; with structure-only signals the stop layer is not identifiable (see evpi-v2-identifiability)"
+    }
+  ]
+}

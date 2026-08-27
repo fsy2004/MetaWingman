@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "case_id": "ag-rdt-pooled-sensitivity-slice",
+  "source": {
+    "workbook_doi": "10.11588/DATA/T3MIB0/FIDTR9",
+    "workbook": "Accuracy_of_rapid_point-of-care_antigen-based_diagnostics_for_SARS-CoV-2.xlsx",
+    "derived_2x2_sha256": "dbb464640e74fa08d96ed5b091a1ccc1f4ff8bba49bb334a67d931acbacc214b",
+    "derived_2x2_path": "validation-output/ag-rdt-corpus/case-input/agrdt-2x2-study.csv"
+  },
+  "derivation": {
+    "complete_2x2_rows": 304,
+    "study_level_unique": 189,
+    "subgroup_aggregation": "subgroup rows summed per study (59 studies with distinct subgroup 2x2; 3 duplicated rows taken once)",
+    "exclusion_rule": ">=3 zero cells or undefined rates (amended pre-run; f104, f118, f189, f193)",
+    "studies_used": 185,
+    "metrics": "raw 2x2 counts transcribed from the read-only reference workbook (CC BY-NC-ND; local staging only)"
+  },
+  "model": {
+    "family": "bivariate random-effects diagnostic meta-analysis (Reitsma)",
+    "implementation": "R mada::reitsma(correction = 0.5), REML",
+    "script": "validation-output/ag-rdt-corpus/run_reconstruction.R"
+  },
+  "reconstructed": {
+    "sensitivity_percent": 72.7,
+    "sens_ci": [
+      70.1,
+      75.2
+    ],
+    "specificity_percent": 99.1,
+    "spec_ci": [
+      98.9,
+      99.3
+    ]
+  },
+  "published": {
+    "sensitivity_percent": 72.0,
+    "sens_ci": [
+      69.8,
+      74.2
+    ],
+    "specificity_percent": 98.9,
+    "spec_ci": [
+      98.6,
+      99.1
+    ]
+  },
+  "deviations_pp": {
+    "sensitivity": 0.7,
+    "specificity": 0.2
+  },
+  "tolerance_pp": 2.0,
+  "within_tolerance": {
+    "sensitivity": true,
+    "specificity": true
+  },
+  "note": "analysis-slice reconstruction agreement with the published review's pooled estimates; reports estimate-level similarity of the analysis stage on the same evidence corpus (the agent that ran the workflow could not have seen these estimates \u2014 see blind-reconstruction-agrdt.json)"
+}

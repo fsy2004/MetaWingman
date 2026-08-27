@@ -8,76 +8,76 @@
   ],
   "holdout": {
     "full": {
-      "mean_fidelity": 0.9192
+      "mean_fidelity": 0.9372
     },
     "no_guard": {
       "mean_fidelity": 0.8282,
       "delta_vs_full_ci95": [
-        -0.1962,
-        0.0013
+        -0.2115,
+        -0.0244
       ],
-      "delta_vs_full": -0.091
+      "delta_vs_full": -0.109
     },
     "no_estimand": {
       "mean_fidelity": 0.6833,
       "delta_vs_full_ci95": [
-        -0.3051,
-        -0.1692
+        -0.3179,
+        -0.2026
       ],
-      "delta_vs_full": -0.2359
+      "delta_vs_full": -0.2538
     },
     "no_evpi": {
       "mean_fidelity": 0.8474,
       "delta_vs_full_ci95": [
-        -0.1615,
-        0.0
+        -0.1795,
+        -0.0179
       ],
-      "delta_vs_full": -0.0718
+      "delta_vs_full": -0.0897
     },
     "L1_design_rule": {
       "mean_fidelity": 0.8282,
       "delta_vs_full_ci95": [
-        -0.1962,
-        0.0013
+        -0.2115,
+        -0.0244
       ],
-      "delta_vs_full": -0.091
+      "delta_vs_full": -0.109
     }
   },
   "large": {
     "full": {
-      "mean_fidelity": 0.8939
+      "mean_fidelity": 0.9403
     },
     "no_guard": {
       "mean_fidelity": 0.8809,
       "delta_vs_full_ci95": [
-        -0.0528,
-        0.0268
+        -0.0931,
+        -0.0283
       ],
-      "delta_vs_full": -0.013
+      "delta_vs_full": -0.0594
     },
     "no_estimand": {
       "mean_fidelity": 0.7163,
       "delta_vs_full_ci95": [
-        -0.2102,
-        -0.1444
+        -0.2439,
+        -0.2056
       ],
-      "delta_vs_full": -0.1776
+      "delta_vs_full": -0.224
     },
     "no_evpi": {
       "mean_fidelity": 0.8939,
       "delta_vs_full_ci95": [
-        -0.0393,
-        0.0357
+        -0.0714,
+        -0.025
       ],
-      "delta_vs_full": 0.0
+      "delta_vs_full": -0.0464
     },
     "L1_design_rule": {
       "mean_fidelity": 0.8809,
       "delta_vs_full_ci95": [
-        -0.0528,
-        0.0268
+        -0.0931,
+        -0.0283
       ],
-      "delta_vs_full": -0.013
+      "delta_vs_full": -0.0594
     }
   }
 }

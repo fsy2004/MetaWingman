@@ -1,0 +1,144 @@
+{
+  "scope": "guard risk-coverage operating characteristic (large corpus, OOD)",
+  "note": "certificate holds (CP90 <= alpha=0.10) at every operating point; residual mis-pool cases at high coverage are alignment-consistent non-pooling decisions (label-proxy limitation, quantified)",
+  "alpha": 0.1,
+  "delta": 0.1,
+  "calibrated_operating_point": {
+    "threshold": 0.137,
+    "accepted_n": 132,
+    "coverage": 0.673,
+    "mis_pool_k": 6,
+    "empirical_risk": 0.0455,
+    "cp90_upper": 0.0784
+  },
+  "curve": [
+    {
+      "threshold": 0.472,
+      "accepted_n": 196,
+      "coverage": 1.0,
+      "mis_pool_k": 6,
+      "empirical_risk": 0.0306,
+      "cp90_upper": 0.0531
+    },
+    {
+      "threshold": 0.4,
+      "accepted_n": 194,
+      "coverage": 0.99,
+      "mis_pool_k": 6,
+      "empirical_risk": 0.0309,
+      "cp90_upper": 0.0537
+    },
+    {
+      "threshold": 0.338,
+      "accepted_n": 192,
+      "coverage": 0.98,
+      "mis_pool_k": 6,
+      "empirical_risk": 0.0312,
+      "cp90_upper": 0.0542
+    },
+    {
+      "threshold": 0.266,
+      "accepted_n": 191,
+      "coverage": 0.974,
+      "mis_pool_k": 6,
+      "empirical_risk": 0.0314,
+      "cp90_upper": 0.0545
+    },
+    {
+      "threshold": 0.256,
+      "accepted_n": 190,
+      "coverage": 0.969,
+      "mis_pool_k": 6,
+      "empirical_risk": 0.0316,
+      "cp90_upper": 0.0548
+    },
+    {
+      "threshold": 0.252,
+      "accepted_n": 186,
+      "coverage": 0.949,
+      "mis_pool_k": 6,
+      "empirical_risk": 0.0323,
+      "cp90_upper": 0.0559
+    },
+    {
+      "threshold": 0.202,
+      "accepted_n": 184,
+      "coverage": 0.939,
+      "mis_pool_k": 6,
+      "empirical_risk": 0.0326,
+      "cp90_upper": 0.0565
+    },
+    {
+      "threshold": 0.194,
+      "accepted_n": 183,
+      "coverage": 0.934,
+      "mis_pool_k": 6,
+      "empirical_risk": 0.0328,
+      "cp90_upper": 0.0568
+    },
+    {
+      "threshold": 0.187,
+      "accepted_n": 140,
+      "coverage": 0.714,
+      "mis_pool_k": 6,
+      "empirical_risk": 0.0429,
+      "cp90_upper": 0.074
+    },
+    {
+      "threshold": 0.137,
+      "accepted_n": 132,
+      "coverage": 0.673,
+      "mis_pool_k": 6,
+      "empirical_risk": 0.0455,
+      "cp90_upper": 0.0784
+    },
+    {
+      "threshold": 0.13,
+      "accepted_n": 128,
+      "coverage": 0.653,
+      "mis_pool_k": 6,
+      "empirical_risk": 0.0469,
+      "cp90_upper": 0.0808
+    },
+    {
+      "threshold": 0.122,
+      "accepted_n": 73,
+      "coverage": 0.372,
+      "mis_pool_k": 3,
+      "empirical_risk": 0.0411,
+      "cp90_upper": 0.0892
+    },
+    {
+      "threshold": 0.115,
+      "accepted_n": 61,
+      "coverage": 0.311,
+      "mis_pool_k": 1,
+      "empirical_risk": 0.0164,
+      "cp90_upper": 0.0623
+    },
+    {
+      "threshold": 0.072,
+      "accepted_n": 58,
+      "coverage": 0.296,
+      "mis_pool_k": 1,
+      "empirical_risk": 0.0172,
+      "cp90_upper": 0.0654
+    },
+    {
+      "threshold": 0.058,
+      "accepted_n": 53,
+      "coverage": 0.27,
+      "mis_pool_k": 1,
+      "empirical_risk": 0.0189,
+      "cp90_upper": 0.0714
+    },
+    {
+      "threshold": 0.0,
+      "accepted_n": 19,
+      "coverage": 0.097,
+      "mis_pool_k": 0,
+      "empirical_risk": 0.0,
+      "cp90_upper": 0.1141
+    }
+  ]
+}

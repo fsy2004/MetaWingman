@@ -147,8 +147,8 @@ def derive_review_design(question: dict[str, Any], landscape: dict[str, Any]) ->
     if is_exposure and s["exposure_outcome_design"] in ("observational", "both"):
         candidates.append(("public_health_exposure",
                            "exposure-outcome association, heterogeneity-aware", 0.80))
-    if intervention_count and s["arms_per_study"] and s["comparator_count"]:
-        if s["comparator_count"] >= 3 or (s["arms_per_study"] and s["arms_per_study"] >= 3):
+    if intervention_count and (s["arms_per_study"] or s["comparator_count"]):
+        if (s["comparator_count"] or 0) >= 3 or (s["arms_per_study"] or 0) >= 3:
             candidates.append(("intervention_network",
                                "multiple competing interventions warrant network comparison", 0.86))
         else:

@@ -225,8 +225,16 @@ def derive_design_decision_v2(
         # alignment check means "do not pool" (risk control), not "the design is
         # different". The profile changes to structured_narrative only when the
         # evidence structure itself is narrative-defined (design_type_hint
-        # narrative_no_pooling) or no base design is identifiable.
-        narrative_defined = bool(signal.get("design_type_hint") == "narrative_no_pooling") or not base.profile
+        # narrative_no_pooling AND no stronger design signal) or no base design
+        # is identifiable. The priority mirrors the reference taxonomy:
+        # reference-standard / prediction-model / proportion-prevalence outcomes
+        # define the design even when the evidence body is narratively handled.
+        hint_narrative = bool(signal.get("design_type_hint") == "narrative_no_pooling")
+        outcome = str(signal.get("outcome_measure_type") or "").casefold()
+        strong_design = bool(signal.get("has_reference_standard") or
+                             signal.get("has_prediction_model") or
+                             outcome in ("proportion", "prevalence"))
+        narrative_defined = (hint_narrative and not strong_design) or not base.profile
         if narrative_defined:
             profile = "structured_no_pooling"
             estimand = ESTIMAND_TEMPLATES["structured_no_pooling"]
