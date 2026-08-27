@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-08-27T02:59:41.503511+00:00",
+  "generated_at_utc": "2026-08-27T03:10:56.848624+00:00",
   "seed": 20260826,
   "metric": "fidelity (agreement with published_expert_reference, OOD, strict parse, no fallback)",
   "results": {
@@ -26592,5 +26592,5 @@
       }
     }
   },
-  "receipt_sha256": "b137675a8ddf5df2553cae8d559f117c5a64d38583d445048bfd2ed701f0cf86"
+  "receipt_sha256": "6f3dc51dbf847462af23ea5bdca61efaea8490ea70327e2dc7d1ebce68e438f4"
 }

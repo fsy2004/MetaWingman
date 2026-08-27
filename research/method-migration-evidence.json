@@ -1,0 +1,113 @@
+{
+  "scope": "method-migration layer v2.3 evidence (no tuning; sources cited in module docstrings)",
+  "corpora": {
+    "holdout": {
+      "certificate": {
+        "n": 39,
+        "gate_passed_rate": 1.0,
+        "gate_passed": 39,
+        "soft_boundary_hint_rate": 0.0,
+        "hard_failures": {}
+      },
+      "risk_controller": {
+        "accept": 26,
+        "audit": 11,
+        "abstain": 2
+      },
+      "debate": {
+        "n": 39,
+        "verdict_counts": {
+          "suspend": 12,
+          "support": 27
+        },
+        "suspension_rate": 0.3077,
+        "disagreement_mean": 0.3675
+      },
+      "precedent_retrieval": {
+        "n": 39,
+        "top1_matches_gold": 36,
+        "rate": 0.9231
+      },
+      "budget_allocator": {
+        "depth_counts": {
+          "reinforced": 39
+        },
+        "rates": {
+          "reinforced": 1.0
+        }
+      }
+    },
+    "large": {
+      "certificate": {
+        "n": 196,
+        "gate_passed_rate": 1.0,
+        "gate_passed": 196,
+        "soft_boundary_hint_rate": 0.0,
+        "hard_failures": {}
+      },
+      "risk_controller": {
+        "accept": 137,
+        "audit": 53,
+        "abstain": 6
+      },
+      "debate": {
+        "n": 196,
+        "verdict_counts": {
+          "suspend": 74,
+          "support": 122
+        },
+        "suspension_rate": 0.3776,
+        "disagreement_mean": 0.3798
+      },
+      "precedent_retrieval": {
+        "n": 196,
+        "top1_matches_gold": 174,
+        "rate": 0.8878
+      },
+      "budget_allocator": {
+        "depth_counts": {
+          "reinforced": 196
+        },
+        "rates": {
+          "reinforced": 1.0
+        }
+      }
+    },
+    "living": {
+      "certificate": {
+        "n": 35,
+        "gate_passed_rate": 1.0,
+        "gate_passed": 35,
+        "soft_boundary_hint_rate": 0.0,
+        "hard_failures": {}
+      },
+      "risk_controller": {
+        "accept": 28,
+        "audit": 6,
+        "abstain": 1
+      },
+      "debate": {
+        "n": 35,
+        "verdict_counts": {
+          "suspend": 12,
+          "support": 23
+        },
+        "suspension_rate": 0.3429,
+        "disagreement_mean": 0.3571
+      },
+      "precedent_retrieval": {
+        "n": 35,
+        "top1_matches_gold": 33,
+        "rate": 0.9429
+      },
+      "budget_allocator": {
+        "depth_counts": {
+          "reinforced": 35
+        },
+        "rates": {
+          "reinforced": 1.0
+        }
+      }
+    }
+  }
+}
