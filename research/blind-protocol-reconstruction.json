@@ -1,0 +1,294 @@
+{
+  "scope": "blind end-to-end reconstruction (12 cases); standard = question-only agent vs published top-journal review; anchors: A=published estimates, B=public analysis repo, C=independent methods-text gold",
+  "n": 12,
+  "consistency_rates": {
+    "design": 1.0,
+    "pooling": 1.0,
+    "stop": 1.0
+  },
+  "design": 1.0,
+  "pooling": 1.0,
+  "stop": 1.0,
+  "topic_gate_select_rate": 1.0,
+  "cases": [
+    {
+      "case_id": "ag-rdt-2022",
+      "anchor_kind": "A",
+      "anchor_provenance": "research/ag-rdt-2022-pooled-estimates.json",
+      "anchor_note": "published pooled estimates 72.0% [69.8-74.2] / 98.9% [98.6-99.1]; tolerance +-2.0pp",
+      "catalogue": false,
+      "blind_question": "accuracy of rapid point-of-care antigen-based diagnostics for SARS-CoV-2 infection",
+      "gold_profile": "diagnostic_accuracy",
+      "gold_pooled": true,
+      "gold_living": false,
+      "consistency": {
+        "design": true,
+        "pooling": true,
+        "stop": true
+      },
+      "topic_gate": {
+        "decision": "select",
+        "novelty": 6.5,
+        "executability": 10.0
+      }
+    },
+    {
+      "case_id": "sci-exercise-rvo2",
+      "anchor_kind": "B",
+      "anchor_provenance": "validation-output/reconstruction-repos/sci-exercise",
+      "anchor_note": "repo @58f690c; analysis-setup: escalc MD + rma REML random-effects",
+      "catalogue": false,
+      "blind_question": "effects of exercise training on peak oxygen consumption in spinal cord injury",
+      "gold_profile": "intervention_pairwise",
+      "gold_pooled": true,
+      "gold_living": false,
+      "consistency": {
+        "design": true,
+        "pooling": true,
+        "stop": true
+      },
+      "topic_gate": {
+        "decision": "select",
+        "novelty": 6.5,
+        "executability": 10.0
+      }
+    },
+    {
+      "case_id": "bmj-covid-living-nma",
+      "anchor_kind": "B",
+      "anchor_provenance": "github.com/covid19lnma/covid19_lnma",
+      "anchor_note": "living NMA repo (analysis-setup anchor; to clone/verify)",
+      "catalogue": false,
+      "blind_question": "therapies for covid-19: comparative effectiveness",
+      "gold_profile": "intervention_pairwise",
+      "gold_pooled": true,
+      "gold_living": true,
+      "consistency": {
+        "design": true,
+        "pooling": true,
+        "stop": true
+      },
+      "topic_gate": {
+        "decision": "select",
+        "novelty": 6.5,
+        "executability": 10.0
+      }
+    },
+    {
+      "case_id": "epmc:MED:33426054",
+      "anchor_kind": "C",
+      "anchor_provenance": "methods-text gold",
+      "title": "Prognostic Role of Optic Nerve Sheath Diameter for Neurological Outcomes in Post-Cardiac Arrest Patients: A Systematic Review and Meta-Analysis.",
+      "blind_question": "Role of Optic Nerve Sheath Diameter for Neurological Outcomes in Post-Cardiac Arrest Patients A and",
+      "catalogue": true,
+      "gold_profile": "diagnostic_accuracy",
+      "agent_profile": "diagnostic_accuracy",
+      "gold_pooled": true,
+      "agent_pooled": true,
+      "gold_living": false,
+      "agent_living": false,
+      "consistency": {
+        "design": true,
+        "pooling": true,
+        "stop": true
+      },
+      "topic_gate": {
+        "decision": "select",
+        "novelty": 6.5,
+        "executability": 10.0
+      }
+    },
+    {
+      "case_id": "epmc:MED:33490256",
+      "anchor_kind": "C",
+      "anchor_provenance": "methods-text gold",
+      "title": "Prognostic Values of the Gray-to-White Matter Ratio on Brain Computed Tomography Images for Neurological Outcomes after Cardiac Arrest: A Meta-Analysis.",
+      "blind_question": "Values of the Gray-to-White Matter Ratio on Brain Computed Tomography Images for Neurological Outcomes after Cardiac Arr",
+      "catalogue": true,
+      "gold_profile": "diagnostic_accuracy",
+      "agent_profile": "diagnostic_accuracy",
+      "gold_pooled": true,
+      "agent_pooled": true,
+      "gold_living": false,
+      "agent_living": false,
+      "consistency": {
+        "design": true,
+        "pooling": true,
+        "stop": true
+      },
+      "topic_gate": {
+        "decision": "select",
+        "novelty": 6.5,
+        "executability": 10.0
+      }
+    },
+    {
+      "case_id": "epmc:MED:31724105",
+      "anchor_kind": "C",
+      "anchor_provenance": "methods-text gold",
+      "title": "Lipid-Lowering Efficacy of Ezetimibe in Patients with Atherosclerotic Cardiovascular Disease: A Systematic Review and Meta-Analyses.",
+      "blind_question": "Lipid-Lowering of Ezetimibe in Patients with Atherosclerotic Cardiovascular Disease A and Meta-Analyses",
+      "catalogue": true,
+      "gold_profile": "intervention_pairwise",
+      "agent_profile": "intervention_pairwise",
+      "gold_pooled": true,
+      "agent_pooled": true,
+      "gold_living": false,
+      "agent_living": false,
+      "consistency": {
+        "design": true,
+        "pooling": true,
+        "stop": true
+      },
+      "topic_gate": {
+        "decision": "select",
+        "novelty": 6.5,
+        "executability": 10.0
+      }
+    },
+    {
+      "case_id": "epmc:MED:31871936",
+      "anchor_kind": "C",
+      "anchor_provenance": "methods-text gold",
+      "title": "Meta-Analysis of the Effects of Cardiac Rehabilitation on Exercise Tolerance and Cardiac Function in Heart Failure Patients Undergoing Cardiac Resynchronization Therapy.",
+      "blind_question": "of the Effects of Cardiac Rehabilitation on Exercise Tolerance and Cardiac Function in Heart Failure Patients Undergoing",
+      "catalogue": true,
+      "gold_profile": "intervention_pairwise",
+      "agent_profile": "intervention_pairwise",
+      "gold_pooled": true,
+      "agent_pooled": true,
+      "gold_living": false,
+      "agent_living": false,
+      "consistency": {
+        "design": true,
+        "pooling": true,
+        "stop": true
+      },
+      "topic_gate": {
+        "decision": "select",
+        "novelty": 6.5,
+        "executability": 10.0
+      }
+    },
+    {
+      "case_id": "epmc:MED:34412904",
+      "anchor_kind": "C",
+      "anchor_provenance": "methods-text gold",
+      "title": "Association Between Anti-diabetic Agents and Clinical Outcomes of COVID-19 in Patients with Diabetes: A Systematic Review and Meta-Analysis.",
+      "blind_question": "Association Between Anti-diabetic Agents and Clinical Outcomes of COVID-19 in Patients with Diabetes A and",
+      "catalogue": true,
+      "gold_profile": "intervention_network",
+      "agent_profile": "intervention_network",
+      "gold_pooled": true,
+      "agent_pooled": true,
+      "gold_living": false,
+      "agent_living": false,
+      "consistency": {
+        "design": true,
+        "pooling": true,
+        "stop": true
+      },
+      "topic_gate": {
+        "decision": "select",
+        "novelty": 6.5,
+        "executability": 10.0
+      }
+    },
+    {
+      "case_id": "epmc:MED:32640905",
+      "anchor_kind": "C",
+      "anchor_provenance": "methods-text gold",
+      "title": "Plasma Biomarkers to Predict Cardiovascular Outcome in Patients With Peripheral Artery Disease: A Systematic Review and Meta-Analysis.",
+      "blind_question": "Plasma Biomarkers to Predict Cardiovascular Outcome in Patients With Peripheral Artery Disease A and",
+      "catalogue": true,
+      "gold_profile": "prevalence_incidence",
+      "agent_profile": "prevalence_incidence",
+      "gold_pooled": true,
+      "agent_pooled": true,
+      "gold_living": false,
+      "agent_living": false,
+      "consistency": {
+        "design": true,
+        "pooling": true,
+        "stop": true
+      },
+      "topic_gate": {
+        "decision": "select",
+        "novelty": 6.5,
+        "executability": 10.0
+      }
+    },
+    {
+      "case_id": "epmc:MED:33783281",
+      "anchor_kind": "C",
+      "anchor_provenance": "methods-text gold",
+      "title": "Estimating the prevalence of overweight and obesity in Nigeria in 2020: a systematic review and meta-analysis.",
+      "blind_question": "Estimating the of overweight and obesity in Nigeria in 2020 a and",
+      "catalogue": true,
+      "gold_profile": "prevalence_incidence",
+      "agent_profile": "prevalence_incidence",
+      "gold_pooled": true,
+      "agent_pooled": true,
+      "gold_living": false,
+      "agent_living": false,
+      "consistency": {
+        "design": true,
+        "pooling": true,
+        "stop": true
+      },
+      "topic_gate": {
+        "decision": "select",
+        "novelty": 6.5,
+        "executability": 10.0
+      }
+    },
+    {
+      "case_id": "epmc:MED:30930452",
+      "anchor_kind": "C",
+      "anchor_provenance": "methods-text gold",
+      "title": "M235T polymorphism in the angiotensinogen gene and cardiovascular disease: An updated meta-analysis of 39 case-control comparisons.",
+      "blind_question": "M235T polymorphism in the angiotensinogen and cardiovascular disease An updated of 39 case-control comparisons",
+      "catalogue": true,
+      "gold_profile": "public_health_exposure",
+      "agent_profile": "public_health_exposure",
+      "gold_pooled": true,
+      "agent_pooled": true,
+      "gold_living": false,
+      "agent_living": false,
+      "consistency": {
+        "design": true,
+        "pooling": true,
+        "stop": true
+      },
+      "topic_gate": {
+        "decision": "select",
+        "novelty": 6.5,
+        "executability": 10.0
+      }
+    },
+    {
+      "case_id": "epmc:MED:35170723",
+      "anchor_kind": "C",
+      "anchor_provenance": "methods-text gold",
+      "title": "Impact of \u03b1-Linolenic Acid, the Vegetable \u03c9-3 Fatty Acid, on Cardiovascular Disease and Cognition.",
+      "blind_question": "Impact of -Linolenic Acid the Vegetable -3 Fatty Acid on Cardiovascular Disease and Cognition",
+      "catalogue": true,
+      "gold_profile": "structured_no_pooling",
+      "agent_profile": "structured_no_pooling",
+      "gold_pooled": false,
+      "agent_pooled": false,
+      "gold_living": false,
+      "agent_living": false,
+      "consistency": {
+        "design": true,
+        "pooling": true,
+        "stop": true
+      },
+      "topic_gate": {
+        "decision": "select",
+        "novelty": 6.5,
+        "executability": 10.0
+      }
+    }
+  ]
+}
