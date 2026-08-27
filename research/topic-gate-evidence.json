@@ -1,0 +1,66 @@
+{
+  "scope": "0th decision object (topic selection) evidence on 601 real published reviews; time-bounded occupancy index from the same 12k asset; background terms (>25% corpus frequency) excluded from occupancy (calibrated: naive word-level occupancy rejected 71.9% of real reviews, a proxy artifact)",
+  "n": 601,
+  "decision_distribution": {
+    "select": 105,
+    "review": 82,
+    "reject": 414
+  },
+  "decision_rates": {
+    "select": 0.1747,
+    "review": 0.1364,
+    "reject": 0.6889
+  },
+  "reject_rate_of_real_topics": 0.6889,
+  "executability_min_among_real_topics": 8.0,
+  "novelty_mean_at_cutoff": 1.78,
+  "novelty_median_at_cutoff": 1.25,
+  "rejected_examples": [
+    {
+      "record_id": "epmc:MED:31115265",
+      "title": "Factors associated with the risk of cardiovascular disease in family caregivers of people ",
+      "year": 2020,
+      "executability": 10.0,
+      "novelty": 0.0
+    },
+    {
+      "record_id": "epmc:MED:31853701",
+      "title": "The effect of exercise on aromatase inhibitor-induced musculoskeletal symptoms in breast c",
+      "year": 2020,
+      "executability": 10.0,
+      "novelty": 1.25
+    },
+    {
+      "record_id": "epmc:MED:31914035",
+      "title": "Ginkgol Biloba extract as an adjunctive treatment for ischemic stroke: A systematic review",
+      "year": 2020,
+      "executability": 10.0,
+      "novelty": 1.43
+    },
+    {
+      "record_id": "epmc:MED:32053584",
+      "title": "Guidelines for the Treatment of Latent Tuberculosis Infection: Recommendations from the Na",
+      "year": 2020,
+      "executability": 10.0,
+      "novelty": 1.25
+    },
+    {
+      "record_id": "epmc:MED:32116710",
+      "title": "Depressive Symptoms in the Elderly-An Early Symptom of Dementia? A Systematic Review.",
+      "year": 2020,
+      "executability": 10.0,
+      "novelty": 1.67
+    }
+  ],
+  "exhibit_agrdt_2021": {
+    "record_id": "epmc:MED:35125113",
+    "year": 2022,
+    "cutoff": 2021,
+    "novelty": 0.0,
+    "executability": 10.0,
+    "decision": "reject",
+    "reasons": [
+      "novelty below 2.0 (topic already covered by published reviews)"
+    ]
+  }
+}

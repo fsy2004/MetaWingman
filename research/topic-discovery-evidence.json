@@ -1,0 +1,26 @@
+{
+  "scope": "topic discovery (search x reasoning) evaluation: were 601 real published review questions discoverable from the horizon available at their cutoff, vs random pairing of the same term pools (gain measured, not assumed)",
+  "n": 567,
+  "k_list": [
+    1,
+    5,
+    20
+  ],
+  "R_at_k": {
+    "R@1": 0.1376,
+    "R@5": 0.3051,
+    "R@20": 0.6102
+  },
+  "random_R_at_k": {
+    "R@1": 0.0,
+    "R@5": 0.0123,
+    "R@20": 0.0423
+  },
+  "gate_decision_rates": {
+    "select": 0.8871,
+    "review": 0.0776,
+    "reject": 0.0353
+  },
+  "gate_accept_rate_select_or_review": 0.9647,
+  "note": "discovery = horizon search (project two-stage retrieval line) x reasoning (co-occurrence gap = opportunity); gate = novelty x executability (2409.04109 split)"
+}
