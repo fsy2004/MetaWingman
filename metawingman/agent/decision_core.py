@@ -221,9 +221,20 @@ def derive_design_decision_v2(
     guard = guard_model.apply(signal)
 
     if not guard.passes:
-        profile = "structured_no_pooling"
-        estimand = ESTIMAND_TEMPLATES["structured_no_pooling"]
-        route = SYNTHESIS_ROUTES["structured_no_pooling"]
+        # v2.1 semantics: design and pooling are SEPARATE judgments. A failed
+        # alignment check means "do not pool" (risk control), not "the design is
+        # different". The profile changes to structured_narrative only when the
+        # evidence structure itself is narrative-defined (design_type_hint
+        # narrative_no_pooling) or no base design is identifiable.
+        narrative_defined = bool(signal.get("design_type_hint") == "narrative_no_pooling") or not base.profile
+        if narrative_defined:
+            profile = "structured_no_pooling"
+            estimand = ESTIMAND_TEMPLATES["structured_no_pooling"]
+            route = SYNTHESIS_ROUTES["structured_no_pooling"]
+        else:
+            profile = base.profile
+            estimand = base.estimand
+            route = base.synthesis_route
     else:
         profile = base.profile
         estimand = base.estimand
@@ -268,8 +279,9 @@ def derive_design_decision_v2(
         action="design_decision" if not base.abstain else "abstain",
         reflection={
             "guard_passes": guard.passes,
-            "guard_version": "v2",
-            "verified": "yes" if guard.passes else ("abstain" if base.abstain else "override_to_narrative"),
+            "guard_version": "v2.1",
+            "verified": "yes" if guard.passes else ("abstain" if base.abstain else
+                        ("override_to_narrative" if narrative_defined else "narrative_synthesis_with_design_kept")),
             "note": decision_tension,
         },
         prm_score=round(base.confidence * (1.0 if guard.passes else 0.6), 3),

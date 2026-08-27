@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-08-26T10:58:10.874736+00:00",
+  "generated_at_utc": "2026-08-27T02:20:05.709316+00:00",
   "seed": 20260826,
   "metric": "fidelity (agreement with published_expert_reference, OOD, strict parse, no fallback)",
   "results": {
@@ -9230,7 +9230,7 @@
     "fidelity-v2-dev.json": {
       "description": "decision-object v2 on methods-text gold (dev)",
       "path": "fidelity-v2-dev.json",
-      "sha256": "2efa2209ddc9befd3189c28c44f328a8993675c4d0e9df6190f586a1a6651c04",
+      "sha256": "9543964bfce40bc2cc74f48d6b95a91d8dc1d34474c84d5f534ebbe64f4dd2c0",
       "payload": {
         "scope": "decision-object v2 on methods-text-extracted gold (dev)",
         "guard_alpha": 0.1,
@@ -9254,18 +9254,18 @@
           "accepted_calibration_n": 26
         },
         "n": 40,
-        "mean_fidelity": 0.7425,
+        "mean_fidelity": 0.8475,
         "mean_dimensions": {
-          "design_selection": 0.675,
-          "estimand_identification": 0.675,
-          "synthesis_route": 0.675,
+          "design_selection": 0.825,
+          "estimand_identification": 0.825,
+          "synthesis_route": 0.825,
           "stop_decision": 0.9,
           "guard_consistency": 0.9
         },
-        "design_agreement": 0.675,
+        "design_agreement": 0.825,
         "pooling_agreement": 0.9,
         "stop_agreement": 0.9,
-        "three_task_mean": 0.825,
+        "three_task_mean": 0.875,
         "pooling_confusion": {
           "tp": 24,
           "fp": 0,
@@ -9553,16 +9553,16 @@
           {
             "case_id": "epmc:MED:36527500",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -9601,16 +9601,16 @@
           {
             "case_id": "epmc:MED:36715767",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": true,
             "agent_living": false,
-            "total": 0.0,
+            "total": 0.7,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 0.0,
               "guard_consistency": 0.0
             },
@@ -9721,16 +9721,16 @@
           {
             "case_id": "epmc:MED:32583078",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -9841,16 +9841,16 @@
           {
             "case_id": "epmc:MED:34159476",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -10009,16 +10009,16 @@
           {
             "case_id": "epmc:MED:38700145",
             "gold_profile": "intervention_pairwise",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "intervention_pairwise",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -10081,16 +10081,16 @@
           {
             "case_id": "epmc:MED:41437762",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -10129,16 +10129,16 @@
           {
             "case_id": "epmc:MED:41274516",
             "gold_profile": "structured_no_pooling",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 1.0,
+            "total": 0.3,
             "dims": {
-              "design_selection": 1.0,
-              "estimand_identification": 1.0,
-              "synthesis_route": 1.0,
+              "design_selection": 0.0,
+              "estimand_identification": 0.0,
+              "synthesis_route": 0.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -10225,16 +10225,16 @@
           {
             "case_id": "epmc:MED:40419216",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -10252,7 +10252,7 @@
     "fidelity-v2-holdout.json": {
       "description": "decision-object v2 on methods-text gold (OOD holdout)",
       "path": "fidelity-v2-holdout.json",
-      "sha256": "1e2fb38b8bb4b828731b84840bdc257a8cec65f250de15981a8b9491212a2b72",
+      "sha256": "67b8fb7c45399a37016dd3a46a3c5926de3e8fb0abf8b63adbdd026381d9c8b5",
       "payload": {
         "scope": "decision-object v2 on methods-text-extracted gold (holdout)",
         "guard_alpha": 0.1,
@@ -10276,18 +10276,18 @@
           "accepted_calibration_n": 26
         },
         "n": 39,
-        "mean_fidelity": 0.7936,
+        "mean_fidelity": 0.9192,
         "mean_dimensions": {
-          "design_selection": 0.7436,
-          "estimand_identification": 0.7436,
-          "synthesis_route": 0.7436,
+          "design_selection": 0.9231,
+          "estimand_identification": 0.9231,
+          "synthesis_route": 0.9231,
           "stop_decision": 0.9744,
           "guard_consistency": 0.8462
         },
-        "design_agreement": 0.7436,
+        "design_agreement": 0.9231,
         "pooling_agreement": 0.8462,
         "stop_agreement": 0.9744,
-        "three_task_mean": 0.8547,
+        "three_task_mean": 0.9145,
         "pooling_confusion": {
           "tp": 23,
           "fp": 1,
@@ -10335,16 +10335,16 @@
           {
             "case_id": "epmc:MED:37783307",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -10359,16 +10359,16 @@
           {
             "case_id": "epmc:MED:38072119",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -10407,16 +10407,16 @@
           {
             "case_id": "epmc:MED:38311314",
             "gold_profile": "structured_no_pooling",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 1.0,
+            "total": 0.3,
             "dims": {
-              "design_selection": 1.0,
-              "estimand_identification": 1.0,
-              "synthesis_route": 1.0,
+              "design_selection": 0.0,
+              "estimand_identification": 0.0,
+              "synthesis_route": 0.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -10431,16 +10431,16 @@
           {
             "case_id": "epmc:MED:38493875",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -10647,25 +10647,25 @@
           {
             "case_id": "epmc:MED:37127186",
             "gold_profile": "intervention_pairwise",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "intervention_pairwise",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
             "guard_risk": 0.18,
             "guard_reason": "alignment risk 0.180 above calibrated threshold 0.130 (alpha=0.1, delta=0.1, guaranteed risk <= 0.142)",
             "next_evidence": {
-              "gap": "update_freshness",
-              "evpi": -0.175,
-              "expected_utility_gain": 0.7
+              "gap": "comparison_graph_coverage",
+              "evpi": -0.02,
+              "expected_utility_gain": 0.85
             }
           },
           {
@@ -10791,16 +10791,16 @@
           {
             "case_id": "epmc:MED:35362512",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -10839,16 +10839,16 @@
           {
             "case_id": "epmc:MED:32696948",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -10983,25 +10983,25 @@
           {
             "case_id": "epmc:MED:36633732",
             "gold_profile": "prognostic_prediction",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prognostic_prediction",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
             "guard_risk": 0.1368,
             "guard_reason": "alignment risk 0.137 above calibrated threshold 0.130 (alpha=0.1, delta=0.1, guaranteed risk <= 0.142)",
             "next_evidence": {
-              "gap": "update_freshness",
+              "gap": "external_validity",
               "evpi": -0.175,
-              "expected_utility_gain": 0.7
+              "expected_utility_gain": 0.75
             }
           },
           {
@@ -11079,25 +11079,25 @@
           {
             "case_id": "epmc:MED:38223613",
             "gold_profile": "intervention_pairwise",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "intervention_pairwise",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
             "guard_risk": 0.2664,
             "guard_reason": "alignment dimension failed: outcome",
             "next_evidence": {
-              "gap": "update_freshness",
-              "evpi": -0.175,
-              "expected_utility_gain": 0.7
+              "gap": "comparison_graph_coverage",
+              "evpi": -0.02,
+              "expected_utility_gain": 0.85
             }
           },
           {
@@ -11250,7 +11250,7 @@
     "fidelity-v2-large.json": {
       "description": "decision-object v2 on methods-text gold (diverse corpus)",
       "path": "fidelity-v2-large.json",
-      "sha256": "9d21287fb6b59db4c3694e781dc459f2d7a55628f9f2b4800eec80fc50a8920f",
+      "sha256": "386b2ec19d6be0570355282cb9f5c287be1c2767b8d6ae752f370d3d36cc0264",
       "payload": {
         "scope": "decision-object v2 on methods-text-extracted gold (large)",
         "guard_alpha": 0.1,
@@ -11274,18 +11274,18 @@
           "accepted_calibration_n": 26
         },
         "n": 196,
-        "mean_fidelity": 0.7796,
+        "mean_fidelity": 0.8939,
         "mean_dimensions": {
-          "design_selection": 0.7245,
-          "estimand_identification": 0.7245,
-          "synthesis_route": 0.7245,
+          "design_selection": 0.8878,
+          "estimand_identification": 0.8878,
+          "synthesis_route": 0.8878,
           "stop_decision": 0.9847,
           "guard_consistency": 0.8316
         },
-        "design_agreement": 0.7245,
+        "design_agreement": 0.8878,
         "pooling_agreement": 0.8316,
         "stop_agreement": 0.9847,
-        "three_task_mean": 0.8469,
+        "three_task_mean": 0.9014,
         "pooling_confusion": {
           "tp": 119,
           "fp": 6,
@@ -11333,16 +11333,16 @@
           {
             "case_id": "epmc:MED:38836754",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -11405,16 +11405,16 @@
           {
             "case_id": "epmc:MED:32439832",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -11525,16 +11525,16 @@
           {
             "case_id": "epmc:MED:35758526",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -11837,16 +11837,16 @@
           {
             "case_id": "epmc:MED:35485875",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -12005,16 +12005,16 @@
           {
             "case_id": "epmc:MED:41085415",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -12533,16 +12533,16 @@
           {
             "case_id": "epmc:MED:39501356",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -12701,16 +12701,16 @@
           {
             "case_id": "epmc:MED:40982729",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -12725,16 +12725,16 @@
           {
             "case_id": "epmc:MED:41243115",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -12773,16 +12773,16 @@
           {
             "case_id": "epmc:MED:38346381",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -12797,16 +12797,16 @@
           {
             "case_id": "epmc:MED:38753384",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -12821,16 +12821,16 @@
           {
             "case_id": "epmc:MED:39194335",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -12869,25 +12869,25 @@
           {
             "case_id": "epmc:MED:39392052",
             "gold_profile": "prognostic_prediction",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prognostic_prediction",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
             "guard_risk": 0.1944,
             "guard_reason": "alignment risk 0.194 above calibrated threshold 0.130 (alpha=0.1, delta=0.1, guaranteed risk <= 0.142)",
             "next_evidence": {
-              "gap": "update_freshness",
+              "gap": "external_validity",
               "evpi": -0.175,
-              "expected_utility_gain": 0.7
+              "expected_utility_gain": 0.75
             }
           },
           {
@@ -12965,16 +12965,16 @@
           {
             "case_id": "epmc:MED:37246850",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -13061,16 +13061,16 @@
           {
             "case_id": "epmc:MED:37607247",
             "gold_profile": "intervention_network",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "intervention_network",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -13253,16 +13253,16 @@
           {
             "case_id": "epmc:MED:39451057",
             "gold_profile": "structured_no_pooling",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 1.0,
+            "total": 0.3,
             "dims": {
-              "design_selection": 1.0,
-              "estimand_identification": 1.0,
-              "synthesis_route": 1.0,
+              "design_selection": 0.0,
+              "estimand_identification": 0.0,
+              "synthesis_route": 0.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -13277,16 +13277,16 @@
           {
             "case_id": "epmc:MED:36537052",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -13541,16 +13541,16 @@
           {
             "case_id": "epmc:MED:37777688",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -13565,16 +13565,16 @@
           {
             "case_id": "epmc:MED:41032651",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -13877,16 +13877,16 @@
           {
             "case_id": "epmc:MED:38709150",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -14117,16 +14117,16 @@
           {
             "case_id": "epmc:MED:36315269",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -14189,16 +14189,16 @@
           {
             "case_id": "epmc:MED:38310416",
             "gold_profile": "structured_no_pooling",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 1.0,
+            "total": 0.3,
             "dims": {
-              "design_selection": 1.0,
-              "estimand_identification": 1.0,
-              "synthesis_route": 1.0,
+              "design_selection": 0.0,
+              "estimand_identification": 0.0,
+              "synthesis_route": 0.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -14237,16 +14237,16 @@
           {
             "case_id": "epmc:MED:41806038",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -14405,16 +14405,16 @@
           {
             "case_id": "epmc:MED:40760403",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -14429,16 +14429,16 @@
           {
             "case_id": "epmc:MED:36634706",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -14477,16 +14477,16 @@
           {
             "case_id": "epmc:MED:38695409",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -14549,16 +14549,16 @@
           {
             "case_id": "epmc:MED:37531470",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -14573,16 +14573,16 @@
           {
             "case_id": "epmc:MED:35544851",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -14597,7 +14597,7 @@
           {
             "case_id": "epmc:MED:39230117",
             "gold_profile": "intervention_network",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "intervention_pairwise",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
@@ -14717,16 +14717,16 @@
           {
             "case_id": "epmc:MED:41492804",
             "gold_profile": "structured_no_pooling",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 1.0,
+            "total": 0.3,
             "dims": {
-              "design_selection": 1.0,
-              "estimand_identification": 1.0,
-              "synthesis_route": 1.0,
+              "design_selection": 0.0,
+              "estimand_identification": 0.0,
+              "synthesis_route": 0.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -14741,16 +14741,16 @@
           {
             "case_id": "epmc:MED:35633534",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -14909,16 +14909,16 @@
           {
             "case_id": "epmc:MED:35178452",
             "gold_profile": "intervention_pairwise",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "intervention_pairwise",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -14933,16 +14933,16 @@
           {
             "case_id": "epmc:MED:36277880",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -15173,16 +15173,16 @@
           {
             "case_id": "epmc:MED:33490250",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -15437,16 +15437,16 @@
           {
             "case_id": "epmc:MED:36671498",
             "gold_profile": "structured_no_pooling",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 1.0,
+            "total": 0.3,
             "dims": {
-              "design_selection": 1.0,
-              "estimand_identification": 1.0,
-              "synthesis_route": 1.0,
+              "design_selection": 0.0,
+              "estimand_identification": 0.0,
+              "synthesis_route": 0.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -15461,40 +15461,40 @@
           {
             "case_id": "epmc:MED:36979367",
             "gold_profile": "prognostic_prediction",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prognostic_prediction",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
             "guard_risk": 0.1944,
             "guard_reason": "alignment risk 0.194 above calibrated threshold 0.130 (alpha=0.1, delta=0.1, guaranteed risk <= 0.142)",
             "next_evidence": {
-              "gap": "update_freshness",
+              "gap": "external_validity",
               "evpi": -0.175,
-              "expected_utility_gain": 0.7
+              "expected_utility_gain": 0.75
             }
           },
           {
             "case_id": "epmc:MED:37371490",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -15509,40 +15509,40 @@
           {
             "case_id": "epmc:MED:35883490",
             "gold_profile": "prognostic_prediction",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prognostic_prediction",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
             "guard_risk": 0.1872,
             "guard_reason": "alignment risk 0.187 above calibrated threshold 0.130 (alpha=0.1, delta=0.1, guaranteed risk <= 0.142)",
             "next_evidence": {
-              "gap": "update_freshness",
+              "gap": "external_validity",
               "evpi": -0.175,
-              "expected_utility_gain": 0.7
+              "expected_utility_gain": 0.75
             }
           },
           {
             "case_id": "epmc:MED:36291580",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -15581,16 +15581,16 @@
           {
             "case_id": "epmc:MED:39831901",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 0.0
             },
@@ -15893,16 +15893,16 @@
           {
             "case_id": "epmc:MED:41400625",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -15965,16 +15965,16 @@
           {
             "case_id": "epmc:MED:39852113",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": false,
             "agent_living": false,
-            "total": 0.3,
+            "total": 1.0,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 1.0,
               "guard_consistency": 1.0
             },
@@ -16016,7 +16016,7 @@
     "fidelity-v2-living.json": {
       "description": "decision-object v2 on methods-text gold (living benchmark)",
       "path": "fidelity-v2-living.json",
-      "sha256": "91b178caa809cc78e7e23bba9cee98cde8355ef8ee6e460c798c7d54f709121f",
+      "sha256": "3a612b8a7cc0ee6438a554f6172883a3e049b06b1c0a9547ad538d061dd030ba",
       "payload": {
         "scope": "decision-object v2 on methods-text-extracted gold (living)",
         "guard_alpha": 0.1,
@@ -16040,18 +16040,18 @@
           "accepted_calibration_n": 26
         },
         "n": 35,
-        "mean_fidelity": 0.62,
+        "mean_fidelity": 0.7,
         "mean_dimensions": {
-          "design_selection": 0.7143,
-          "estimand_identification": 0.7143,
-          "synthesis_route": 0.7143,
+          "design_selection": 0.8286,
+          "estimand_identification": 0.8286,
+          "synthesis_route": 0.8286,
           "stop_decision": 0.0,
           "guard_consistency": 0.8
         },
-        "design_agreement": 0.7143,
+        "design_agreement": 0.8286,
         "pooling_agreement": 0.8,
         "stop_agreement": 0.0,
-        "three_task_mean": 0.5048,
+        "three_task_mean": 0.5429,
         "pooling_confusion": {
           "tp": 22,
           "fp": 3,
@@ -16363,16 +16363,16 @@
           {
             "case_id": "epmc:MED:32694132",
             "gold_profile": "diagnostic_accuracy",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "diagnostic_accuracy",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": true,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 0.0,
               "guard_consistency": 1.0
             },
@@ -16411,16 +16411,16 @@
           {
             "case_id": "epmc:MED:33604025",
             "gold_profile": "prevalence_incidence",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "prevalence_incidence",
             "gold_poolable": false,
             "agent_poolable": false,
             "gold_living": true,
             "agent_living": false,
-            "total": 0.15,
+            "total": 0.85,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 0.0,
               "guard_consistency": 1.0
             },
@@ -16651,16 +16651,16 @@
           {
             "case_id": "epmc:MED:36967345",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": true,
             "agent_living": false,
-            "total": 0.0,
+            "total": 0.7,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 0.0,
               "guard_consistency": 0.0
             },
@@ -16891,16 +16891,16 @@
           {
             "case_id": "epmc:MED:41792577",
             "gold_profile": "public_health_exposure",
-            "agent_profile": "structured_no_pooling",
+            "agent_profile": "public_health_exposure",
             "gold_poolable": true,
             "agent_poolable": false,
             "gold_living": true,
             "agent_living": false,
-            "total": 0.0,
+            "total": 0.7,
             "dims": {
-              "design_selection": 0.0,
-              "estimand_identification": 0.0,
-              "synthesis_route": 0.0,
+              "design_selection": 1.0,
+              "estimand_identification": 1.0,
+              "synthesis_route": 1.0,
               "stop_decision": 0.0,
               "guard_consistency": 0.0
             },
@@ -16979,7 +16979,7 @@
     "ablation-v2.json": {
       "description": "v2 ablation + progressive baselines (paired bootstrap CIs)",
       "path": "ablation-v2.json",
-      "sha256": "0ff59b7ff64acfdea2f90c8163c5909823b4b86a7636d00728187572621b057e",
+      "sha256": "fed0bca61c3caab9cb4295f704aaa00062dd5acb2b4437ae80b6cd371ef492cc",
       "payload": {
         "scope": "v2 ablation/progressive baselines (methods-text gold, dimension guard)",
         "n_boot": 2000,
@@ -16990,76 +16990,76 @@
         ],
         "holdout": {
           "full": {
-            "mean_fidelity": 0.7936
+            "mean_fidelity": 0.9192
           },
           "no_guard": {
             "mean_fidelity": 0.8282,
             "delta_vs_full_ci95": [
-              -0.1244,
-              0.1872
+              -0.1962,
+              0.0013
             ],
-            "delta_vs_full": 0.0346
+            "delta_vs_full": -0.091
           },
           "no_estimand": {
             "mean_fidelity": 0.6833,
             "delta_vs_full_ci95": [
-              -0.2282,
-              0.0128
+              -0.3051,
+              -0.1692
             ],
-            "delta_vs_full": -0.1103
+            "delta_vs_full": -0.2359
           },
           "no_evpi": {
             "mean_fidelity": 0.8474,
             "delta_vs_full_ci95": [
-              -0.0897,
-              0.1974
+              -0.1615,
+              0.0
             ],
-            "delta_vs_full": 0.0538
+            "delta_vs_full": -0.0718
           },
           "L1_design_rule": {
             "mean_fidelity": 0.8282,
             "delta_vs_full_ci95": [
-              -0.1244,
-              0.1872
+              -0.1962,
+              0.0013
             ],
-            "delta_vs_full": 0.0346
+            "delta_vs_full": -0.091
           }
         },
         "large": {
           "full": {
-            "mean_fidelity": 0.7796
+            "mean_fidelity": 0.8939
           },
           "no_guard": {
             "mean_fidelity": 0.8809,
             "delta_vs_full_ci95": [
-              0.0413,
-              0.1646
+              -0.0528,
+              0.0268
             ],
-            "delta_vs_full": 0.1013
+            "delta_vs_full": -0.013
           },
           "no_estimand": {
             "mean_fidelity": 0.7163,
             "delta_vs_full_ci95": [
-              -0.1143,
-              -0.0107
+              -0.2102,
+              -0.1444
             ],
-            "delta_vs_full": -0.0633
+            "delta_vs_full": -0.1776
           },
           "no_evpi": {
             "mean_fidelity": 0.8939,
             "delta_vs_full_ci95": [
-              0.0571,
-              0.1714
+              -0.0393,
+              0.0357
             ],
-            "delta_vs_full": 0.1143
+            "delta_vs_full": 0.0
           },
           "L1_design_rule": {
             "mean_fidelity": 0.8809,
             "delta_vs_full_ci95": [
-              0.0413,
-              0.1646
+              -0.0528,
+              0.0268
             ],
-            "delta_vs_full": 0.1013
+            "delta_vs_full": -0.013
           }
         }
       }
@@ -21733,7 +21733,7 @@
     "bootstrap-v2-ci.json": {
       "description": "bootstrap CIs (5 seeds) for v2 corpora and rule-vs-bare multi-task",
       "path": "bootstrap-v2-ci.json",
-      "sha256": "ab05eccedb84656f48187ee21d60c86554b76c883091a55ee4152298b0546e44",
+      "sha256": "2eac56aaa17b68d4624a5b88ffb4914d068068d4cb1d76bc39536dda09b32752",
       "payload": {
         "scope": "v2 bootstrap CIs (methods-text gold)",
         "n_boot": 2000,
@@ -21748,119 +21748,119 @@
           "dev": {
             "n": 40,
             "weighted_fidelity": {
-              "mean": 0.7425,
+              "mean": 0.8475,
               "ci95": [
-                0.6262,
-                0.8513
+                0.7562,
+                0.9287
               ],
               "per_seed": [
                 [
-                  0.6262,
-                  0.8513
+                  0.7625,
+                  0.9275
                 ],
                 [
-                  0.63,
-                  0.8488
+                  0.76,
+                  0.925
                 ],
                 [
-                  0.6262,
-                  0.845
+                  0.7575,
+                  0.925
                 ],
                 [
-                  0.6262,
-                  0.8475
+                  0.7625,
+                  0.9287
                 ],
                 [
-                  0.6262,
-                  0.8512
+                  0.7562,
+                  0.925
                 ]
               ]
             },
             "tasks": {
               "design_selection": {
-                "mean": 0.675,
+                "mean": 0.825,
                 "ci95": [
-                  0.525,
-                  0.825
+                  0.7,
+                  0.925
                 ],
                 "per_seed": [
                   [
-                    0.525,
-                    0.825
+                    0.7,
+                    0.925
                   ],
                   [
-                    0.525,
-                    0.825
+                    0.7,
+                    0.925
                   ],
                   [
-                    0.525,
-                    0.8
+                    0.7,
+                    0.925
                   ],
                   [
-                    0.525,
-                    0.825
+                    0.7,
+                    0.925
                   ],
                   [
-                    0.525,
-                    0.825
+                    0.7,
+                    0.925
                   ]
                 ]
               },
               "estimand_identification": {
-                "mean": 0.675,
+                "mean": 0.825,
                 "ci95": [
-                  0.525,
-                  0.825
+                  0.7,
+                  0.925
                 ],
                 "per_seed": [
                   [
-                    0.525,
-                    0.825
+                    0.7,
+                    0.925
                   ],
                   [
-                    0.525,
-                    0.825
+                    0.7,
+                    0.925
                   ],
                   [
-                    0.525,
-                    0.8
+                    0.7,
+                    0.925
                   ],
                   [
-                    0.525,
-                    0.825
+                    0.7,
+                    0.925
                   ],
                   [
-                    0.525,
-                    0.825
+                    0.7,
+                    0.925
                   ]
                 ]
               },
               "synthesis_route": {
-                "mean": 0.675,
+                "mean": 0.825,
                 "ci95": [
-                  0.525,
-                  0.825
+                  0.7,
+                  0.925
                 ],
                 "per_seed": [
                   [
-                    0.525,
-                    0.825
+                    0.7,
+                    0.925
                   ],
                   [
-                    0.525,
-                    0.825
+                    0.7,
+                    0.925
                   ],
                   [
-                    0.525,
-                    0.8
+                    0.7,
+                    0.925
                   ],
                   [
-                    0.525,
-                    0.825
+                    0.7,
+                    0.925
                   ],
                   [
-                    0.525,
-                    0.825
+                    0.7,
+                    0.925
                   ]
                 ]
               },
@@ -21924,31 +21924,31 @@
               }
             },
             "three_task_mean": {
-              "mean": 0.825,
+              "mean": 0.875,
               "ci95": [
-                0.7417,
-                0.9
+                0.8083,
+                0.9333
               ],
               "per_seed": [
                 [
-                  0.7417,
-                  0.9
+                  0.8083,
+                  0.9333
                 ],
                 [
-                  0.7417,
-                  0.9
+                  0.8167,
+                  0.9333
                 ],
                 [
-                  0.7417,
-                  0.9
+                  0.8167,
+                  0.9333
                 ],
                 [
-                  0.7417,
-                  0.8917
+                  0.8167,
+                  0.9333
                 ],
                 [
-                  0.7417,
-                  0.9
+                  0.8083,
+                  0.9333
                 ]
               ]
             }
@@ -21956,119 +21956,119 @@
           "holdout": {
             "n": 39,
             "weighted_fidelity": {
-              "mean": 0.7936,
+              "mean": 0.9192,
               "ci95": [
-                0.6846,
-                0.8987
+                0.8513,
+                0.9705
               ],
               "per_seed": [
                 [
-                  0.6846,
-                  0.8987
+                  0.8538,
+                  0.9692
                 ],
                 [
-                  0.6859,
-                  0.8949
+                  0.8577,
+                  0.9705
                 ],
                 [
-                  0.6859,
-                  0.8949
+                  0.8538,
+                  0.9705
                 ],
                 [
-                  0.6885,
-                  0.8949
+                  0.8564,
+                  0.9705
                 ],
                 [
-                  0.6859,
-                  0.8911
+                  0.8513,
+                  0.9705
                 ]
               ]
             },
             "tasks": {
               "design_selection": {
-                "mean": 0.7436,
+                "mean": 0.9231,
                 "ci95": [
-                  0.6154,
-                  0.8718
+                  0.8205,
+                  1.0
                 ],
                 "per_seed": [
                   [
-                    0.6154,
-                    0.8718
+                    0.8205,
+                    1.0
                   ],
                   [
-                    0.6154,
-                    0.8718
+                    0.8462,
+                    1.0
                   ],
                   [
-                    0.6154,
-                    0.8718
+                    0.8205,
+                    1.0
                   ],
                   [
-                    0.6154,
-                    0.8718
+                    0.8205,
+                    1.0
                   ],
                   [
-                    0.6154,
-                    0.8718
+                    0.8205,
+                    1.0
                   ]
                 ]
               },
               "estimand_identification": {
-                "mean": 0.7436,
+                "mean": 0.9231,
                 "ci95": [
-                  0.6154,
-                  0.8718
+                  0.8205,
+                  1.0
                 ],
                 "per_seed": [
                   [
-                    0.6154,
-                    0.8718
+                    0.8205,
+                    1.0
                   ],
                   [
-                    0.6154,
-                    0.8718
+                    0.8462,
+                    1.0
                   ],
                   [
-                    0.6154,
-                    0.8718
+                    0.8205,
+                    1.0
                   ],
                   [
-                    0.6154,
-                    0.8718
+                    0.8205,
+                    1.0
                   ],
                   [
-                    0.6154,
-                    0.8718
+                    0.8205,
+                    1.0
                   ]
                 ]
               },
               "synthesis_route": {
-                "mean": 0.7436,
+                "mean": 0.9231,
                 "ci95": [
-                  0.6154,
-                  0.8718
+                  0.8205,
+                  1.0
                 ],
                 "per_seed": [
                   [
-                    0.6154,
-                    0.8718
+                    0.8205,
+                    1.0
                   ],
                   [
-                    0.6154,
-                    0.8718
+                    0.8462,
+                    1.0
                   ],
                   [
-                    0.6154,
-                    0.8718
+                    0.8205,
+                    1.0
                   ],
                   [
-                    0.6154,
-                    0.8718
+                    0.8205,
+                    1.0
                   ],
                   [
-                    0.6154,
-                    0.8718
+                    0.8205,
+                    1.0
                   ]
                 ]
               },
@@ -22132,31 +22132,31 @@
               }
             },
             "three_task_mean": {
-              "mean": 0.8547,
+              "mean": 0.9145,
               "ci95": [
-                0.7778,
-                0.9233
+                0.8632,
+                0.9573
               ],
               "per_seed": [
                 [
-                  0.7778,
-                  0.9231
+                  0.8718,
+                  0.9573
                 ],
                 [
-                  0.7778,
-                  0.9231
+                  0.8718,
+                  0.9573
                 ],
                 [
-                  0.7778,
-                  0.9233
+                  0.8718,
+                  0.9573
                 ],
                 [
-                  0.7778,
-                  0.9231
+                  0.8718,
+                  0.9573
                 ],
                 [
-                  0.7778,
-                  0.9231
+                  0.8632,
+                  0.9573
                 ]
               ]
             }
@@ -22164,119 +22164,119 @@
           "large": {
             "n": 196,
             "weighted_fidelity": {
-              "mean": 0.7796,
+              "mean": 0.8939,
               "ci95": [
-                0.7283,
-                0.8281
+                0.8594,
+                0.9263
               ],
               "per_seed": [
                 [
-                  0.7301,
-                  0.8276
+                  0.8594,
+                  0.926
                 ],
                 [
-                  0.7298,
-                  0.8263
+                  0.8625,
+                  0.9255
                 ],
                 [
-                  0.7283,
-                  0.8265
+                  0.8602,
+                  0.925
                 ],
                 [
-                  0.7309,
-                  0.8281
+                  0.8615,
+                  0.9263
                 ],
                 [
-                  0.7309,
-                  0.8276
+                  0.8617,
+                  0.925
                 ]
               ]
             },
             "tasks": {
               "design_selection": {
-                "mean": 0.7245,
+                "mean": 0.8878,
                 "ci95": [
-                  0.6582,
-                  0.7858
+                  0.8418,
+                  0.9337
                 ],
                 "per_seed": [
                   [
-                    0.6582,
-                    0.7857
+                    0.8418,
+                    0.9286
                   ],
                   [
-                    0.6582,
-                    0.7857
+                    0.8418,
+                    0.9286
                   ],
                   [
-                    0.6582,
-                    0.7857
+                    0.8418,
+                    0.9286
                   ],
                   [
-                    0.6633,
-                    0.7858
+                    0.8418,
+                    0.9337
                   ],
                   [
-                    0.6633,
-                    0.7857
+                    0.8469,
+                    0.9286
                   ]
                 ]
               },
               "estimand_identification": {
-                "mean": 0.7245,
+                "mean": 0.8878,
                 "ci95": [
-                  0.6582,
-                  0.7858
+                  0.8418,
+                  0.9337
                 ],
                 "per_seed": [
                   [
-                    0.6582,
-                    0.7857
+                    0.8418,
+                    0.9286
                   ],
                   [
-                    0.6582,
-                    0.7857
+                    0.8418,
+                    0.9286
                   ],
                   [
-                    0.6582,
-                    0.7857
+                    0.8418,
+                    0.9286
                   ],
                   [
-                    0.6633,
-                    0.7858
+                    0.8418,
+                    0.9337
                   ],
                   [
-                    0.6633,
-                    0.7857
+                    0.8469,
+                    0.9286
                   ]
                 ]
               },
               "synthesis_route": {
-                "mean": 0.7245,
+                "mean": 0.8878,
                 "ci95": [
-                  0.6582,
-                  0.7858
+                  0.8418,
+                  0.9337
                 ],
                 "per_seed": [
                   [
-                    0.6582,
-                    0.7857
+                    0.8418,
+                    0.9286
                   ],
                   [
-                    0.6582,
-                    0.7857
+                    0.8418,
+                    0.9286
                   ],
                   [
-                    0.6582,
-                    0.7857
+                    0.8418,
+                    0.9286
                   ],
                   [
-                    0.6633,
-                    0.7858
+                    0.8418,
+                    0.9337
                   ],
                   [
-                    0.6633,
-                    0.7857
+                    0.8469,
+                    0.9286
                   ]
                 ]
               },
@@ -22340,31 +22340,31 @@
               }
             },
             "three_task_mean": {
-              "mean": 0.8469,
+              "mean": 0.9014,
               "ci95": [
-                0.8112,
-                0.881
+                0.8759,
+                0.9252
               ],
               "per_seed": [
                 [
-                  0.8129,
-                  0.881
+                  0.8759,
+                  0.9252
                 ],
                 [
-                  0.8112,
-                  0.881
+                  0.8776,
+                  0.9252
                 ],
                 [
-                  0.8112,
-                  0.8793
+                  0.8776,
+                  0.9235
                 ],
                 [
-                  0.8129,
-                  0.881
+                  0.8776,
+                  0.9252
                 ],
                 [
-                  0.8129,
-                  0.881
+                  0.8776,
+                  0.9252
                 ]
               ]
             }
@@ -22372,119 +22372,119 @@
           "living": {
             "n": 35,
             "weighted_fidelity": {
-              "mean": 0.62,
+              "mean": 0.7,
               "ci95": [
-                0.4986,
-                0.7287
+                0.5914,
+                0.7886
               ],
               "per_seed": [
                 [
-                  0.5,
-                  0.7286
+                  0.5986,
+                  0.7886
                 ],
                 [
-                  0.5085,
-                  0.7286
+                  0.6,
+                  0.7886
                 ],
                 [
-                  0.5071,
-                  0.7286
+                  0.6029,
+                  0.7886
                 ],
                 [
-                  0.4986,
-                  0.7243
+                  0.5986,
+                  0.7843
                 ],
                 [
-                  0.5028,
-                  0.7287
+                  0.5914,
+                  0.7886
                 ]
               ]
             },
             "tasks": {
               "design_selection": {
-                "mean": 0.7143,
+                "mean": 0.8286,
                 "ci95": [
-                  0.5714,
-                  0.8571
+                  0.6857,
+                  0.9429
                 ],
                 "per_seed": [
                   [
-                    0.5714,
-                    0.8571
+                    0.6857,
+                    0.9429
                   ],
                   [
-                    0.5714,
-                    0.8571
+                    0.6857,
+                    0.9429
                   ],
                   [
-                    0.5714,
-                    0.8571
+                    0.7143,
+                    0.9429
                   ],
                   [
-                    0.5714,
-                    0.8571
+                    0.6857,
+                    0.9429
                   ],
                   [
-                    0.5714,
-                    0.8571
+                    0.6857,
+                    0.9429
                   ]
                 ]
               },
               "estimand_identification": {
-                "mean": 0.7143,
+                "mean": 0.8286,
                 "ci95": [
-                  0.5714,
-                  0.8571
+                  0.6857,
+                  0.9429
                 ],
                 "per_seed": [
                   [
-                    0.5714,
-                    0.8571
+                    0.6857,
+                    0.9429
                   ],
                   [
-                    0.5714,
-                    0.8571
+                    0.6857,
+                    0.9429
                   ],
                   [
-                    0.5714,
-                    0.8571
+                    0.7143,
+                    0.9429
                   ],
                   [
-                    0.5714,
-                    0.8571
+                    0.6857,
+                    0.9429
                   ],
                   [
-                    0.5714,
-                    0.8571
+                    0.6857,
+                    0.9429
                   ]
                 ]
               },
               "synthesis_route": {
-                "mean": 0.7143,
+                "mean": 0.8286,
                 "ci95": [
-                  0.5714,
-                  0.8571
+                  0.6857,
+                  0.9429
                 ],
                 "per_seed": [
                   [
-                    0.5714,
-                    0.8571
+                    0.6857,
+                    0.9429
                   ],
                   [
-                    0.5714,
-                    0.8571
+                    0.6857,
+                    0.9429
                   ],
                   [
-                    0.5714,
-                    0.8571
+                    0.7143,
+                    0.9429
                   ],
                   [
-                    0.5714,
-                    0.8571
+                    0.6857,
+                    0.9429
                   ],
                   [
-                    0.5714,
-                    0.8571
+                    0.6857,
+                    0.9429
                   ]
                 ]
               },
@@ -22548,31 +22548,31 @@
               }
             },
             "three_task_mean": {
-              "mean": 0.5048,
+              "mean": 0.5429,
               "ci95": [
-                0.419,
-                0.581
+                0.4667,
+                0.6095
               ],
               "per_seed": [
                 [
-                  0.419,
-                  0.581
+                  0.4667,
+                  0.6095
                 ],
                 [
-                  0.4283,
-                  0.581
+                  0.4667,
+                  0.6095
                 ],
                 [
-                  0.4286,
-                  0.581
+                  0.476,
+                  0.6095
                 ],
                 [
-                  0.419,
-                  0.581
+                  0.4667,
+                  0.6095
                 ],
                 [
-                  0.419,
-                  0.581
+                  0.4667,
+                  0.6095
                 ]
               ]
             }
@@ -22583,38 +22583,38 @@
     "multitask-compare-v2.json": {
       "description": "v2 like-for-like rule vs bare multi-task comparison (paired)",
       "path": "multitask-compare-v2.json",
-      "sha256": "276332b98bfede1d265b7b2bb99f1cac51d04d7fe12d973fa3d291f976dbccbf",
+      "sha256": "b80da203824e3da2425a36604e4761edf3353a213e95f8393c1e281ce9a65c0e",
       "payload": {
         "scope": "v2 rule vs bare multi-task (paired per case, 3-task mean + tasks)",
         "corpora": {
           "holdout": {
             "n": 39,
             "rule_3task": {
-              "mean": 0.8547,
+              "mean": 0.9145,
               "ci95": [
-                0.7778,
-                0.9233
+                0.8632,
+                0.9573
               ],
               "per_seed": [
                 [
-                  0.7778,
-                  0.9231
+                  0.8718,
+                  0.9573
                 ],
                 [
-                  0.7778,
-                  0.9231
+                  0.8718,
+                  0.9573
                 ],
                 [
-                  0.7778,
-                  0.9233
+                  0.8718,
+                  0.9573
                 ],
                 [
-                  0.7778,
-                  0.9231
+                  0.8718,
+                  0.9573
                 ],
                 [
-                  0.7778,
-                  0.9231
+                  0.8632,
+                  0.9573
                 ]
               ]
             },
@@ -22648,31 +22648,31 @@
               ]
             },
             "delta_rule_minus_bare": {
-              "mean": -0.0342,
+              "mean": 0.0256,
               "ci95": [
-                -0.1197,
-                0.0513
+                -0.0342,
+                0.0855
               ],
               "per_seed": [
                 [
-                  -0.1197,
-                  0.0427
+                  -0.0342,
+                  0.0855
                 ],
                 [
-                  -0.1197,
-                  0.0427
+                  -0.0342,
+                  0.0855
                 ],
                 [
-                  -0.1197,
-                  0.0513
+                  -0.0342,
+                  0.0855
                 ],
                 [
-                  -0.1197,
-                  0.0513
+                  -0.0342,
+                  0.0855
                 ],
                 [
-                  -0.1197,
-                  0.0427
+                  -0.0342,
+                  0.0855
                 ]
               ]
             },
@@ -22735,31 +22735,31 @@
               ]
             },
             "rule_design": {
-              "mean": 0.7436,
+              "mean": 0.9231,
               "ci95": [
-                0.6154,
-                0.8718
+                0.8205,
+                1.0
               ],
               "per_seed": [
                 [
-                  0.6154,
-                  0.8718
+                  0.8205,
+                  1.0
                 ],
                 [
-                  0.6154,
-                  0.8718
+                  0.8462,
+                  1.0
                 ],
                 [
-                  0.6154,
-                  0.8718
+                  0.8205,
+                  1.0
                 ],
                 [
-                  0.6154,
-                  0.8718
+                  0.8205,
+                  1.0
                 ],
                 [
-                  0.6154,
-                  0.8718
+                  0.8205,
+                  1.0
                 ]
               ]
             },
@@ -22796,31 +22796,31 @@
           "large": {
             "n": 196,
             "rule_3task": {
-              "mean": 0.8469,
+              "mean": 0.9014,
               "ci95": [
-                0.8112,
-                0.881
+                0.8759,
+                0.9252
               ],
               "per_seed": [
                 [
-                  0.8129,
-                  0.881
+                  0.8759,
+                  0.9252
                 ],
                 [
-                  0.8112,
-                  0.881
+                  0.8776,
+                  0.9252
                 ],
                 [
-                  0.8112,
-                  0.8793
+                  0.8776,
+                  0.9235
                 ],
                 [
-                  0.8129,
-                  0.881
+                  0.8776,
+                  0.9252
                 ],
                 [
-                  0.8129,
-                  0.881
+                  0.8776,
+                  0.9252
                 ]
               ]
             },
@@ -22854,31 +22854,31 @@
               ]
             },
             "delta_rule_minus_bare": {
-              "mean": -0.0238,
+              "mean": 0.0306,
               "ci95": [
-                -0.0629,
-                0.0153
+                0.0017,
+                0.0596
               ],
               "per_seed": [
                 [
-                  -0.0629,
-                  0.0136
+                  0.0017,
+                  0.0578
                 ],
                 [
-                  -0.0613,
-                  0.0136
+                  0.0034,
+                  0.0595
                 ],
                 [
-                  -0.0613,
-                  0.0136
+                  0.0034,
+                  0.0595
                 ],
                 [
-                  -0.0629,
-                  0.0153
+                  0.0034,
+                  0.0596
                 ],
                 [
-                  -0.0629,
-                  0.0153
+                  0.0017,
+                  0.0595
                 ]
               ]
             },
@@ -22941,31 +22941,31 @@
               ]
             },
             "rule_design": {
-              "mean": 0.7245,
+              "mean": 0.8878,
               "ci95": [
-                0.6582,
-                0.7858
+                0.8418,
+                0.9337
               ],
               "per_seed": [
                 [
-                  0.6582,
-                  0.7857
+                  0.8418,
+                  0.9286
                 ],
                 [
-                  0.6582,
-                  0.7857
+                  0.8418,
+                  0.9286
                 ],
                 [
-                  0.6582,
-                  0.7857
+                  0.8418,
+                  0.9286
                 ],
                 [
-                  0.6633,
-                  0.7858
+                  0.8418,
+                  0.9337
                 ],
                 [
-                  0.6633,
-                  0.7857
+                  0.8469,
+                  0.9286
                 ]
               ]
             },
@@ -26248,5 +26248,5 @@
       }
     }
   },
-  "receipt_sha256": "c4b3673e696ef77532bc7a153b71ae93bed3ec0adb5dd65501b707f57563a79f"
+  "receipt_sha256": "71451f0144ead1e49d6078e44b6578befe412f30f37b88903397f126079d0cb2"
 }
