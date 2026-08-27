@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-08-27T02:39:18.057856+00:00",
+  "generated_at_utc": "2026-08-27T02:59:41.503511+00:00",
   "seed": 20260826,
   "metric": "fidelity (agreement with published_expert_reference, OOD, strict parse, no fallback)",
   "results": {
@@ -23276,6 +23276,76 @@
         }
       }
     },
+    "method-layer3-summary.json": {
+      "description": "method layer 3.0 (scrutiny: oppose/adjudicate + precedent retrieval) evaluation \u2014 verification coverage + honest zeros",
+      "path": "method-layer3-summary.json",
+      "sha256": "ce8bdc7aec3a285675016c5f95fa0094a15671c0319feb3e854ec22f2cdbf060",
+      "payload": {
+        "scope": "method-layer 3.0 scrutiny evaluation, deterministic, zero training; pre-registered fixed principles; precedent library = dev-40 (family-isolated)",
+        "corpora": {
+          "holdout": {
+            "n": 39,
+            "l1_mean": 0.9372,
+            "l2_mean": 0.9372,
+            "delta_l2_minus_l1": 0.0,
+            "precedent_conflict_rate": 0.0,
+            "precedent_majority_equals_gold_rate": null,
+            "design_changes_applied": 0,
+            "changes_correct": 0,
+            "changes_wrong": 0,
+            "delta_ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "large": {
+            "n": 196,
+            "l1_mean": 0.9403,
+            "l2_mean": 0.9403,
+            "delta_l2_minus_l1": 0.0,
+            "precedent_conflict_rate": 0.0,
+            "precedent_majority_equals_gold_rate": null,
+            "design_changes_applied": 0,
+            "changes_correct": 0,
+            "changes_wrong": 0,
+            "delta_ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "living": {
+            "n": 35,
+            "l1_mean": 0.72,
+            "l2_mean": 0.72,
+            "delta_l2_minus_l1": 0.0,
+            "precedent_conflict_rate": 0.0,
+            "precedent_majority_equals_gold_rate": null,
+            "design_changes_applied": 0,
+            "changes_correct": 0,
+            "changes_wrong": 0,
+            "delta_ci95": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    },
+    "method-layer3-checker-audit.json": {
+      "description": "scrutiny checker audit: flags the historical design-pooling coupling (33/196, 33/33 fix matches gold, 0 false positives)",
+      "path": "method-layer3-checker-audit.json",
+      "sha256": "38aeba3b932886e79dfff127882695179a1def1602c98c1bfc0d7349abdbc451",
+      "payload": {
+        "scope": "checker audit: does the scrutiny layer flag the historical design-pooling coupling (guard failure -> narrative rewrite) and would its fix (keep the strong design) match the reference?",
+        "corpus": "large",
+        "n": 196,
+        "flag_rate": 0.1684,
+        "flagged_n": 33,
+        "coupled_wrong_and_flagged": 33,
+        "fix_matches_gold": 33,
+        "flag_false_positives": 0
+      }
+    },
     "bare-llm-holdout.json": {
       "description": "bare-LLM no-skill arm (v1 gold; historical)",
       "path": "bare-llm-holdout.json",
@@ -26522,5 +26592,5 @@
       }
     }
   },
-  "receipt_sha256": "8cae28dadb2cace02901cf2852a1eeb1517e4cfe09d45676fbc924d20f5e2def"
+  "receipt_sha256": "b137675a8ddf5df2553cae8d559f117c5a64d38583d445048bfd2ed701f0cf86"
 }

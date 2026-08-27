@@ -53,6 +53,8 @@ FILES = {
     "multitask-compare-v2.json": "v2 like-for-like rule vs bare multi-task comparison (paired)",
     "reconstruction-agrdt-pooled-v2.json": "analysis-stage reconstruction: pooled estimates vs published (+0.70/+0.20 pp, tolerance 2.0 pp)",
     "blind-reconstruction-agrdt.json": "blind full-workflow reconstruction: agent (question-only) vs published review (design/pooling/model/criteria 8/8)",
+    "method-layer3-summary.json": "method layer 3.0 (scrutiny: oppose/adjudicate + precedent retrieval) evaluation — verification coverage + honest zeros",
+    "method-layer3-checker-audit.json": "scrutiny checker audit: flags the historical design-pooling coupling (33/196, 33/33 fix matches gold, 0 false positives)",
     "bare-llm-holdout.json": "bare-LLM no-skill arm (v1 gold; historical)",
     "bootstrap-ci.json": "bootstrap CIs + multi-seed stability for v1 results (historical)",
     "multitask-agreement.json": "design/pooling/stopping as independent tasks (+3-task mean) per corpus (v1 gold; historical)",

@@ -1,0 +1,10 @@
+{
+  "scope": "checker audit: does the scrutiny layer flag the historical design-pooling coupling (guard failure -> narrative rewrite) and would its fix (keep the strong design) match the reference?",
+  "corpus": "large",
+  "n": 196,
+  "flag_rate": 0.1684,
+  "flagged_n": 33,
+  "coupled_wrong_and_flagged": 33,
+  "fix_matches_gold": 33,
+  "flag_false_positives": 0
+}

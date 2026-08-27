@@ -1,0 +1,50 @@
+{
+  "scope": "method-layer 3.0 scrutiny evaluation, deterministic, zero training; pre-registered fixed principles; precedent library = dev-40 (family-isolated)",
+  "corpora": {
+    "holdout": {
+      "n": 39,
+      "l1_mean": 0.9372,
+      "l2_mean": 0.9372,
+      "delta_l2_minus_l1": 0.0,
+      "precedent_conflict_rate": 0.0,
+      "precedent_majority_equals_gold_rate": null,
+      "design_changes_applied": 0,
+      "changes_correct": 0,
+      "changes_wrong": 0,
+      "delta_ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    "large": {
+      "n": 196,
+      "l1_mean": 0.9403,
+      "l2_mean": 0.9403,
+      "delta_l2_minus_l1": 0.0,
+      "precedent_conflict_rate": 0.0,
+      "precedent_majority_equals_gold_rate": null,
+      "design_changes_applied": 0,
+      "changes_correct": 0,
+      "changes_wrong": 0,
+      "delta_ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    "living": {
+      "n": 35,
+      "l1_mean": 0.72,
+      "l2_mean": 0.72,
+      "delta_l2_minus_l1": 0.0,
+      "precedent_conflict_rate": 0.0,
+      "precedent_majority_equals_gold_rate": null,
+      "design_changes_applied": 0,
+      "changes_correct": 0,
+      "changes_wrong": 0,
+      "delta_ci95": [
+        0.0,
+        0.0
+      ]
+    }
+  }
+}
