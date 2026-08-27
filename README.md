@@ -35,19 +35,17 @@
 
 ## Quick start
 
-```bash
-# 安装（Windows PowerShell）
-./install.ps1
+# v2 judgment layer on methods-text gold (strict parse, no fallback)
+python scripts/run_decision_object_v2.py
 
-# 设计选择基准（8-strata，决策对象 vs 无条件基线）
-python scripts/run_design_selection_benchmark.py
+# like-for-like bare-LLM multi-task arms (v2 gold)
+python scripts/cross_model_multitask_eval.py --signal research/method-trace-holdout-signal-v2.jsonl --out research/out.json
 
-# 真实 meta 贴合度（OOD，严格解析、不 fallback）
-python scripts/run_fidelity_real.py --signal research/method-trace-holdout-signal.jsonl \
-    --out research/method-trace-fidelity-holdout.json
+# blind full-workflow reconstruction (question-only agent vs published review)
+python scripts/blind_reconstruction_eval.py
 
-# 决策对象 vs 裸模型（方法增量）
-python scripts/run_bare_llm_fidelity.py
+# topic discovery (search x reasoning) on real published questions
+python scripts/topic_discovery_eval.py
 ```
 
 测试：
