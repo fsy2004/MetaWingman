@@ -1,8 +1,0 @@
-{
-  "model_label": "glm-4.5-air",
-  "n": 40,
-  "bare_accuracy": 0.75,
-  "rule_baseline": 0.911,
-  "delta": 0.161,
-  "empty_responses": 0
-}
