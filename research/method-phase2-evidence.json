@@ -1,0 +1,140 @@
+{
+  "scope": "phase-2 method evidence (keep/drop); no tuning; gains reported honestly",
+  "holdout": {
+    "n": 39,
+    "baseline_design_agreement": 0.9487,
+    "design_search_agreement": 0.9231,
+    "delta_search_minus_baseline": -0.0256,
+    "delta_ci95": [
+      -0.0769,
+      0.0
+    ],
+    "step_compliance": {
+      "mean_per_stage_rate": 1.0,
+      "full_flow_rate": 1.0,
+      "per_stage_ok_rates": {
+        "question_certificate": 1.0,
+        "design_decision": 1.0,
+        "pooling_decision": 1.0,
+        "guard_certificate": 1.0,
+        "stop_decision": 1.0
+      }
+    },
+    "error_taxonomy": {
+      "n": 2,
+      "category_counts": {
+        "residual_design": 2
+      },
+      "category_rates": {
+        "residual_design": 1.0
+      },
+      "examples": {
+        "residual_design": [
+          "epmc:MED:38311314",
+          "epmc:MED:39039386"
+        ]
+      }
+    }
+  },
+  "large": {
+    "n": 196,
+    "baseline_design_agreement": 0.9337,
+    "design_search_agreement": 0.8673,
+    "delta_search_minus_baseline": -0.0664,
+    "delta_ci95": [
+      -0.102,
+      -0.0306
+    ],
+    "step_compliance": {
+      "mean_per_stage_rate": 1.0,
+      "full_flow_rate": 1.0,
+      "per_stage_ok_rates": {
+        "question_certificate": 1.0,
+        "design_decision": 1.0,
+        "pooling_decision": 1.0,
+        "guard_certificate": 1.0,
+        "stop_decision": 1.0
+      }
+    },
+    "error_taxonomy": {
+      "n": 13,
+      "category_counts": {
+        "coupling_design_pooling": 4,
+        "label_proxy_nonpooling": 4,
+        "residual_design": 5
+      },
+      "category_rates": {
+        "coupling_design_pooling": 0.3077,
+        "label_proxy_nonpooling": 0.3077,
+        "residual_design": 0.3846
+      },
+      "examples": {
+        "coupling_design_pooling": [
+          "epmc:MED:36287183",
+          "epmc:MED:39716328",
+          "epmc:MED:40888048",
+          "epmc:MED:39550348"
+        ],
+        "label_proxy_nonpooling": [
+          "epmc:MED:41319219",
+          "epmc:MED:37435629",
+          "epmc:MED:39623499",
+          "epmc:MED:40662412"
+        ],
+        "residual_design": [
+          "epmc:MED:39451057",
+          "epmc:MED:38310416",
+          "epmc:MED:39230117",
+          "epmc:MED:41492804"
+        ]
+      }
+    }
+  },
+  "living": {
+    "n": 35,
+    "baseline_design_agreement": 0.8571,
+    "design_search_agreement": 0.8571,
+    "delta_search_minus_baseline": 0.0,
+    "delta_ci95": [
+      -0.1143,
+      0.1143
+    ],
+    "step_compliance": {
+      "mean_per_stage_rate": 1.0,
+      "full_flow_rate": 1.0,
+      "per_stage_ok_rates": {
+        "question_certificate": 1.0,
+        "design_decision": 1.0,
+        "pooling_decision": 1.0,
+        "guard_certificate": 1.0,
+        "stop_decision": 1.0
+      }
+    },
+    "error_taxonomy": {
+      "n": 5,
+      "category_counts": {
+        "coupling_design_pooling": 2,
+        "residual_design": 2,
+        "label_proxy_nonpooling": 1
+      },
+      "category_rates": {
+        "coupling_design_pooling": 0.4,
+        "residual_design": 0.4,
+        "label_proxy_nonpooling": 0.2
+      },
+      "examples": {
+        "coupling_design_pooling": [
+          "epmc:MED:33106251",
+          "epmc:MED:35640925"
+        ],
+        "residual_design": [
+          "epmc:MED:35617363",
+          "epmc:MED:40930981"
+        ],
+        "label_proxy_nonpooling": [
+          "epmc:MED:36997795"
+        ]
+      }
+    }
+  }
+}

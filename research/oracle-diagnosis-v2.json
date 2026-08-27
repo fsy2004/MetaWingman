@@ -1,0 +1,29 @@
+{
+  "scope": "oracle diagnosis: layer attribution of design disagreements (MetaSyn-style; =which layer contains the failure)",
+  "corpora": {
+    "holdout": {
+      "n": 39,
+      "real_input_agreement": 0.9487,
+      "oracle_input_agreement": 0.9744,
+      "signal_layer_share": 0.5,
+      "judgment_residual": 0.0256,
+      "reading": "disagreements mostly attributable to the signal/label layer if oracle agreement is much higher; to the judgment layer otherwise"
+    },
+    "large": {
+      "n": 196,
+      "real_input_agreement": 0.9337,
+      "oracle_input_agreement": 0.9592,
+      "signal_layer_share": 0.3846,
+      "judgment_residual": 0.0408,
+      "reading": "disagreements mostly attributable to the signal/label layer if oracle agreement is much higher; to the judgment layer otherwise"
+    },
+    "living": {
+      "n": 35,
+      "real_input_agreement": 0.8571,
+      "oracle_input_agreement": 0.8571,
+      "signal_layer_share": 0.0,
+      "judgment_residual": 0.1429,
+      "reading": "disagreements mostly attributable to the signal/label layer if oracle agreement is much higher; to the judgment layer otherwise"
+    }
+  }
+}
