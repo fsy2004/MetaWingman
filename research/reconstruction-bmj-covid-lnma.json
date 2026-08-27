@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "case_id": "bmj-covid-living-nma",
+  "anchor_kind": "B",
+  "provenance": "github.com/covid19lnma/covid19_lnma (public living-NMA reproduction asset)",
+  "verified": {
+    "analysis_scripts": [
+      "Bayesian NMA.R",
+      "functions_NMA.R",
+      "Bayesian MA.R",
+      "functions_MA.R"
+    ],
+    "parameterized_setup": "nma_output(measure, likelihood, link, linearModel) per output row; systematic : drugs/blood/prophylaxis",
+    "input_data_present": false,
+    "functions_present": true
+  },
+  "blind_agent_agreement": {
+    "design": "intervention_network (multiple competing interventions against a common reference) \u2014 matches published living NMA",
+    "synthesis_route": "Bayesian NMA with a single consistency model \u2014 matches the repository's Bayesian NMA implementation",
+    "analysis_model": "Bayesian (MCMC) network meta-analysis, likelihood/link parameterized \u2014 matches published setup",
+    "pooling": "approved (risk-controlled guard) \u2014 matches the pooled living NMA",
+    "note": "anchor kind B: analysis-SETUP agreement against the published review's public reproduction asset; estimate-level reproduction would require the Bayes runtime/data pipeline (out of scope; setup + data presence verified)"
+  },
+  "agent_signal_note": "the agent's structure signals drive design/synthesis/pooling; living status is excluded from the agent input (stop task honesty)"
+}
